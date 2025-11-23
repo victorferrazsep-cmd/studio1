@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -102,9 +102,7 @@
     <a href="#" class="active" data-page="home">Home</a>
     <a href="#" data-page="clientes">Clientes</a>
     <a href="#" data-page="agenda">Agenda</a>
-    <a href="#" data-page="financeiro">Financeiro</a>
-    <a href="#" data-page="configuracoes">Configurações</a>
-    <a href="#" data-page="teste">Teste</a>
+    <a href="#" data-page="financeiro2">Financeiro</a>
   </nav>
 </aside>
 
@@ -288,72 +286,616 @@
     </div>
   </div>
 
-  <!-- FINANCEIRO -->
-  <div id="financeiroPage" class="page hidden">
-    <h2 class="text-2xl font-bold mb-5 text-rose-300 ml-4">Financeiro</h2>
-    <div class="card rounded-xl shadow p-5 mt-6 max-w-xl mx-auto">
-        <form class="space-y-4">
-            <div>
-                <label class="block mb-1 font-semibold" for="financeiroNome">NOME</label>
-                <input type="text" id="financeiroNome" name="Nome" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div>
-                <label class="block mb-1 font-semibold" for="financeiroCPF">CPF</label>
-                <input type="text" id="financeiroCPF" name="CPF" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div>
-                <label class="block mb-1 font-semibold" for="financeiroTelefone">TELEFONE</label>
-                <input type="text" id="financeiroTelefone" name="Telefone" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div class="flex justify-end mt-6">
-                <button type="submit" class="btn-primary px-4 py-2 rounded-md">Enviar</button>
-            </div>
+
+
+
+
+
+  
+    <div id="financeiro2Page" class="page hidden">
+      <div class="flex justify-between items-center mb-5 max-w-xl mx-auto">
+        <h2 class="text-2xl font-bold text-rose-300">Financeiro</h2>
+        <div class="flex gap-3">
+          <button id="btnAdicionarOcorrencia" class="btn-primary px-4 py-2 rounded-md">+ Ocorrência</button>
+      <button id="btnLoadRelatorio" class="btn-primary px-4 py-2 rounded-md">Relatório</button>
+        </div>
+      </div>
+      <div id="boxFinanceiro2" class="card rounded-xl shadow p-5 max-w-xl mx-auto hidden">
+        <form id="formFinanceiro2" class="space-y-4" action="https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191" method="post">
+          <div>
+            <label class="block mb-1 font-semibold" for="financeiroDtRegistro">Data de Registro</label>
+            <input type="date" id="financeiroDtRegistro" name="DtRegistro" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold" for="financeiroTipo">Tipo</label>
+            <select id="financeiroTipo" name="Tipo" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+              <option value="" disabled selected>Selecione o Tipo</option>
+              <option value="Despesas">Despesas</option>
+              <option value="Ganhos">Ganhos</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-1 font-semibold" for="financeiroFamilia">Família</label>
+            <select id="financeiroFamilia" name="Familia" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required disabled>
+              <option value="" disabled selected>Selecione a Família</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mb-1 font-semibold" for="financeiroNome">Nome</label>
+            <select id="financeiroNome" name="Nome" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required disabled>
+              <option value="" disabled selected>Selecione o Nome</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-semibold" for="financeiroDescricao">Descrição</label>
+            <input type="text" id="financeiroDescricao" name="Descricao" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          </div>
+          <div>
+            <label class="block mb-1 font-semibold" for="financeiroValor">Valor</label>
+            <input type="number" id="financeiroValor" name="Valor" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          </div>
+          <div>
+<label class="block mb-1 font-semibold" for="financeiroMesRef">Mês de Referência</label>
+<input type="date" id="financeiroMesRef" name="MesRef" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          </div>
+          <div class="flex justify-end gap-3 mt-6">
+            <button type="button" id="fecharBoxFinanceiro2" class="btn-primary px-4 py-2 rounded-md">Fechar</button>
+            <button type="submit" class="btn-primary px-4 py-2 rounded-md">Enviar</button>
+          </div>
         </form>
-    </div>
-  </div>
-
-  <!-- CONFIGURAÇÕES -->
-  <div id="configuracoesPage" class="page hidden">
-    <h2 class="text-2xl font-bold mb-5 text-rose-300 ml-4">Configurações</h2>
-    <div class="card rounded-xl shadow p-5 max-w-xl mx-auto">
-      <h3 class="text-lg font-bold mb-4">Gerenciamento de Arquivos</h3>
-      <div class="mb-4">
-        <button id="selectDirBtn" class="btn-primary px-4 py-2 rounded-md">Selecionar Diretório</button>
-        <p id="selectedDir" class="mt-2 text-sm">Diretório selecionado: Nenhum</p>
       </div>
-      <div class="mb-4">
-        <button id="exportCSVBtn" class="btn-primary px-4 py-2 rounded-md">Exportar Clientes para CSV</button>
+<div id="relatorioFinanceiro2" class="card rounded-xl shadow p-5 mx-auto mt-6 hidden" style="width: 100%; display: flex; flex-direction: column; gap: 1rem;">
+        <h3 class="text-xl font-bold mb-4 text-rose-300 flex justify-between items-center">
+          Relatório Financeiro
+          <input type="month" id="relatorioMesSelector" class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-rose-300 text-sm" title="Selecione o mês">
+        </h3>
+<div id="relatorioDashboard" class="grid grid-cols-3 gap-4 mb-4 max-w-full">
+          <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-rose-300">
+            <h4 class="font-semibold mb-2">Receita</h4>
+            <p id="dashboardReceita" class="text-2xl">R$0</p>
+          </div>
+          <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-rose-300">
+            <h4 class="font-semibold mb-2">Despesas</h4>
+            <p id="dashboardDespesa" class="text-2xl">R$0</p>
+          </div>
+          <div class="card p-4 rounded-xl shadow text -center bg-[#2b2b2b] text-rose-300">
+            <h4 class="font-semibold mb-2">Saldo</h4>
+            <p id="dashboardSaldo" class="text-2xl">R$0</p>
+          </div>
+        </div>
+<div id="relatorioResumoDetalhado" class="bg-[#2b2b2b] text-rose-300 p-4 rounded-xl shadow w-full mb-2 font-mono whitespace-pre-wrap" style="font-size: 0.85rem; max-height: 800px; overflow-y: auto;"></div>
+        <div class="flex justify-end max-w-xl mb-6">
+        <button id="toggleRelatorioBtn" aria-label="Expandir/Reduzir Relatório" class="font-bold text-white bg-black bg-opacity-60 hover:bg-rose-300 hover:text-[#1e1e1e] rounded transition-colors select-none" style="font-size: 1rem; padding: 0 0.5rem; line-height: 1.5; margin-left: auto;">+</button>
+        </div>
+<div id="relatorioContainer" class="overflow-auto" style="font-size: 0.65rem; display: none; max-height: 576px; width: 100%;">
+          <!-- Report table will be inserted here -->
+        </div>
       </div>
-      <div class="mb-4">
-        <input type="file" id="importCSVInput" accept=".csv" class="hidden">
-        <button id="importCSVBtn" class="btn-primary px-4 py-2 rounded-md">Importar Clientes de CSV</button>
-      </div>
-    </div>
   </div>
+<script>
+const financeiroData = {
+  'Despesas': {
+    'Despesas Fixas': ['Aluguel', 'Água', 'Internet e Telefone', 'Outros'],
+    'Despesas Variáveis': ['Compras de Insumos', 'Combustível'],
+    'Marketing e Divulgação': ['Anúncios Pagos', 'Impressões de Cartões, Panfletos e Brindes', 'Outros'],
+    'Infraestrutura e Equipamentos': ['Móveis', 'Acessórios', 'Ferramentas'],
+    'Despesas Administrativas': ['Taxas Bancárias e Outras'],
+    'Despesas Extras ou Opcionais': ['Cursos de atualização e especialização', 'Uniformes personalizados', 'Café, água, snacks para o atendimento', 'Presentes em datas comemorativas']
+  },
+  'Ganhos': {
+    'Cílios': ['Primeira Vez', 'Manutenção'],
+    'Sobrancelhas': ['Primeira Vez', 'Manutenção']
+  }
+};
 
-  <!-- TESTE -->
-  <div id="testePage" class="page hidden">
-    <h2 class="text-2xl font-bold mb-5 text-rose-300 ml-4">Teste</h2>
-    <button id="btnAdicionarTeste" class="btn-primary px-4 py-2 rounded-md ml-4">Adicionar</button>
-    <div id="boxTeste" class="card rounded-xl shadow p-5 mt-6 max-w-xl mx-auto hidden">
-      <form id="formClienteTeste" style="color:#f5c5b5; background:#2b2b2b; padding:20px; border-radius:12px; max-width:400px; font-family:sans-serif;">
-        <h3 style="margin-bottom:16px;">Cadastro de Cliente</h3>
+const financeiroTipo = document.getElementById('financeiroTipo');
+const financeiroFamilia = document.getElementById('financeiroFamilia');
+const financeiroNome = document.getElementById('financeiroNome');
+const btnAdicionarOcorrencia = document.getElementById("btnAdicionarOcorrencia");
+const boxFinanceiro2 = document.getElementById("boxFinanceiro2");
+const btnLoadRelatorio = document.getElementById("btnLoadRelatorio");
+const relatorioDiv = document.getElementById("relatorioFinanceiro2");
+const relatorioContainer = document.getElementById("relatorioContainer");
+const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
 
-        <label>Nome:</label><br>
-        <input type="text" id="nomeTeste" required style="width:100%; margin-bottom:12px; padding:8px; border-radius:6px; border:none; background:#3a3a3a; color:#f5c5b5;"><br>
+btnLoadRelatorio.addEventListener("click", () => {
+  relatorioContainer.innerHTML = "Carregando...";
+  fetch("https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191")
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao carregar o relatório");
+      return response.json();
+    })
+    .then(data => {
+      if (!data || data.length === 0) {
+        relatorioContainer.innerHTML = "<p>Relatório vazio.</p>";
+        return;
+      }
 
-        <label>CPF:</label><br>
-        <input type="text" id="cpfTeste" required style="width:100%; margin-bottom:12px; padding:8px; border-radius:6px; border:none; background:#3a3a3a; color:#f5c5b5;"><br>
+      // Store data globally for month filtering
+      window.financeiroRelatorioData = data;
 
-        <label>Telefone:</label><br>
-        <input type="tel" id="telefoneTeste" required style="width:100%; margin-bottom:16px; padding:8px; border-radius:6px; border:none; background:#3a3a3a; color:#f5c5b5;"><br>
+      function atualizarDashboard(mesSelecionado) {
+        // Filter data by selected month "YYYY-MM"
+        let filtered = window.financeiroRelatorioData || [];
+        if (mesSelecionado) {
+          filtered = window.financeiroRelatorioData.filter(item => item["Mês de Referência"] === mesSelecionado);
+        }
 
-        <button type="submit" style="background:#f5c5b5; color:#1e1e1e; border:none; padding:10px 16px; border-radius:8px; cursor:pointer; font-weight:bold;">
-          Enviar
-        </button>
-      </form>
-    </div>
-  </div>
+        // Aggregate sums grouped by Tipo
+        let receita = 0;
+        let despesa = 0;
+        filtered.forEach(item => {
+          const tipo = item["Tipo"];
+          const valor = parseFloat(item["Valor"]) || 0;
+          if (tipo === "Ganhos") receita += valor;
+          else if (tipo === "Despesas") despesa += valor;
+        });
+
+        // Format values to BRL currency
+        const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+
+        document.getElementById("dashboardReceita").textContent = formataValor(receita);
+        document.getElementById("dashboardDespesa").textContent = formataValor(despesa);
+        document.getElementById("dashboardSaldo").textContent = formataValor(receita - despesa);
+
+        // Build detailed hierarchical summary grouped by Tipo > Familia > Nome
+        resumoDetalhadoDiv.innerHTML = ""; // clear existing content
+
+        // Apply white font and subtle background highlight
+        resumoDetalhadoDiv.style.color = "white";
+        resumoDetalhadoDiv.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+        resumoDetalhadoDiv.style.padding = "1em";
+        resumoDetalhadoDiv.style.borderRadius = "8px";
+
+        // Helper to safely accumulate sums
+        const acumulador = {};
+
+        filtered.forEach(item => {
+          const tipo = item["Tipo"] || "Sem Tipo";
+          const familia = item["Familia"] || "Sem Família";
+          const nome = item["Nome"] || "Sem Nome";
+          const valor = parseFloat(item["Valor"]) || 0;
+
+          if (!acumulador[tipo]) acumulador[tipo] = { total: 0, familias: {} };
+          acumulador[tipo].total += valor;
+
+          if (!acumulador[tipo].familias[familia]) acumulador[tipo].familias[familia] = { total: 0, nomes: {} };
+          acumulador[tipo].familias[familia].total += valor;
+
+          if (!acumulador[tipo].familias[familia].nomes[nome]) acumulador[tipo].familias[familia].nomes[nome] = 0;
+          acumulador[tipo].familias[familia].nomes[nome] += valor;
+        });
+
+        // Helper to create a row with category left and value right with dotted leader
+        function createRow(label, value, options = {}) {
+          const row = document.createElement("div");
+          row.style.display = "flex";
+          row.style.alignItems = "center";
+          row.style.marginBottom = options.marginBottom || "2px";
+
+          // Label container flex
+          const labelContainer = document.createElement("div");
+          labelContainer.style.display = "flex";
+          labelContainer.style.alignItems = "center";
+          labelContainer.style.flexGrow = "1";
+
+          const labelSpan = document.createElement("span");
+          labelSpan.textContent = label;
+          labelSpan.style.fontWeight = options.bold ? "bold" : "normal";
+          labelSpan.style.fontStyle = options.italic ? "italic" : "normal";
+          labelSpan.style.fontSize = options.fontSize || "1rem";
+          labelSpan.style.paddingLeft = options.paddingLeft || "0";
+          labelSpan.style.whiteSpace = "nowrap";
+          labelSpan.style.zIndex = "1";
+
+          // Dots filler that expands horizontally between label and value
+          const dotsSpan = document.createElement("span");
+          dotsSpan.style.flexGrow = "1";
+          dotsSpan.style.borderBottom = "1px dotted #cccccc";
+          dotsSpan.style.margin = "0 6px";
+
+          // Value container fixed width on right
+          const valueSpan = document.createElement("span");
+          valueSpan.textContent = value;
+          valueSpan.style.fontWeight = options.bold ? "bold" : "normal";
+          valueSpan.style.whiteSpace = "nowrap";
+          valueSpan.style.minWidth = "7ch";
+          valueSpan.style.textAlign = "right";
+
+          labelContainer.appendChild(labelSpan);
+          labelContainer.appendChild(dotsSpan);
+
+          row.appendChild(labelContainer);
+          row.appendChild(valueSpan);
+
+          return row;
+        }
+
+        // Iterate over Tipo groups, then Familias, then Nomes, adding subtotal and total lines with separators
+        let grandTotal = 0;
+
+        for (const tipoKey in acumulador) {
+          const tipoTotal = formataValor(acumulador[tipoKey].total);
+          // Add a separator line for Tipo groups except first
+          if (resumoDetalhadoDiv.childElementCount > 0) {
+            const hr = document.createElement("hr");
+            hr.style.border = "none";
+            hr.style.borderTop = "1px solid #cccccc";
+            hr.style.margin = "10px 0";
+            resumoDetalhadoDiv.appendChild(hr);
+          }
+          resumoDetalhadoDiv.appendChild(createRow(tipoKey.toUpperCase(), tipoTotal, { bold: true, marginBottom: "6px" }));
+
+          const familias = acumulador[tipoKey].familias;
+          for (const famKey in familias) {
+            const famTotal = formataValor(familias[famKey].total);
+            resumoDetalhadoDiv.appendChild(createRow("└ " + famKey, famTotal, { fontSize: "0.875rem", paddingLeft: "1rem", marginBottom: "4px" }));
+
+            const nomes = familias[famKey].nomes;
+            for (const nomeKey in nomes) {
+              const nomeTotal = formataValor(nomes[nomeKey]);
+            resumoDetalhadoDiv.appendChild(createRow("   └ " + nomeKey, nomeTotal, { paddingLeft: "2rem", marginBottom: "2px", bold: true }));
+            }
+
+            // Add Familia subtotal separator line with background
+            const famSubtotalContainer = document.createElement("div");
+            famSubtotalContainer.style.backgroundColor = "rgba(204, 204, 204, 0.1)";
+            famSubtotalContainer.style.padding = "2px 6px";
+            famSubtotalContainer.style.marginBottom = "10px";
+            famSubtotalContainer.style.borderRadius = "4px";
+            
+            const famSubtotalHr = document.createElement("hr");
+            famSubtotalHr.style.border = "none";
+            famSubtotalHr.style.borderTop = "1px dotted #cccccc";
+            famSubtotalHr.style.margin = "0 0 0 1rem";
+            famSubtotalContainer.appendChild(famSubtotalHr);
+
+            resumoDetalhadoDiv.appendChild(famSubtotalContainer);
+          }
+
+          grandTotal += acumulador[tipoKey].total;
+        }
+
+        // Add grand total line after all Tipos with background
+        const grandTotalContainer = document.createElement("div");
+        grandTotalContainer.style.backgroundColor = "rgba(204, 204, 204, 0.2)";
+        grandTotalContainer.style.borderRadius = "6px";
+        grandTotalContainer.style.padding = "6px 10px";
+        grandTotalContainer.style.margin = "12px 0";
+
+        // Removed grand total separator <hr> line as per request
+        /*
+        const grandTotalHr = document.createElement("hr");
+        grandTotalHr.style.border = "none";
+        grandTotalHr.style.borderTop = "2px solid #cccccc";
+        grandTotalHr.style.margin = "0 0 6px 0";
+
+        grandTotalContainer.appendChild(grandTotalHr);
+        */
+
+        grandTotalContainer.appendChild(createRow("TOTAL", formataValor(grandTotal), { bold: true, marginBottom: "0" }));
+
+        resumoDetalhadoDiv.appendChild(grandTotalContainer);
+
+        // Also update the displayed report table to show only filtered data
+        relatorioContainer.innerHTML = ""; // clear existing table
+
+        const table = document.createElement("table");
+        table.className = "w-full text-left border-collapse";
+        table.style.border = "none"; // Remove outer border
+
+        const thead = document.createElement("thead");
+        const headerRow = document.createElement("tr");
+        // Reduced header cell padding for tighter rows
+        const headerCellPadding = "4px 6px";
+
+        const keys = Object.keys(filtered[0]);
+        keys.forEach(key => {
+          const th = document.createElement("th");
+          th.textContent = key;
+          th.style.border = "none"; // Remove border for cleaner look
+          th.style.padding = headerCellPadding;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        // Reduced cell padding for tighter row spacing
+        const cellPadding = "4px 6px";
+        filtered.forEach(row => {
+          const tr = document.createElement("tr");
+          keys.forEach(key => {
+            const td = document.createElement("td");
+            td.textContent = row[key];
+            td.style.border = "none"; 
+            td.style.padding = cellPadding;
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        relatorioContainer.appendChild(table);
+      }
+
+      // Set dashboard and report visible
+      relatorioDiv.classList.remove("hidden");
+      document.getElementById("relatorioDashboard").classList.remove("hidden");
+
+      // Set initial dashboard to first month found or current month
+      let primeiroMes = data[0]["Mês de Referência"] || "";
+      const mesSelector = document.getElementById("relatorioMesSelector");
+      mesSelector.value = primeiroMes;
+      atualizarDashboard(primeiroMes);
+    })
+    .catch(error => {
+      relatorioContainer.innerHTML = `<p class="text-red-500">${error.message}</p>`;
+    });
+});
+
+
+const toggleBtn = document.getElementById("toggleRelatorioBtn");
+
+toggleBtn.addEventListener("click", () => {
+  const expanded = relatorioContainer.style.display !== "none";
+  if (expanded) {
+    // Collapse only the report table (spreadsheet)
+    relatorioContainer.style.display = "none";
+    toggleBtn.textContent = "+";
+    toggleBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
+    toggleBtn.style.color = "var(--rose)";
+  } else {
+    // Expand report table
+    relatorioContainer.style.display = "block";
+    toggleBtn.textContent = "−"; // minus sign
+    toggleBtn.style.backgroundColor = "rgba(204, 204, 204, 0.3)";
+    toggleBtn.style.color = "#111"; // dark text
+  }
+});
+
+document.getElementById("relatorioMesSelector").addEventListener("change", (e) => {
+  const mes = e.target.value;
+  if (window.financeiroRelatorioData) {
+    atualizarDashboard(mes);
+  }
+});
+
+
+// Add listener for month selector change
+function atualizarDashboard(mesSelecionado) {
+  // Filter data by selected month "YYYY-MM"
+  let filtered = window.financeiroRelatorioData || [];
+  if (mesSelecionado) {
+    filtered = window.financeiroRelatorioData.filter(item => item["Mês de Referência"] === mesSelecionado);
+  }
+
+  // Aggregate sums grouped by Tipo
+  let receita = 0;
+  let despesa = 0;
+  filtered.forEach(item => {
+    const tipo = item["Tipo"];
+    const valor = parseFloat(item["Valor"]) || 0;
+    if (tipo === "Ganhos") receita += valor;
+    else if (tipo === "Despesas") despesa += valor;
+  });
+
+  // Format values to BRL currency
+  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+
+  document.getElementById("dashboardReceita").textContent = formataValor(receita);
+  document.getElementById("dashboardDespesa").textContent = formataValor(despesa);
+  document.getElementById("dashboardSaldo").textContent = formataValor(receita - despesa);
+
+  // Build detailed hierarchical summary grouped by Tipo > Familia > Nome
+  // const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
+  // const relatorioContainer = document.getElementById("relatorioContainer");
+
+  if (!filtered.length) {
+    resumoDetalhadoDiv.innerHTML = "<p>Ainda não tem dados aqui :(</p>";
+    relatorioContainer.innerHTML = "<p>Ainda não tem dados aqui :(</p>";
+    resumoDetalhadoDiv.style.display = "block";
+    relatorioContainer.style.display = "block";
+    return;
+  } else {
+    resumoDetalhadoDiv.style.display = "block";
+    relatorioContainer.style.display = "block";
+  }
+
+  resumoDetalhadoDiv.innerHTML = ""; // clear existing content
+
+  // Helper to safely accumulate sums
+  const acumulador = {};
+
+  filtered.forEach(item => {
+    const tipo = item["Tipo"] || "Sem Tipo";
+    const familia = item["Familia"] || "Sem Família";
+    const nome = item["Nome"] || "Sem Nome";
+    const valor = parseFloat(item["Valor"]) || 0;
+
+    if (!acumulador[tipo]) acumulador[tipo] = { total: 0, familias: {} };
+    acumulador[tipo].total += valor;
+
+    if (!acumulador[tipo].familias[familia]) acumulador[tipo].familias[familia] = { total: 0, nomes: {} };
+    acumulador[tipo].familias[familia].total += valor;
+
+    if (!acumulador[tipo].familias[familia].nomes[nome]) acumulador[tipo].familias[familia].nomes[nome] = 0;
+    acumulador[tipo].familias[familia].nomes[nome] += valor;
+  });
+
+  // Helper to create a row with category left and value right with dotted leader
+  function createRow(label, value, options = {}) {
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.alignItems = "center";
+    row.style.marginBottom = options.marginBottom || "2px";
+
+    // Label container flex
+    const labelContainer = document.createElement("div");
+    labelContainer.style.display = "flex";
+    labelContainer.style.alignItems = "center";
+    labelContainer.style.flexGrow = "1";
+
+    const labelSpan = document.createElement("span");
+    labelSpan.textContent = label;
+    labelSpan.style.fontWeight = options.bold ? "bold" : "normal";
+    labelSpan.style.fontStyle = options.italic ? "italic" : "normal";
+    labelSpan.style.fontSize = options.fontSize || "1rem";
+    labelSpan.style.paddingLeft = options.paddingLeft || "0";
+    labelSpan.style.whiteSpace = "nowrap";
+    labelSpan.style.zIndex = "1";
+
+    // Dots filler that expands horizontally between label and value
+    const dotsSpan = document.createElement("span");
+    dotsSpan.style.flexGrow = "1";
+    dotsSpan.style.borderBottom = "1px dotted #cccccc";
+    dotsSpan.style.margin = "0 6px";
+
+    // Value container fixed width on right
+    const valueSpan = document.createElement("span");
+    valueSpan.textContent = value;
+    valueSpan.style.fontWeight = options.bold ? "bold" : "normal";
+    valueSpan.style.whiteSpace = "nowrap";
+    valueSpan.style.minWidth = "7ch";
+    valueSpan.style.textAlign = "right";
+
+    labelContainer.appendChild(labelSpan);
+    labelContainer.appendChild(dotsSpan);
+
+    row.appendChild(labelContainer);
+    row.appendChild(valueSpan);
+
+    return row;
+  }
+
+  // Iterate over Tipo groups, then Familias, then Nomes, adding subtotal and total lines with separators
+  let grandTotal = 0;
+
+  for (const tipoKey in acumulador) {
+    const tipoTotal = formataValor(acumulador[tipoKey].total);
+    // Add a separator line for Tipo groups except first
+    if (resumoDetalhadoDiv.childElementCount > 0) {
+      const hr = document.createElement("hr");
+      hr.style.border = "none";
+      hr.style.borderTop = "1px solid #cccccc";
+      hr.style.margin = "10px 0";
+      resumoDetalhadoDiv.appendChild(hr);
+    }
+    resumoDetalhadoDiv.appendChild(createRow(tipoKey.toUpperCase(), tipoTotal, { bold: true, marginBottom: "6px" }));
+
+    const familias = acumulador[tipoKey].familias;
+    for (const famKey in familias) {
+      const famTotal = formataValor(familias[famKey].total);
+      resumoDetalhadoDiv.appendChild(createRow("└ " + famKey, famTotal, { fontSize: "0.875rem", paddingLeft: "1rem", marginBottom: "4px" }));
+
+      const nomes = familias[famKey].nomes;
+      for (const nomeKey in nomes) {
+        const nomeTotal = formataValor(nomes[nomeKey]);
+      resumoDetalhadoDiv.appendChild(createRow("   └ " + nomeKey, nomeTotal, { paddingLeft: "2rem", marginBottom: "2px", bold: true }));
+      }
+
+      // Add Familia subtotal separator line with background
+      const famSubtotalContainer = document.createElement("div");
+      famSubtotalContainer.style.backgroundColor = "rgba(204, 204, 204, 0.1)";
+      famSubtotalContainer.style.padding = "2px 6px";
+      famSubtotalContainer.style.marginBottom = "10px";
+      famSubtotalContainer.style.borderRadius = "4px";
+      
+      const famSubtotalHr = document.createElement("hr");
+      famSubtotalHr.style.border = "none";
+      famSubtotalHr.style.borderTop = "1px dotted #cccccc";
+      famSubtotalHr.style.margin = "0 0 0 1rem";
+      famSubtotalContainer.appendChild(famSubtotalHr);
+
+      resumoDetalhadoDiv.appendChild(famSubtotalContainer);
+    }
+
+    grandTotal += acumulador[tipoKey].total;
+  }
+
+  // Add grand total line after all Tipos with background
+  const grandTotalContainer = document.createElement("div");
+  grandTotalContainer.style.backgroundColor = "rgba(204, 204, 204, 0.2)";
+  grandTotalContainer.style.borderRadius = "6px";
+  grandTotalContainer.style.padding = "6px 10px";
+  grandTotalContainer.style.margin = "12px 0";
+
+  // Removed grand total separator <hr> line as per request
+  /*
+  const grandTotalHr = document.createElement("hr");
+  grandTotalHr.style.border = "none";
+  grandTotalHr.style.borderTop = "2px solid #cccccc";
+  grandTotalHr.style.margin = "0 0 6px 0";
+
+  grandTotalContainer.appendChild(grandTotalHr);
+  */
+
+  grandTotalContainer.appendChild(createRow("TOTAL", formataValor(grandTotal), { bold: true, marginBottom: "0" }));
+
+  resumoDetalhadoDiv.appendChild(grandTotalContainer);
+
+  // Also update the displayed report table to show only filtered data
+  // const relatorioContainer = document.getElementById("relatorioContainer");
+  relatorioContainer.innerHTML = ""; // clear existing table
+
+  const table = document.createElement("table");
+  table.className = "w-full text-left border-collapse";
+  table.style.border = "none"; // Remove outer border
+
+  const thead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+  // Reduced header cell padding for tighter rows
+  const headerCellPadding = "4px 6px";
+
+  const keys = Object.keys(filtered[0]);
+  keys.forEach(key => {
+    const th = document.createElement("th");
+    th.textContent = key;
+    th.style.border = "none"; // Remove border for cleaner look
+    th.style.padding = headerCellPadding;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  // Reduced cell padding for tighter row spacing
+  const cellPadding = "4px 6px";
+  filtered.forEach(row => {
+    const tr = document.createElement("tr");
+    keys.forEach(key => {
+      const td = document.createElement("td");
+      td.textContent = row[key];
+      td.style.border = "none"; 
+      td.style.padding = cellPadding;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+
+  relatorioContainer.appendChild(table);
+}
+
+document.getElementById("relatorioMesSelector").addEventListener("change", (e) => {
+  const mes = e.target.value;
+  if (window.financeiroRelatorioData) {
+    atualizarDashboard(mes);
+  }
+});
+</script>
+
+
+
+
+
+
+
+
+
+
 </main>
 
 <script>
@@ -468,21 +1010,38 @@ function carregarClientes(){
 
 document.addEventListener("DOMContentLoaded", function() {
     // Lógica para mostrar/esconder o formulário dentro do botão
-    const btnAnamnese = document.getElementById("btnAnamnese");
-    const boxAnamnese = document.getElementById("boxAnamnese");
-    btnAnamnese.addEventListener("click", function(e) {
-      e.stopPropagation();
-      boxAnamnese.classList.toggle("hidden");
-    });
-    document.addEventListener("click", function(e) {
-      if (!boxAnamnese.classList.contains("hidden")) {
-        const isClickInside = boxAnamnese.contains(e.target) || btnAnamnese.contains(e.target);
-        if (!isClickInside) boxAnamnese.classList.add("hidden");
-      }
-    });
-    document.getElementById("fecharBoxAnamnese").addEventListener("click", function() {
-      boxAnamnese.classList.add("hidden");
-    });
+  const btnAnamnese = document.getElementById("btnAnamnese");
+  const boxAnamnese = document.getElementById("boxAnamnese");
+  btnAnamnese.addEventListener("click", function(e) {
+    e.stopPropagation();
+    boxAnamnese.classList.toggle("hidden");
+  });
+  document.addEventListener("click", function(e) {
+    if (!boxAnamnese.classList.contains("hidden")) {
+      const isClickInside = boxAnamnese.contains(e.target) || btnAnamnese.contains(e.target);
+      if (!isClickInside) boxAnamnese.classList.add("hidden");
+    }
+  });
+  document.getElementById("fecharBoxAnamnese").addEventListener("click", function() {
+    boxAnamnese.classList.add("hidden");
+  });
+
+  // Add toggle for Ocorrência form similar to Anamnese and Clientes
+  const btnAdicionarOcorrencia = document.getElementById("btnAdicionarOcorrencia");
+  const boxFinanceiro2 = document.getElementById("boxFinanceiro2");
+  btnAdicionarOcorrencia.addEventListener("click", function(e) {
+    e.stopPropagation();
+    boxFinanceiro2.classList.toggle("hidden");
+  });
+  document.addEventListener("click", function(e) {
+    if (!boxFinanceiro2.classList.contains("hidden")) {
+      const isClickInside = boxFinanceiro2.contains(e.target) || btnAdicionarOcorrencia.contains(e.target);
+      if (!isClickInside) boxFinanceiro2.classList.add("hidden");
+    }
+  });
+  document.getElementById("fecharBoxFinanceiro2").addEventListener("click", function() {
+    boxFinanceiro2.classList.add("hidden");
+  });
     document.getElementById("formAnamneseBox").addEventListener("submit", function(e) {
       e.preventDefault();
       alert("✅ Anamnese salva!");
@@ -527,65 +1086,7 @@ document.addEventListener("DOMContentLoaded", function() {
       this.reset();
       carregarClientes();
     });
-    // Lógica para mostrar/esconder o formulário de teste
-    const btnAdicionarTeste = document.getElementById("btnAdicionarTeste");
-    const boxTeste = document.getElementById("boxTeste");
-    btnAdicionarTeste.addEventListener("click", function(e) {
-      e.stopPropagation();
-      boxTeste.classList.toggle("hidden");
-    });
-    document.addEventListener("click", function(e) {
-      if (!boxTeste.classList.contains("hidden")) {
-        const isClickInside = boxTeste.contains(e.target) || btnAdicionarTeste.contains(e.target);
-        if (!isClickInside) boxTeste.classList.add("hidden");
-      }
-    });
-    document.getElementById("formClienteTeste").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const data = {
-        nome: document.getElementById("nomeTeste").value,
-        cpf: document.getElementById("cpfTeste").value,
-        telefone: document.getElementById("telefoneTeste").value
-      };
-      // Proxy que remove bloqueio de CORS
-      const proxyURL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(API_URL);
-      fetch(proxyURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(() => alert("✅ Enviado com sucesso!"))
-      .catch(() => alert("❌ Erro ao enviar"));
-    });
 
-    // Lógica para o formulário Financeiro
-    const formFinanceiro = document.getElementById("financeiroPage").querySelector('form');
-    formFinanceiro.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const data = {
-        Nome: document.getElementById("financeiroNome").value,
-        CPF: document.getElementById("financeiroCPF").value,
-        Telefone: document.getElementById("financeiroTelefone").value
-      };
-      const financeiroApiUrl = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191";
-      const proxyURL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(financeiroApiUrl);
-      
-      fetch(proxyURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(() => {
-        alert("✅ Enviado com sucesso!");
-        formFinanceiro.reset();
-      })
-      .catch(() => alert("❌ Erro ao enviar"));
-    });
-    
-    // Filtros de status
-    document.querySelectorAll('input[name="filtroStatus"]').forEach(radio => {
-      radio.addEventListener('change', carregarClientes);
-    });
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
   menuBtn.addEventListener("click", function(e) {
@@ -613,6 +1114,15 @@ document.addEventListener("DOMContentLoaded", function() {
       a.classList.add("active");
       if(a.dataset.page==="clientes") carregarClientes();
       if(a.dataset.page==="home") renderHomeCalendar();
+      if(a.dataset.page==="financeiro2") {
+        // Automatically trigger clicking the "Relatório" button to load the report
+        const btnLoadRelatorio = document.getElementById("btnLoadRelatorio");
+        if (btnLoadRelatorio) {
+          btnLoadRelatorio.click();
+          // Hide the "Relatório" button after auto-loading the report
+          btnLoadRelatorio.style.display = "none";
+        }
+      }
     });
   });
 
@@ -651,76 +1161,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const data=await res.json();
     document.getElementById("atendimentos").innerText=`Atendimentos: ${data.agendamentos?.length||0}`;
   }
-
-  // Configurações - Gerenciamento de Arquivos
-  let selectedDirHandle = null;
-
-  document.getElementById("selectDirBtn").addEventListener("click", async () => {
-    try {
-      if ('showDirectoryPicker' in window) {
-        selectedDirHandle = await window.showDirectoryPicker();
-        document.getElementById("selectedDir").textContent = `Diretório selecionado: ${selectedDirHandle.name}`;
-      } else {
-        alert("Seu navegador não suporta seleção de diretório. Use um navegador moderno como Chrome.");
-      }
-    } catch (err) {
-      console.error("Erro ao selecionar diretório:", err);
-    }
-  });
-
-  document.getElementById("exportCSVBtn").addEventListener("click", () => {
-    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-    if (clientes.length === 0) {
-      alert("Nenhum cliente para exportar.");
-      return;
-    }
-    const csvContent = "Nome,CPF,Telefone,DN,Endereco_Num,CEP,Instagram,Status\n" +
-      clientes.map(cli => `"${cli.nome || ''}","${cli.cpf || ''}","${cli.telefone || ''}","${cli.dn || ''}","${cli.endereco_num || ''}","${cli.cep || ''}","${cli.instagram || ''}","${cli.status || ''}"`).join("\n");
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'clientes.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-    alert("✅ CSV exportado!");
-  });
-
-  document.getElementById("importCSVBtn").addEventListener("click", () => {
-    document.getElementById("importCSVInput").click();
-  });
-
-  document.getElementById("importCSVInput").addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const csv = event.target.result;
-      const lines = csv.split('\n');
-      const headers = lines[0].split(',');
-      const clientes = [];
-      for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(',');
-        if (values.length >= 8) {
-          clientes.push({
-            nome: values[0].replace(/"/g, ''),
-            cpf: values[1].replace(/"/g, ''),
-            telefone: values[2].replace(/"/g, ''),
-            dn: values[3].replace(/"/g, ''),
-            endereco_num: values[4].replace(/"/g, ''),
-            cep: values[5].replace(/"/g, ''),
-            instagram: values[6].replace(/"/g, ''),
-            status: values[7].replace(/"/g, '')
-          });
-        }
-      }
-      localStorage.setItem('clientes', JSON.stringify(clientes));
-      carregarClientes();
-      alert("✅ Clientes importados!");
-    };
-    reader.readAsText(file);
-  });
 });
+
+function handleFinanceiro2Submit(event) {
+  event.preventDefault();
+  alert("Registrado com sucesso.");
+  return false; // prevent default form submission to stay on page
+}
 </script>
 </body>
-</html>
+</script>
