@@ -400,6 +400,47 @@ const relatorioDiv = document.getElementById("relatorioFinanceiro2");
 const relatorioContainer = document.getElementById("relatorioContainer");
 const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
 
+
+// New event listeners for cascading selects in financeiro2 form
+financeiroTipo.addEventListener("change", () => {
+  const tipo = financeiroTipo.value;
+  // Clear and disable familia and nome selects initially
+  financeiroFamilia.innerHTML = '<option value="" disabled selected>Selecione a Família</option>';
+  financeiroNome.innerHTML = '<option value="" disabled selected>Selecione o Nome</option>';
+  financeiroFamilia.disabled = true;
+  financeiroNome.disabled = true;
+
+  if (tipo && financeiroData[tipo]) {
+    // Populate familia options
+    Object.keys(financeiroData[tipo]).forEach(familia => {
+      const opt = document.createElement("option");
+      opt.value = familia;
+      opt.textContent = familia;
+      financeiroFamilia.appendChild(opt);
+    });
+    financeiroFamilia.disabled = false;
+  }
+});
+
+financeiroFamilia.addEventListener("change", () => {
+  const tipo = financeiroTipo.value;
+  const familia = financeiroFamilia.value;
+  // Clear and disable nome select initially
+  financeiroNome.innerHTML = '<option value="" disabled selected>Selecione o Nome</option>';
+  financeiroNome.disabled = true;
+
+  if (tipo && familia && financeiroData[tipo] && financeiroData[tipo][familia]) {
+    // Populate nome options
+    financeiroData[tipo][familia].forEach(nome => {
+      const opt = document.createElement("option");
+      opt.value = nome;
+      opt.textContent = nome;
+      financeiroNome.appendChild(opt);
+    });
+    financeiroNome.disabled = false;
+  }
+});
+
 btnLoadRelatorio.addEventListener("click", () => {
   relatorioContainer.innerHTML = "Carregando...";
   fetch("https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191")
