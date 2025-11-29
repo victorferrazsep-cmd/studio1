@@ -94,8 +94,6 @@
 
 .card-footer {
   background: linear-gradient(to bottom, #b88c7a, #f4bfae);
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   overflow: hidden;
@@ -109,7 +107,7 @@
 
 .card-footer.open {
   max-height: 200px; /* altura expandida ao abrir */
-  padding: 10px 16px;
+  padding: 10px;
 }
 
 .card-footer-content {
@@ -149,7 +147,7 @@
 
 <!-- Sidebar -->
 <aside id="sidebar" class="sidebar w-64 p-5 flex flex-col fixed inset-y-0 left-0 z-40 hidden">
-  <h1 class="text-2xl font-semibold mb-8 text-center">💅 Studio Sa Lopes</h1>
+  <h1 class="text-2xl font-semibold mb-8 text-center">Menu</h1>
   <nav class="flex flex-col space-y-2">
     <a href="#" class="active" data-page="home">Home</a>
     <a href="#" data-page="clientes">Clientes</a>
@@ -169,7 +167,7 @@
   <!-- HOME -->
   <div id="homePage" class="page">
     <div class="text-center mb-8">
-      <img src="assets/logo.png" alt="Logo Studio Sa Lopes" class="mx-auto mb-4" style="width:320px;" onerror="this.onerror=null;this.src='https://via.placeholder.com/320x160?text=Logo';">
+      <img src="assets/logo.png" alt="Logo Studio Sa Lopes" class="mx-auto mb-4" style="width:320px;" onerror="this.onerror=null;">
       <h2 class="text-3xl font-bold text-rose-300" style="display:none;">Gestão Studio Sa Lopes</h2>
     </div>
 
@@ -229,7 +227,7 @@
       </div>
     </div>
     <div id="boxCliente" class="card rounded-xl shadow p-5 mt-6 max-w-xl mx-auto hidden">
-      <h2 id="tituloCliente" class="text-xl font-bold mb-4 text-rose-300">Cadastro de Cliente</h2>
+      <h2 id="tituloCliente" class="text-xl font-bold mb- text-rose-300">Cadastro de Cliente</h2>
       <form id="formCliente" class="space-y-4">
         <div>
           <label class="block mb-1 font-semibold" for="clienteNome">NOME</label>
@@ -1055,7 +1053,9 @@ clientes.forEach((cli) => {
     let idade = hoje.getFullYear() - data.getFullYear();
     const m = hoje.getMonth() - data.getMonth();
     if (m < 0 || (m === 0 && hoje.getDate() < data.getDate())) idade--;
-    return `${dia}/${mes}/${ano} - ${idade} anos`;
+    //return `${dia}/${mes}/${ano} - ${idade} anos`;
+        return `${idade} anos`;
+
   }
 
   // --- 🔹 Define cor do status ---
@@ -1071,10 +1071,10 @@ clientes.forEach((cli) => {
   // --- 🔹 Monta card ---
   const card = document.createElement("div");
   card.className =
-  "cliente-card flex items-center text-[#f5c5b5] rounded-2xl p-4 w-full max-w-5xl mx-auto mb-4";
+  "cliente-card flex items-center text-[#f5c5b5] rounded-2xl p-4 w-full max-w-5xl mx-auto mb-4"
   card.innerHTML = `
 <div class="w-16 h-16 flex items-center justify-center rounded-full mr-4 shadow-md"
-     style="background: linear-gradient(135deg, #b88c7a, #f4bfae); color: white; font-weight: 700; font-size: 2.5rem;">
+     style="background: linear-gradient(135deg, #b88c7a, #f4bfae); color: white; font-weight: 700; font-size: 1.75rem;">
   ${cli.nome.charAt(0).toUpperCase()}
 </div>
 
@@ -1084,27 +1084,46 @@ clientes.forEach((cli) => {
          <span class="${corStatus} text-xs font-semibold px-2 py-0.5 rounded-md">${cli.status}</span>
          </div>
         <div class="grid grid-cols-2 gap-x-6 items-center">
-        <div class="flex flex-col justify-center text-sm text-left">
+        <div class="flex flex-col justify-center text-xs text-left">
           <p class="italic">@${cli.instagram || "instagram"}</p>
           <p><i class="fas fa-phone mr-1"></i>${cli.telefone || "-"}</p>
         </div>
-        <div class="flex flex-col justify-center text-sm italic text-right">
+        <div class="flex flex-col justify-center text-xs italic text-right">
           <p>${formatarDataEIdade(cli.dn)}</p>
           <p>${cli.endereco || ""}</p>
         </div>
       </div>
     </div>
 
-    <div class="flex flex-col items-center rounded-md p-2 ml-4 shadow-inner" 
-         style="width:150px; background-color:rgba(50,50,50,0.08); backdrop-filter:blur(2px); border:1px solid rgba(89,89,89,0.15);">
-      <div class="text-[#1e1e1e] font-semibold text-sm rounded-md px-3 py-1 mb-1 shadow-sm whitespace-nowrap w-full text-center">
-        Agendamentos
-      </div>
-      <div class="border-2 border rounded-md px-3 py-2 text-center text-xs whitespace-nowrap w-full bg-[#2b2b2b]/40 shadow-sm">
-        <p id="${idTipo}" class="font-semibold text-[#f5c5b5]">Carregando...</p>
-        <p id="${idData}" class="text-[#f5c5b5]">--/--/----</p>
-      </div>
-    </div>
+<div class="flex flex-col items-center rounded-md p-2 ml-4 shadow-inner" 
+     style="
+     width:150px; background-color:rgba(50,50,50,0.08); backdrop-filter:blur(2px); border:1px solid rgba(89,89,89,0.15);
+              background-color:#2b2b2b;
+         background-image: radial-gradient(#3a3a3a 1px, transparent 1px);
+         background-size:6px 6px;
+         border:1px solid #3a3a3a;
+     ">
+  
+<!-- Caixa título com fundo pontilhado -->
+<div class="font-semibold text-xs rounded-md px-3 py-1 mb-1 shadow-sm whitespace-nowrap w-full text-center"
+     style="
+       color:#f5c5b5;
+     ">
+  Agendamentos
+</div>
+
+  <!-- Caixa de informações com fundo pontilhado -->
+  <div class="border-2 rounded-md px-3 py-2 text-center text-xs whitespace-nowrap w-full shadow-sm"
+       style="
+         border-color:#3a3a3a;
+         background-color:#2b2b2b;
+         background-size:6px 6px;
+       ">
+    <p id="${idTipo}" class="font-semibold text-[#f5c5b5]">Carregando...</p>
+    <p id="${idData}" class="text-[#f5c5b5]">--/--/----</p>
+  </div>
+</div>
+
 
     <div class="flex flex-col justify-center items-center gap-2 ml-4">
       <button class="text- hover:text-green-300" 
@@ -1122,28 +1141,28 @@ clientes.forEach((cli) => {
 
 
   // 🔹 Cria a faixa rosa expansível
-const footer = document.createElement("div");
-footer.className = "card-footer";
+//const footer = document.createElement("div");
+//footer.className = "card-footer";
 
 // 🔹 Conteúdo que aparece dentro da faixa quando expandida
-const footerContent = document.createElement("div");
-footerContent.className = "card-footer-content";
-footerContent.innerHTML = `
-  <p><strong>Último Atendimento:</strong> ${cli.ultimoAtend || "—"}</p>
-  <p><strong>Tipo Próx. Atendimento:</strong> ${cli.tipoProxAtend || "—"}</p>
-  <p><strong>Data Próx. Atendimento:</strong> ${cli.dtProxAtend || "—"}</p>
-  <p><strong>Observações:</strong> ${cli.obs || "Nenhuma observação."}</p>
-`;
+//const footerContent = document.createElement("div");
+//footerContent.className = "card-footer-content";
+//footerContent.innerHTML = `
+  //<p><strong>Último Atendimento:</strong> ${cli.ultimoAtend || "—"}</p>
+  //<p><strong>Tipo Próx. Atendimento:</strong> ${cli.tipoProxAtend || "—"}</p>
+  //<p><strong>Data Próx. Atendimento:</strong> ${cli.dtProxAtend || "—"}</p>
+  //<p><strong>Observações:</strong> ${cli.obs || "Nenhuma observação."}</p>
+//`;
 
-footer.appendChild(footerContent);
+//footer.appendChild(footerContent);
 
 // 🔹 Ação de abrir e fechar
-footer.addEventListener("click", () => {
-  footer.classList.toggle("open");
-});
+//footer.addEventListener("click", () => {
+//  footer.classList.toggle("open");
+//});
 
 container.appendChild(card);
-container.appendChild(footer);
+//container.appendChild(footer);
 
 
   // --- 🔹 Associa TipoProxAtend e DtProxAtend ---
@@ -1154,13 +1173,22 @@ container.appendChild(footer);
     (item) => normaliza(item.Nome) === normaliza(cli.nome)
   );
 
-  if (match) {
-    document.getElementById(idTipo).textContent = match.TipoProxAtend || "-";
-    document.getElementById(idData).textContent = match.DtProxAtend || "Sem Agendamento";
-  } else {
-    document.getElementById(idTipo).textContent = "Sem agendamento";
-    document.getElementById(idData).textContent = "—";
-  }
+if (match) {
+  document.getElementById(idTipo).textContent = match.TipoProxAtend || "-";
+  document.getElementById(idData).textContent = match.DtProxAtend || "Sem Agendamento";
+
+  // 🔹 Cor padrão (rosa clara)
+  document.getElementById(idTipo).style.color = "#f5c5b5";
+  document.getElementById(idData).style.color = "#f5c5b5";
+} else {
+  document.getElementById(idTipo).textContent = "Sem agendamento";
+  document.getElementById(idData).textContent = "—";
+
+  // 🔸 Fica amarelo quando não há agendamento
+  document.getElementById(idTipo).style.color = "#ffd966";
+  document.getElementById(idData).style.color = "#ffd966";
+}
+
 });
 
   } catch (err) {
