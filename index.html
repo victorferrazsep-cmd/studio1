@@ -1073,8 +1073,8 @@ clientes.forEach((cli) => {
   card.className =
   "cliente-card flex items-center text-[#f5c5b5] rounded-2xl p-4 w-full max-w-5xl mx-auto mb-4"
   card.innerHTML = `
-<div class="w-16 h-16 flex items-center justify-center rounded-full mr-4 shadow-md"
-     style="background: linear-gradient(135deg, #b88c7a, #f4bfae); color: white; font-weight: 700; font-size: 1.75rem;">
+<div class="w-12 h-12 flex items-center justify-center rounded-full mr-4 shadow-md"
+     style="background: linear-gradient(135deg, #b88c7a, #f4bfae); color: white; font-weight: 700; font-size: 1.50rem;">
   ${cli.nome.charAt(0).toUpperCase()}
 </div>
 
@@ -1087,10 +1087,11 @@ clientes.forEach((cli) => {
         <div class="flex flex-col justify-center text-xs text-left">
           <p class="italic">@${cli.instagram || "instagram"}</p>
           <p><i class="fas fa-phone mr-1"></i>${cli.telefone || "-"}</p>
+          <p>${cli.endereco || ""}</p>
         </div>
         <div class="flex flex-col justify-center text-xs italic text-right">
           <p>${formatarDataEIdade(cli.dn)}</p>
-          <p>${cli.endereco || ""}</p>
+          <p>${cli.dn || ""}</p>
         </div>
       </div>
     </div>
