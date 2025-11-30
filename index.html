@@ -406,9 +406,9 @@
           Relatório Financeiro
 <input type="month" 
        id="relatorioMesSelector" 
-       class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-xs" 
-       style="color:#000;" 
+       class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-xs text-black w-[130px]" 
        title="Selecione o mês">
+
 
         </h3>
 <div id="relatorioDashboard" class="grid grid-cols-3 gap-4 mb-4 max-w-full">
@@ -894,21 +894,55 @@ filtered.forEach((row, index) => {
   btnExcluir.onmouseout = () => (btnExcluir.style.color = "#ff8080");
 
   // 🔹 Ação de exclusão
-  btnExcluir.addEventListener("click", () => {
-    if (confirm("Deseja realmente excluir este registro?")) {
-      // Remove visualmente
-      tr.remove();
+btnExcluir.addEventListener("click", async () => {
+  if (!confirm("Deseja realmente excluir este registro?")) return;
 
-      // 🔸 Remove da base de dados (caso tenha ID ou outra chave)
-      // Aqui você pode ajustar conforme seu modelo de dados:
-      const indexParaRemover = dados.findIndex(r => r === row);
-      if (indexParaRemover !== -1) {
-        dados.splice(indexParaRemover, 1);
-      }
+  try {
+    // 🔹 Identifica a linha pela Data, Tipo e Valor (ou outra combinação única)
+    const dataChave = row.DtRegistro;
+    const tipoChave = row.Tipo;
+    const valorChave = row.Valor;
 
-      console.log("Registro excluído:", row);
+    if (!dataChave && !tipoChave && !valorChave) {
+      alert("❌ Não foi possível identificar o registro para exclusão.");
+      return;
     }
-  });
+
+    // 🔹 Monta a URL base
+    const baseURL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191";
+
+    // 🔹 Busca todos os registros da planilha para encontrar a linha exata
+    const res = await fetch(`${baseURL}?nocache=${Date.now()}`);
+    const dados = await res.json();
+
+    // 🔹 Localiza o registro correspondente (comparação simples)
+    const match = dados.find(d =>
+      d.DtRegistro === dataChave &&
+      d.Tipo === tipoChave &&
+      d.Valor === valorChave
+    );
+
+    if (!match) {
+      alert("❌ Registro não encontrado na planilha.");
+      return;
+    }
+
+    // 🔹 Exclui usando a chave primária (por exemplo, o valor de DtRegistro)
+    const deleteURL = `${baseURL}/DtRegistro/${encodeURIComponent(match.DtRegistro)}`;
+    const del = await fetch(deleteURL, { method: "DELETE" });
+
+    if (del.ok) {
+      tr.remove(); // Remove da tabela local
+      alert("✅ Registro excluído com sucesso!");
+    } else {
+      alert("❌ Erro ao excluir na planilha.");
+    }
+  } catch (err) {
+    console.error("Erro ao excluir registro:", err);
+    alert("❌ Erro ao excluir registro.");
+  }
+});
+
 
   tdExcluir.appendChild(btnExcluir);
   tr.appendChild(tdExcluir);
