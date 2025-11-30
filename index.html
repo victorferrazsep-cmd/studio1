@@ -404,7 +404,12 @@
 <div id="relatorioFinanceiro2" class="card rounded-xl shadow p-5 mx-auto mt-6 hidden" style="width: 100%; display: flex; flex-direction: column; gap: 1rem;">
         <h3 class="text-xl font-bold mb-4 text-rose-300 flex justify-between items-center">
           Relatório Financeiro
-          <input type="month" id="relatorioMesSelector" class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-rose-300 text-sm" title="Selecione o mês">
+<input type="month" 
+       id="relatorioMesSelector" 
+       class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-sm" 
+       style="color:#000;" 
+       title="Selecione o mês">
+
         </h3>
 <div id="relatorioDashboard" class="grid grid-cols-3 gap-4 mb-4 max-w-full">
           <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white">
@@ -813,33 +818,65 @@ if (!filtered.length) {
   const headerRow = document.createElement("tr");
   // Reduced header cell padding for tighter rows
   const headerCellPadding = "4px 6px";
+  
 
   const keys = Object.keys(filtered[0]);
-  keys.forEach(key => {
-    const th = document.createElement("th");
+keys.forEach(key => {
+  const th = document.createElement("th");
+
+  // 🔹 Renomeia apenas DtRegistro → Data
+  if (key === "DtRegistro") {
+    th.textContent = "Data";
+  } else {
     th.textContent = key;
-    th.style.border = "none"; // Remove border for cleaner look
-    th.style.padding = headerCellPadding;
-    headerRow.appendChild(th);
-  });
+  }
+
+  headerRow.appendChild(th);
+});
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
-  const tbody = document.createElement("tbody");
-  // Reduced cell padding for tighter row spacing
-  const cellPadding = "4px 6px";
-  filtered.forEach(row => {
-    const tr = document.createElement("tr");
-    keys.forEach(key => {
-      const td = document.createElement("td");
-      td.textContent = row[key];
-      td.style.border = "none"; 
-      td.style.padding = cellPadding;
-      tr.appendChild(td);
-    });
-    tbody.appendChild(tr);
+const tbody = document.createElement("tbody");
+const cellPadding = "4px 6px";
+
+filtered.forEach((row, index) => {
+  const tr = document.createElement("tr");
+
+  // 🔹 Alterna a cor de fundo das linhas (efeito zebra)
+  tr.style.backgroundColor = index % 2 === 0 ? "transparent" : "#2f2f2f";
+
+  keys.forEach(key => {
+    const td = document.createElement("td");
+    let value = row[key] || "";
+
+    // 🔹 Formata DtRegistro → DD/MM (sem ano)
+    if (key === "DtRegistro" && value) {
+      const date = new Date(value);
+      if (!isNaN(date)) {
+        const dia = String(date.getDate()).padStart(2, "0");
+        const mes = String(date.getMonth() + 1).padStart(2, "0");
+        value = `${dia}/${mes}`;
+      }
+    }
+
+    // 🔹 Formata MesRef → MM/AAAA
+    if (key === "MesRef" && value && /^\d{4}-\d{2}/.test(value)) {
+      const [ano, mes] = value.split("-");
+      value = `${mes}/${ano}`;
+    }
+
+    td.textContent = value;
+    td.style.border = "none";
+    td.style.padding = cellPadding;
+    td.style.fontSize = "0.65rem"; // 🔹 voltou ao tamanho original menor
+    tr.appendChild(td);
   });
-  table.appendChild(tbody);
+
+  tbody.appendChild(tr);
+});
+
+table.appendChild(tbody);
+
 
   relatorioContainer.appendChild(table);
 }
