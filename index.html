@@ -408,7 +408,7 @@
        id="relatorioMesSelector" 
        class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-xs text-black w-[130px]" 
        title="Selecione o mês">
-
+                                                                                                                                        
 
         </h3>
 <div id="relatorioDashboard" class="grid grid-cols-3 gap-4 mb-4 max-w-full">
@@ -842,113 +842,95 @@ keys.forEach(key => {
 const tbody = document.createElement("tbody");
 const cellPadding = "4px 6px";
 
+// 🔹 Dentro do loop que cria as linhas da tabela (tr)
 filtered.forEach((row, index) => {
   const tr = document.createElement("tr");
+  tr.className = "registro";
+  tr.dataset.index = index;
 
-  // 🔹 Efeito zebra (mantido)
-  tr.style.backgroundColor = index % 2 === 0 ? "#2b2b2b" : "#363636";
+  // 🔹 Efeito zebrado: alterna cores entre linhas
+  tr.style.backgroundColor = index % 2 === 0 ? "#2d2d2d" : "#3a3a3a"; // contraste mais forte
+  tr.style.transition = "background-color 0.3s ease";
 
   keys.forEach(key => {
     const td = document.createElement("td");
-    let value = row[key] || "";
+    let valor = row[key];
 
-    // 🔹 Formata DtRegistro → DD/MM (sem ano)
-    if (key === "DtRegistro" && value) {
-      const date = new Date(value);
-      if (!isNaN(date)) {
-        const dia = String(date.getDate()).padStart(2, "0");
-        const mes = String(date.getMonth() + 1).padStart(2, "0");
-        value = `${dia}/${mes}`;
-      }
+    // 🔸 Formata DtRegistro → DD/MM (sem ano)
+    if (key === "DtRegistro" && valor) {
+      const [ano, mes, dia] = valor.split("-");
+      valor = `${dia}/${mes}`;
     }
 
-    // 🔹 Formata MesRef → MM/AAAA
-    if (key === "MesRef" && value && /^\d{4}-\d{2}/.test(value)) {
-      const [ano, mes] = value.split("-");
-      value = `${mes}/${ano}`;
+    // 🔸 Formata MesRef → MM/AA
+    if (key === "MesRef" && valor) {
+      const [ano, mes] = valor.split("-");
+      valor = `${mes}/${ano.slice(2)}`;
     }
 
-    td.textContent = value;
-    td.style.border = "none";
-    td.style.padding = "4px 6px";
-    td.style.fontSize = "0.65rem";
-    td.style.color = "#fff";
+    td.textContent = valor || "—";
     td.style.textAlign = "center";
+    td.style.padding = "4px 6px";
     tr.appendChild(td);
   });
 
-  // 🔸 Adiciona botão de exclusão
-  const tdExcluir = document.createElement("td");
+  // 🔹 Botão de exclusão (mantém o que já tem)
+  const tdAcoes = document.createElement("td");
+  tdAcoes.style.textAlign = "center";
+
   const btnExcluir = document.createElement("button");
-  btnExcluir.textContent = "x";
+  btnExcluir.textContent = "🗑️";
   btnExcluir.title = "Excluir Registro";
-  btnExcluir.style.background = "none";
-  btnExcluir.style.border = "none";
+  btnExcluir.style.color = "#ff7373";
   btnExcluir.style.cursor = "pointer";
-  btnExcluir.style.color = "#ff8080";
-  btnExcluir.style.fontSize = "1rem";
-  btnExcluir.style.transition = "0.2s";
 
-  // Efeito hover
-  btnExcluir.onmouseover = () => (btnExcluir.style.color = "#ff4d4d");
-  btnExcluir.onmouseout = () => (btnExcluir.style.color = "#ff8080");
+  btnExcluir.addEventListener("click", async () => {
+    if (!confirm("Deseja realmente excluir este registro?")) return;
 
-  // 🔹 Ação de exclusão
-btnExcluir.addEventListener("click", async () => {
-  if (!confirm("Deseja realmente excluir este registro?")) return;
+    try {
+      const baseURL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191";
+      const res = await fetch(`${baseURL}?nocache=${Date.now()}`);
+      const dados = await res.json();
 
-  try {
-    // 🔹 Identifica a linha pela Data, Tipo e Valor (ou outra combinação única)
-    const dataChave = row.DtRegistro;
-    const tipoChave = row.Tipo;
-    const valorChave = row.Valor;
+      const normaliza = str => (str || "").trim().toLowerCase();
 
-    if (!dataChave && !tipoChave && !valorChave) {
-      alert("❌ Não foi possível identificar o registro para exclusão.");
-      return;
+      const match = dados.find(d =>
+        normaliza(d.DtRegistro) === normaliza(row.DtRegistro) &&
+        normaliza(d.Descricao) === normaliza(row.Descricao) &&
+        normaliza(d.MesRef) === normaliza(row.MesRef) &&
+        parseFloat(d.Valor || 0) === parseFloat(row.Valor || 0)
+      );
+
+      if (!match) {
+        alert("❌ Registro não encontrado na planilha.");
+        return;
+      }
+
+      const deleteURL = `${baseURL}/DtRegistro/${encodeURIComponent(match.DtRegistro)}`;
+      const del = await fetch(deleteURL, { method: "DELETE" });
+
+      if (del.ok) {
+        // Efeito fade-out antes de remover
+        tr.style.transition = "opacity 0.4s ease";
+        tr.style.opacity = "0";
+        setTimeout(() => tr.remove(), 400);
+        alert("✅ Registro excluído com sucesso!");
+      } else {
+        alert("❌ Erro ao excluir da planilha.");
+      }
+
+    } catch (err) {
+      console.error("Erro ao excluir registro:", err);
+      alert("❌ Erro ao excluir registro. Verifique a conexão e tente novamente.");
     }
+  });
 
-    // 🔹 Monta a URL base
-    const baseURL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191";
-
-    // 🔹 Busca todos os registros da planilha para encontrar a linha exata
-    const res = await fetch(`${baseURL}?nocache=${Date.now()}`);
-    const dados = await res.json();
-
-    // 🔹 Localiza o registro correspondente (comparação simples)
-    const match = dados.find(d =>
-      d.DtRegistro === dataChave &&
-      d.Tipo === tipoChave &&
-      d.Valor === valorChave
-    );
-
-    if (!match) {
-      alert("❌ Registro não encontrado na planilha.");
-      return;
-    }
-
-    // 🔹 Exclui usando a chave primária (por exemplo, o valor de DtRegistro)
-    const deleteURL = `${baseURL}/DtRegistro/${encodeURIComponent(match.DtRegistro)}`;
-    const del = await fetch(deleteURL, { method: "DELETE" });
-
-    if (del.ok) {
-      tr.remove(); // Remove da tabela local
-      alert("✅ Registro excluído com sucesso!");
-    } else {
-      alert("❌ Erro ao excluir na planilha.");
-    }
-  } catch (err) {
-    console.error("Erro ao excluir registro:", err);
-    alert("❌ Erro ao excluir registro.");
-  }
-});
-
-
-  tdExcluir.appendChild(btnExcluir);
-  tr.appendChild(tdExcluir);
-
+  tdAcoes.appendChild(btnExcluir);
+  tr.appendChild(tdAcoes);
   tbody.appendChild(tr);
 });
+
+
 
 
 table.appendChild(tbody);
