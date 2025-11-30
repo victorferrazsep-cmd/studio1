@@ -406,7 +406,7 @@
           Relatório Financeiro
 <input type="month" 
        id="relatorioMesSelector" 
-       class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-sm" 
+       class="bg-[#1e1e1e] border border-rose-300 rounded p-1 text-xs" 
        style="color:#000;" 
        title="Selecione o mês">
 
@@ -831,6 +831,9 @@ keys.forEach(key => {
     th.textContent = key;
   }
 
+  // 🔸 Centraliza o texto do cabeçalho
+  th.style.textAlign = "center";
+
   headerRow.appendChild(th);
 });
   thead.appendChild(headerRow);
@@ -842,8 +845,8 @@ const cellPadding = "4px 6px";
 filtered.forEach((row, index) => {
   const tr = document.createElement("tr");
 
-  // 🔹 Alterna a cor de fundo das linhas (efeito zebra)
-  tr.style.backgroundColor = index % 2 === 0 ? "transparent" : "#2f2f2f";
+  // 🔹 Efeito zebra (mantido)
+  tr.style.backgroundColor = index % 2 === 0 ? "#2b2b2b" : "#363636";
 
   keys.forEach(key => {
     const td = document.createElement("td");
@@ -867,13 +870,52 @@ filtered.forEach((row, index) => {
 
     td.textContent = value;
     td.style.border = "none";
-    td.style.padding = cellPadding;
-    td.style.fontSize = "0.65rem"; // 🔹 voltou ao tamanho original menor
+    td.style.padding = "4px 6px";
+    td.style.fontSize = "0.65rem";
+    td.style.color = "#fff";
+    td.style.textAlign = "center";
     tr.appendChild(td);
   });
 
+  // 🔸 Adiciona botão de exclusão
+  const tdExcluir = document.createElement("td");
+  const btnExcluir = document.createElement("button");
+  btnExcluir.textContent = "x";
+  btnExcluir.title = "Excluir Registro";
+  btnExcluir.style.background = "none";
+  btnExcluir.style.border = "none";
+  btnExcluir.style.cursor = "pointer";
+  btnExcluir.style.color = "#ff8080";
+  btnExcluir.style.fontSize = "1rem";
+  btnExcluir.style.transition = "0.2s";
+
+  // Efeito hover
+  btnExcluir.onmouseover = () => (btnExcluir.style.color = "#ff4d4d");
+  btnExcluir.onmouseout = () => (btnExcluir.style.color = "#ff8080");
+
+  // 🔹 Ação de exclusão
+  btnExcluir.addEventListener("click", () => {
+    if (confirm("Deseja realmente excluir este registro?")) {
+      // Remove visualmente
+      tr.remove();
+
+      // 🔸 Remove da base de dados (caso tenha ID ou outra chave)
+      // Aqui você pode ajustar conforme seu modelo de dados:
+      const indexParaRemover = dados.findIndex(r => r === row);
+      if (indexParaRemover !== -1) {
+        dados.splice(indexParaRemover, 1);
+      }
+
+      console.log("Registro excluído:", row);
+    }
+  });
+
+  tdExcluir.appendChild(btnExcluir);
+  tr.appendChild(tdExcluir);
+
   tbody.appendChild(tr);
 });
+
 
 table.appendChild(tbody);
 
