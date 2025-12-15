@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -19,7 +19,23 @@
 <!-- Manifest (PWA) -->
 <link rel="manifest" href="manifest.json">
 
+<!-- EmailJS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("hwdHL8qVI8eQDCAxB");
+    })();
+  </script>
+
 <style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.25s ease;
+  }
+
   /* Tema escuro do calendário */
 .fc {
   background-color: #1e1e1e;
@@ -79,6 +95,12 @@
   }
 
   .sidebar.hidden { transform: translateX(-100%); }
+  /* 🔹 Classe para esconder a sidebar fora da tela */
+  .sidebar-hidden {
+    transform: translateX(-100%);
+  }
+
+  /*.sidebar.hidden { transform: translateX(-100%); }*/
 
   .card {
     background-color: #252525;
@@ -166,12 +188,13 @@
 
 
 
+
 </style>
 </head>
 <body class="flex h-screen">
 
 <!-- Sidebar -->
-<aside id="sidebar" class="sidebar w-64 p-5 pt-8 flex flex-col fixed inset-y-0 left-0 z-40 hidden">
+<aside id="sidebar" class="sidebar w-64 p-5 pt-8 flex flex-col fixed inset-y-0 left-0 z-40 sidebar-hidden">
   <h1 class="text-2x1 font-semibold mb-8 text-center">Menu</h1>
   <nav class="flex flex-col space-y-2">
     <a href="#" class="active" data-page="home">Home</a>
@@ -205,9 +228,9 @@
       </div>
     </div>
 
-    <div class="card rounded-xl shadow p-5 mb-5">
-      <div id="calendar" class="w-full" style="height: 400px;"></div>
-    </div>
+<div class="card rounded-xl shadow p-5 mb-5">
+  <div id="calendar" class="w-full"></div>
+</div>
 
 <div class="card rounded-xl shadow p-5 flex flex-col justify-center" id="resumoFinanceiro">
   <h3 class="text-lg font-bold mb-4">💰 Resumo Financeiro</h3>
@@ -295,13 +318,13 @@
       </div>
 
       <div>
-        <label class="block mb-1 font-semibold" for="clienteEnderecoNum">ENDEREÇO_NUM</label>
+        <label class="block mb-1 font-semibold" for="clienteEnderecoNum">ENDEREÇO</label>
         <input type="text" id="clienteEnderecoNum" name="Endereco"
           class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
       </div>
 
       <div>
-        <label class="block mb-1 font-semibold" for="clienteCep">CEP</label>
+        <label class="block mb-1 font-semibold" for="clienteCep">E-MAIL</label>
         <input type="text" id="clienteCep" name="CEP"
           class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
       </div>
@@ -349,64 +372,130 @@
   <!-- AGENDA -->
   <div id="agendaPage" class="page hidden">
     <div class="flex justify-between mb-5 items-center">
-      <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Agenda ✨</h2>
-      <div class="relative mr-4">
-        <button id="btnAnamnese" class="btn-primary px-4 py-2 rounded-md">Adicionar Anamnese</button>
-        <div id="boxAnamnese" class="absolute right-0 mt-2 w-96 card rounded-xl shadow p-5 z-50 hidden">
-          <h2 class="text-xl font-bold mb-4 text-rose-300">Cadastro de Anamnese</h2>
-          <form id="formAnamneseBox" class="space-y-4">
-            <div>
-              <label class="block mb-1 font-semibold" for="anamneseNomeBox">Nome</label>
-              <input type="text" id="anamneseNomeBox" name="nome" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div>
-              <label class="block mb-1 font-semibold" for="anamneseCpfBox">CPF</label>
-              <input type="text" id="anamneseCpfBox" name="cpf" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div>
-              <label class="block mb-1 font-semibold" for="anamneseEnderecoBox">Endereço</label>
-              <input type="text" id="anamneseEnderecoBox" name="endereco" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div>
-              <label class="block mb-1 font-semibold" for="anamneseTelefoneBox">Telefone</label>
-              <input type="text" id="anamneseTelefoneBox" name="telefone" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div>
-              <label class="block mb-1 font-semibold" for="anamneseEmailBox">Email</label>
-              <input type="email" id="anamneseEmailBox" name="email" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            </div>
-            <div class="flex justify-end gap-3 mt-6">
-              <button type="button" id="fecharBoxAnamnese" class="btn-primary px-4 py-2 rounded-md">Fechar</button>
-              <button type="submit" class="btn-primary px-4 py-2 rounded-md">Salvar</button>
-            </div>
-          </form>
-        </div>
+      <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-3">Agenda ✨</h2>
+      <!-- O botão de presença foi removido daqui -->
+    </div>
+
+    <!-- Cards de Resumo da Agenda -->
+    <div class="grid grid-cols-3 gap-5 mb-5">
+      <div class="card p-5 rounded-xl shadow flex items-center justify-center font-bold text-lg" id="agendaAtendimentos">Atendimentos: 0</div>
+      <div class="card p-5 rounded-xl shadow flex items-center justify-center font-bold text-lg" id="agendaAgendamentos">Agendamentos: 0</div>
+      <div class="card p-5 rounded-xl shadow grid grid-rows-2 text-center font-bold">
+        <div id="agendaAplicacao">Aplicação: 0</div>
+        <div id="agendaManutencao">Manutenções: 0</div>
       </div>
     </div>
-        <div class="card rounded-xl shadow p-5 mb-5 flex justify-center">
-  <iframe 
-    src="https://calendar.google.com/calendar/embed?src=sabrynalopez57%40gmail.com&ctz=America%2FSao_Paulo"
-    style="
-      border: 2px solid var(--rose);
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(244,191,174,0.4);
-      width: 100%;
-      max-width: 1000px;
-      height: 650px;
-      background-color: #1e1e1e;
-      filter: brightness(0.9) contrast(1.05) saturate(1.1);
-    "
-    frameborder="0"
-    scrolling="no">
-  </iframe>
+
+<!-- Calendário -->
+<div class="card rounded-xl shadow p-5 mb-5 relative overflow-hidden">
+  <div id="calendarAgenda" class="w-full" style="height: 400px;"></div>
 </div>
 
+<!-- 🔹 Modal de Agendamento (mesmo layout do boxCliente) -->
+<div id="modalAgendamento"
+  class="hidden fixed inset-0 z-50 flex items-center justify-center transition-all duration-300">
+
+  <!-- Fundo escurecido e embaçado -->
+  <div class="absolute inset-0 bg-black bg-opacity-70 backdrop-filter transition-opacity duration-300"
+       style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"></div>
+
+  <!-- Conteúdo do formulário -->
+  <div id="modalAgendamentoContent"
+       class="card relative rounded-xl shadow-lg p-6 w-full max-w-xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10
+              transform scale-95 opacity-0 transition-all duration-300">
+    
+    <h2 class="text-xl font-bold mb-4 text-center text-rose-300">
+      Agendamento
+    </h2>
+
+    <form id="formAgendamento" class="space-y-4">
+      <!-- Container para checkboxes de e-mail e presença -->
+      <div class="flex justify-between items-center">
+        <label class="flex items-center gap-2 text-sm text-gray-300">
+          <input type="checkbox" id="enviarEmail" checked />
+          Enviar e-mail para a cliente
+        </label>
+        <div id="campoPresenca" class="hidden">
+          <label class="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="checkbox" id="agendamentoPresenca" class="h-4 w-4 rounded text-green-500 bg-gray-700 border-gray-600 focus:ring-green-600 ring-offset-gray-800 focus:ring-2">
+            <span class="font-semibold text-rose-300">Presença</span>
+          </label>
+        </div>
+      </div>
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoCliente">CLIENTE</label>
+        <select id="agendamentoCliente" name="Cliente"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          <option value="">Selecione um cliente</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoCep">E-MAIL</label>
+        <input type="text" id="agendamentoCep" name="CEP"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" readonly>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoData">DATA</label>
+        <input type="date" id="agendamentoData" name="Data"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoHora">HORA</label>
+        <input type="time" id="agendamentoHora" name="Hora"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoModalidade">MODALIDADE</label>
+        <select id="agendamentoModalidade" name="Modalidade"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          <option value="">Selecione a modalidade</option>
+          <option value="Extensão de Cílios">Extensão de Cílios</option>
+          <option value="Sobrancelhas">Sobrancelhas</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoProcedimento">PROCEDIMENTO</label>
+        <select id="agendamentoProcedimento" name="Procedimento"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+          <option value="">Selecione o procedimento</option>
+          <option value="Aplicação">Aplicação</option>
+          <option value="Manutenção">Manutenção</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold" for="agendamentoTipo">TIPO</label>
+        <input type="text" id="agendamentoTipo" name="Tipo"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+      </div>
+
+      <div class="flex justify-end gap-3 mt-6">
+        <button type="button" id="fecharModalAgendamento"
+          class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Fechar</button>
+        <button type="button" id="btnExcluirAgendamento"
+          class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-md hidden">Excluir</button>
 
 
-
+        <button type="submit"
+          class="px-4 py-2 rounded-md font-semibold transition-all"
+          style="
+            background-color: var(--rose);
+            color: #000;
+            box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);
+          ">
+          <span id="btnSalvarAgendamentoTexto">Agendar</span>
+        </button>
+      </div>
+    </form>
   </div>
+</div>
 
-
+</div>
 
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
@@ -463,7 +552,7 @@
           </div>
         </form>
       </div>
-<div id="relatorioFinanceiro2" class="card rounded-xl shadow p-5 mx-auto mt-6 hidden" style="width: 100%; display: flex; flex-direction: column; gap: 1rem;">
+<div id="relatorioFinanceiro2" class="card rounded-xl shadow p-5 mx-auto mt-6" style="width: 100%; display: flex; flex-direction: column; gap: 1rem;">
         <h3 class="text-xl font-bold mb-4 text-rose-300 flex justify-between items-center">
           Relatório Financeiro
 <input type="month" 
@@ -488,7 +577,6 @@
           </div>
         </div>
 
-
 <div id="relatorioResumoDetalhado" class="bg-[#2b2b2b] text-white p-4 rounded-xl shadow w-full mb-2 font-mono whitespace-pre-wrap" style="font-size: 0.85rem; max-height: 800px; overflow-y: auto;"></div>
 <button id="toggleRelatorioBtn" style="display:none;">+</button>
 
@@ -498,7 +586,11 @@
 </div>
       </div>
   </div>
+
 <script>
+
+  let eventoEmEdicao = null;
+
 const financeiroData = {
   'Despesas': {
     'Despesas Fixas': ['Aluguel', 'Água', 'Internet e Telefone', 'Outros'],
@@ -641,45 +733,132 @@ atualizarDashboard(mesInicial);
     });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const relatorioContainer = document.getElementById("relatorioContainer");
   const toggleBtn = document.getElementById("toggleRelatorioBtn");
-  const btnLoadRelatorio = document.getElementById("btnLoadRelatorio");
+  const mesSelector = document.getElementById("relatorioMesSelector");
+  const dashboardReceita = document.getElementById("dashboardReceita");
+  const dashboardDespesa = document.getElementById("dashboardDespesa");
+  const dashboardSaldo = document.getElementById("dashboardSaldo");
 
-  // 🧱 Garante estado inicial
-  if (btnLoadRelatorio) btnLoadRelatorio.style.display = "none"; // esconde botão "Relatório"
-  relatorioContainer.style.display = "none"; // esconde dados
-  toggleBtn.style.display = "inline-block"; // mostra o "+"
+  // 🧩 Estado inicial
+  if (!relatorioContainer || !toggleBtn) return;
+  relatorioContainer.style.display = "none";
+  toggleBtn.style.display = "inline-block";
   toggleBtn.textContent = "+";
   toggleBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
   toggleBtn.style.color = "var(--rose)";
-
-  // 🧩 Garante que mesmo que outra função mude o estilo, ele fique oculto no início
-  setTimeout(() => {
-    relatorioContainer.style.display = "none";
-  }, 500);
 
   // 🎯 Controle do botão "+ / −"
   toggleBtn.addEventListener("click", () => {
     const expanded = relatorioContainer.style.display !== "none";
     if (expanded) {
-      // Recolhe
       relatorioContainer.style.display = "none";
       toggleBtn.textContent = "+";
       toggleBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
       toggleBtn.style.color = "var(--rose)";
     } else {
-      // Expande
       relatorioContainer.style.display = "block";
       toggleBtn.textContent = "−";
       toggleBtn.style.backgroundColor = "rgba(204, 204, 204, 0.3)";
       toggleBtn.style.color = "#111";
     }
   });
+
+  // 🔹 Busca dados da planilha
+  try {
+    const res = await fetch("https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191");
+    const data = await res.json();
+
+    if (!data.length) {
+      relatorioContainer.innerHTML = "<p class='text-rose-300'>Nenhum dado encontrado.</p>";
+      return;
+    }
+
+    // Normaliza meses
+    data.forEach(i => {
+      if (i.MesRef) i.MesRef = i.MesRef.slice(0, 7);
+    });
+
+    // Guarda global
+    window.financeiroRelatorioData = data;
+
+    // Cria lista de meses únicos
+    const meses = [...new Set(data.map(d => d.MesRef).filter(Boolean))].sort().reverse();
+    mesSelector.innerHTML = "";
+    meses.forEach(m => {
+      const opt = document.createElement("option");
+      opt.value = m;
+      opt.textContent = m;
+      mesSelector.appendChild(opt);
+    });
+
+    // Seleciona mês atual ou o mais recente
+    const mesAtual = new Date().toISOString().slice(0, 7);
+    const mesInicial = meses.includes(mesAtual) ? mesAtual : meses[0];
+    mesSelector.value = mesInicial;
+
+    // Atualiza o dashboard
+    atualizarDashboard(mesInicial);
+
+    // Atualiza ao trocar o mês
+    mesSelector.addEventListener("change", e => {
+      atualizarDashboard(e.target.value);
+    });
+
+  } catch (err) {
+    console.error("Erro ao carregar relatório:", err);
+    relatorioContainer.innerHTML = "<p class='text-red-400'>Erro ao carregar dados da planilha.</p>";
+  }
+
+  // 🔹 Função para atualizar o resumo financeiro
+  function atualizarDashboard(mesSelecionado) {
+    const registros = window.financeiroRelatorioData.filter(item => item.MesRef === mesSelecionado);
+    if (!registros.length) {
+      dashboardReceita.textContent = "R$0";
+      dashboardDespesa.textContent = "R$0";
+      dashboardSaldo.textContent = "R$0";
+      relatorioContainer.innerHTML = "<p class='text-rose-300'>Nenhum registro para este mês.</p>";
+      return;
+    }
+
+    const ganhos = registros.filter(r => r.Tipo === "Ganhos");
+    const despesas = registros.filter(r => r.Tipo === "Despesas");
+
+    const totalGanhos = ganhos.reduce((s, g) => s + parseFloat(g.Valor || 0), 0);
+    const totalDespesas = despesas.reduce((s, d) => s + parseFloat(d.Valor || 0), 0);
+    const saldo = totalGanhos - totalDespesas;
+
+    dashboardReceita.textContent = `R$${totalGanhos.toFixed(2)}`;
+    dashboardDespesa.textContent = `R$${totalDespesas.toFixed(2)}`;
+    dashboardSaldo.textContent = `R$${saldo.toFixed(2)}`;
+
+// Mostra o detalhamento dentro da área existente
+const relatorioDados = document.getElementById("relatorioDados");
+
+// Se a área não existir, não faz nada (evita duplicar)
+if (!relatorioDados) return;
+
+// Limpa apenas o conteúdo da área de dados
+relatorioDados.innerHTML = "";
+
+// Cria os registros mantendo o estilo
+registros.forEach(r => {
+  const linha = document.createElement("div");
+  linha.className = "grid grid-cols-5 gap-2 border-b border-gray-700 py-1 text-xs";
+  linha.innerHTML = `
+    <div class="text-rose-300 font-semibold">${r.Tipo || "-"}</div>
+    <div>${r.Familia || "-"}</div>
+    <div>${r.Nome || "-"}</div>
+    <div>R$${parseFloat(r.Valor || 0).toFixed(2)}</div>
+    <div>${r.Descricao || ""}</div>
+  `;
+  relatorioDados.appendChild(linha);
 });
 
 
-
+  }
+});
 
 document.getElementById("relatorioMesSelector").addEventListener("change", (e) => {
   const mes = e.target.value;
@@ -688,60 +867,44 @@ document.getElementById("relatorioMesSelector").addEventListener("change", (e) =
   }
 });
 
-
-// Add listener for month selector change
-function atualizarDashboard(mesSelecionado) {
-  // Filter data by selected month "YYYY-MM"
+function filtrarDadosPorMes(mesSelecionado) {
   let filtered = window.financeiroRelatorioData || [];
   if (mesSelecionado) {
-filtered = window.financeiroRelatorioData.filter(item => {
-  const ref = (item["MesRef"] || "").toString().slice(0, 7);
-  return ref === mesSelecionado;
-});
+    return filtered.filter(item => {
+      const ref = (item["MesRef"] || "").toString().slice(0, 7);
+      return ref === mesSelecionado;
+    });
   }
+  return filtered;
+}
 
+function calcularTotais(dados) {
   // Aggregate sums grouped by Tipo
   let receita = 0;
   let despesa = 0;
-  filtered.forEach(item => {
+  dados.forEach(item => {
     const tipo = item["Tipo"];
     const valor = parseFloat(item["Valor"]) || 0;
     if (tipo === "Ganhos") receita += valor;
     else if (tipo === "Despesas") despesa += valor;
   });
+  return { receita, despesa, saldo: receita - despesa };
+}
 
+function renderizarPainel(totais) {
   // Format values to BRL currency
   const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
 
-  document.getElementById("dashboardReceita").textContent = formataValor(receita);
-  document.getElementById("dashboardDespesa").textContent = formataValor(despesa);
-  document.getElementById("dashboardSaldo").textContent = formataValor(receita - despesa);
-
-  // Build detailed hierarchical summary grouped by Tipo > Familia > Nome
-  // const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
-  // const relatorioContainer = document.getElementById("relatorioContainer");
-
-if (!filtered.length) {
-  // Caso não tenha dados, mostra mensagem no resumo e oculta tabela
-  resumoDetalhadoDiv.innerHTML = "<p>Sem dados aqui :(</p>";
-  relatorioContainer.innerHTML = "";
-  resumoDetalhadoDiv.style.display = "block";
-  relatorioContainer.style.display = "none";
-  return;
-} else {
-  // Mostra o resumo sempre, mas mantém a tabela oculta
-  resumoDetalhadoDiv.style.display = "block";
-  relatorioContainer.style.display = "none";
+  document.getElementById("dashboardReceita").textContent = formataValor(totais.receita);
+  document.getElementById("dashboardDespesa").textContent = formataValor(totais.despesa);
+  document.getElementById("dashboardSaldo").textContent = formataValor(totais.saldo);
 }
 
-
-
-  resumoDetalhadoDiv.innerHTML = ""; // clear existing content
-
+function agruparDados(dados) {
   // Helper to safely accumulate sums
   const acumulador = {};
 
-  filtered.forEach(item => {
+  dados.forEach(item => {
     const tipo = item["Tipo"] || "Sem Tipo";
     const familia = item["Familia"] || "Sem Família";
     const nome = item["Nome"] || "Sem Nome";
@@ -756,7 +919,10 @@ if (!filtered.length) {
     if (!acumulador[tipo].familias[familia].nomes[nome]) acumulador[tipo].familias[familia].nomes[nome] = 0;
     acumulador[tipo].familias[familia].nomes[nome] += valor;
   });
+  return acumulador;
+}
 
+function renderizarResumoDetalhado(dadosAgrupados) {
   // Helper to create a row with category left and value right with dotted leader
   function createRow(label, value, options = {}) {
     const row = document.createElement("div");
@@ -802,11 +968,14 @@ if (!filtered.length) {
     return row;
   }
 
+  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+  const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
+  resumoDetalhadoDiv.innerHTML = ""; // Limpa conteúdo
+
   // Iterate over Tipo groups, then Familias, then Nomes, adding subtotal and total lines with separators
   let grandTotal = 0;
-
-  for (const tipoKey in acumulador) {
-    const tipoTotal = formataValor(acumulador[tipoKey].total);
+  for (const tipoKey in dadosAgrupados) {
+    const tipoTotal = formataValor(dadosAgrupados[tipoKey].total);
     // Add a separator line for Tipo groups except first
     if (resumoDetalhadoDiv.childElementCount > 0) {
       const hr = document.createElement("hr");
@@ -817,7 +986,7 @@ if (!filtered.length) {
     }
     resumoDetalhadoDiv.appendChild(createRow(tipoKey.toUpperCase(), tipoTotal, { bold: true, marginBottom: "6px" }));
 
-    const familias = acumulador[tipoKey].familias;
+    const familias = dadosAgrupados[tipoKey].familias;
     for (const famKey in familias) {
       const famTotal = formataValor(familias[famKey].total);
       resumoDetalhadoDiv.appendChild(createRow("└ " + famKey, famTotal, { fontSize: "0.875rem", paddingLeft: "1rem", marginBottom: "4px" , italic: false}));
@@ -844,7 +1013,7 @@ if (!filtered.length) {
       resumoDetalhadoDiv.appendChild(famSubtotalContainer);
     }
 
-    grandTotal += acumulador[tipoKey].total;
+    grandTotal += dadosAgrupados[tipoKey].total;
   }
 
   // Add grand total line after all Tipos with background
@@ -854,23 +1023,15 @@ if (!filtered.length) {
   grandTotalContainer.style.padding = "6px 10px";
   grandTotalContainer.style.margin = "12px 0";
 
-  // Removed grand total separator <hr> line as per request
-  /*
-  const grandTotalHr = document.createElement("hr");
-  grandTotalHr.style.border = "none";
-  grandTotalHr.style.borderTop = "2px solid #cccccc";
-  grandTotalHr.style.margin = "0 0 6px 0";
-
-  grandTotalContainer.appendChild(grandTotalHr);
-  */
-
   grandTotalContainer.appendChild(createRow("TOTAL", formataValor(grandTotal), { bold: true, marginBottom: "0" }));
 
   resumoDetalhadoDiv.appendChild(grandTotalContainer);
+}
 
-  // Also update the displayed report table to show only filtered data
-  // const relatorioContainer = document.getElementById("relatorioContainer");
+function renderizarTabelaRelatorio(dadosFiltrados) {
+  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
   relatorioContainer.innerHTML = ""; // clear existing table
+  if (!dadosFiltrados.length) return;
 
   const table = document.createElement("table");
   table.className = "w-full text-left border-collapse";
@@ -882,8 +1043,8 @@ if (!filtered.length) {
   const headerCellPadding = "4px 6px";
   
 
-  const keys = Object.keys(filtered[0]);
-keys.forEach(key => {
+  const keys = Object.keys(dadosFiltrados[0]);
+  keys.forEach(key => {
   const th = document.createElement("th");
 
   // 🔹 Renomeia apenas DtRegistro → Data
@@ -897,15 +1058,15 @@ keys.forEach(key => {
   th.style.textAlign = "center";
 
   headerRow.appendChild(th);
-});
+  });
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
-const tbody = document.createElement("tbody");
-const cellPadding = "4px 6px";
+  const tbody = document.createElement("tbody");
+  const cellPadding = "4px 6px";
 
-// 🔹 Dentro do loop que cria as linhas da tabela (tr)
-filtered.forEach((row, index) => {
+  // 🔹 Dentro do loop que cria as linhas da tabela (tr)
+  dadosFiltrados.forEach((row, index) => {
   const tr = document.createElement("tr");
   tr.className = "registro";
   tr.dataset.index = index;
@@ -996,9 +1157,9 @@ filtered.forEach((row, index) => {
   if (typeof atualizarDashboard === "function" && mesAtual) {
     atualizarDashboard(mesAtual);
   }
-} else {
+  } else {
   alert("❌ Erro ao excluir da planilha.");
-}
+  }
 
 
     } catch (err) {
@@ -1010,16 +1171,42 @@ filtered.forEach((row, index) => {
   tdAcoes.appendChild(btnExcluir);
   tr.appendChild(tdAcoes);
   tbody.appendChild(tr);
-});
-
-
-
+  });
 
 table.appendChild(tbody);
-
-
-  relatorioContainer.appendChild(table);
+    relatorioContainer.appendChild(table);
 }
+
+// Add listener for month selector change
+function atualizarDashboard(mesSelecionado) {
+  const dadosFiltrados = filtrarDadosPorMes(mesSelecionado);
+
+  const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
+  const relatorioContainer = document.getElementById("relatorioContainer");
+
+  if (!dadosFiltrados.length) {
+    // Caso não tenha dados, mostra mensagem no resumo e oculta tabela
+    resumoDetalhadoDiv.innerHTML = "<p>Sem dados para este mês :(</p>";
+    relatorioContainer.innerHTML = "";
+    resumoDetalhadoDiv.style.display = "block";
+    relatorioContainer.style.display = "none";
+    
+    // Zera o painel
+    renderizarPainel({ receita: 0, despesa: 0, saldo: 0 });
+    return;
+  }
+
+  // Garante que o resumo é visível e a tabela detalhada, não.
+  resumoDetalhadoDiv.style.display = "block";
+  relatorioContainer.style.display = "none";
+
+  const totais = calcularTotais(dadosFiltrados);
+  const dadosAgrupados = agruparDados(dadosFiltrados);
+
+  renderizarPainel(totais);
+  renderizarResumoDetalhado(dadosAgrupados);
+  renderizarTabelaRelatorio(dadosFiltrados);
+  }
 
 async function atualizarResumoFinanceiroHome() {
   try {
@@ -1040,30 +1227,65 @@ async function atualizarResumoFinanceiroHome() {
     let receita = 0, despesa = 0;
     filtrados.forEach(i => {
       const valor = parseFloat(i.Valor) || 0;
-      if (i.Tipo === "Ganhos") receita += valor;
-      else if (i.Tipo === "Despesas") despesa += valor;
+      if (i.Tipo === 'Ganhos') {
+        receita += valor;
+      } else if (i.Tipo === 'Despesas') {
+        despesa += valor;
+      }
     });
 
-    const formatar = v => "R$ " + v.toFixed(2).replace(".", ",");
-
-    // Atualiza a UI
-    document.querySelector("#resumoReceita p").textContent = formatar(receita);
-    document.querySelector("#resumoDespesa p").textContent = formatar(despesa);
-    document.querySelector("#resumoSaldo p").textContent = formatar(receita - despesa);
+    // Atualiza o DOM com os valores
+    const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+    document.querySelector("#resumoReceita p").textContent = formataValor(receita);
+    document.querySelector("#resumoDespesa p").textContent = formataValor(despesa);
+    document.querySelector("#resumoSaldo p").textContent = formataValor(receita - despesa);
 
   } catch (err) {
     console.error("Erro ao atualizar resumo financeiro:", err);
   }
 }
 
-// Atualiza quando a página carrega
+
 document.addEventListener("DOMContentLoaded", atualizarResumoFinanceiroHome);
+const SHEET_CADASTROS_URL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Cadastros";
 
-</script>
+let clientesData = [];
 
-</main>
+async function carregarClientesAtivos() {
+  const select = document.getElementById("agendamentoCliente");
+  if (!select) return;
 
-<script>
+  try {
+    const res = await fetch(SHEET_CADASTROS_URL);
+    const data = await res.json();
+
+    // Filtra apenas clientes ativos
+    clientesData = data.filter(c => c.Status && c.Status.toLowerCase() === "ativo");
+
+    // Limpa opções antigas
+    select.innerHTML = '<option value="">Selecione um cliente</option>';
+
+    clientesData.forEach(c => {
+      const option = document.createElement("option");
+      option.value = c.Nome;
+      option.textContent = c.Nome;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar clientes ativos:", err);
+  }
+}
+
+// Preenche o CEP automaticamente ao selecionar o cliente
+document.getElementById("agendamentoCliente").addEventListener("change", function() {
+  const cepInput = document.getElementById("agendamentoCep");
+  const clienteSelecionado = clientesData.find(c => c.Nome === this.value);
+  cepInput.value = clienteSelecionado ? clienteSelecionado.CEP : "";
+});
+
+// Inicializa ao carregar a página
+carregarClientesAtivos();
+
 
 const SHEET_CLIENTES_URL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Cadastros";
 
@@ -1172,7 +1394,82 @@ async function editarCliente(nome) {
   }
 }
 
+// --- 🔹 Função para formatar data e calcular idade ---
+function formatarDataEIdade(dataStr, apenasData = false) {
+  if (!dataStr) return "";
+  const data = new Date(dataStr);
+  if (isNaN(data)) return dataStr;
 
+  const dia = String(data.getDate()).padStart(2, "0");
+  const mes = String(data.getMonth() + 1).padStart(2, "0");
+  const ano = String(data.getFullYear()).slice(-2);
+
+  if (apenasData) return `${dia}/${mes}/${ano}`;
+
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - data.getFullYear();
+  const m = hoje.getMonth() - data.getMonth();
+  if (m < 0 || (m === 0 && hoje.getDate() < data.getDate())) idade--;
+
+  return `${idade} anos`;
+}
+
+// 🔹 Função auxiliar para criar o card de um cliente
+function criarCardCliente(cli) {
+  const isAtivo = (cli.status || "").toLowerCase() === "ativo";
+  const corStatus = isAtivo ? "bg-green-200 text-green-900" : "bg-red-400 text-[#1e1e1e]";
+  const idTipo = `tipo-${cli.nome.replace(/\s+/g, "-")}`;
+  const idData = `data-${cli.nome.replace(/\s+/g, "-")}`;
+
+  const card = document.createElement("div");
+  card.className = "cliente-card flex items-center text-[#f5c5b5] rounded-2xl p-4 w-full max-w-5xl mx-auto mb-4";
+  card.innerHTML = `
+    <div class="w-12 h-12 flex items-center justify-center rounded-full mr-4 shadow-md"
+         style="background: linear-gradient(135deg, #b88c7a, #f4bfae); color: white; font-weight: 700; font-size: 1.50rem;">
+      ${cli.nome.charAt(0).toUpperCase()}
+    </div>
+    <div class="flex flex-col justify-center flex-1 border border-transparent rounded-md p-0.5">
+        <div class="flex items-center gap-2 mb-1">
+            <h2 class="font-semibold text-xl">${cli.nome}</h2>
+            <span class="${corStatus} text-xs font-semibold px-2 py-0.5 rounded-md">${cli.status}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-x-6 items-center">
+            <div class="flex flex-col justify-center text-xs text-left">
+                <p class="italic">@${cli.instagram || "instagram"}</p>
+                <p><i class="fas fa-phone mr-1"></i>${cli.telefone || "-"}</p>
+                <p>${cli.endereco || ""}</p>
+                <p>${cli.cep}</p>
+            </div>
+            <div class="flex flex-col justify-center text-xs italic text-right">
+                <p>${formatarDataEIdade(cli.dn)}</p>
+                <p>${formatarDataEIdade(cli.dn, true)}</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col items-center rounded-md p-2 ml-4 shadow-inner" 
+         style="width:150px; background-color:rgba(50,50,50,0.08); backdrop-filter:blur(2px); border:1px solid rgba(89,89,89,0.15); background-color:#2b2b2b; background-image: radial-gradient(#3a3a3a 1px, transparent 1px); background-size:6px 6px; border:1px solid #3a3a3a;">
+        <div class="font-semibold text-xs rounded-md px-3 py-1 mb-1 shadow-sm whitespace-nowrap w-full text-center" style="color:#f5c5b5;">
+            Agendamentos
+        </div>
+        <div class="border-2 rounded-md px-3 py-2 text-center text-xs whitespace-nowrap w-full shadow-sm" style="border-color:#3a3a3a; background-color:#2b2b2b; background-size:6px 6px;">
+            <p id="${idTipo}" class="font-semibold text-[#f5c5b5]">Carregando...</p>
+            <p id="${idData}" class="text-[#f5c5b5]">--/--/----</p>
+        </div>
+    </div>
+    <div class="flex flex-col justify-center items-center gap-2 ml-4">
+        <button class="text- hover:text-green-300" onclick="window.open('https://wa.me/55${(cli.telefone || '').replace(/\D/g,'')}', '_blank')">
+            <i class="fab fa-whatsapp text-lg"></i>
+        </button>
+        <button class="text- hover:text-yellow-800" onclick="editarCliente('${cli.nome}')">
+            <i class="fas fa-edit text-lg"></i>
+        </button>
+        <button class="text- hover:text-red-400" onclick="excluirClientePlanilha('${cli.nome}')">
+            <i class="fas fa-trash text-lg"></i>
+        </button>
+    </div>`;
+
+  return card;
+}
 
 // ✅ Carregar clientes
 async function carregarClientes() {
@@ -1180,8 +1477,13 @@ async function carregarClientes() {
   container.innerHTML = "<p class='text-center text-rose-300'>Carregando...</p>";
 
   try {
-    const res = await fetch(SHEET_CLIENTES_URL);
-    const data = await res.json();
+    const [resClientes, resCadastros] = await Promise.all([
+      fetch(SHEET_CLIENTES_URL),
+      fetch(`${SHEET_CLIENTES_URL}?nocache=${Date.now()}`) // Usado para agendamentos
+    ]);
+
+    const data = await resClientes.json();
+    const cadastrosData = await resCadastros.json();
 
     if (!data.length) {
       container.innerHTML = "<p class='text-center text-rose-300'>Nenhum cliente cadastrado.</p>";
@@ -1210,173 +1512,87 @@ async function carregarClientes() {
     }
 
     container.innerHTML = "";
-// 🔹 Busca todos os registros da aba "Cadastros" apenas uma vez
-const API_CADASTROS = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Cadastros";
-let cadastrosData = [];
-try {
-  const resCad = await fetch(`${API_CADASTROS}?nocache=${Date.now()}`);
-  cadastrosData = await resCad.json();
-} catch (err) {
-  console.error("Erro ao buscar dados de Cadastros:", err);
+
+    clientes.forEach((cli) => {
+      const card = criarCardCliente(cli);
+      container.appendChild(card);
+
+      const normaliza = (txt) => (txt || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+
+async function buscarAgendamento(cli) {
+  try {
+    const response = await fetch('https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Agenda');
+    const data = await response.json();
+
+    const agora = new Date();
+
+    const futuros = data
+      .map(item => {
+        if (!item.Cliente || !item.Data || !item.Hora) return null;
+
+        const nomeApi = normaliza(item.Cliente);
+        const dataHora = new Date(`${item.Data}T${item.Hora}:00`);
+
+        if (isNaN(dataHora)) return null;
+
+        return { item, nomeApi, dataHora };
+      })
+      .filter(x => x && x.nomeApi === normaliza(cli.nome) && x.dataHora >= agora)
+      .sort((a, b) => a.dataHora - b.dataHora);
+
+    const proximo = futuros[0];
+
+    const idTipo = `tipo-${cli.nome.replace(/\s+/g, "-")}`;
+    const idData = `data-${cli.nome.replace(/\s+/g, "-")}`;
+    const tipoEl = card.querySelector(`#${idTipo}`);
+    const dataEl = card.querySelector(`#${idData}`);
+
+    if (proximo) {
+      // Formata DD/MM às HH:MM
+      const dt = proximo.dataHora;
+      const dia = String(dt.getDate()).padStart(2, '0');
+      const mes = String(dt.getMonth() + 1).padStart(2, '0');
+      const horas = String(dt.getHours()).padStart(2, '0');
+      const minutos = String(dt.getMinutes()).padStart(2, '0');
+      const dataFormatada = `${dia}/${mes} às ${horas}:${minutos}`;
+      dataEl.textContent = dataFormatada;
+
+      // Tipo do atendimento agora usa a coluna "Procedimento"
+      const procedimentoRaw = proximo.item.Procedimento || "Aplicação";
+      let tipo = "APL";
+      if (normaliza(procedimentoRaw) === "manutencao") {
+        tipo = "MAN";
+      }
+
+      // Modalidade
+      let modalidade = proximo.item.Modalidade || "Extensão";
+      if (normaliza(modalidade) === "extensao de cilios") {
+        modalidade = "Extensão";
+      }
+
+      tipoEl.textContent = `${tipo} ${modalidade}`; // Ex: MAN Extensão
+
+      tipoEl.style.color = "#f5c5b5";
+      dataEl.style.color = "#f5c5b5";
+    } else {
+      tipoEl.textContent = "Sem Agendamento";
+      dataEl.textContent = "⚠️";
+      tipoEl.style.color = "#ffd966";
+      dataEl.style.color = "#ffd966";
+    }
+
+  } catch (error) {
+    console.error("Erro ao buscar agendamento:", error);
+  }
 }
 
-container.innerHTML = "";
+// Exemplo de uso
+buscarAgendamento(cli);
 
-clientes.forEach((cli) => {
-  // --- 🔹 Função para formatar data e calcular idade ---
-  // --- 🔹 Função flexível para formatar data e/ou idade ---
-function formatarDataEIdade(dataStr, apenasData = false) {
-  if (!dataStr) return "";
-  const data = new Date(dataStr);
-  if (isNaN(data)) return dataStr;
+// Exemplo de uso
+buscarAgendamento(cli);
 
-  const dia = String(data.getDate()).padStart(2, "0");
-  const mes = String(data.getMonth() + 1).padStart(2, "0");
-  const ano = String(data.getFullYear()).slice(-2);
-
-  if (apenasData) return `${dia}/${mes}/${ano}`; // ✅ retorna só a data
-
-  const hoje = new Date();
-  let idade = hoje.getFullYear() - data.getFullYear();
-  const m = hoje.getMonth() - data.getMonth();
-  if (m < 0 || (m === 0 && hoje.getDate() < data.getDate())) idade--;
-
-  //return `${dia}/${mes}/${ano} - ${idade} anos`;
-  return `${idade} anos`; // ✅ ou o formato que quiser
-}
-
-
-  // --- 🔹 Define cor do status ---
-  const isAtivo = (cli.status || "").toLowerCase() === "ativo";
-  const corStatus = isAtivo
-    ? "bg-green-200 text-green-900"
-    : "bg-red-400 text-[#1e1e1e]";
-
-  // --- 🔹 IDs únicos ---
-  const idTipo = `tipo-${cli.nome.replace(/\s+/g, "-")}`;
-  const idData = `data-${cli.nome.replace(/\s+/g, "-")}`;
-
-  // --- 🔹 Monta card ---
-  const card = document.createElement("div");
-  card.className =
-  "cliente-card flex items-center text-[#f5c5b5] rounded-2xl p-4 w-full max-w-5xl mx-auto mb-4"
-  card.innerHTML = `
-<div class="w-12 h-12 flex items-center justify-center rounded-full mr-4 shadow-md"
-     style="background: linear-gradient(135deg, #b88c7a, #f4bfae); color: white; font-weight: 700; font-size: 1.50rem;">
-  ${cli.nome.charAt(0).toUpperCase()}
-</div>
-
-         <div class="flex flex-col justify-center flex-1 border border-transparent rounded-md p-0.5">
-        <div class="flex items-center gap-2 mb-1">
-        <h2 class="font-semibold text-xl">${cli.nome}</h2>
-         <span class="${corStatus} text-xs font-semibold px-2 py-0.5 rounded-md">${cli.status}</span>
-         </div>
-        <div class="grid grid-cols-2 gap-x-6 items-center">
-        <div class="flex flex-col justify-center text-xs text-left">
-          <p class="italic">@${cli.instagram || "instagram"}</p>
-          <p><i class="fas fa-phone mr-1"></i>${cli.telefone || "-"}</p>
-          <p>${cli.endereco || ""}</p>
-        </div>
-        <div class="flex flex-col justify-center text-xs italic text-right">
-          <p>${formatarDataEIdade(cli.dn)}</p>
-          <p>${formatarDataEIdade(cli.dn, true)}</p>
-        </div>
-      </div>
-    </div>
-<div class="flex flex-col items-center rounded-md p-2 ml-4 shadow-inner" 
-     style="
-     width:150px; background-color:rgba(50,50,50,0.08); backdrop-filter:blur(2px); border:1px solid rgba(89,89,89,0.15);
-              background-color:#2b2b2b;
-         background-image: radial-gradient(#3a3a3a 1px, transparent 1px);
-         background-size:6px 6px;
-         border:1px solid #3a3a3a;
-     ">
-  <!-- Caixa título com fundo pontilhado -->
-<div class="font-semibold text-xs rounded-md px-3 py-1 mb-1 shadow-sm whitespace-nowrap w-full text-center"
-     style="
-       color:#f5c5b5;
-     ">
-  Agendamentos
-</div>
-
-  <!-- Caixa de informações com fundo pontilhado -->
-  <div class="border-2 rounded-md px-3 py-2 text-center text-xs whitespace-nowrap w-full shadow-sm"
-       style="
-         border-color:#3a3a3a;
-         background-color:#2b2b2b;
-         background-size:6px 6px;
-       ">
-    <p id="${idTipo}" class="font-semibold text-[#f5c5b5]">Carregando...</p>
-    <p id="${idData}" class="text-[#f5c5b5]">--/--/----</p>
-  </div>
-</div>
-
-
-    <div class="flex flex-col justify-center items-center gap-2 ml-4">
-      <button class="text- hover:text-green-300" 
-        onclick="window.open('https://wa.me/55${cli.telefone.replace(/\D/g,'')}', '_blank')">
-        <i class="fab fa-whatsapp text-lg"></i>
-      </button>
-      <button class="text- hover:text-yellow-800" onclick="editarCliente('${cli.nome}')">
-        <i class="fas fa-edit text-lg"></i>
-      </button>
-      <button class="text- hover:text-red-400" onclick="excluirClientePlanilha('${cli.nome}')">
-        <i class="fas fa-trash text-lg"></i>
-      </button>
-    </div>
-  `;
-
-
-  // 🔹 Cria a faixa rosa expansível
-//const footer = document.createElement("div");
-//footer.className = "card-footer";
-
-// 🔹 Conteúdo que aparece dentro da faixa quando expandida
-//const footerContent = document.createElement("div");
-//footerContent.className = "card-footer-content";
-//footerContent.innerHTML = `
-  //<p><strong>Último Atendimento:</strong> ${cli.ultimoAtend || "—"}</p>
-  //<p><strong>Tipo Próx. Atendimento:</strong> ${cli.tipoProxAtend || "—"}</p>
-  //<p><strong>Data Próx. Atendimento:</strong> ${cli.dtProxAtend || "—"}</p>
-  //<p><strong>Observações:</strong> ${cli.obs || "Nenhuma observação."}</p>
-//`;
-
-//footer.appendChild(footerContent);
-
-// 🔹 Ação de abrir e fechar
-//footer.addEventListener("click", () => {
-//  footer.classList.toggle("open");
-//});
-
-container.appendChild(card);
-//container.appendChild(footer);
-
-
-  // --- 🔹 Associa TipoProxAtend e DtProxAtend ---
-  const normaliza = (txt) =>
-    (txt || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
-
-  const match = cadastrosData.find(
-    (item) => normaliza(item.Nome) === normaliza(cli.nome)
-  );
-
-if (match) {
-  document.getElementById(idTipo).textContent = match.TipoProxAtend || "-";
-  document.getElementById(idData).textContent = match.DtProxAtend || "Sem Agendamento";
-
-  // 🔹 Cor padrão (rosa clara)
-  document.getElementById(idTipo).style.color = "#f5c5b5";
-  document.getElementById(idData).style.color = "#f5c5b5";
-} else {
-  document.getElementById(idTipo).textContent = "Sem agendamento";
-  document.getElementById(idData).textContent = "—";
-
-  // 🔸 Fica amarelo quando não há agendamento
-  document.getElementById(idTipo).style.color = "#ffd966";
-  document.getElementById(idData).style.color = "#ffd966";
-}
-
-});
+    });
 
   } catch (err) {
     console.error("Erro ao carregar clientes:", err);
@@ -1424,23 +1640,6 @@ document.querySelectorAll('input[name="filtroStatus"]').forEach(radio => {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Lógica para mostrar/esconder o formulário dentro do botão
-  const btnAnamnese = document.getElementById("btnAnamnese");
-  const boxAnamnese = document.getElementById("boxAnamnese");
-  btnAnamnese.addEventListener("click", function(e) {
-    e.stopPropagation();
-    boxAnamnese.classList.toggle("hidden");
-  });
-  document.addEventListener("click", function(e) {
-    if (!boxAnamnese.classList.contains("hidden")) {
-      const isClickInside = boxAnamnese.contains(e.target) || btnAnamnese.contains(e.target);
-      if (!isClickInside) boxAnamnese.classList.add("hidden");
-    }
-  });
-  document.getElementById("fecharBoxAnamnese").addEventListener("click", function() {
-    boxAnamnese.classList.add("hidden");
-  });
-
   // Add toggle for Ocorrência form similar to Anamnese and Clientes
   const btnAdicionarOcorrencia = document.getElementById("btnAdicionarOcorrencia");
   const boxFinanceiro2 = document.getElementById("boxFinanceiro2");
@@ -1457,12 +1656,6 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("fecharBoxFinanceiro2").addEventListener("click", function() {
     boxFinanceiro2.classList.add("hidden");
   });
-    document.getElementById("formAnamneseBox").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("✅ Anamnese salva!");
-      boxAnamnese.classList.add("hidden");
-      this.reset();
-    });
     // Lógica para mostrar/esconder o formulário de cliente
     const btnAdicionarCliente = document.getElementById("btnAdicionarCliente");
     const boxCliente = document.getElementById("boxCliente");
@@ -1506,17 +1699,17 @@ document.addEventListener("DOMContentLoaded", function() {
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
   menuBtn.addEventListener("click", function(e) {
-    sidebar.classList.toggle("hidden");
+    sidebar.classList.toggle("sidebar-hidden");
     e.stopPropagation();
   });
 
   // Fecha o menu ao clicar fora da sidebar ou do botão
   document.addEventListener("click", function(e) {
-    if (!sidebar.classList.contains("hidden")) {
+    if (!sidebar.classList.contains("sidebar-hidden")) {
       const isClickInsideSidebar = sidebar.contains(e.target);
       const isClickOnMenuBtn = menuBtn.contains(e.target);
       if (!isClickInsideSidebar && !isClickOnMenuBtn) {
-        sidebar.classList.add("hidden");
+        sidebar.classList.add("sidebar-hidden");
       }
     }
   });
@@ -1529,23 +1722,20 @@ document.addEventListener("DOMContentLoaded", function() {
       document.querySelectorAll(".sidebar a").forEach(x=>x.classList.remove("active"));
       a.classList.add("active");
       if(a.dataset.page==="clientes") carregarClientes();
-      if(a.dataset.page==="home") renderHomeCalendar();
-      ///if(a.dataset.page==="agenda") renderAgendaCalendar();
-if (a.dataset.page === "financeiro2") {
-  const btnLoadRelatorio = document.getElementById("btnLoadRelatorio");
+      if(a.dataset.page==="home" && typeof atualizarResumosHome === 'function') {
+        atualizarResumosHome();
+        renderHomeCalendar();
+      }
+      if(a.dataset.page==="agenda") renderAgendaCalendar(); if (a.dataset.page === "financeiro2") {
   const relatorioContainer = document.getElementById("relatorioContainer");
   const toggleBtn = document.getElementById("toggleRelatorioBtn");
   const mesSelector = document.getElementById("relatorioMesSelector");
 
   // 🔹 Garante estado inicial
   relatorioContainer.style.display = "none"; // relatório oculto
-  toggleBtn.style.display = "inline-block";
-  toggleBtn.textContent = "+";
-  toggleBtn.style.backgroundColor = "rgba(0, 0, 0, 0.3)";
-  toggleBtn.style.color = "var(--rose)";
 
   // 🔹 Esconde o botão de carregar relatório
-  if (btnLoadRelatorio) btnLoadRelatorio.style.display = "none";
+  if (btnLoadRelatorio) btnLoadRelatorio.style.display = "none"; // Botão já não é mais usado
 
   // 🔹 Carrega os dados da planilha silenciosamente
   fetch("https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191")
@@ -1579,6 +1769,12 @@ if (a.dataset.page === "financeiro2") {
       // 🔹 Atualiza o dashboard e os resumos com o mês atual
       if (typeof atualizarDashboard === "function") atualizarDashboard(mesInicial);
       if (typeof atualizarResumoFinanceiroHome === "function") atualizarResumoFinanceiroHome();
+
+      // Adiciona o listener para o seletor de mês AQUI, após os dados serem carregados
+      mesSelector.removeEventListener("change", handleMesSelectorChange); // Remove listener antigo para evitar duplicação
+      mesSelector.addEventListener("change", handleMesSelectorChange);
+
+      document.getElementById("relatorioFinanceiro2").classList.remove("hidden");
     })
     .catch(err => console.error("Erro ao carregar relatório:", err));
 }
@@ -1587,33 +1783,242 @@ if (a.dataset.page === "financeiro2") {
     });
   });
 
-  let homeCalendar;
-  function renderHomeCalendar() {
-    const calendarEl = document.getElementById("calendar");
-    if (!calendarEl) return;
-    if (homeCalendar) {
-      homeCalendar.destroy();
-    }
-    homeCalendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: "dayGridMonth",
-      dateClick: info => {
-        const nome = prompt("Nome do Cliente:");
-        if (nome) addAgendamento(info.dateStr, nome);
-      }
-    });
-    homeCalendar.render();
+function handleMesSelectorChange(e) {
+    const mes = e.target.value;
+    if (typeof atualizarDashboard === "function") atualizarDashboard(mes);
+}
+
+let homeCalendar;
+
+async function renderHomeCalendar() {
+  const calendarEl = document.getElementById("calendar");
+  if (!calendarEl) return;
+
+  if (homeCalendar) homeCalendar.destroy();
+
+  // 🔹 Busca eventos da planilha
+  let eventos = [];
+  try {
+    const res = await fetch("https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Agenda");
+    const data = await res.json();
+    eventos = data
+      .filter(e => e.Data && e.Cliente)
+      .map(e => ({
+        title: `${e.Cliente} - ${e.Procedimento || ""}`,
+        start: `${e.Data}T${e.Hora || "00:00"}`,
+        allDay: false,
+        color: "#a9a9a9",
+        textColor: "#fff"
+      }));
+  } catch (err) {
+    console.error("Erro ao carregar eventos:", err);
   }
-  renderHomeCalendar();
+
+  // 🔹 Define intervalo de 2 semanas
+  const today = new Date();
+  const twoWeeksLater = new Date();
+  twoWeeksLater.setDate(today.getDate() + 13);
+
+  // 🔹 Cria o calendário igual à Agenda (pt-BR, formatação e tema neutro)
+  homeCalendar = new FullCalendar.Calendar(calendarEl, {
+    locale: "pt-br", // 👈 idioma
+    themeSystem: "standard",
+    headerToolbar: {
+      left: "",
+      center: "title",
+      right: ""
+    },
+    views: {
+      twoWeekView: {
+        type: "dayGrid",
+        duration: { weeks: 2 },
+        buttonText: "2 semanas"
+      }
+    },
+    initialView: "twoWeekView",
+    initialDate: today,
+    visibleRange: { start: today, end: twoWeeksLater },
+
+    // 🔹 Layout fluido
+    height: "auto",
+    contentHeight: "auto",
+    expandRows: true,
+    aspectRatio: 1.6,
+
+    events: eventos,
+    selectable: false,
+    editable: false,
+    dayMaxEventRows: true,
+    eventDisplay: "block",
+
+    // 🔹 Formatos de data iguais à Agenda
+    dayHeaderFormat: { weekday: "short" },
+    titleFormat: { month: "long", year: "numeric" },
+    eventTimeFormat: { hour: "2-digit", minute: "2-digit", hour12: false }
+  });
+
+  homeCalendar.render();
+
+  // 🔹 Aplica o estilo neutro (igual à Agenda)
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .fc {
+      background-color: #f9f9fb;
+      border-radius: 12px;
+      padding: 10px;
+      color: #2e2e2e;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid #ddd;
+    }
+
+    .fc-toolbar-title {
+      color: #333;
+      font-weight: 600;
+      font-size: 1.2rem;
+      text-transform: capitalize;
+    }
+
+    .fc-col-header-cell {
+      background-color: #f1f1f3;
+      color: #555;
+      font-weight: 500;
+      border: none;
+    }
+
+    .fc-daygrid-day {
+      background-color: #fff;
+      border: 1px solid #e7e7e7;
+    }
+    .fc-daygrid-day:hover {
+      background-color: #efefef;
+    }
+
+    .fc-daygrid-event {
+      background-color: #a9a9a9 !important;
+      color: #fff !important;
+      border: none !important;
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+
+    .fc-day-today {
+      background-color: #e8e8e8 !important;
+      border: 1px solid #aaa !important;
+    }
+
+    /* Evita barra de rolagem */
+    #calendar, .fc, .fc-scrollgrid, .fc-view-harness {
+      overflow: visible !important;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+renderHomeCalendar();
+});
 
 const SHEET_AGENDA_URL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Agenda";
 
 let agendaCalendar;
 
+// 🔹 Atualiza os resumos da página HOME para o MÊS ATUAL
+async function atualizarResumosHome() {
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = hoje.getMonth() + 1;
+  const mesAnoAtual = `${ano}-${String(mes).padStart(2, '0')}`;
+
+  try {
+    const res = await fetch(SHEET_AGENDA_URL);
+    const eventos = await res.json();
+
+    const eventosDoMes = eventos.filter(e => e.Data && e.Data.startsWith(mesAnoAtual));
+
+    const totalAgendamentos = eventosDoMes.length;
+    const totalAtendimentos = eventosDoMes.filter(e => (e.Presenca || '').trim().toLowerCase() === 'sim').length;
+    const totalAplicacoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'aplicação').length;
+    const totalManutencoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'manutenção').length;
+
+    const elAgendamentos = document.getElementById("agendamentos");
+    const elAtendimentos = document.getElementById("atendimentos");
+    const elAplicacao = document.getElementById("Aplicação");
+    const elManutencao = document.getElementById("manutencao");
+
+    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: ${totalAgendamentos}`;
+    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: ${totalAtendimentos}`;
+    if (elAplicacao) elAplicacao.textContent = `Aplicação: ${totalAplicacoes}`;
+    if (elManutencao) elManutencao.textContent = `Manutenções: ${totalManutencoes}`;
+
+  } catch (err) {
+    console.error("Erro ao atualizar resumos da home:", err);
+    const elAgendamentos = document.getElementById("agendamentos");
+    const elAtendimentos = document.getElementById("atendimentos");
+    const elAplicacao = document.getElementById("Aplicação");
+    const elManutencao = document.getElementById("manutencao");
+
+    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: -`;
+    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: -`;
+    if (elAplicacao) elAplicacao.textContent = `Aplicação: -`;
+    if (elManutencao) elManutencao.textContent = `Manutenções: -`;
+  }
+}
+
+// 🔹 Atualiza os resumos da página de agenda
+async function atualizarResumosAgenda(data) {
+  const date = new Date(data.start);
+  const ano = date.getFullYear();
+  const mes = date.getMonth() + 1;
+  const mesAnoAtual = `${ano}-${String(mes).padStart(2, '0')}`;
+
+  try {
+    const res = await fetch(SHEET_AGENDA_URL);
+    const eventos = await res.json();
+
+    const eventosDoMes = eventos.filter(e => e.Data && e.Data.startsWith(mesAnoAtual));
+
+    // Agendamento = contar data de "Data"
+    const totalAgendamentos = eventosDoMes.length;
+
+    // Atendimentos = contar data com o "Sim" na coluna "Presenca"
+    const totalAtendimentos = eventosDoMes.filter(e => (e.Presenca || '').trim().toLowerCase() === 'sim').length;
+
+    // Aplicações = contar "Aplicação" na coluna Procedimento
+    const totalAplicacoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'aplicação').length;
+
+    // Manutenções= contar "Manutenção" na coluna Procedimento
+    const totalManutencoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'manutenção').length;
+
+    const elAgendamentos = document.getElementById("agendaAgendamentos");
+    const elAtendimentos = document.getElementById("agendaAtendimentos");
+    const elAplicacao = document.getElementById("agendaAplicacao");
+    const elManutencao = document.getElementById("agendaManutencao");
+
+    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: ${totalAgendamentos}`;
+    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: ${totalAtendimentos}`;
+    if (elAplicacao) elAplicacao.textContent = `Aplicação: ${totalAplicacoes}`;
+    if (elManutencao) elManutencao.textContent = `Manutenções: ${totalManutencoes}`;
+
+  } catch (err) {
+    console.error("Erro ao atualizar resumos da agenda:", err);
+    const elAgendamentos = document.getElementById("agendaAgendamentos");
+    const elAtendimentos = document.getElementById("agendaAtendimentos");
+    const elAplicacao = document.getElementById("agendaAplicacao");
+    const elManutencao = document.getElementById("agendaManutencao");
+
+    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: -`;
+    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: -`;
+    if (elAplicacao) elAplicacao.textContent = `Aplicação: -`;
+    if (elManutencao) elManutencao.textContent = `Manutenções: -`;
+  }
+}
+
+// 🔹 Renderiza o calendário
 async function renderAgendaCalendar() {
   const calendarEl = document.getElementById("calendarAgenda");
   if (!calendarEl) return;
 
-  // Destroi o anterior se já existir
+  // Destroi o calendário anterior, se existir
   if (agendaCalendar) agendaCalendar.destroy();
 
   // 🔹 Busca eventos da planilha
@@ -1622,9 +2027,20 @@ async function renderAgendaCalendar() {
     const res = await fetch(SHEET_AGENDA_URL);
     const data = await res.json();
     eventos = data.map(e => ({
-      title: `${e.Cliente} - ${e.Procedimento}`,
+      id: `${e.Data}-${e.Hora}-${e.Cliente}`, // ID único para o evento
+      title: `${e.Cliente} - ${e.Procedimento || ''}`,
       start: `${e.Data}T${e.Hora || "00:00"}`,
-      allDay: false
+      color: e.Presenca === 'Sim' ? '#22c55e' : '#f4bfae', // Verde se presente, rosa padrão senão
+      allDay: false,
+      extendedProps: {
+        id: e.ID, // 🔑 Pega o ID único da planilha
+        cliente: e.Cliente,
+        procedimento: e.Procedimento, // 🔑 Adiciona o procedimento
+        modalidade: e.Modalidade,
+        tipo: e.Tipo,
+        cep: e.CEP, // Assumindo que o e-mail está na coluna CEP
+        Presenca: e.Presenca // 🔑 Adiciona a presença
+      }
     }));
   } catch (err) {
     console.error("Erro ao carregar eventos:", err);
@@ -1635,72 +2051,252 @@ async function renderAgendaCalendar() {
     initialView: "dayGridMonth",
     locale: "pt-br",
     height: 600,
-    themeSystem: "standard",
     selectable: true,
     headerToolbar: {
       left: "prev,next today",
       center: "title",
       right: "dayGridMonth,timeGridWeek,timeGridDay"
     },
+    buttonText: {
+      today: "Hoje",
+      month: "Mês",
+      week: "Semana",
+      day: "Dia"
+    },
     events: eventos,
-    dateClick: async function(info) {
-      const cliente = prompt("Cliente:");
-      if (!cliente) return;
 
-      const hora = prompt("Hora (HH:MM):") || "00:00";
-      const procedimento = prompt("Procedimento:") || "-";
-      const tipo = prompt("Tipo:") || "-";
+    // 🔹 Abre o modal para NOVO agendamento ao clicar numa data
+    dateClick: function(info) {
+      eventoEmEdicao = null; // Garante que não estamos em modo de edição
+      document.getElementById("formAgendamento").reset();
+      document.getElementById("agendamentoData").value = info.dateStr;
+      document.getElementById("btnSalvarAgendamentoTexto").textContent = "Agendar";
+      document.getElementById("btnExcluirAgendamento").classList.add("hidden");
+      document.getElementById("campoPresenca").classList.add("hidden"); // Esconde o campo de presença
+      abrirModalAgendamento();
+    },
 
-      const novoEvento = {
-        Cliente: cliente,
-        Data: info.dateStr,
-        Hora: hora,
-        Procedimento: procedimento,
-        Tipo: tipo
-      };
+// 🔹 Abre o modal para EDITAR agendamento ao clicar num evento
+eventClick: function(info) {
+  eventoEmEdicao = null;
 
-      agendaCalendar.addEvent({
-        title: `${cliente} - ${procedimento}`,
-        start: `${info.dateStr}T${hora}`,
-        allDay: false
-      });
+  // 🔑 Guarda os dados ORIGINAIS do agendamento para encontrar a linha certa
+  const props = info.event.extendedProps;
+  eventoEmEdicao = {
+    id: props.id, // 🔑 Armazena o ID único do evento
+    clienteOriginal: props.cliente,
+    dataOriginal: info.event.start.toISOString().slice(0, 10),
+    horaOriginal: ('0' + info.event.start.getHours()).slice(-2) + ':' + ('0' + info.event.start.getMinutes()).slice(-2),
+    procedimentoOriginal: props.procedimento || "",
+    event: info.event
+  };
 
-      await fetch(SHEET_AGENDA_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(novoEvento)
-      });
+  console.log("🟡 AGENDAMENTO EM EDIÇÃO:", eventoEmEdicao);
+
+  // 🧾 Preenche o formulário
+  document.getElementById("agendamentoCliente").value = props.cliente || "";
+
+  // 🔹 Garante que o e-mail (CEP) seja carregado a partir dos dados mais recentes do cliente
+  const clienteSelecionado = clientesData.find(c => c.Nome === props.cliente);
+  document.getElementById("agendamentoCep").value = clienteSelecionado ? clienteSelecionado.CEP : "";
+
+
+  document.getElementById("agendamentoProcedimento").value = props.procedimento || "";
+  document.getElementById("agendamentoModalidade").value = props.modalidade || "";
+  document.getElementById("agendamentoTipo").value = props.tipo || "";
+
+  // Preenche e exibe o campo de presença
+  document.getElementById("agendamentoPresenca").checked = (props.Presenca || "").toLowerCase() === 'sim';
+  document.getElementById("campoPresenca").classList.remove("hidden");
+
+  // 📅 Data e hora (SEGURAS)
+  document.getElementById("agendamentoData").value = eventoEmEdicao.dataOriginal;
+  document.getElementById("agendamentoHora").value = eventoEmEdicao.horaOriginal;
+
+  document.getElementById("btnSalvarAgendamentoTexto").textContent = "Salvar Alterações";
+  document.getElementById("btnExcluirAgendamento").classList.remove("hidden");
+
+  abrirModalAgendamento();
+},
+
+
+    eventDrop: async function(info) {
+      if (!confirm("Tem certeza que deseja mover este agendamento?")) {
+        info.revert();
+        return;
+      }
+      // Lógica para atualizar o evento na planilha após o drag-and-drop
+      // (semelhante à lógica de edição)
+      console.log("Evento movido para:", info.event.start);
+      // Aqui você chamaria a função de atualização na planilha
+    },
+
+    eventResize: async function(info) {
+      // Lógica para quando a duração de um evento é alterada
+      console.log("Evento redimensionado.");
+    },
+
+    // 🔹 Atualiza os resumos ao mudar de mês/view
+    datesSet: function(dateInfo) {
+      // A função é chamada com a view atual para pegar o mês correto
+      atualizarResumosAgenda(dateInfo.view);
     }
   });
 
   agendaCalendar.render();
 }
-  async function addAgendamento(data, cliente){
-    const agendamento={tipo:"agendamento",data,hora:"09:00",cliente,servico:"Cílios"};
-    await fetch(API_URL,{method:"POST",body:JSON.stringify(agendamento),headers:{"Content-Type":"application/json"}});
-    alert("✅ Agendamento salvo!");
-    atualizarHome();
-  }
 
-  async function atualizarHome(){
-    const res=await fetch(API_URL);
-    const data=await res.json();
-    document.getElementById("atendimentos").innerText=`Atendimentos: ${data.agendamentos?.length||0}`;
-  }
-});
-
-function handleFinanceiro2Submit(event) {
-  event.preventDefault();
-  alert("Registrado com sucesso.");
-  return false; // prevent default form submission to stay on page
+// 🔹 Abre o modal de agendamento com animação
+function abrirModalAgendamento() {
+  const modal = document.getElementById("modalAgendamento");
+  const content = document.getElementById("modalAgendamentoContent");
+  modal.classList.remove("hidden");
+  setTimeout(() => {
+    content.classList.remove("scale-95", "opacity-0");
+    content.classList.add("scale-100", "opacity-100");
+  }, 10);
 }
-</script>
 
+document.addEventListener("DOMContentLoaded", () => {
+  const formAgendamento = document.getElementById("formAgendamento");
+  const modalAgendamento = document.getElementById("modalAgendamento");
+  const modalAgendamentoContent = document.getElementById("modalAgendamentoContent");
 
-</script>
+  // --- MODAL DE AGENDAMENTO ---
 
+  // 🔹 Fechar modal de agendamento
+  document.getElementById("fecharModalAgendamento").addEventListener("click", () => {
+    modalAgendamentoContent.classList.remove("scale-100", "opacity-100");
+    modalAgendamentoContent.classList.add("scale-95", "opacity-0");
+    setTimeout(() => modalAgendamento.classList.add("hidden"), 250);
+  });
 
+  // 🔹 Excluir agendamento
+  document.getElementById("btnExcluirAgendamento").addEventListener("click", async () => {
+    if (!eventoEmEdicao || !confirm("Tem certeza que deseja excluir este agendamento?")) {
+      return;
+    }
+
+    try {
+      // Agora exclui usando o ID único, que é muito mais seguro
+      const url = `${SHEET_AGENDA_URL}/ID/${eventoEmEdicao.id}`;
+
+      const response = await fetch(url, { method: "DELETE" });
+
+      if (!response.ok) {
+        throw new Error("Falha ao excluir o agendamento na planilha.");
+      }
+
+      alert("✅ Agendamento excluído com sucesso!");
+
+      eventoEmEdicao.event.remove(); // Remove do calendário
+      eventoEmEdicao = null;
+      modalAgendamento.classList.add("hidden");
+
+    } catch (err) {
+      console.error("Erro ao excluir agendamento:", err);
+      alert("❌ Erro ao excluir agendamento. A API pode não ter encontrado o registro exato.");
+    }
+  });
+
+  // 🔹 Salvar (criar/editar) agendamento
+  formAgendamento.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(formAgendamento);
+    const evento = Object.fromEntries(formData.entries());
+    const editando = !!eventoEmEdicao;
+    const enviarEmail = document.getElementById("enviarEmail").checked;
+
+    // Adiciona o valor da presença ao objeto do evento, já que o checkbox não tem 'name'
+    evento.Presenca = document.getElementById("agendamentoPresenca").checked ? "Sim" : "Não";
+
+    try {
+      // 1. Se estiver editando, primeiro exclui o registro antigo.
+      if (editando) {
+        const deleteResponse = await fetch(`${SHEET_AGENDA_URL}/ID/${eventoEmEdicao.id}`, {
+          method: "DELETE",
+        });
+
+        if (!deleteResponse.ok) {
+          throw new Error("Falha ao remover o registro antigo durante a edição.");
+        }
+      }
+
+      // 2. Em seguida, cria um novo registro (tanto para novos agendamentos quanto para edições).
+      // Busca o último ID para gerar um novo sequencial
+      const res = await fetch(SHEET_AGENDA_URL);
+      const agendamentos = await res.json(); // Pega todos os agendamentos para calcular o próximo ID
+      
+      const maxId = agendamentos.reduce((max, item) => {
+          const currentId = parseInt(item.ID, 10);
+          return !isNaN(currentId) && currentId > max ? currentId : max;
+      }, 99);
+      evento.ID = maxId + 1; // Atribui o próximo ID sequencial
+
+      // 3. Envia o novo registro (com os dados do formulário e o novo ID) para a planilha
+      const createResponse = await fetch(SHEET_AGENDA_URL, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(evento),
+        });
+
+      if (!createResponse.ok) throw new Error("Erro ao salvar o novo agendamento na planilha.");
+
+      alert("✅ Agendamento salvo com sucesso!");
+      
+      console.log("✅ Agendamento salvo. Enviando e-mail...");
+
+      // Verifica se a única mudança foi na presença durante uma edição
+      let apenasPresencaMudou = false;
+      if (editando) {
+        const presencaOriginal = (eventoEmEdicao.event.extendedProps.Presenca || "Não").toLowerCase();
+        const presencaNova = evento.Presenca.toLowerCase();
+        // Simplificando: se a presença mudou, consideramos que foi a única alteração para não enviar e-mail.
+        // Uma lógica mais complexa compararia todos os outros campos.
+        if (presencaOriginal !== presencaNova) apenasPresencaMudou = true;
+      }
+
+      // 🔹 Envia o e-mail via EmailJS
+      if (enviarEmail && !apenasPresencaMudou) {
+        try {
+          const resultadoEmail = await emailjs.send(
+            "service_j2axhfl",
+            "template_2jvgelm",
+            {
+              cliente: evento.Cliente,
+              data: evento.Data,
+              hora: evento.Hora,
+              procedimento: evento.Procedimento,
+              tipo: evento.Tipo,
+              cep: evento.CEP
+            }
+          );
+
+          console.log("📨 E-mail enviado com sucesso:", resultadoEmail);
+        } catch (emailErr) {
+          console.error("❌ Erro ao enviar e-mail via EmailJS:", emailErr);
+          alert("⚠️ Agendamento salvo, mas falha ao enviar e-mail.");
+        }
+      }
+
+      formAgendamento.reset();
+      modalAgendamento.classList.add("hidden");
+      // Aguarda 2 segundos e redesenha o calendário, mantendo o usuário na página da agenda
+      setTimeout(async () => {
+        await renderAgendaCalendar();
+      }, 2000);
+    } catch (err) {
+      console.error("Erro ao salvar agendamento:", err);
+      alert("❌ Erro ao salvar agendamento. Verifique os dados e a conexão.");
+    }
+  });
+
+  // --- MODAL DE PRESENÇA ---
+  // A lógica do modal de presença foi removida, pois a funcionalidade foi integrada ao modal de agendamento.
+});
 
 </script>
 </body>
-</script>
+</html>
