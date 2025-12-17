@@ -13,6 +13,9 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
+<!-- Signature Pad (para assinatura) -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
 <!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -219,14 +222,50 @@
       <h2 class="text-3xl font-bold text-rose-300" style="display:none;">Gestão Studio Sa Lopes</h2>
     </div>
 
-    <div class="grid grid-cols-3 gap-5 mb-5">
-      <div class="card p-5 rounded-xl shadow flex items-center justify-center font-bold text-lg" id="atendimentos">Atendimentos: 0</div>
-      <div class="card p-5 rounded-xl shadow flex items-center justify-center font-bold text-lg" id="agendamentos">Agendamentos: 0</div>
-      <div class="card p-5 rounded-xl shadow grid grid-rows-2 text-center font-bold">
-        <div id="Aplicação">Aplicação: 0</div>
-        <div id="manutencao">Manutenções: 0</div>
-      </div>
+<div class="grid grid-cols-4 gap-5 mb-5">
+
+  <!-- Caixa 1 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="agendamentos" class="font-semibold" style="color:#F8C6AF">
+      Agendamentos 1
     </div>
+    <div class="text-xs italic" style="color:#7F7F7F">
+      Clientes Confirmadas
+    </div>
+  </div>
+
+  <!-- Caixa 2 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="atendimentos" class="font-semibold" style="color:#F8C6AF">
+      Atendimentos 1
+    </div>
+    <div class="text-xs italic" style="color:#7F7F7F">
+      Clientes Atendidas
+    </div>
+  </div>
+
+  <!-- Caixa 3 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="ciliosTotal" class="font-semibold" style="color:#F8C6AF">
+      Extensão de Cílios 9
+    </div>
+    <div id="ciliosDetalhe" class="text-xs italic" style="color:#7F7F7F">
+      Aplic.: 1 | Manut.: 2
+    </div>
+  </div>
+
+  <!-- Caixa 4 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="sobraTotal" class="font-semibold" style="color:#F8C6AF">
+      Sobrancelha 9
+    </div>
+    <div id="sobraDetalhe" class="text-xs italic" style="color:#7F7F7F">
+      Aplic.: 1 | Manut.: 2
+    </div>
+  </div>
+
+</div>
+
 
 <div class="card rounded-xl shadow p-5 mb-5">
   <div id="calendar" class="w-full"></div>
@@ -376,15 +415,50 @@
       <!-- O botão de presença foi removido daqui -->
     </div>
 
-    <!-- Cards de Resumo da Agenda -->
-    <div class="grid grid-cols-3 gap-5 mb-5">
-      <div class="card p-5 rounded-xl shadow flex items-center justify-center font-bold text-lg" id="agendaAtendimentos">Atendimentos: 0</div>
-      <div class="card p-5 rounded-xl shadow flex items-center justify-center font-bold text-lg" id="agendaAgendamentos">Agendamentos: 0</div>
-      <div class="card p-5 rounded-xl shadow grid grid-rows-2 text-center font-bold">
-        <div id="agendaAplicacao">Aplicação: 0</div>
-        <div id="agendaManutencao">Manutenções: 0</div>
-      </div>
+<div class="grid grid-cols-4 gap-5 mb-5">
+
+  <!-- Caixa 1 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="agendaAgendamentos" class="font-semibold" style="color:#F8C6AF">
+      Agendamentos -
     </div>
+    <div class="text-xs italic" style="color:#7F7F7F">
+      Clientes Confirmadas
+    </div>
+  </div>
+
+  <!-- Caixa 2 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="agendaAtendimentos" class="font-semibold" style="color:#F8C6AF">
+      Atendimentos -
+    </div>
+    <div class="text-xs italic" style="color:#7F7F7F">
+      Clientes Atendidas
+    </div>
+  </div>
+
+  <!-- Caixa 3 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="agendaCiliosTotal" class="font-semibold" style="color:#F8C6AF">
+      Extensão de Cílios -
+    </div>
+    <div id="agendaCiliosDetalhe" class="text-xs italic" style="color:#7F7F7F">
+      Aplic.: - | Manut.: -
+    </div>
+  </div>
+
+  <!-- Caixa 4 -->
+  <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
+    <div id="agendaSobraTotal" class="font-semibold" style="color:#F8C6AF">
+      Sobrancelhas -
+    </div>
+    <div id="agendaSobraDetalhe" class="text-xs italic" style="color:#7F7F7F">
+      Aplic.: - | Manut.: -
+    </div>
+  </div>
+
+</div>
+
 
 <!-- Calendário -->
 <div class="card rounded-xl shadow p-5 mb-5 relative overflow-hidden">
@@ -496,6 +570,100 @@
 </div>
 
 </div>
+
+    <!-- 🔹 MODAL DE ANAMNESE -->
+    <div id="modalAnamnese" class="hidden fixed inset-0 z-50 flex items-center justify-center transition-all duration-300">
+      <!-- Fundo -->
+      <div class="absolute inset-0 bg-black bg-opacity-70 backdrop-filter transition-opacity duration-300" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"></div>
+
+      <!-- Conteúdo -->
+      <div id="modalAnamneseContent" class="card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10 transform scale-95 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
+        <h2 class="text-xl font-bold mb-4 text-center text-rose-300">Ficha de Anamnese</h2>
+        <form id="formAnamnese" class="space-y-4">
+
+          <!-- BLOCO 1: Dados da Cliente -->
+          <fieldset class="border border-gray-600 p-3 rounded-lg">
+            <legend class="px-2 font-semibold text-rose-300">Dados da Cliente</legend>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <input type="hidden" id="anamneseData" name="Data">
+              <div><strong class="text-gray-400">Nome:</strong> <span id="anamneseNome"></span></div>
+              <div><strong class="text-gray-400">CPF:</strong> <span id="anamneseCpf"></span></div>
+              <div><strong class="text-gray-400">Telefone:</strong> <span id="anamneseTelefone"></span></div>
+              <div><strong class="text-gray-400">DN:</strong> <span id="anamneseDn"></span></div>
+            </div>
+          </fieldset>
+
+          <!-- BLOCO 2: Avaliação -->
+          <fieldset class="border border-gray-600 p-3 rounded-lg">
+            <legend class="px-2 font-semibold text-rose-300">Avaliação</legend>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span>1ª Vez que aplica os cílios?</span>
+                <div class="flex gap-4"><label><input type="radio" name="Prim_Vez" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Prim_Vez" value="Não" class="mr-1">Não</label></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Está de Rímel?</span>
+                <div class="flex gap-4"><label><input type="radio" name="Rimel" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Rimel" value="Não" class="mr-1">Não</label></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Possui Alergia?</span>
+                <div class="flex gap-4"><label><input type="radio" name="Alergia" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Alergia" value="Não" class="mr-1">Não</label></div>
+              </div>
+              <div id="campoAlergiaQuais" class="hidden"><input type="text" name="Alergia_Quais" placeholder="Quais alergias?" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300"></div>
+              <div class="flex items-center justify-between">
+                <span>Está gestante?</span>
+                <div class="flex gap-4"><label><input type="radio" name="Gestante" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Gestante" value="Não" class="mr-1">Não</label></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Dorme de lado?</span>
+                <div class="flex gap-4"><label><input type="radio" name="Dorme" value="Direito" class="mr-1">Direito</label><label><input type="radio" name="Dorme" value="Esquerdo" class="mr-1">Esquerdo</label><label><input type="radio" name="Dorme" value="Não" class="mr-1">Não</label></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Algum problema ocular?</span>
+                <div class="flex gap-4"><label><input type="radio" name="Doenca" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Doenca" value="Não" class="mr-1">Não</label></div>
+              </div>
+              <div id="campoDoencaQuais" class="hidden"><input type="text" name="Doenca_Quais" placeholder="Quais problemas?" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300"></div>
+              <div>
+                <label class="block mb-1">Existe algum problema que julgue necessário informar?</label>
+                <textarea name="Obs" rows="2" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- BLOCO 3: Aceite e Assinatura -->
+          <fieldset class="border border-gray-600 p-3 rounded-lg">
+            <legend class="px-2 font-semibold text-rose-300">Termo de Consentimento</legend>
+            <p class="text-xs italic text-gray-400 mb-2">"Autorizo a realização do procedimento de alongamento de cílios. Autorizo o registro fotográfico do "antes e depois" para documentação e divulgação da profissional. As declarações acima são verdadeiras, não cabendo ao profissional a responsabilidade por informações omitidas nesta avaliação. Me comprometo a seguir todos os cuidados necessários após o procedimento."</p>
+            <div class="relative w-full h-32 bg-gray-200 rounded-md">
+              <canvas id="signature-pad" class="absolute top-0 left-0 w-full h-full"></canvas>
+            </div>
+            <button type="button" id="clear-signature" class="text-xs text-gray-400 hover:text-white mt-1">Limpar Assinatura</button>
+            <input type="hidden" name="Assinatura" id="assinaturaOutput">
+          </fieldset>
+
+          <!-- BLOCO 4: Procedimento Realizado -->
+          <fieldset class="border border-gray-600 p-3 rounded-lg">
+            <legend class="px-2 font-semibold text-rose-300">Procedimento Realizado</legend>
+            <div class="grid grid-cols-2 gap-4">
+              <input type="hidden" name="Procedimento" id="anamneseProcedimento">
+              <div><label class="block mb-1 font-semibold">Modalidade</label><input type="text" id="anamneseModalidade" name="Modalidade" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400" readonly></div>
+              <div><label class="block mb-1 font-semibold">Técnica</label><input type="text" name="Tecnica" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Mapping</label><input type="text" name="Mapping" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Tamanho</label><input type="text" name="Tamanho" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Curvatura</label><input type="text" name="Curvatura" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Espessura</label><input type="text" name="Espessura" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Adesivo</label><input type="text" name="Adesivo_Cola" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Horário de Início</label><input type="text" id="anamneseHorarioInicio" name="Horario_Inicio" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400" readonly></div>
+            </div>
+          </fieldset>
+
+          <div class="flex justify-end gap-3 mt-6">
+            <button type="button" id="fecharModalAnamnese" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Fechar</button>
+            <button type="submit" class="px-4 py-2 rounded-md font-semibold transition-all" style="background-color: var(--rose); color: #000; box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);">Salvar Anamnese</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
@@ -1589,9 +1757,6 @@ async function buscarAgendamento(cli) {
 // Exemplo de uso
 buscarAgendamento(cli);
 
-// Exemplo de uso
-buscarAgendamento(cli);
-
     });
 
   } catch (err) {
@@ -1722,11 +1887,12 @@ document.addEventListener("DOMContentLoaded", function() {
       document.querySelectorAll(".sidebar a").forEach(x=>x.classList.remove("active"));
       a.classList.add("active");
       if(a.dataset.page==="clientes") carregarClientes();
-      if(a.dataset.page==="home" && typeof atualizarResumosHome === 'function') {
+      if (a.dataset.page === "home" && typeof atualizarResumosHome === 'function') {
         atualizarResumosHome();
         renderHomeCalendar();
       }
-      if(a.dataset.page==="agenda") renderAgendaCalendar(); if (a.dataset.page === "financeiro2") {
+      // 🔹 Atualiza os resumos da home e renderiza o calendário da agenda
+      if (a.dataset.page === "agenda") { renderAgendaCalendar(); } else if (a.dataset.page === "financeiro2") {
   const relatorioContainer = document.getElementById("relatorioContainer");
   const toggleBtn = document.getElementById("toggleRelatorioBtn");
   const mesSelector = document.getElementById("relatorioMesSelector");
@@ -1916,6 +2082,12 @@ async function renderHomeCalendar() {
 }
 
 renderHomeCalendar();
+
+// 🔹 Chama as funções de atualização de resumos no carregamento inicial da página
+if (typeof atualizarResumosHome === 'function') {
+  atualizarResumosHome();
+}
+
 });
 
 const SHEET_AGENDA_URL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Agenda";
@@ -1935,40 +2107,108 @@ async function atualizarResumosHome() {
 
     const eventosDoMes = eventos.filter(e => e.Data && e.Data.startsWith(mesAnoAtual));
 
-    const totalAgendamentos = eventosDoMes.length;
-    const totalAtendimentos = eventosDoMes.filter(e => (e.Presenca || '').trim().toLowerCase() === 'sim').length;
-    const totalAplicacoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'aplicação').length;
-    const totalManutencoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'manutenção').length;
+const totalAgendamentos = eventosDoMes.length;
 
-    const elAgendamentos = document.getElementById("agendamentos");
-    const elAtendimentos = document.getElementById("atendimentos");
-    const elAplicacao = document.getElementById("Aplicação");
-    const elManutencao = document.getElementById("manutencao");
+  const totalAtendimentos = eventosDoMes.filter(
+    e => (e.Presenca || '').trim().toLowerCase() === 'sim'
+  ).length;
 
-    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: ${totalAgendamentos}`;
-    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: ${totalAtendimentos}`;
-    if (elAplicacao) elAplicacao.textContent = `Aplicação: ${totalAplicacoes}`;
-    if (elManutencao) elManutencao.textContent = `Manutenções: ${totalManutencoes}`;
+  // =====================================================
+  // 🔹 EXTENSÃO DE CÍLIOS
+  // =====================================================
+  const eventosCilios = eventosDoMes.filter(e =>
+    (e.Modalidade || '').toLowerCase().includes('cílios')
+  );
 
-  } catch (err) {
-    console.error("Erro ao atualizar resumos da home:", err);
-    const elAgendamentos = document.getElementById("agendamentos");
-    const elAtendimentos = document.getElementById("atendimentos");
-    const elAplicacao = document.getElementById("Aplicação");
-    const elManutencao = document.getElementById("manutencao");
+  const ciliosAplicacoes = eventosCilios.filter(e =>
+    (e.Procedimento || '').toLowerCase() === 'aplicação'
+  ).length;
 
-    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: -`;
-    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: -`;
-    if (elAplicacao) elAplicacao.textContent = `Aplicação: -`;
-    if (elManutencao) elManutencao.textContent = `Manutenções: -`;
+  const ciliosManutencoes = eventosCilios.filter(e =>
+    (e.Procedimento || '').toLowerCase() === 'manutenção'
+  ).length;
+
+  // =====================================================
+  // 🔹 SOBRANCELHAS
+  // =====================================================
+  const eventosSobrancelhas = eventosDoMes.filter(e =>
+    (e.Modalidade || '').toLowerCase().includes('sobrancelha')
+  );
+
+  const sobraAplicacoes = eventosSobrancelhas.filter(e =>
+    (e.Procedimento || '').toLowerCase() === 'aplicação'
+  ).length;
+
+  const sobraManutencoes = eventosSobrancelhas.filter(e =>
+    (e.Procedimento || '').toLowerCase() === 'manutenção'
+  ).length;
+
+  // =====================================================
+  // 🔹 ATUALIZA OS CARDS
+  // =====================================================
+
+  // Agendamentos
+  const elAgendamentos = document.getElementById("agendamentos");
+  if (elAgendamentos) {
+    elAgendamentos.textContent = `Agendamentos ${totalAgendamentos}`;
   }
+
+  // Atendimentos
+  const elAtendimentos = document.getElementById("atendimentos");
+  if (elAtendimentos) {
+    elAtendimentos.textContent = `Atendimentos ${totalAtendimentos}`;
+  }
+
+  // Extensão de Cílios
+  const elCiliosTotal = document.getElementById("ciliosTotal");
+  const elCiliosDetalhe = document.getElementById("ciliosDetalhe");
+
+  if (elCiliosTotal) {
+    elCiliosTotal.textContent = `Extensão de Cílios ${eventosCilios.length}`;
+  }
+
+  if (elCiliosDetalhe) {
+    elCiliosDetalhe.textContent = `Aplic.: ${ciliosAplicacoes} | Manut.: ${ciliosManutencoes}`;
+  }
+
+  // Sobrancelhas
+  const elSobraTotal = document.getElementById("sobraTotal");
+  const elSobraDetalhe = document.getElementById("sobraDetalhe");
+
+  if (elSobraTotal) {
+    elSobraTotal.textContent = `Sobrancelhas ${eventosSobrancelhas.length}`;
+  }
+
+  if (elSobraDetalhe) {
+    elSobraDetalhe.textContent = `Aplic.: ${sobraAplicacoes} | Manut.: ${sobraManutencoes}`;
+  }
+
+} catch (err) {
+  console.error("Erro ao atualizar resumos da home:", err);
+
+  const elAgendamentos = document.getElementById("agendamentos");
+  const elAtendimentos = document.getElementById("atendimentos");
+  const elCiliosTotal = document.getElementById("ciliosTotal");
+  const elCiliosDetalhe = document.getElementById("ciliosDetalhe");
+  const elSobraTotal = document.getElementById("sobraTotal");
+  const elSobraDetalhe = document.getElementById("sobraDetalhe");
+
+  if (elAgendamentos) elAgendamentos.textContent = `Agendamentos -`;
+  if (elAtendimentos) elAtendimentos.textContent = `Atendimentos -`;
+  if (elCiliosTotal) elCiliosTotal.textContent = `Extensão de Cílios -`;
+  if (elCiliosDetalhe) elCiliosDetalhe.textContent = `Aplic.: - | Manut.: -`;
+  if (elSobraTotal) elSobraTotal.textContent = `Sobrancelhas -`;
+  if (elSobraDetalhe) elSobraDetalhe.textContent = `Aplic.: - | Manut.: -`;
+}
 }
 
 // 🔹 Atualiza os resumos da página de agenda
 async function atualizarResumosAgenda(data) {
-  const date = new Date(data.start);
-  const ano = date.getFullYear();
-  const mes = date.getMonth() + 1;
+  const dataCalendario = new Date(data.startStr);
+  dataCalendario.setMonth(dataCalendario.getMonth() + 1);
+
+  const ano = dataCalendario.getUTCFullYear();
+  const mes = dataCalendario.getUTCMonth() + 1;
   const mesAnoAtual = `${ano}-${String(mes).padStart(2, '0')}`;
 
   try {
@@ -1977,40 +2217,82 @@ async function atualizarResumosAgenda(data) {
 
     const eventosDoMes = eventos.filter(e => e.Data && e.Data.startsWith(mesAnoAtual));
 
-    // Agendamento = contar data de "Data"
-    const totalAgendamentos = eventosDoMes.length;
+const totalAgendamentos = eventosDoMes.length;
 
-    // Atendimentos = contar data com o "Sim" na coluna "Presenca"
-    const totalAtendimentos = eventosDoMes.filter(e => (e.Presenca || '').trim().toLowerCase() === 'sim').length;
+  const totalAtendimentos = eventosDoMes.filter(
+    e => (e.Presenca || '').trim().toLowerCase() === 'sim'
+  ).length;
 
-    // Aplicações = contar "Aplicação" na coluna Procedimento
-    const totalAplicacoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'aplicação').length;
+  // 🔹 EXTENSÃO DE CÍLIOS
+  const eventosCilios = eventosDoMes.filter(e =>
+    (e.Modalidade || '').toLowerCase().includes('cílios')
+  );
 
-    // Manutenções= contar "Manutenção" na coluna Procedimento
-    const totalManutencoes = eventosDoMes.filter(e => (e.Procedimento || '').trim().toLowerCase() === 'manutenção').length;
+  const ciliosAplicacao = eventosCilios.filter(e =>
+    (e.Procedimento || '').trim().toLowerCase() === 'aplicação'
+  ).length;
 
-    const elAgendamentos = document.getElementById("agendaAgendamentos");
-    const elAtendimentos = document.getElementById("agendaAtendimentos");
-    const elAplicacao = document.getElementById("agendaAplicacao");
-    const elManutencao = document.getElementById("agendaManutencao");
+  const ciliosManutencao = eventosCilios.filter(e =>
+    (e.Procedimento || '').trim().toLowerCase() === 'manutenção'
+  ).length;
 
-    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: ${totalAgendamentos}`;
-    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: ${totalAtendimentos}`;
-    if (elAplicacao) elAplicacao.textContent = `Aplicação: ${totalAplicacoes}`;
-    if (elManutencao) elManutencao.textContent = `Manutenções: ${totalManutencoes}`;
+  // 🔹 SOBRANCELHAS
+  const eventosSobra = eventosDoMes.filter(e =>
+    (e.Modalidade || '').toLowerCase().includes('sobrancelha')
+  );
 
-  } catch (err) {
-    console.error("Erro ao atualizar resumos da agenda:", err);
-    const elAgendamentos = document.getElementById("agendaAgendamentos");
-    const elAtendimentos = document.getElementById("agendaAtendimentos");
-    const elAplicacao = document.getElementById("agendaAplicacao");
-    const elManutencao = document.getElementById("agendaManutencao");
+  const sobraAplicacao = eventosSobra.filter(e =>
+    (e.Procedimento || '').trim().toLowerCase() === 'aplicação'
+  ).length;
 
-    if (elAgendamentos) elAgendamentos.textContent = `Agendamentos: -`;
-    if (elAtendimentos) elAtendimentos.textContent = `Atendimentos: -`;
-    if (elAplicacao) elAplicacao.textContent = `Aplicação: -`;
-    if (elManutencao) elManutencao.textContent = `Manutenções: -`;
+  const sobraManutencao = eventosSobra.filter(e =>
+    (e.Procedimento || '').trim().trim().toLowerCase() === 'manutenção'
+  ).length;
+
+  // 🔹 ELEMENTOS DA AGENDA
+  const elAg = document.getElementById("agendaAgendamentos");
+  const elAt = document.getElementById("agendaAtendimentos");
+  const elCiliosTotal = document.getElementById("agendaCiliosTotal");
+  const elCiliosDet = document.getElementById("agendaCiliosDetalhe");
+  const elSobraTotal = document.getElementById("agendaSobraTotal");
+  const elSobraDet = document.getElementById("agendaSobraDetalhe");
+
+  if (elAg) elAg.textContent = `Agendamentos ${totalAgendamentos}`;
+  if (elAt) elAt.textContent = `Atendimentos ${totalAtendimentos}`;
+
+  if (elCiliosTotal) {
+    elCiliosTotal.textContent = `Extensão de Cílios ${eventosCilios.length}`;
   }
+
+  if (elCiliosDet) {
+    elCiliosDet.textContent = `Aplic.: ${ciliosAplicacao} | Manut.: ${ciliosManutencao}`;
+  }
+
+  if (elSobraTotal) {
+    elSobraTotal.textContent = `Sobrancelhas ${eventosSobra.length}`;
+  }
+
+  if (elSobraDet) {
+    elSobraDet.textContent = `Aplic.: ${sobraAplicacao} | Manut.: ${sobraManutencao}`;
+  }
+
+} catch (err) {
+  console.error("Erro ao atualizar resumos da agenda:", err);
+
+  const fallback = {
+    agendaAgendamentos: "Agendamentos -",
+    agendaAtendimentos: "Atendimentos -",
+    agendaCiliosTotal: "Extensão de Cílios -",
+    agendaCiliosDetalhe: "Aplic.: - | Manut.: -",
+    agendaSobraTotal: "Sobrancelhas -",
+    agendaSobraDetalhe: "Aplic.: - | Manut.: -"
+  };
+
+  Object.entries(fallback).forEach(([id, texto]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = texto;
+  });
+}
 }
 
 // 🔹 Renderiza o calendário
@@ -2139,8 +2421,12 @@ eventClick: function(info) {
     // 🔹 Atualiza os resumos ao mudar de mês/view
     datesSet: function(dateInfo) {
       // A função é chamada com a view atual para pegar o mês correto
-      atualizarResumosAgenda(dateInfo.view);
+      atualizarResumosAgenda(dateInfo);
     }
+
+
+
+
   });
 
   agendaCalendar.render();
@@ -2161,6 +2447,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const formAgendamento = document.getElementById("formAgendamento");
   const modalAgendamento = document.getElementById("modalAgendamento");
   const modalAgendamentoContent = document.getElementById("modalAgendamentoContent");
+  const SHEET_ANAMNESE_URL = "https://api.sheetbest.com/sheets/8846f338-a3ea-446c-894b-31fc8ada7191/tabs/Anamnese";
 
   // --- MODAL DE AGENDAMENTO ---
 
@@ -2206,6 +2493,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const evento = Object.fromEntries(formData.entries());
     const editando = !!eventoEmEdicao;
     const enviarEmail = document.getElementById("enviarEmail").checked;
+    let abrirAnamnese = false;
 
     // Adiciona o valor da presença ao objeto do evento, já que o checkbox não tem 'name'
     evento.Presenca = document.getElementById("agendamentoPresenca").checked ? "Sim" : "Não";
@@ -2213,6 +2501,12 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // 1. Se estiver editando, primeiro exclui o registro antigo.
       if (editando) {
+        // 💡 VERIFICA SE A PRESENÇA FOI MARCADA AGORA
+        const presencaOriginal = (eventoEmEdicao.event.extendedProps.Presenca || "Não").toLowerCase();
+        if (presencaOriginal === 'não' && evento.Presenca.toLowerCase() === 'sim') {
+          abrirAnamnese = true;
+        }
+
         const deleteResponse = await fetch(`${SHEET_AGENDA_URL}/ID/${eventoEmEdicao.id}`, {
           method: "DELETE",
         });
@@ -2286,10 +2580,101 @@ document.addEventListener("DOMContentLoaded", () => {
       // Aguarda 2 segundos e redesenha o calendário, mantendo o usuário na página da agenda
       setTimeout(async () => {
         await renderAgendaCalendar();
+        // 💡 ABRE A ANAMNESE APÓS ATUALIZAR O CALENDÁRIO
+        if (abrirAnamnese) {
+          abrirModalAnamnese(evento);
+        }
       }, 2000);
     } catch (err) {
       console.error("Erro ao salvar agendamento:", err);
       alert("❌ Erro ao salvar agendamento. Verifique os dados e a conexão.");
+    }
+  });
+
+  // --- MODAL DE ANAMNESE ---
+  const modalAnamnese = document.getElementById("modalAnamnese");
+  const modalAnamneseContent = document.getElementById("modalAnamneseContent");
+  const canvas = document.getElementById("signature-pad");
+  const signaturePad = new SignaturePad(canvas);
+
+  window.abrirModalAnamnese = async (dadosAgendamento) => {
+    document.getElementById("formAnamnese").reset();
+    signaturePad.clear();
+
+    // Busca dados completos do cliente
+    const clienteCompleto = clientesData.find(c => c.Nome === dadosAgendamento.Cliente);
+
+    // Preenche Bloco 1
+    document.getElementById("anamneseData").value = dadosAgendamento.Data;
+    document.querySelector("#anamneseNome").textContent = dadosAgendamento.Cliente;
+    
+    if (clienteCompleto) {
+      document.querySelector("#anamneseCpf").textContent = clienteCompleto.CPF || '-';
+      
+      document.querySelector("#anamneseTelefone").textContent = clienteCompleto.Telefone || '-';
+      
+      document.querySelector("#anamneseDn").textContent = clienteCompleto.DN ? formatarDataEIdade(clienteCompleto.DN, true) : '-';
+      
+    }
+
+    // Preenche Bloco 4
+    document.getElementById("anamneseModalidade").value = dadosAgendamento.Modalidade || '';
+    document.getElementById("anamneseProcedimento").value = dadosAgendamento.Procedimento || '';
+    const agora = new Date();
+    document.getElementById("anamneseHorarioInicio").value = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+    // Mostra o modal
+    modalAnamnese.classList.remove("hidden");
+    setTimeout(() => {
+      modalAnamneseContent.classList.remove("scale-95", "opacity-0");
+      modalAnamneseContent.classList.add("scale-100", "opacity-100");
+      signaturePad.fromData(signaturePad.toData()); // Redesenha o canvas
+    }, 10);
+  };
+
+  // Lógica para campos condicionais
+  document.querySelectorAll('input[name="Alergia"]').forEach(r => r.addEventListener('change', e => {
+    document.getElementById('campoAlergiaQuais').classList.toggle('hidden', e.target.value !== 'Sim');
+  }));
+  document.querySelectorAll('input[name="Doenca"]').forEach(r => r.addEventListener('change', e => {
+    document.getElementById('campoDoencaQuais').classList.toggle('hidden', e.target.value !== 'Sim');
+  }));
+
+  // Limpar assinatura
+  document.getElementById("clear-signature").addEventListener("click", () => signaturePad.clear());
+
+  // Fechar modal
+  document.getElementById("fecharModalAnamnese").addEventListener("click", () => {
+    modalAnamneseContent.classList.remove("scale-100", "opacity-100");
+    modalAnamneseContent.classList.add("scale-95", "opacity-0");
+    setTimeout(() => modalAnamnese.classList.add("hidden"), 250);
+  });
+
+  // Salvar Anamnese
+  document.getElementById("formAnamnese").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (signaturePad.isEmpty()) return alert("Por favor, preencha a assinatura.");
+
+    const formData = new FormData(e.target);
+    const anamneseData = Object.fromEntries(formData.entries());
+
+    // 💡 Adiciona manualmente os dados do cliente que não estão mais no formulário visível
+    const clienteCompleto = clientesData.find(c => c.Nome === document.querySelector("#anamneseNome").textContent);
+    anamneseData.Nome = clienteCompleto?.Nome || '';
+    anamneseData.CPF = clienteCompleto?.CPF || '';
+    anamneseData.Telefone = clienteCompleto?.Telefone || '';
+    anamneseData.DN = clienteCompleto?.DN || '';
+
+    anamneseData.Assinatura = signaturePad.toDataURL(); // Salva como imagem base64
+
+    try {
+      const response = await fetch(SHEET_ANAMNESE_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(anamneseData) });
+      if (!response.ok) throw new Error("Erro ao salvar anamnese.");
+      alert("✅ Anamnese salva com sucesso!");
+      document.getElementById("fecharModalAnamnese").click();
+    } catch (err) {
+      console.error("Erro ao salvar anamnese:", err);
+      alert("❌ Erro ao salvar anamnese na planilha.");
     }
   });
 
