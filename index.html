@@ -586,14 +586,22 @@
 
 </div>
 
-    <!-- 🔹 MODAL DE ANAMNESE -->
-    <div id="modalAnamnese" class="hidden fixed inset-0 z-50 flex items-center justify-center transition-all duration-300">
+ <!-- 🔹 MODAL DE ANAMNESE -->
+<div
+  id="modalAnamnese"
+  class="hidden fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm"
+    style="z-index: 99999;"
+>
+  <!-- Container de scroll -->
+  <div
+    class="w-full h-full overflow-y-auto flex justify-center items-start p-4 touch-pan-y"
+  >
       <!-- Fundo -->
       <div class="absolute inset-0 bg-black bg-opacity-70 backdrop-filter transition-opacity duration-300" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"></div>
 
       <!-- Conteúdo -->
-      <div id="modalAnamneseContent" class="max-h-[90vh] overflow-y-auto touch-pan-y card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10 transform scale-95 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
-        <h2 class="text-xl font-bold mb-4 text-center text-rose-300">Ficha de Anamnese</h2>
+      <div id="modalAnamneseContent" class="card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
+        <h2 class="relative w-full max-w-2xl rounded-xl shadow-lg p-6 my-8">Ficha de Anamnese</h2>
         <form id="formAnamnese" class="space-y-4">
 
           <!-- BLOCO 1: Dados da Cliente -->
@@ -1128,6 +1136,19 @@ function agruparDados(dados) {
   });
   return acumulador;
 }
+
+function abrirModalAnamnese() {
+  const modal = document.getElementById("modalAnamnese");
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden"; // trava scroll do fundo
+}
+
+function fecharModalAnamnese() {
+  const modal = document.getElementById("modalAnamnese");
+  modal.classList.add("hidden");
+  document.body.style.overflow = ""; // libera scroll
+}
+
 
 function renderizarResumoDetalhado(dadosAgrupados) {
   // Helper to create a row with category left and value right with dotted leader
