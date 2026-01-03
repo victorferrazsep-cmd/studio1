@@ -601,7 +601,7 @@
 
       <!-- Conteúdo -->
       <div id="modalAnamneseContent" class="card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
-        <h2 class="relative w-full max-w-2xl rounded-xl shadow-lg p-6 my-8">Ficha de Anamnese</h2>
+        <h2 class="text-xl font-bold mb-4 text-center text-rose-300">Ficha de Anamnese</h2>
         <form id="formAnamnese" class="space-y-4">
 
           <!-- BLOCO 1: Dados da Cliente -->
@@ -1100,6 +1100,91 @@ function calcularTotais(dados) {
   });
   return { receita, despesa, saldo: receita - despesa };
 }
+
+const canvas = document.getElementById("signature-pad");
+const ctx = canvas.getContext("2d");
+
+let desenhando = false;
+
+// 🔹 Ajusta o canvas ao tamanho real visível (ESSENCIAL)
+function ajustarCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+
+  ctx.scale(ratio, ratio);
+
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "#000";
+}
+
+// 🔹 Posição correta do toque/mouse
+function getPosicao(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  let clientX, clientY;
+
+  if (event.touches) {
+    clientX = event.touches[0].clientX;
+    clientY = event.touches[0].clientY;
+  } else {
+    clientX = event.clientX;
+    clientY = event.clientY;
+  }
+
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top
+  };
+}
+
+// 🔹 Início
+function iniciar(event) {
+  event.preventDefault();
+  desenhando = true;
+
+  const pos = getPosicao(event);
+  ctx.beginPath();
+  ctx.moveTo(pos.x, pos.y);
+}
+
+// 🔹 Movimento
+function desenhar(event) {
+  if (!desenhando) return;
+  event.preventDefault();
+
+  const pos = getPosicao(event);
+  ctx.lineTo(pos.x, pos.y);
+  ctx.stroke();
+}
+
+// 🔹 Fim
+function parar() {
+  desenhando = false;
+}
+
+// 🔹 Eventos
+canvas.addEventListener("mousedown", iniciar);
+canvas.addEventListener("mousemove", desenhar);
+canvas.addEventListener("mouseup", parar);
+canvas.addEventListener("mouseleave", parar);
+
+canvas.addEventListener("touchstart", iniciar, { passive: false });
+canvas.addEventListener("touchmove", desenhar, { passive: false });
+canvas.addEventListener("touchend", parar);
+
+// 🔹 Limpar assinatura
+document.getElementById("clear-signature").addEventListener("click", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+// 🔹 Ajusta ao abrir o modal
+ajustarCanvas();
+window.addEventListener("resize", ajustarCanvas);
+
 
 function renderizarPainel(totais) {
   // Format values to BRL currency
