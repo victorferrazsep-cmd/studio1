@@ -262,7 +262,7 @@
   <!-- Caixa 3 -->
   <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
     <div id="ciliosTotal" class="font-semibold" style="color:#F8C6AF">
-      Extensão de Cílios
+      Cílios
     </div>
     <div id="ciliosDetalhe" class="text-xs italic" style="color:#7F7F7F">
       Aplic.: - | Manut.: -
@@ -434,7 +434,7 @@
   <!-- Caixa 1 -->
   <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
     <div id="agendaAgendamentos" class="font-semibold" style="color:#F8C6AF">
-      Agendamentos -
+      Agendamentos
     </div>
     <div class="text-xs italic" style="color:#7F7F7F">
       Clientes Confirmadas
@@ -444,7 +444,7 @@
   <!-- Caixa 2 -->
   <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
     <div id="agendaAtendimentos" class="font-semibold" style="color:#F8C6AF">
-      Atendimentos -
+      Atendimentos
     </div>
     <div class="text-xs italic" style="color:#7F7F7F">
       Clientes Atendidas
@@ -454,7 +454,7 @@
   <!-- Caixa 3 -->
   <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
     <div id="agendaCiliosTotal" class="font-semibold" style="color:#F8C6AF">
-      Extensão de Cílios -
+      Cílios
     </div>
     <div id="agendaCiliosDetalhe" class="text-xs italic" style="color:#7F7F7F">
       Aplic.: - | Manut.: -
@@ -464,7 +464,7 @@
   <!-- Caixa 4 -->
   <div class="card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] grid grid-rows-2 text-center text-sm">
     <div id="agendaSobraTotal" class="font-semibold" style="color:#F8C6AF">
-      Sobrancelhas -
+      Sobrancelhas
     </div>
     <div id="agendaSobraDetalhe" class="text-xs italic" style="color:#7F7F7F">
       Aplic.: - | Manut.: -
@@ -2329,13 +2329,13 @@ const elCiliosDetalhe = document.getElementById("ciliosDetalhe");
 if (elCiliosTotal) {
   elCiliosTotal.innerHTML = `
     <span class="numero-grande">${eventosCilios.length}</span>
-    <span class="titulo-card">Extensão de Cílios</span>
+    <span class="titulo-card">Extensão Cílios</span>
   `;
 }
 
 // ❗ NÃO MEXE NOS DETALHES
 if (elCiliosDetalhe) {
-  elCiliosDetalhe.textContent = `Aplic.: ${ciliosAplicacoes} | Manut.: ${ciliosManutencoes}`;
+  elCiliosDetalhe.textContent = `Aplic: ${ciliosAplicacoes} Manut: ${ciliosManutencoes}`;
 }
 
 // Sobrancelhas
@@ -2351,7 +2351,7 @@ if (elSobraTotal) {
 
 // ❗ NÃO MEXE NOS DETALHES
 if (elSobraDetalhe) {
-  elSobraDetalhe.textContent = `Aplic.: ${sobraAplicacoes} | Manut.: ${sobraManutencoes}`;
+  elSobraDetalhe.textContent = `Aplic: ${sobraAplicacoes} Manut: ${sobraManutencoes}`;
 }
 
 
@@ -2433,16 +2433,18 @@ if (elAg) elAg.innerHTML = `<span class="numero-grande">${totalAgendamentos}</sp
 if (elAt) elAt.innerHTML = `<span class="numero-grande">${totalAtendimentos}</span> Atendimentos`;
 
 if (elCiliosTotal) {
-  elCiliosTotal.innerHTML = `<span class="numero-grande">${eventosCilios.length}</span> Extensão de Cílios`;
+  elCiliosTotal.innerHTML = `<span class="numero-grande">${eventosCilios.length}</span>Extensão Cílios`;
 }
 
+  if (elCiliosDet) {
+    elCiliosDet.textContent = `Aplic: ${ciliosAplicacao} Manut: ${ciliosManutencao}`;
+  }
 if (elSobraTotal) {
   elSobraTotal.innerHTML = `<span class="numero-grande">${eventosSobra.length}</span> Sobrancelhas`;
 }
 
-
   if (elSobraDet) {
-    elSobraDet.textContent = `Aplic.: ${sobraAplicacao} | Manut.: ${sobraManutencao}`;
+    elSobraDet.textContent = `Aplic: ${sobraAplicacao} Manut: ${sobraManutencao}`;
   }
 
 } catch (err) {
