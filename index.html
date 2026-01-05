@@ -112,6 +112,12 @@
   }
 
   .sidebar.hidden { transform: translateX(-100%); }
+  
+  /* 🔹 Classe hidden genérica - garante que elementos são escondidos */
+  .hidden {
+    display: none !important;
+  }
+  
   /* 🔹 Classe para esconder a sidebar fora da tela */
   .sidebar-hidden {
     transform: translateX(-100%);
@@ -687,6 +693,7 @@
         </form>
       </div>
     </div>
+    </div>
 
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
@@ -930,13 +937,11 @@ atualizarDashboard(mesInicial);
     });
 });
 
-document.addEventListener("DOMContentLoaded", async () => {
+// 🔹 Função para carregar dados do Financeiro automaticamente
+async function carregarDadosFinanceiro() {
   const relatorioContainer = document.getElementById("relatorioContainer");
   const toggleBtn = document.getElementById("toggleRelatorioBtn");
   const mesSelector = document.getElementById("relatorioMesSelector");
-  const dashboardReceita = document.getElementById("dashboardReceita");
-  const dashboardDespesa = document.getElementById("dashboardDespesa");
-  const dashboardSaldo = document.getElementById("dashboardSaldo");
 
   // 🧩 Estado inicial
   if (!relatorioContainer || !toggleBtn) return;
@@ -1058,25 +1063,59 @@ registros.forEach(r => {
 
 
   }
-});
+};
 
-document.getElementById("relatorioMesSelector").addEventListener("change", (e) => {
-  const mes = e.target.value;
-  if (window.financeiroRelatorioData) {
-    atualizarDashboard(mes);
-  }
-});
+// Carrega dados ao abrir a página de Financeiro
+document.addEventListener("DOMContentLoaded", carregarDadosFinanceiro);
 
-function filtrarDadosPorMes(mesSelecionado) {
-  let filtered = window.financeiroRelatorioData || [];
-  if (mesSelecionado) {
-    return filtered.filter(item => {
-      const ref = (item["MesRef"] || "").toString().slice(0, 7);
-      return ref === mesSelecionado;
+// Listener para mudança de mês (com proteção se elemento não existir)
+document.addEventListener("DOMContentLoaded", () => {
+  const mesSelector = document.getElementById("relatorioMesSelector");
+  if (mesSelector) {
+    mesSelector.addEventListener("change", (e) => {
+      const mes = e.target.value;
+      if (window.financeiroRelatorioData) {
+        atualizarDashboard(mes);
+      }
     });
   }
-  return filtered;
+});
+
+// 🔹 Função para atualizar o resumo financeiro (VERSÃO COMPLETA)
+function filtrarDadosPorMes(mesSelecionado) {
+  return window.financeiroRelatorioData.filter(item => item.MesRef === mesSelecionado);
 }
+
+function atualizarDashboard(mesSelecionado) {
+  const dadosFiltrados = filtrarDadosPorMes(mesSelecionado);
+
+  const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
+  const relatorioContainer = document.getElementById("relatorioContainer");
+
+  if (!dadosFiltrados.length) {
+    // Caso não tenha dados, mostra mensagem no resumo e oculta tabela
+    if (resumoDetalhadoDiv) resumoDetalhadoDiv.innerHTML = "<p>Sem dados para este mês :(</p>";
+    if (relatorioContainer) relatorioContainer.innerHTML = "";
+    if (resumoDetalhadoDiv) resumoDetalhadoDiv.style.display = "block";
+    if (relatorioContainer) relatorioContainer.style.display = "none";
+    
+    // Zera o painel
+    renderizarPainel({ receita: 0, despesa: 0, saldo: 0 });
+    return;
+  }
+
+  // Garante que o resumo é visível e a tabela detalhada, não.
+  if (resumoDetalhadoDiv) resumoDetalhadoDiv.style.display = "block";
+  if (relatorioContainer) relatorioContainer.style.display = "none";
+
+  const totais = calcularTotais(dadosFiltrados);
+  const dadosAgrupados = agruparDados(dadosFiltrados);
+
+  renderizarPainel(totais);
+  renderizarResumoDetalhado(dadosAgrupados);
+  renderizarTabelaRelatorio(dadosFiltrados);
+}
+
 
 function parseValorBR(str) {
   if (!str) return 0;
@@ -1101,91 +1140,6 @@ function calcularTotais(dados) {
   return { receita, despesa, saldo: receita - despesa };
 }
 
-const canvas = document.getElementById("signature-pad");
-const ctx = canvas.getContext("2d");
-
-let desenhando = false;
-
-// 🔹 Ajusta o canvas ao tamanho real visível (ESSENCIAL)
-function ajustarCanvas() {
-  const rect = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-
-  canvas.width = rect.width * ratio;
-  canvas.height = rect.height * ratio;
-
-  ctx.scale(ratio, ratio);
-
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#000";
-}
-
-// 🔹 Posição correta do toque/mouse
-function getPosicao(event) {
-  const rect = canvas.getBoundingClientRect();
-
-  let clientX, clientY;
-
-  if (event.touches) {
-    clientX = event.touches[0].clientX;
-    clientY = event.touches[0].clientY;
-  } else {
-    clientX = event.clientX;
-    clientY = event.clientY;
-  }
-
-  return {
-    x: clientX - rect.left,
-    y: clientY - rect.top
-  };
-}
-
-// 🔹 Início
-function iniciar(event) {
-  event.preventDefault();
-  desenhando = true;
-
-  const pos = getPosicao(event);
-  ctx.beginPath();
-  ctx.moveTo(pos.x, pos.y);
-}
-
-// 🔹 Movimento
-function desenhar(event) {
-  if (!desenhando) return;
-  event.preventDefault();
-
-  const pos = getPosicao(event);
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
-}
-
-// 🔹 Fim
-function parar() {
-  desenhando = false;
-}
-
-// 🔹 Eventos
-canvas.addEventListener("mousedown", iniciar);
-canvas.addEventListener("mousemove", desenhar);
-canvas.addEventListener("mouseup", parar);
-canvas.addEventListener("mouseleave", parar);
-
-canvas.addEventListener("touchstart", iniciar, { passive: false });
-canvas.addEventListener("touchmove", desenhar, { passive: false });
-canvas.addEventListener("touchend", parar);
-
-// 🔹 Limpar assinatura
-document.getElementById("clear-signature").addEventListener("click", () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-// 🔹 Ajusta ao abrir o modal
-ajustarCanvas();
-window.addEventListener("resize", ajustarCanvas);
-
-
 function renderizarPainel(totais) {
   // Format values to BRL currency
   const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
@@ -1194,10 +1148,14 @@ function renderizarPainel(totais) {
   document.getElementById("dashboardDespesa").textContent = formataValor(totais.despesa);
   document.getElementById("dashboardSaldo").textContent = formataValor(totais.saldo);
 
-  // Replicate data to home resumo
-  document.querySelector("#resumoReceita p").textContent = formataValor(totais.receita);
-  document.querySelector("#resumoDespesa p").textContent = formataValor(totais.despesa);
-  document.querySelector("#resumoSaldo p").textContent = formataValor(totais.saldo);
+  // Replicate data to home resumo (apenas se existir na página)
+  const elReceita = document.querySelector("#resumoReceita p");
+  const elDespesa = document.querySelector("#resumoDespesa p");
+  const elSaldo = document.querySelector("#resumoSaldo p");
+  
+  if (elReceita) elReceita.textContent = formataValor(totais.receita);
+  if (elDespesa) elDespesa.textContent = formataValor(totais.despesa);
+  if (elSaldo) elSaldo.textContent = formataValor(totais.saldo);
 }
 
 function agruparDados(dados) {
@@ -1221,19 +1179,6 @@ function agruparDados(dados) {
   });
   return acumulador;
 }
-
-function abrirModalAnamnese() {
-  const modal = document.getElementById("modalAnamnese");
-  modal.classList.remove("hidden");
-  document.body.style.overflow = "hidden"; // trava scroll do fundo
-}
-
-function fecharModalAnamnese() {
-  const modal = document.getElementById("modalAnamnese");
-  modal.classList.add("hidden");
-  document.body.style.overflow = ""; // libera scroll
-}
-
 
 function renderizarResumoDetalhado(dadosAgrupados) {
   // Helper to create a row with category left and value right with dotted leader
@@ -1490,40 +1435,13 @@ table.appendChild(tbody);
     relatorioContainer.appendChild(table);
 }
 
-// Add listener for month selector change
-function atualizarDashboard(mesSelecionado) {
-  const dadosFiltrados = filtrarDadosPorMes(mesSelecionado);
-
-  const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
-  const relatorioContainer = document.getElementById("relatorioContainer");
-
-  if (!dadosFiltrados.length) {
-    // Caso não tenha dados, mostra mensagem no resumo e oculta tabela
-    resumoDetalhadoDiv.innerHTML = "<p>Sem dados para este mês :(</p>";
-    relatorioContainer.innerHTML = "";
-    resumoDetalhadoDiv.style.display = "block";
-    relatorioContainer.style.display = "none";
-    
-    // Zera o painel
-    renderizarPainel({ receita: 0, despesa: 0, saldo: 0 });
-    return;
-  }
-
-  // Garante que o resumo é visível e a tabela detalhada, não.
-  resumoDetalhadoDiv.style.display = "block";
-  relatorioContainer.style.display = "none";
-
-  const totais = calcularTotais(dadosFiltrados);
-  const dadosAgrupados = agruparDados(dadosFiltrados);
-
-  renderizarPainel(totais);
-  renderizarResumoDetalhado(dadosAgrupados);
-  renderizarTabelaRelatorio(dadosFiltrados);
-  }
-
 function renderizarResumoDetalhadoHome(dadosAgrupados) {
-  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
   const homeResumoDetalhadoDiv = document.getElementById("homeResumoDetalhado");
+  
+  // Se o elemento não existir na página (como em páginas que não são Home), não faz nada
+  if (!homeResumoDetalhadoDiv) return;
+  
+  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
   homeResumoDetalhadoDiv.innerHTML = ""; // Limpa conteúdo
 
   // Helper to create a row with category left and value right with dotted leader
@@ -1632,44 +1550,57 @@ async function atualizarResumoFinanceiroHome() {
     const res = await fetch("https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc");
     const data = await res.json();
 
-    // Corrige formato dos meses
+    // Corrige formato dos meses (yyyy-MM)
     data.forEach(i => {
       if (i.MesRef) i.MesRef = i.MesRef.slice(0, 7);
     });
 
-    // Filtra apenas os registros do mês atual
     const mesAtual = new Date().toISOString().slice(0, 7);
     const filtrados = data.filter(i => i.MesRef === mesAtual);
 
+    // 🔹 Elementos do DOM (podem NÃO existir em outras páginas)
+    const elResumoDetalhado = document.getElementById("homeResumoDetalhado");
+    const elReceita = document.querySelector("#resumoReceita p");
+    const elDespesa = document.querySelector("#resumoDespesa p");
+    const elSaldo   = document.querySelector("#resumoSaldo p");
+
+    // 🔹 Se não houver dados do mês
     if (!filtrados.length) {
-      // Se não há dados, mostra mensagem no resumo detalhado
-      document.getElementById("homeResumoDetalhado").innerHTML = "<p>Sem dados para este mês :(</p>";
-      // Zera os cards
-      document.querySelector("#resumoReceita p").textContent = "R$ 0,00";
-      document.querySelector("#resumoDespesa p").textContent = "R$ 0,00";
-      document.querySelector("#resumoSaldo p").textContent = "R$ 0,00";
+      if (elResumoDetalhado) {
+        elResumoDetalhado.innerHTML = "<p>Sem dados para este mês :(</p>";
+      }
+
+      if (elReceita) elReceita.textContent = "R$ 0,00";
+      if (elDespesa) elDespesa.textContent = "R$ 0,00";
+      if (elSaldo)   elSaldo.textContent   = "R$ 0,00";
+
       return;
     }
 
-    let receita = 0, despesa = 0;
+    let receita = 0;
+    let despesa = 0;
+
     filtrados.forEach(i => {
       const valor = parseFloat(i.Valor) || 0;
-      if (i.Tipo === 'Ganhos') {
+      if (i.Tipo === "Ganhos") {
         receita += valor;
-      } else if (i.Tipo === 'Despesas') {
+      } else if (i.Tipo === "Despesas") {
         despesa += valor;
       }
     });
 
-    // Atualiza o DOM com os valores
     const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
-    document.querySelector("#resumoReceita p").textContent = formataValor(receita);
-    document.querySelector("#resumoDespesa p").textContent = formataValor(despesa);
-    document.querySelector("#resumoSaldo p").textContent = formataValor(receita - despesa);
 
-    // Agrupa os dados e renderiza o resumo detalhado
-    const dadosAgrupados = agruparDados(filtrados);
-    renderizarResumoDetalhadoHome(dadosAgrupados);
+    // 🔹 Atualiza os cards (somente se existirem)
+    if (elReceita) elReceita.textContent = formataValor(receita);
+    if (elDespesa) elDespesa.textContent = formataValor(despesa);
+    if (elSaldo)   elSaldo.textContent   = formataValor(receita - despesa);
+
+    // 🔹 Resumo detalhado (somente na Home)
+    if (elResumoDetalhado) {
+      const dadosAgrupados = agruparDados(filtrados);
+      renderizarResumoDetalhadoHome(dadosAgrupados);
+    }
 
   } catch (err) {
     console.error("Erro ao atualizar resumo financeiro:", err);
@@ -1677,7 +1608,9 @@ async function atualizarResumoFinanceiroHome() {
 }
 
 
+
 document.addEventListener("DOMContentLoaded", atualizarResumoFinanceiroHome);
+const SHEET_FINANCEIRO_URL = "https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc/tabs/Financeiro";
 const SHEET_CADASTROS_URL = "https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc/tabs/Cadastros";
 
 let clientesData = [];
@@ -2957,6 +2890,101 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+const canvas = document.getElementById("signature-pad");
+const ctx = canvas.getContext("2d");
+
+let desenhando = false;
+
+// 🔹 Ajusta o canvas ao tamanho real visível (ESSENCIAL)
+function ajustarCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+
+  ctx.scale(ratio, ratio);
+
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "#000";
+}
+
+// 🔹 Posição correta do toque/mouse
+function getPosicao(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  let clientX, clientY;
+
+  if (event.touches) {
+    clientX = event.touches[0].clientX;
+    clientY = event.touches[0].clientY;
+  } else {
+    clientX = event.clientX;
+    clientY = event.clientY;
+  }
+
+  return {
+    x: clientX - rect.left,
+    y: clientY - rect.top
+  };
+}
+
+// 🔹 Início
+function iniciar(event) {
+  event.preventDefault();
+  desenhando = true;
+
+  const pos = getPosicao(event);
+  ctx.beginPath();
+  ctx.moveTo(pos.x, pos.y);
+}
+
+// 🔹 Movimento
+function desenhar(event) {
+  if (!desenhando) return;
+  event.preventDefault();
+
+  const pos = getPosicao(event);
+  ctx.lineTo(pos.x, pos.y);
+  ctx.stroke();
+}
+
+// 🔹 Fim
+function parar() {
+  desenhando = false;
+}
+
+// 🔹 Eventos
+canvas.addEventListener("mousedown", iniciar);
+canvas.addEventListener("mousemove", desenhar);
+canvas.addEventListener("mouseup", parar);
+canvas.addEventListener("mouseleave", parar);
+
+canvas.addEventListener("touchstart", iniciar, { passive: false });
+canvas.addEventListener("touchmove", desenhar, { passive: false });
+canvas.addEventListener("touchend", parar);
+
+// 🔹 Limpar assinatura
+document.getElementById("clear-signature").addEventListener("click", () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+// 🔹 Ajusta ao abrir o modal
+ajustarCanvas();
+window.addEventListener("resize", ajustarCanvas);
+
+function abrirModalAnamnese() {
+  const modal = document.getElementById("modalAnamnese");
+  modal.classList.remove("hidden");
+  document.body.style.overflow = "hidden"; // trava scroll do fundo
+}
+
+function fecharModalAnamnese() {
+  const modal = document.getElementById("modalAnamnese");
+  modal.classList.add("hidden");
+  document.body.style.overflow = ""; // libera scroll
+}
 </script>
 </body>
 </html>
