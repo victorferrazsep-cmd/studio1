@@ -22,6 +22,110 @@
 <!-- Manifest (PWA) -->
 <link rel="manifest" href="manifest.json">
 
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // ===== CONFIGURAÇÃO DO SUPABASE =====
+  const SUPABASE_URL = "https://jsxurjbragxnutqvadyl.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_0m5jb1WEkjJcMk-WxfRd-w_M0mRmo8T";
+
+  if (SUPABASE_URL.includes('COLE_AQUI') || SUPABASE_ANON_KEY.includes('COLE_AQUI')) {
+    console.warn('Configure SUPABASE_URL e SUPABASE_ANON_KEY no index.html.');
+  }
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Compatibilidade: mantém o código antigo funcionando sem SheetBest.
+  // As chamadas antigas para api.sheetbest.com são convertidas para as tabelas
+  // do mesmo projeto Supabase.
+  const nativeFetch = window.fetch.bind(window);
+  const SHEETBEST_HOST = "api.sheetbest.com";
+
+  function tabelaStudio(url) {
+    const u = new URL(url);
+    if (u.pathname.endsWith('/tabs/Cadastros')) return 'studio_cadastros';
+    if (u.pathname.endsWith('/tabs/Agenda')) return 'studio_agenda';
+    if (u.pathname.endsWith('/tabs/Anamnese')) return 'studio_anamnese';
+    if (u.pathname.endsWith('/tabs/Financeiro')) return 'studio_financeiro';
+    return 'studio_financeiro';
+  }
+
+  function jsonResponse(data, status=200) {
+    return new Response(JSON.stringify(data), {
+      status,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  function registroSaida(row) {
+    return { ...(row?.data || {}), _db_id: row?.id };
+  }
+
+  window.fetch = async function(input, init = {}) {
+    const url = typeof input === 'string' ? input : input?.url;
+    if (!url || !url.includes(SHEETBEST_HOST)) {
+      return nativeFetch(input, init);
+    }
+
+    try {
+      const method = String(init.method || (typeof input !== 'string' && input?.method) || 'GET').toUpperCase();
+      const tabela = tabelaStudio(url);
+      const u = new URL(url);
+
+      // /tabs/Tabela/Campo/Valor
+      const match = u.pathname.match(/\/tabs\/[^/]+\/([^/]+)\/(.+)$/);
+      const campo = match ? decodeURIComponent(match[1]) : null;
+      const valor = match ? decodeURIComponent(match[2]) : null;
+
+      if (method === 'GET') {
+        let query = supabaseClient.from(tabela).select('id,data,created_at').order('id', { ascending: true });
+        const { data, error } = await query;
+        if (error) throw error;
+        let out = (data || []).map(registroSaida);
+        if (u.searchParams.has('nocache')) { /* apenas evita cache no código antigo */ }
+        return jsonResponse(out);
+      }
+
+      if (method === 'POST') {
+        const body = typeof init.body === 'string' ? JSON.parse(init.body) : Object.fromEntries(new FormData(init.body));
+        const { data, error } = await supabaseClient.from(tabela).insert({ data: body }).select('id,data,created_at').single();
+        if (error) throw error;
+        return jsonResponse(registroSaida(data), 201);
+      }
+
+      if (method === 'PUT') {
+        const body = typeof init.body === 'string' ? JSON.parse(init.body) : {};
+        if (!campo) return jsonResponse({ error: 'Campo de atualização não informado.' }, 400);
+        const { data: rows, error: findError } = await supabaseClient.from(tabela).select('id,data');
+        if (findError) throw findError;
+        const found = (rows || []).find(r => String(r.data?.[campo] ?? '').toLowerCase() === String(valor ?? '').toLowerCase());
+        if (!found) return jsonResponse({ error: 'Registro não encontrado.' }, 404);
+        const novoData = { ...(found.data || {}), ...body };
+        const { data, error } = await supabaseClient.from(tabela).update({ data: novoData }).eq('id', found.id).select('id,data,created_at').single();
+        if (error) throw error;
+        return jsonResponse(registroSaida(data));
+      }
+
+      if (method === 'DELETE') {
+        if (!campo) return jsonResponse({ error: 'Campo de exclusão não informado.' }, 400);
+        const { data: rows, error: findError } = await supabaseClient.from(tabela).select('id,data');
+        if (findError) throw findError;
+        const found = (rows || []).filter(r => String(r.data?.[campo] ?? '').toLowerCase() === String(valor ?? '').toLowerCase());
+        if (!found.length) return jsonResponse({ error: 'Registro não encontrado.' }, 404);
+        const ids = found.map(r => r.id);
+        const { error } = await supabaseClient.from(tabela).delete().in('id', ids);
+        if (error) throw error;
+        return jsonResponse({ deleted: ids.length });
+      }
+
+      return jsonResponse({ error: 'Método não suportado.' }, 405);
+    } catch (err) {
+      console.error('Erro na ponte Supabase:', err);
+      return jsonResponse({ error: err.message || 'Erro no Supabase' }, 500);
+    }
+  };
+</script>
+
 <!-- EmailJS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
@@ -967,7 +1071,7 @@ async function carregarDadosFinanceiro() {
     }
   });
 
-  // 🔹 Busca dados da planilha
+  // 🔹 Busca dados do banco de dados
   try {
     const res = await fetch("https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc");
     const data = await res.json();
@@ -1013,7 +1117,7 @@ async function carregarDadosFinanceiro() {
 
   } catch (err) {
     console.error("Erro ao carregar relatório:", err);
-    relatorioContainer.innerHTML = "<p class='text-red-400'>Erro ao carregar dados da planilha.</p>";
+    relatorioContainer.innerHTML = "<p class='text-red-400'>Erro ao carregar dados do banco de dados.</p>";
   }
 
   // 🔹 Função para atualizar o resumo financeiro
@@ -1383,7 +1487,7 @@ function renderizarTabelaRelatorio(dadosFiltrados) {
       );
 
       if (!match) {
-        alert("❌ Registro não encontrado na planilha.");
+        alert("❌ Registro não encontrado no banco de dados.");
         return;
       }
 
@@ -1416,7 +1520,7 @@ function renderizarTabelaRelatorio(dadosFiltrados) {
     atualizarDashboard(mesAtual);
   }
   } else {
-  alert("❌ Erro ao excluir da planilha.");
+  alert("❌ Erro ao excluir do banco de dados.");
   }
 
 
@@ -1653,7 +1757,7 @@ carregarClientesAtivos();
 
 const SHEET_CLIENTES_URL = "https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc/tabs/Cadastros";
 
-// ✅ Salvar cliente na planilha SheetBest
+// ✅ Salvar cliente no banco de dados SheetBest
 async function salvarClienteSheet(cliente) {
   try {
     const response = await fetch(SHEET_CLIENTES_URL, {
@@ -1666,13 +1770,13 @@ async function salvarClienteSheet(cliente) {
     carregarClientes();
   } catch (error) {
     console.error("Erro ao registrar cliente:", error);
-    alert("❌ Erro ao registrar cliente na planilha.");
+    alert("❌ Erro ao registrar cliente no banco de dados.");
   }
 }
 
 async function excluirClientePlanilha(nome) {
   if (!nome) return alert("Nome inválido.");
-  if (!confirm(`Tem certeza que deseja excluir "${nome}" da planilha?`)) return;
+  if (!confirm(`Tem certeza que deseja excluir "${nome}" do banco de dados?`)) return;
 
   const baseURL = "https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc/tabs/Cadastros";
 
@@ -1705,7 +1809,7 @@ async function excluirClientePlanilha(nome) {
       }
     });
 
-    // Exclui na planilha
+    // Exclui no banco de dados
     const deleteURL = `${baseURL}/Nome/${encodeURIComponent(cliente.Nome)}`;
     const delRes = await fetch(deleteURL, { method: "DELETE" });
     if (!delRes.ok) throw new Error("Falha ao excluir.");
@@ -2100,7 +2204,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // 🔹 Esconde o botão de carregar relatório
   if (btnLoadRelatorio) btnLoadRelatorio.style.display = "none"; // Botão já não é mais usado
 
-  // 🔹 Carrega os dados da planilha silenciosamente
+  // 🔹 Carrega os dados do banco de dados silenciosamente
   fetch("https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc")
     .then(res => res.json())
     .then(data => {
@@ -2159,7 +2263,7 @@ async function renderHomeCalendar() {
 
   if (homeCalendar) homeCalendar.destroy();
 
-  // 🔹 Busca eventos da planilha
+  // 🔹 Busca eventos do banco de dados
   let eventos = [];
   try {
     const res = await fetch("https://api.sheetbest.com/sheets/47c25a09-7224-4984-b97f-602988cf54dc/tabs/Agenda");
@@ -2514,7 +2618,7 @@ async function renderAgendaCalendar() {
   // Destroi o calendário anterior, se existir
   if (agendaCalendar) agendaCalendar.destroy();
 
-  // 🔹 Busca eventos da planilha
+  // 🔹 Busca eventos do banco de dados
   let eventos = [];
   try {
     const res = await fetch(SHEET_AGENDA_URL);
@@ -2526,7 +2630,7 @@ async function renderAgendaCalendar() {
       color: e.Presenca === 'Sim' ? '#22c55e' : '#f4bfae', // Verde se presente, rosa padrão senão
       allDay: false,
       extendedProps: {
-        id: e.ID, // 🔑 Pega o ID único da planilha
+        id: e.ID, // 🔑 Pega o ID único do banco de dados
         cliente: e.Cliente,
         procedimento: e.Procedimento, // 🔑 Adiciona o procedimento
         modalidade: e.Modalidade,
@@ -2618,10 +2722,10 @@ eventClick: function(info) {
         info.revert();
         return;
       }
-      // Lógica para atualizar o evento na planilha após o drag-and-drop
+      // Lógica para atualizar o evento no banco de dados após o drag-and-drop
       // (semelhante à lógica de edição)
       console.log("Evento movido para:", info.event.start);
-      // Aqui você chamaria a função de atualização na planilha
+      // Aqui você chamaria a função de atualização no banco de dados
     },
 
     eventResize: async function(info) {
@@ -2682,7 +2786,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch(url, { method: "DELETE" });
 
       if (!response.ok) {
-        throw new Error("Falha ao excluir o agendamento na planilha.");
+        throw new Error("Falha ao excluir o agendamento no banco de dados.");
       }
 
       alert("✅ Agendamento excluído com sucesso!");
@@ -2738,7 +2842,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 99);
       evento.ID = maxId + 1; // Atribui o próximo ID sequencial
 
-      // 3. Envia o novo registro (com os dados do formulário e o novo ID) para a planilha
+      // 3. Envia o novo registro (com os dados do formulário e o novo ID) para o banco de dados
       const createResponse = await fetch(SHEET_AGENDA_URL, {
           method: "POST",
           headers: { 
@@ -2747,7 +2851,7 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify(evento),
         });
 
-      if (!createResponse.ok) throw new Error("Erro ao salvar o novo agendamento na planilha.");
+      if (!createResponse.ok) throw new Error("Erro ao salvar o novo agendamento no banco de dados.");
 
       alert("✅ Agendamento salvo com sucesso!");
       
@@ -2876,7 +2980,7 @@ document.addEventListener("DOMContentLoaded", () => {
     anamneseData.Telefone = clienteCompleto?.Telefone || '';
     anamneseData.DN = clienteCompleto?.DN || '';
 
-    anamneseData.Assinatura = `=IMAGE("${signaturePad.toDataURL()}")`; // 💡 Salva como fórmula de imagem para o Google Sheets
+    anamneseData.Assinatura = signaturePad.toDataURL(); // 💡 Salva como fórmula de imagem para o Google Sheets
 
     try {
       const response = await fetch(SHEET_ANAMNESE_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(anamneseData) });
@@ -2885,7 +2989,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("fecharModalAnamnese").click();
     } catch (err) {
       console.error("Erro ao salvar anamnese:", err);
-      alert("❌ Erro ao salvar anamnese na planilha.");
+      alert("❌ Erro ao salvar anamnese no banco de dados.");
     }
   });
 });
