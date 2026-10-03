@@ -16,7 +16,6 @@
 <!-- FullCalendar -->
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-<script src="https://accounts.google.com/gsi/client" defer></script>
 
 <!-- Signature Pad (para assinatura) -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
@@ -1679,18 +1678,27 @@ button:active:not(:disabled) {
 </div>
 
 <section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="googleCalendarTitle">
-  <div class="flex flex-wrap items-center justify-between gap-3">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
     <div>
       <h3 id="googleCalendarTitle" class="text-lg font-semibold">Google Agenda</h3>
       <p id="googleCalendarStatus" class="text-sm text-gray-400" role="status" aria-live="polite">
-        Conecte sua conta Google para carregar e sincronizar os eventos.
+        Entre com sua conta do Studio para acessar a agenda.
       </p>
     </div>
-    <button id="btnConectarGoogleCalendar" type="button"
-      class="px-4 py-2 rounded-md font-semibold bg-white text-gray-800 hover:bg-gray-100">
-      Conectar Google
-    </button>
   </div>
+  <form id="formLoginAgenda" class="flex flex-wrap items-end gap-3">
+    <label id="loginAgendaEmailField" class="flex flex-col gap-1 text-sm">E-mail
+      <input id="loginAgendaEmail" type="email" autocomplete="username" required
+        class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+    </label>
+    <label id="loginAgendaSenhaField" class="flex flex-col gap-1 text-sm">Senha
+      <input id="loginAgendaSenha" type="password" autocomplete="current-password" required
+        class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+    </label>
+    <button id="btnEntrarAgenda" type="submit" class="btn-primary px-4 py-2 rounded-md font-semibold">Entrar</button>
+    <button id="btnSairAgenda" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Sair</button>
+    <button id="btnConectarGoogleCalendar" type="button" class="hidden btn-primary px-4 py-2 rounded-md font-semibold">Conectar Google Agenda</button>
+  </form>
 </section>
 
 <!-- 🔹 Modal de Agendamento (mesmo layout do boxCliente) -->
@@ -3633,55 +3641,21 @@ if (typeof atualizarResumosHome === 'function') {
 const SUPABASE_AGENDA_URL = "supabase://agenda";
 
 let agendaCalendar;
-const GOOGLE_CALENDAR_CLIENT_ID = "620950031798-45gkrlojg31jnqmqhbtficrv04q2ts6g.apps.googleusercontent.com";
-const GOOGLE_CALENDAR_ID = "8aa9c471f4a7867bd258f56370c7fbf3d14cca306dd0bcff6d2043ce45a3060d@group.calendar.google.com";
-let googleCalendarAccessToken = null;
-let googleCalendarTokenClient = null;
-
-function conectarContaGoogleCalendar() {
-  return new Promise((resolve, reject) => {
-    if (!window.google?.accounts?.oauth2) {
-      reject(new Error("Não foi possível carregar a autenticação do Google. Recarregue a página e tente novamente."));
-      return;
-    }
-
-    if (!googleCalendarTokenClient) {
-      googleCalendarTokenClient = window.google.accounts.oauth2.initTokenClient({
-        client_id: GOOGLE_CALENDAR_CLIENT_ID,
-        scope: "https://www.googleapis.com/auth/calendar.events",
-        callback: (response) => {
-          if (response.error) {
-            reject(new Error(response.error_description || response.error));
-            return;
-          }
-          googleCalendarAccessToken = response.access_token;
-          resolve(googleCalendarAccessToken);
-        },
-        error_callback: (error) => reject(new Error(error.message || "Falha na autenticação Google."))
-      });
-    }
-
-    googleCalendarTokenClient.requestAccessToken({ prompt: googleCalendarAccessToken ? "" : "consent" });
-  });
-}
+let sessaoAgenda = null;
+let googleCalendarConnected = false;
 
 async function requisitarGoogleCalendar(path, options = {}) {
-  if (!googleCalendarAccessToken) throw new Error("Conecte sua conta Google antes de continuar.");
+  if (!sessaoAgenda) throw new Error("Entre com sua conta do Studio para acessar o Google Agenda.");
 
-  const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/${path}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${googleCalendarAccessToken}`,
-      ...(options.body ? { "Content-Type": "application/json" } : {}),
-      ...options.headers
+  const { data, error } = await supabaseClient.functions.invoke("google-calendar-api", {
+    body: {
+      path,
+      method: options.method || "GET",
+      body: options.body ? JSON.parse(options.body) : undefined
     }
   });
-  const data = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-    if (response.status === 401) googleCalendarAccessToken = null;
-    throw new Error(data.error?.message || `Erro na API do Google Agenda (${response.status}).`);
-  }
+  if (error) throw new Error(error.message || "Não foi possível acessar o Google Agenda.");
+  if (data?.error) throw new Error(data.error);
   return data;
 }
 
@@ -3705,7 +3679,7 @@ function dadosEventoGoogle(evento) {
 }
 
 async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failureCallback, idsLocais) {
-  if (!googleCalendarAccessToken) {
+  if (!sessaoAgenda || !googleCalendarConnected) {
     successCallback([]);
     return;
   }
@@ -4223,19 +4197,118 @@ document.addEventListener("DOMContentLoaded", () => {
   const SUPABASE_ANAMNESE_URL = "supabase://anamnese";
   const btnConectarGoogleCalendar = document.getElementById("btnConectarGoogleCalendar");
   const googleCalendarStatus = document.getElementById("googleCalendarStatus");
+  const formLoginAgenda = document.getElementById("formLoginAgenda");
+  const btnSairAgenda = document.getElementById("btnSairAgenda");
+  const btnEntrarAgenda = document.getElementById("btnEntrarAgenda");
+
+  async function atualizarSessaoAgenda(session) {
+    sessaoAgenda = session;
+    const conectadoAoSite = Boolean(session);
+    document.getElementById("loginAgendaEmailField").classList.toggle("hidden", conectadoAoSite);
+    document.getElementById("loginAgendaSenhaField").classList.toggle("hidden", conectadoAoSite);
+    btnEntrarAgenda.classList.toggle("hidden", conectadoAoSite);
+    btnSairAgenda.classList.toggle("hidden", !conectadoAoSite);
+    btnConectarGoogleCalendar.classList.toggle("hidden", !conectadoAoSite);
+    googleCalendarConnected = false;
+
+    if (!session) {
+      googleCalendarStatus.textContent = "Entre com sua conta do Studio para acessar a agenda.";
+      agendaCalendar?.refetchEvents();
+      return;
+    }
+
+    googleCalendarStatus.textContent = `Sessão ativa: ${session.user.email || "conta do Studio"}. Verificando Google Agenda...`;
+    try {
+      const { data, error } = await supabaseClient.functions.invoke("google-calendar-api", {
+        body: { path: "status", method: "GET" }
+      });
+      if (error) throw error;
+      googleCalendarConnected = Boolean(data?.connected);
+      googleCalendarStatus.textContent = googleCalendarConnected
+        ? "Conectado. Os eventos Google aparecem junto com os agendamentos do Studio."
+        : "Sessão ativa. Conecte sua conta Google para carregar e sincronizar os eventos.";
+      btnConectarGoogleCalendar.textContent = googleCalendarConnected
+        ? "Reconectar Google Agenda"
+        : "Conectar Google Agenda";
+    } catch (error) {
+      googleCalendarStatus.textContent = `Não foi possível verificar a conexão Google: ${error.message}`;
+    }
+    agendaCalendar?.refetchEvents();
+  }
+
+  formLoginAgenda.addEventListener("submit", async event => {
+    event.preventDefault();
+    btnEntrarAgenda.disabled = true;
+    googleCalendarStatus.textContent = "Entrando...";
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: document.getElementById("loginAgendaEmail").value.trim(),
+        password: document.getElementById("loginAgendaSenha").value
+      });
+      if (error) throw error;
+      await atualizarSessaoAgenda(data.session);
+      document.getElementById("loginAgendaSenha").value = "";
+    } catch (error) {
+      googleCalendarStatus.textContent = `Não foi possível entrar: ${error.message}`;
+    } finally {
+      btnEntrarAgenda.disabled = false;
+    }
+  });
+
+  btnSairAgenda.addEventListener("click", async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      googleCalendarStatus.textContent = `Não foi possível sair: ${error.message}`;
+      return;
+    }
+    await atualizarSessaoAgenda(null);
+  });
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    window.setTimeout(() => atualizarSessaoAgenda(session), 0);
+  });
+
+  supabaseClient.auth.getSession().then(({ data, error }) => {
+    if (error) {
+      googleCalendarStatus.textContent = `Não foi possível recuperar a sessão: ${error.message}`;
+      return;
+    }
+    void atualizarSessaoAgenda(data.session);
+  });
+
+  const callbackGoogle = new URLSearchParams(window.location.search).get("googleCalendar");
+  if (callbackGoogle) {
+    googleCalendarStatus.textContent = callbackGoogle === "connected"
+      ? "Conta Google conectada. Carregando eventos..."
+      : callbackGoogle === "denied"
+        ? "A autorização Google foi cancelada."
+        : "Não foi possível concluir a conexão Google. Confira a configuração OAuth e tente novamente.";
+    const callbackUrl = new URL(window.location.href);
+    callbackUrl.searchParams.delete("googleCalendar");
+    window.history.replaceState({}, "", callbackUrl);
+  }
 
   btnConectarGoogleCalendar.addEventListener("click", async () => {
+    if (!sessaoAgenda) {
+      googleCalendarStatus.textContent = "Entre com sua conta do Studio antes de conectar o Google.";
+      return;
+    }
     btnConectarGoogleCalendar.disabled = true;
-    googleCalendarStatus.textContent = "Conectando ao Google...";
+    googleCalendarStatus.textContent = "Redirecionando para a autorização segura do Google...";
     try {
-      await conectarContaGoogleCalendar();
-      googleCalendarStatus.textContent = "Conectado. Os eventos do Google aparecem na agenda acima.";
-      btnConectarGoogleCalendar.textContent = "Atualizar conexão";
-      agendaCalendar?.refetchEvents();
-    } catch (err) {
-      googleCalendarStatus.textContent = `Não foi possível conectar: ${err.message}`;
-    } finally {
+      const { data, error } = await supabaseClient.functions.invoke("google-calendar-auth-start", {
+        body: {}
+      });
+      if (error) throw error;
+      if (!data?.authorizationUrl) throw new Error("O servidor não retornou o endereço de autorização.");
+      window.location.assign(data.authorizationUrl);
+    } catch (error) {
+      googleCalendarStatus.textContent = `Não foi possível iniciar a conexão: ${error.message}`;
       btnConectarGoogleCalendar.disabled = false;
+    } finally {
+      if (btnConectarGoogleCalendar.disabled && !window.location.href.includes("accounts.google.com")) {
+        btnConectarGoogleCalendar.disabled = false;
+      }
     }
   });
 
@@ -4292,8 +4365,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let abrirAnamnese = false;
     let googleEventCriado = null;
 
-    if (!googleCalendarAccessToken) {
-      alert("Conecte sua conta Google antes de salvar um agendamento.");
+    if (!sessaoAgenda || !googleCalendarConnected) {
+      alert("Entre no site e conecte o Google Agenda antes de salvar um agendamento.");
       return;
     }
 
