@@ -141,14 +141,6 @@
   };
 </script>
 
-<!-- EmailJS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>
-    (function() {
-      emailjs.init("hwdHL8qVI8eQDCAxB");
-    })();
-  </script>
-
 <style>
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -3575,19 +3567,21 @@ function renderizarProximosAgendamentos(eventos) {
   const container = document.getElementById("proximosAgendamentos");
   if (!container) return;
 
-  const agora = new Date();
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const limite = new Date(hoje);
+  limite.setDate(limite.getDate() + 7);
   const proximos = eventos
     .filter(evento => evento.Cliente && evento.Data)
     .map(evento => ({
       ...evento,
       dataHora: new Date(`${evento.Data}T${evento.Hora || "00:00"}`)
     }))
-    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= agora)
+    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= hoje && evento.dataHora < limite)
     .sort((a, b) => a.dataHora - b.dataHora)
-    .slice(0, 4);
 
   if (!proximos.length) {
-    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento próximo.</p>';
+    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento nos próximos 7 dias.</p>';
     return;
   }
 
@@ -3698,7 +3692,13 @@ function dadosEventoGoogle(evento) {
     description: detalhes,
     start: { dateTime: inicio.toISOString(), timeZone: "America/Sao_Paulo" },
     end: { dateTime: fim.toISOString(), timeZone: "America/Sao_Paulo" },
-    extendedProperties: { private: { studioAppointmentId: String(evento.ID) } }
+    extendedProperties: {
+      private: {
+        ...(evento.GooglePrivateProperties || {}),
+        ...(evento.ID !== undefined && evento.ID !== null ? { studioAppointmentId: String(evento.ID) } : {}),
+        ...(evento.GoogleAppointmentId ? { studioAppointmentId: String(evento.GoogleAppointmentId) } : {})
+      }
+    }
   };
 }
 
@@ -3720,11 +3720,16 @@ async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failure
     const eventos = (data.items || [])
       .filter(evento => {
         const idAgendamento = String(evento.extendedProperties?.private?.studioAppointmentId || "");
-        const inicio = evento.start?.dateTime || evento.start?.date;
-        const assinatura = `${String(evento.summary || "").trim().toLocaleLowerCase("pt-BR")}|${inicio ? new Date(inicio).getTime() : ""}`;
+        const tituloGoogle = normalizarTituloEvento(evento.summary);
+        const inicioGoogle = Date.parse(evento.start?.dateTime || evento.start?.date || "");
+        const duplicadoPorAssinatura = Number.isFinite(inicioGoogle) &&
+          assinaturasAgendamentosLocais.some(assinatura =>
+            assinatura.titulo === tituloGoogle &&
+            Math.abs(assinatura.inicio - inicioGoogle) < 60_000
+          );
         return !idsEventosGoogleLocais.has(String(evento.id || "")) &&
           !idsAgendamentosLocais.has(idAgendamento) &&
-          !assinaturasAgendamentosLocais.has(assinatura);
+          !duplicadoPorAssinatura;
       })
       .map(evento => ({
         id: `google-${evento.id}`,
@@ -3734,6 +3739,10 @@ async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failure
         allDay: Boolean(evento.start?.date),
         extendedProps: {
           googleCalendarEvent: true,
+          googleEventId: evento.id,
+          googleAppointmentId: evento.extendedProperties?.private?.studioAppointmentId || null,
+          googlePrivateProperties: evento.extendedProperties?.private || {},
+          googleDescription: evento.description || "",
           googleHtmlLink: evento.htmlLink
         }
       }));
@@ -3743,6 +3752,17 @@ async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failure
     const status = document.getElementById("googleCalendarStatus");
     if (status) status.textContent = `Erro ao carregar eventos: ${error.message}`;
   }
+}
+
+function normalizarTituloEvento(titulo) {
+  return String(titulo || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("pt-BR")
+    .replace(/\s*-\s*agendamento$/, "")
+    .replace(/\s*-\s*$/, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 // 🔹 Atualiza os resumos da página HOME para o MÊS ATUAL
@@ -4068,24 +4088,37 @@ async function renderAgendaCalendar() {
   try {
     const res = await fetch(SUPABASE_AGENDA_URL);
     const data = await res.json();
-    eventos = data.map(e => ({
-      id: `${e.Data}-${e.Hora}-${e.Cliente}`, // ID único para o evento
-      title: `${e.Cliente} - ${e.Procedimento || ''}`,
-      start: `${e.Data}T${e.Hora || "00:00"}`,
-      color: e.Presenca === 'Sim' ? '#34a853' : '#1a73e8', // Verde para presença confirmada, azul nos demais
-      allDay: false,
-      extendedProps: {
-        id: e.ID ?? e._db_id,
-        cliente: e.Cliente,
-        procedimento: e.Procedimento, // 🔑 Adiciona o procedimento
-        modalidade: e.Modalidade,
-        tipo: e.Tipo,
-        valorPago: e.ValorPago,
-        cep: e.CEP, // Assumindo que o e-mail está na coluna CEP
-        Presenca: e.Presenca, // 🔑 Adiciona a presença
-        googleEventId: e.GoogleEventId || null
-      }
-    }));
+    const chavesAgendamentos = new Set();
+    eventos = data
+      .filter(e => {
+        const chave = [
+          e.Data,
+          e.Hora || "00:00",
+          normalizarTituloEvento(`${e.Cliente} - ${e.Procedimento || ""}`)
+        ].join("|");
+        if (chavesAgendamentos.has(chave)) return false;
+        chavesAgendamentos.add(chave);
+        return true;
+      })
+      .map(e => ({
+        id: `${e.Data}-${e.Hora}-${e.Cliente}`,
+        title: `${e.Cliente} - ${e.Procedimento || ''}`,
+        start: `${e.Data}T${e.Hora || "00:00"}`,
+        color: e.Presenca === 'Sim' ? '#34a853' : '#1a73e8',
+        allDay: false,
+        extendedProps: {
+          id: e.ID ?? e._db_id,
+          cliente: e.Cliente,
+          procedimento: e.Procedimento,
+          modalidade: e.Modalidade,
+          tipo: e.Tipo,
+          valorPago: e.ValorPago,
+          cep: e.CEP,
+          Presenca: e.Presenca,
+          googleEventId: e.GoogleEventId || null,
+          inicioAgendaISO: `${e.Data}T${e.Hora || "00:00"}:00-03:00`
+        }
+      }));
   } catch (err) {
     console.error("Erro ao carregar eventos:", err);
   }
@@ -4120,9 +4153,9 @@ async function renderAgendaCalendar() {
             failureCallback,
             new Set(eventos.map(evento => String(evento.extendedProps.id || "")).filter(Boolean)),
             new Set(eventos.map(evento => String(evento.extendedProps.googleEventId || "")).filter(Boolean)),
-            new Set(eventos.map(evento => {
-              const start = new Date(evento.start).getTime();
-              return `${String(evento.title).trim().toLocaleLowerCase("pt-BR")}|${start}`;
+            eventos.map(evento => ({
+              titulo: normalizarTituloEvento(evento.title),
+              inicio: Date.parse(evento.extendedProps.inicioAgendaISO)
             }))
           )
       }
@@ -4141,51 +4174,70 @@ async function renderAgendaCalendar() {
 
 // 🔹 Abre o modal para EDITAR agendamento ao clicar num evento
 eventClick: function(info) {
-  const props = info.event.extendedProps;
-  if (props.googleCalendarEvent) {
-    if (props.googleHtmlLink) window.open(props.googleHtmlLink, "_blank", "noopener");
-    return;
+  let props = info.event.extendedProps;
+  const somenteGoogle = Boolean(props.googleCalendarEvent);
+  if (somenteGoogle) {
+    const partesTitulo = String(info.event.title || "").split(" - ");
+    const descricao = String(props.googleDescription || "");
+    const campoDescricao = nome => {
+      const linha = descricao.split(/\r?\n/).find(item => item.startsWith(`${nome}:`));
+      return linha ? linha.slice(nome.length + 1).trim() : "";
+    };
+    props = {
+      ...props,
+      cliente: partesTitulo.shift()?.trim() || info.event.title || "",
+      procedimento: campoDescricao("Procedimento") || partesTitulo.join(" - ").trim() || "Agendamento",
+      modalidade: campoDescricao("Modalidade"),
+      tipo: campoDescricao("Tipo"),
+      Presenca: "Não"
+    };
   }
 
-  eventoEmEdicao = null;
+  const inicio = info.event.start;
+  if (!inicio) return;
+  const dataOriginal = [
+    inicio.getFullYear(),
+    String(inicio.getMonth() + 1).padStart(2, "0"),
+    String(inicio.getDate()).padStart(2, "0")
+  ].join("-");
+  const horaOriginal = `${String(inicio.getHours()).padStart(2, "0")}:${String(inicio.getMinutes()).padStart(2, "0")}`;
 
-  // 🔑 Guarda os dados ORIGINAIS do agendamento para encontrar a linha certa
   eventoEmEdicao = {
-    id: props.id, // 🔑 Armazena o ID único do evento
+    id: props.id,
     clienteOriginal: props.cliente,
-    dataOriginal: info.event.start.toISOString().slice(0, 10),
-    horaOriginal: ('0' + info.event.start.getHours()).slice(-2) + ':' + ('0' + info.event.start.getMinutes()).slice(-2),
+    dataOriginal,
+    horaOriginal,
     procedimentoOriginal: props.procedimento || "",
     googleEventId: props.googleEventId || null,
+    googleAppointmentId: props.googleAppointmentId || null,
+    googlePrivateProperties: props.googlePrivateProperties || {},
+    googleOnlyEvent: somenteGoogle,
     event: info.event
   };
 
-  console.log("🟡 AGENDAMENTO EM EDIÇÃO:", eventoEmEdicao);
+  const selectCliente = document.getElementById("agendamentoCliente");
+  const clienteExistente = [...selectCliente.options].some(option => option.value === props.cliente);
+  if (props.cliente && !clienteExistente) {
+    selectCliente.add(new Option(props.cliente, props.cliente));
+  }
+  selectCliente.value = props.cliente || "";
 
-  // 🧾 Preenche o formulário
-  document.getElementById("agendamentoCliente").value = props.cliente || "";
-
-  // 🔹 Garante que o e-mail (CEP) seja carregado a partir dos dados mais recentes do cliente
   const clienteSelecionado = clientesData.find(c => c.Nome === props.cliente);
   document.getElementById("agendamentoCep").value = clienteSelecionado ? clienteSelecionado.CEP : "";
-
 
   document.getElementById("agendamentoProcedimento").value = props.procedimento || "";
   document.getElementById("agendamentoModalidade").value = props.modalidade || "";
   document.getElementById("agendamentoTipo").value = props.tipo || "";
   document.getElementById("agendamentoValorPago").value = props.valorPago ?? "";
 
-  // Preenche e exibe o campo de presença
   document.getElementById("agendamentoPresenca").checked = (props.Presenca || "").toLowerCase() === 'sim';
-  document.getElementById("campoPresenca").classList.remove("hidden");
+  document.getElementById("campoPresenca").classList.toggle("hidden", somenteGoogle);
 
-  // 📅 Data e hora (SEGURAS)
   document.getElementById("agendamentoData").value = eventoEmEdicao.dataOriginal;
   document.getElementById("agendamentoHora").value = eventoEmEdicao.horaOriginal;
 
   document.getElementById("btnSalvarAgendamentoTexto").textContent = "Salvar Alterações";
   document.getElementById("btnExcluirAgendamento").classList.remove("hidden");
-
   abrirModalAgendamento();
 },
 
@@ -4375,13 +4427,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Agora exclui usando o ID único, que é muito mais seguro
-      const url = `${SUPABASE_AGENDA_URL}/ID/${eventoEmEdicao.id}`;
-
-      const response = await fetch(url, { method: "DELETE" });
-
-      if (!response.ok) {
-        throw new Error("Falha ao excluir o agendamento no banco de dados.");
+      if (!eventoEmEdicao.googleOnlyEvent) {
+        const url = `${SUPABASE_AGENDA_URL}/ID/${eventoEmEdicao.id}`;
+        const response = await fetch(url, { method: "DELETE" });
+        if (!response.ok) {
+          throw new Error("Falha ao excluir o agendamento no banco de dados.");
+        }
       }
 
       alert("✅ Agendamento excluído com sucesso!");
@@ -4399,6 +4450,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🔹 Salvar (criar/editar) agendamento
   formAgendamento.addEventListener("submit", async (e) => {
     e.preventDefault();
+    if (formAgendamento.dataset.saving === "true") return;
+
     const formData = new FormData(formAgendamento);
     const evento = Object.fromEntries(formData.entries());
     const editando = !!eventoEmEdicao;
@@ -4409,6 +4462,10 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Entre no site e conecte o Google Agenda antes de salvar um agendamento.");
       return;
     }
+
+    formAgendamento.dataset.saving = "true";
+    const botoesSubmit = [...formAgendamento.querySelectorAll('button[type="submit"]')];
+    botoesSubmit.forEach(button => { button.disabled = true; });
 
     // Adiciona o valor da presença ao objeto do evento, já que o checkbox não tem 'name'
     evento.Presenca = document.getElementById("agendamentoPresenca").checked ? "Sim" : "Não";
@@ -4422,7 +4479,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (editando) {
-        evento.ID = eventoEmEdicao.id;
+        if (!eventoEmEdicao.googleOnlyEvent) evento.ID = eventoEmEdicao.id;
+        if (eventoEmEdicao.googleOnlyEvent) {
+          evento.GoogleAppointmentId = eventoEmEdicao.googleAppointmentId;
+          evento.GooglePrivateProperties = eventoEmEdicao.googlePrivateProperties;
+        }
       } else {
         const res = await fetch(SUPABASE_AGENDA_URL);
         const agendamentos = await res.json();
@@ -4447,66 +4508,33 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!eventoGoogleExistente) googleEventCriado = eventoGoogle.id;
       evento.GoogleEventId = eventoGoogle.id;
 
-      const createResponse = editando
-        ? await fetch(`${SUPABASE_AGENDA_URL}/ID/${eventoEmEdicao.id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(evento)
-          })
-        : await fetch(SUPABASE_AGENDA_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(evento)
-          });
+      if (!editando || !eventoEmEdicao.googleOnlyEvent) {
+        const createResponse = editando
+          ? await fetch(`${SUPABASE_AGENDA_URL}/ID/${eventoEmEdicao.id}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(evento)
+            })
+          : await fetch(SUPABASE_AGENDA_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(evento)
+            });
 
-      if (!createResponse.ok) {
-        const responseData = await createResponse.json().catch(() => ({}));
-        if (googleEventCriado) {
-          await requisitarGoogleCalendar(`events/${encodeURIComponent(googleEventCriado)}`, { method: "DELETE" }).catch(console.error);
+        if (!createResponse.ok) {
+          const responseData = await createResponse.json().catch(() => ({}));
+          if (googleEventCriado) {
+            await requisitarGoogleCalendar(`events/${encodeURIComponent(googleEventCriado)}`, { method: "DELETE" }).catch(console.error);
+          }
+          throw new Error(
+            responseData.error
+              ? `O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados: ${responseData.error}`
+              : "O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados."
+          );
         }
-        throw new Error(
-          responseData.error
-            ? `O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados: ${responseData.error}`
-            : "O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados."
-        );
       }
 
       alert("✅ Agendamento salvo com sucesso!");
-      
-      console.log("✅ Agendamento salvo. Enviando e-mail...");
-
-      // Verifica se a única mudança foi na presença durante uma edição
-      let apenasPresencaMudou = false;
-      if (editando) {
-        const presencaOriginal = (eventoEmEdicao.event.extendedProps.Presenca || "Não").toLowerCase();
-        const presencaNova = evento.Presenca.toLowerCase();
-        // Simplificando: se a presença mudou, consideramos que foi a única alteração para não enviar e-mail.
-        // Uma lógica mais complexa compararia todos os outros campos.
-        if (presencaOriginal !== presencaNova) apenasPresencaMudou = true;
-      }
-
-      // 🔹 Envia o e-mail via EmailJS
-      if (!apenasPresencaMudou) {
-        try {
-          const resultadoEmail = await emailjs.send(
-            "service_j2axhfl",
-            "template_2jvgelm",
-            {
-              cliente: evento.Cliente,
-              data: evento.Data,
-              hora: evento.Hora,
-              procedimento: evento.Procedimento,
-              tipo: evento.Tipo,
-              cep: evento.CEP
-            }
-          );
-
-          console.log("📨 E-mail enviado com sucesso:", resultadoEmail);
-        } catch (emailErr) {
-          console.error("❌ Erro ao enviar e-mail via EmailJS:", emailErr);
-          alert("⚠️ Agendamento salvo, mas falha ao enviar e-mail.");
-        }
-      }
 
       formAgendamento.reset();
       modalAgendamento.classList.add("hidden");
@@ -4522,6 +4550,9 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Erro ao salvar agendamento:", err);
       const mensagem = err instanceof Error ? err.message : String(err);
       alert(`❌ Não foi possível salvar o agendamento: ${mensagem}`);
+    } finally {
+      delete formAgendamento.dataset.saving;
+      botoesSubmit.forEach(button => { button.disabled = false; });
     }
   });
 
