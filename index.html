@@ -37,6 +37,10 @@
   if (SUPABASE_URL.includes('COLE_AQUI') || SUPABASE_ANON_KEY.includes('COLE_AQUI')) {
     console.warn('Configure SUPABASE_URL e SUPABASE_ANON_KEY no index.html.');
   }
+
+  function tecnicaAgendamento(evento) {
+    return evento?.Tecnica || evento?.Procedimento || "";
+  }
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const supabaseDataClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: {
@@ -1925,10 +1929,10 @@ button:active:not(:disabled) {
         </div>
 
         <div>
-          <label class="block mb-1 font-semibold" for="agendamentoProcedimento">PROCEDIMENTO</label>
-          <select id="agendamentoProcedimento" name="Procedimento"
+          <label class="block mb-1 font-semibold" for="agendamentoProcedimento">TÉCNICA</label>
+          <select id="agendamentoProcedimento" name="Tecnica"
             class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-            <option value="">Selecione o procedimento</option>
+            <option value="">Selecione a técnica</option>
             <option value="Aplicação">Aplicação</option>
             <option value="Manutenção">Manutenção</option>
           </select>
@@ -1938,7 +1942,7 @@ button:active:not(:disabled) {
           <label class="block mb-1 font-semibold" for="agendamentoTipo">TIPO</label>
           <select id="agendamentoTipo" name="Tipo"
             class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-            <option value="">Selecione o tipo de procedimento</option>
+            <option value="">Selecione o tipo</option>
           </select>
         </div>
       </div>
@@ -2056,7 +2060,7 @@ button:active:not(:disabled) {
           <!-- BLOCO 3: Aceite e Assinatura -->
           <fieldset class="border border-gray-600 p-3 rounded-lg">
             <legend class="px-2 font-semibold text-rose-300">Termo de Consentimento</legend>
-            <p class="text-xs italic text-gray-400 mb-2">"Autorizo a realização do procedimento de alongamento de cílios. Autorizo o registro fotográfico do "antes e depois" para documentação e divulgação da profissional. As declarações acima são verdadeiras, não cabendo ao profissional a responsabilidade por informações omitidas nesta avaliação. Me comprometo a seguir todos os cuidados necessários após o procedimento."</p>
+            <p class="text-xs italic text-gray-400 mb-2">"Autorizo a realização da técnica de alongamento de cílios. Autorizo o registro fotográfico do "antes e depois" para documentação e divulgação da profissional. As declarações acima são verdadeiras, não cabendo ao profissional a responsabilidade por informações omitidas nesta avaliação. Me comprometo a seguir todos os cuidados necessários após a técnica."</p>
             <div class="relative w-full h-32 bg-gray-200 rounded-md">
               <canvas id="signature-pad" class="absolute top-0 left-0 w-full h-full"></canvas>
             </div>
@@ -2064,13 +2068,12 @@ button:active:not(:disabled) {
             <input type="hidden" name="Assinatura" id="assinaturaOutput">
           </fieldset>
 
-          <!-- BLOCO 4: Procedimento Realizado -->
+          <!-- BLOCO 4: Técnica Realizada -->
           <fieldset class="border border-gray-600 p-3 rounded-lg">
-            <legend class="px-2 font-semibold text-rose-300">Procedimento Realizado</legend>
+            <legend class="px-2 font-semibold text-rose-300">Técnica Realizada</legend>
             <div class="grid grid-cols-2 gap-4">
-              <input type="hidden" name="Procedimento" id="anamneseProcedimento">
               <div><label class="block mb-1 font-semibold">Modalidade</label><input type="text" id="anamneseModalidade" name="Modalidade" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400" readonly></div>
-              <div><label class="block mb-1 font-semibold">Técnica</label><input type="text" name="Tecnica" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
+              <div><label class="block mb-1 font-semibold">Técnica</label><input type="text" id="anamneseTecnica" name="Tecnica" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
               <div><label class="block mb-1 font-semibold">Mapping</label><input type="text" name="Mapping" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
               <div><label class="block mb-1 font-semibold">Tamanho</label><input type="text" name="Tamanho" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
               <div><label class="block mb-1 font-semibold">Curvatura</label><input type="text" name="Curvatura" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
@@ -2091,11 +2094,11 @@ button:active:not(:disabled) {
 
     <div id="configuracoesPage" class="page hidden">
       <div class="flex justify-between mb-5 items-center">
-        <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Configurações ✨</h2>
-      </div>
+  <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Configurações ✨</h2>
+  <div class="flex gap-3 mr-4"></div>      </div>
       <section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="catalogoAgendamentosTitle">
         <h3 id="catalogoAgendamentosTitle" class="text-lg font-semibold mb-1">Listas do agendamento</h3>
-        <p class="text-sm text-gray-400 mb-4">Cadastre os tipos de procedimento e seus valores padrão. Essas configurações ficam salvas somente neste navegador.</p>
+        <p class="text-sm text-gray-400 mb-4">Cadastre as técnicas e seus valores padrão. Essas configurações ficam salvas somente neste navegador.</p>
         <form id="formCatalogoAgendamentos" class="flex flex-wrap items-end gap-3">
           <label class="flex flex-col gap-1 text-sm">Modalidade
             <select id="catalogoModalidade" class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required></select>
@@ -2104,7 +2107,7 @@ button:active:not(:disabled) {
             <input id="catalogoNovaModalidade" type="text" maxlength="80" placeholder="Ex.: Design de sobrancelhas"
               class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
           </label>
-          <label class="flex flex-col gap-1 text-sm">Procedimento
+          <label class="flex flex-col gap-1 text-sm">Técnica
             <input id="catalogoNomeProcedimento" type="text" maxlength="80" placeholder="Ex.: Foxy Eyes" required
               class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
           </label>
@@ -3494,7 +3497,7 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
     const horaFormatada = dataHora.toLocaleTimeString("pt-BR", {
       hour: "2-digit", minute: "2-digit"
     });
-    const procedimento = [item.Procedimento || "Atendimento", item.Modalidade]
+    const tecnica = [tecnicaAgendamento(item) || "Atendimento", item.Modalidade]
       .filter(Boolean)
       .map(escaparTexto)
       .join(" · ");
@@ -3508,7 +3511,7 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
 
     return `<div class="cliente-atendimento-item">
       <time>${dataFormatada} ${horaFormatada}</time>
-      <span>${procedimento}</span>
+      <span>${tecnica}</span>
       <span>${valorFormatado}</span>
       <div class="cliente-atendimento-actions">
         <span class="cliente-atendimento-status">${status}</span>
@@ -3793,21 +3796,20 @@ function renderizarProximosAgendamentos(eventos) {
   const container = document.getElementById("proximosAgendamentos");
   if (!container) return;
 
-  const hoje = new Date();
-  hoje.setHours(0, 0, 0, 0);
-  const limite = new Date(hoje);
-  limite.setDate(limite.getDate() + 7);
+  const agora = new Date();
+  const limite = new Date(agora);
+  limite.setDate(limite.getDate() + 5);
   const proximos = eventos
     .filter(evento => evento.Cliente && evento.Data)
     .map(evento => ({
       ...evento,
       dataHora: new Date(`${evento.Data}T${evento.Hora || "00:00"}`)
     }))
-    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= hoje && evento.dataHora < limite)
-    .sort((a, b) => a.dataHora - b.dataHora)
+    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= agora && evento.dataHora < limite)
+    .sort((a, b) => a.dataHora - b.dataHora);
 
   if (!proximos.length) {
-    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento nos próximos 7 dias.</p>';
+    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento nos próximos 5 dias.</p>';
     return;
   }
 
@@ -3822,7 +3824,7 @@ function renderizarProximosAgendamentos(eventos) {
     });
     const cliente = escaparHtml(evento.Cliente);
     const modalidade = evento.Modalidade ? `${evento.Modalidade} · ` : "";
-    const procedimento = escaparHtml(`${modalidade}${evento.Procedimento || "Atendimento"}`);
+    const tecnica = escaparHtml(`${modalidade}${tecnicaAgendamento(evento) || "Atendimento"}${evento.Tipo ? ` · ${evento.Tipo}` : ""}`);
 
     return `
       <div class="upcoming-item">
@@ -3833,7 +3835,7 @@ function renderizarProximosAgendamentos(eventos) {
         <span class="upcoming-avatar"><i class="fas fa-user"></i></span>
         <div>
           <div class="upcoming-name">${cliente}</div>
-          <div class="upcoming-service">${procedimento}</div>
+          <div class="upcoming-service">${tecnica}</div>
         </div>
       </div>`;
   }).join("");
@@ -3842,11 +3844,38 @@ function renderizarProximosAgendamentos(eventos) {
 async function carregarProximosAgendamentos() {
   try {
     const res = await fetch("supabase://agenda");
-    const data = await res.json();
-    renderizarProximosAgendamentos(data);
+    const eventosLocais = await res.json();
+    let eventosGoogle = [];
+    if (sessaoAgenda && googleCalendarConnected) {
+      const agora = new Date();
+      const limite = new Date(agora);
+      limite.setDate(limite.getDate() + 5);
+      const query = new URLSearchParams({
+        timeMin: agora.toISOString(),
+        timeMax: limite.toISOString(),
+        singleEvents: "true",
+        orderBy: "startTime",
+        maxResults: "2500"
+      });
+      const dataGoogle = await requisitarGoogleCalendar(`events?${query}`);
+      eventosGoogle = (dataGoogle.items || [])
+        .map(mapearEventoGoogleParaResumo)
+        .filter(Boolean);
+    }
+    renderizarProximosAgendamentos(deduplicarAgendamentos([...eventosLocais, ...eventosGoogle]));
   } catch (err) {
     console.error("Erro ao carregar eventos:", err);
-    renderizarProximosAgendamentos([]);
+    const statusGoogle = document.getElementById("googleCalendarStatus");
+    if (statusGoogle && sessaoAgenda && googleCalendarConnected) {
+      statusGoogle.textContent = `Não foi possível carregar os próximos agendamentos do Google: ${err.message}`;
+    }
+    try {
+      const res = await fetch("supabase://agenda");
+      renderizarProximosAgendamentos(await res.json());
+    } catch (localError) {
+      console.error("Erro ao carregar agendamentos do Studio:", localError);
+      renderizarProximosAgendamentos([]);
+    }
   }
 }
 
@@ -3873,6 +3902,7 @@ let sessaoAgenda = null;
 let googleCalendarConnected = false;
 let bloqueiosAgenda = new Map();
 let bloqueiosAgendaCarregados = false;
+let canalRealtimeBloqueiosAgenda = null;
 const CHAVE_BLOQUEIOS_AGENDA = "studio-agenda-bloqueios-local";
 const CHAVE_CATALOGO_AGENDAMENTOS = "studio-catalogo-agendamentos";
 const MODALIDADES_INICIAIS_AGENDAMENTO = [
@@ -3910,7 +3940,7 @@ function carregarCatalogoAgendamentos() {
       !(typeof procedimento.valor === "string" || typeof procedimento.valor === "number")
     )
   )) {
-    throw new Error("As listas salvas de procedimentos estão em formato inválido.");
+    throw new Error("As listas salvas de técnicas estão em formato inválido.");
   }
   catalogoAgendamentos = catalogo;
 }
@@ -3956,7 +3986,7 @@ function atualizarResumoValoresAgendamento() {
     return false;
   }
   if (sinalCentavos > procedimentoCentavos) {
-    erro.textContent = "O sinal não pode ser maior que o valor do procedimento.";
+    erro.textContent = "O sinal não pode ser maior que o valor da técnica.";
     erro.classList.remove("hidden");
     valorDia.textContent = "—";
     return false;
@@ -3987,7 +4017,7 @@ function renderizarTiposAgendamento(valorSelecionado = "", manterTipoDesconhecid
   const select = document.getElementById("agendamentoTipo");
   if (!select) return;
   const procedimentos = catalogoAgendamentos.find(item => item.nome === modalidade)?.procedimentos || [];
-  select.innerHTML = '<option value="">Selecione o tipo de procedimento</option>';
+  select.innerHTML = '<option value="">Selecione o tipo</option>';
   procedimentos.forEach(procedimento => {
     select.add(new Option(procedimento.nome, procedimento.nome));
   });
@@ -4025,7 +4055,7 @@ function renderizarListaCatalogoAgendamentos() {
   );
   lista.innerHTML = linhas.length
     ? linhas.join("")
-    : '<p class="py-2 text-sm text-gray-400">Nenhum procedimento cadastrado.</p>';
+    : '<p class="py-2 text-sm text-gray-400">Nenhuma técnica cadastrada.</p>';
 }
 
 function configurarCatalogoAgendamentos() {
@@ -4082,7 +4112,7 @@ function configurarCatalogoAgendamentos() {
       campoModalidadeNova.classList.add("hidden");
       campoModalidadeNova.style.display = "";
       inputModalidadeNova.required = false;
-      status.textContent = "Lista salva neste navegador. Escolha o mesmo nome para atualizar o valor padrão.";
+      status.textContent = "Lista salva neste navegador. Escolha a mesma técnica para atualizar o valor padrão.";
     } catch (error) {
       catalogoAgendamentos = JSON.parse(catalogoAnterior);
       renderizarModalidadesAgendamento();
@@ -4106,11 +4136,11 @@ function configurarCatalogoAgendamentos() {
       salvarCatalogoAgendamentos();
       renderizarTiposAgendamento();
       renderizarListaCatalogoAgendamentos();
-      status.textContent = "Procedimento removido das novas opções de agendamento.";
+      status.textContent = "Técnica removida das novas opções de agendamento.";
     } catch (error) {
       modalidade.procedimentos.splice(indice, 0, removido);
-      status.textContent = `Não foi possível remover o procedimento: ${error.message}`;
-      console.error("Erro ao remover procedimento do catálogo:", error);
+      status.textContent = `Não foi possível remover a técnica: ${error.message}`;
+      console.error("Erro ao remover técnica do catálogo:", error);
     }
   });
 
@@ -4172,11 +4202,14 @@ function atualizarListaBloqueiosAgenda() {
     : '<p class="py-2 text-sm text-gray-400">Nenhuma data bloqueada.</p>';
 }
 
-function carregarBloqueiosAgenda() {
+async function carregarBloqueiosAgenda() {
   const status = document.getElementById("statusBloqueiosAgenda");
   if (status) status.textContent = "Carregando datas bloqueadas...";
   bloqueiosAgendaCarregados = false;
   try {
+    if (!sessaoAgenda) {
+      throw new Error("Entre com sua conta do Studio para sincronizar as datas bloqueadas.");
+    }
     const dadosSalvos = localStorage.getItem(CHAVE_BLOQUEIOS_AGENDA);
     const itens = dadosSalvos ? JSON.parse(dadosSalvos) : [];
     if (!Array.isArray(itens) || itens.some(item =>
@@ -4184,20 +4217,56 @@ function carregarBloqueiosAgenda() {
     )) {
       throw new Error("Os dados locais dos bloqueios estão em formato inválido.");
     }
-    bloqueiosAgenda = new Map(itens.map(item => [item.data, String(item.motivo || "")]));
+    if (itens.length) {
+      const { error: importError } = await supabaseClient
+        .from("studio_agenda_bloqueios")
+        .upsert(
+          itens.map(item => ({
+            user_id: sessaoAgenda.user.id,
+            data: item.data,
+            motivo: String(item.motivo || "")
+          })),
+          { onConflict: "user_id,data", ignoreDuplicates: true }
+        );
+      if (importError) throw importError;
+      localStorage.removeItem(CHAVE_BLOQUEIOS_AGENDA);
+    }
+
+    const { data, error } = await supabaseClient
+      .from("studio_agenda_bloqueios")
+      .select("data,motivo")
+      .eq("user_id", sessaoAgenda.user.id)
+      .order("data", { ascending: true });
+    if (error) throw error;
+    bloqueiosAgenda = new Map((data || []).map(item => [item.data, String(item.motivo || "")]));
     bloqueiosAgendaCarregados = true;
-    if (status) status.textContent = "As datas bloqueadas ficam salvas somente neste dispositivo e navegador.";
+    if (status) status.textContent = "Datas bloqueadas sincronizadas com sua conta em todos os dispositivos.";
     atualizarListaBloqueiosAgenda();
   } catch (error) {
-    if (status) status.textContent = `Não foi possível carregar os bloqueios locais: ${error.message}`;
+    if (status) status.textContent = `Não foi possível carregar os bloqueios sincronizados: ${error.message}`;
     throw error;
   }
 }
 
-function salvarBloqueiosAgenda() {
-  localStorage.setItem(CHAVE_BLOQUEIOS_AGENDA, JSON.stringify(
-    [...bloqueiosAgenda.entries()].map(([data, motivo]) => ({ data, motivo }))
-  ));
+async function salvarBloqueioAgenda(data, motivo) {
+  if (!sessaoAgenda) throw new Error("Entre com sua conta do Studio para sincronizar as datas bloqueadas.");
+  const { error } = await supabaseClient
+    .from("studio_agenda_bloqueios")
+    .upsert(
+      { user_id: sessaoAgenda.user.id, data, motivo },
+      { onConflict: "user_id,data" }
+    );
+  if (error) throw error;
+}
+
+async function removerBloqueioAgenda(data) {
+  if (!sessaoAgenda) throw new Error("Entre com sua conta do Studio para sincronizar as datas bloqueadas.");
+  const { error } = await supabaseClient
+    .from("studio_agenda_bloqueios")
+    .delete()
+    .eq("user_id", sessaoAgenda.user.id)
+    .eq("data", data);
+  if (error) throw error;
 }
 
 function configurarBloqueiosAgenda() {
@@ -4231,24 +4300,24 @@ function configurarBloqueiosAgenda() {
     botaoAdicionar.disabled = true;
     status.textContent = "Salvando bloqueio...";
     try {
+      await salvarBloqueioAgenda(data, campoMotivo.value.trim());
       bloqueiosAgenda.set(data, campoMotivo.value.trim());
-      salvarBloqueiosAgenda();
       atualizarListaBloqueiosAgenda();
       campoData.value = "";
       campoMotivo.value = "";
-      status.textContent = "Data bloqueada somente neste dispositivo.";
+      status.textContent = "Data bloqueada e sincronizada com sua conta.";
       agendaCalendar?.render();
     } catch (error) {
       bloqueiosAgenda.delete(data);
       atualizarListaBloqueiosAgenda();
       console.error("Erro ao bloquear data da agenda:", error);
-      status.textContent = `Não foi possível salvar o bloqueio neste dispositivo: ${error.message}`;
+      status.textContent = `Não foi possível sincronizar o bloqueio: ${error.message}`;
     } finally {
       botaoAdicionar.disabled = false;
     }
   });
 
-  document.getElementById("listaBloqueiosAgenda").addEventListener("click", event => {
+  document.getElementById("listaBloqueiosAgenda").addEventListener("click", async event => {
     const botaoRemover = event.target.closest("[data-remover-bloqueio]");
     if (!botaoRemover) return;
     const data = botaoRemover.dataset.removerBloqueio;
@@ -4256,8 +4325,8 @@ function configurarBloqueiosAgenda() {
     botaoRemover.disabled = true;
     status.textContent = "Removendo bloqueio...";
     try {
+      await removerBloqueioAgenda(data);
       bloqueiosAgenda.delete(data);
-      salvarBloqueiosAgenda();
       atualizarListaBloqueiosAgenda();
       status.textContent = "Data desbloqueada.";
       agendaCalendar?.render();
@@ -4265,7 +4334,7 @@ function configurarBloqueiosAgenda() {
       bloqueiosAgenda.set(data, motivo);
       atualizarListaBloqueiosAgenda();
       console.error("Erro ao remover bloqueio da agenda:", error);
-      status.textContent = `Não foi possível remover o bloqueio deste dispositivo: ${error.message}`;
+      status.textContent = `Não foi possível sincronizar a remoção: ${error.message}`;
     }
   });
 }
@@ -4307,12 +4376,13 @@ function dadosEventoGoogle(evento) {
   const inicio = new Date(`${evento.Data}T${evento.Hora || "00:00"}:00-03:00`);
   if (Number.isNaN(inicio.getTime())) throw new Error("Data ou hora do agendamento inválida.");
   const fim = new Date(inicio.getTime() + 60 * 60 * 1000);
+  const tecnica = tecnicaAgendamento(evento);
   const detalhes = [
     evento.Modalidade && `Modalidade: ${evento.Modalidade}`,
-    evento.Procedimento && `Procedimento: ${evento.Procedimento}`,
+    tecnica && `Técnica: ${tecnica}`,
     evento.Tipo && `Tipo: ${evento.Tipo}`,
     evento.ValorProcedimento !== "" && evento.ValorProcedimento !== undefined &&
-      `Valor do procedimento: ${Number(evento.ValorProcedimento || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
+      `Valor da técnica: ${Number(evento.ValorProcedimento || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
     evento.ValorSinal !== "" && evento.ValorSinal !== undefined &&
       `Valor sinal: ${Number(evento.ValorSinal || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
     evento.ValorDia !== "" && evento.ValorDia !== undefined &&
@@ -4320,7 +4390,7 @@ function dadosEventoGoogle(evento) {
   ].filter(Boolean).join("\n");
 
   return {
-    summary: `${evento.Cliente} - ${evento.Procedimento || "Agendamento"}`,
+    summary: `${evento.Cliente} - ${tecnica || "Agendamento"}`,
     description: detalhes,
     start: { dateTime: inicio.toISOString(), timeZone: "America/Sao_Paulo" },
     end: { dateTime: fim.toISOString(), timeZone: "America/Sao_Paulo" },
@@ -4404,7 +4474,7 @@ function deduplicarAgendamentos(eventos) {
     const chave = [
       evento.Data,
       String(evento.Hora || "00:00").slice(0, 5),
-      normalizarTituloEvento(`${evento.Cliente} - ${evento.Procedimento || ""}`)
+      normalizarTituloEvento(`${evento.Cliente} - ${tecnicaAgendamento(evento)}`)
     ].join("|");
     const existente = unicos.get(chave);
     if (!existente) {
@@ -4436,15 +4506,17 @@ function mapearEventoGoogleParaResumo(evento) {
   const partesTitulo = String(evento.summary || "").split(" - ");
   const cliente = partesTitulo.shift()?.trim();
   if (!cliente) return null;
+  const tecnica = campoDescricao("Técnica") || campoDescricao("Procedimento") ||
+    partesTitulo.join(" - ").trim() || "Agendamento";
 
   return {
     Data: inicio.slice(0, 10),
     Hora: inicio.slice(11, 16) || "00:00",
     Cliente: cliente,
-    Procedimento: campoDescricao("Procedimento") || partesTitulo.join(" - ").trim() || "Agendamento",
+    Tecnica: tecnica,
     Modalidade: campoDescricao("Modalidade"),
     Tipo: campoDescricao("Tipo"),
-    ValorProcedimento: valorDescricao("Valor do procedimento"),
+    ValorProcedimento: valorDescricao("Valor da técnica") || valorDescricao("Valor do procedimento"),
     ValorSinal: valorDescricao("Valor sinal"),
     ValorDia: valorDescricao("Valor a cobrar no dia"),
     ValorPago: valorDescricao("Valor a cobrar no dia"),
@@ -4540,11 +4612,11 @@ const totalAgendamentos = eventosDoMes.length;
   );
 
   const ciliosAplicacoes = eventosCilios.filter(e =>
-    (e.Procedimento || '').toLowerCase() === 'aplicação'
+    tecnicaAgendamento(e).toLowerCase() === 'aplicação'
   ).length;
 
   const ciliosManutencoes = eventosCilios.filter(e =>
-    (e.Procedimento || '').toLowerCase() === 'manutenção'
+    tecnicaAgendamento(e).toLowerCase() === 'manutenção'
   ).length;
 
   // =====================================================
@@ -4555,11 +4627,11 @@ const totalAgendamentos = eventosDoMes.length;
   );
 
   const sobraAplicacoes = eventosSobrancelhas.filter(e =>
-    (e.Procedimento || '').toLowerCase() === 'aplicação'
+    tecnicaAgendamento(e).toLowerCase() === 'aplicação'
   ).length;
 
   const sobraManutencoes = eventosSobrancelhas.filter(e =>
-    (e.Procedimento || '').toLowerCase() === 'manutenção'
+    tecnicaAgendamento(e).toLowerCase() === 'manutenção'
   ).length;
 
   // =====================================================
@@ -4725,11 +4797,11 @@ const totalAgendamentos = eventosDoMes.length;
   );
 
   const ciliosAplicacao = eventosCilios.filter(e =>
-    (e.Procedimento || '').trim().toLowerCase() === 'aplicação'
+    tecnicaAgendamento(e).trim().toLowerCase() === 'aplicação'
   ).length;
 
   const ciliosManutencao = eventosCilios.filter(e =>
-    (e.Procedimento || '').trim().toLowerCase() === 'manutenção'
+    tecnicaAgendamento(e).trim().toLowerCase() === 'manutenção'
   ).length;
 
   // 🔹 SOBRANCELHAS
@@ -4738,11 +4810,11 @@ const totalAgendamentos = eventosDoMes.length;
   );
 
   const sobraAplicacao = eventosSobra.filter(e =>
-    (e.Procedimento || '').trim().toLowerCase() === 'aplicação'
+    tecnicaAgendamento(e).trim().toLowerCase() === 'aplicação'
   ).length;
 
   const sobraManutencao = eventosSobra.filter(e =>
-    (e.Procedimento || '').trim().trim().toLowerCase() === 'manutenção'
+    tecnicaAgendamento(e).trim().toLowerCase() === 'manutenção'
   ).length;
 
   // 🔹 ELEMENTOS DA AGENDA
@@ -4837,14 +4909,14 @@ async function renderAgendaCalendar() {
     eventos = deduplicarAgendamentos(data)
       .map(e => ({
         id: `${e.Data}-${e.Hora}-${e.Cliente}`,
-        title: `${e.Cliente} - ${e.Procedimento || ''}`,
+        title: `${e.Cliente} - ${tecnicaAgendamento(e)}`,
         start: `${e.Data}T${e.Hora || "00:00"}`,
         color: e.Presenca === 'Sim' ? '#34a853' : '#1a73e8',
         allDay: false,
         extendedProps: {
           id: e.ID ?? e._db_id,
           cliente: e.Cliente,
-          procedimento: e.Procedimento,
+          tecnica: tecnicaAgendamento(e),
           modalidade: e.Modalidade,
           tipo: e.Tipo,
           valorPago: e.ValorPago,
@@ -4951,11 +5023,11 @@ eventClick: function(info) {
     props = {
       ...props,
       cliente: partesTitulo.shift()?.trim() || info.event.title || "",
-      procedimento: campoDescricao("Procedimento") || partesTitulo.join(" - ").trim() || "Agendamento",
+      tecnica: campoDescricao("Técnica") || campoDescricao("Procedimento") || partesTitulo.join(" - ").trim() || "Agendamento",
       modalidade: campoDescricao("Modalidade"),
       tipo: campoDescricao("Tipo"),
-      valorProcedimento: campoDescricao("Valor do procedimento")
-        ? Number(campoDescricao("Valor do procedimento").replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."))
+      valorProcedimento: campoDescricao("Valor da técnica") || campoDescricao("Valor do procedimento")
+        ? Number((campoDescricao("Valor da técnica") || campoDescricao("Valor do procedimento")).replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."))
         : "",
       valorSinal: campoDescricao("Valor sinal")
         ? Number(campoDescricao("Valor sinal").replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."))
@@ -4981,7 +5053,7 @@ eventClick: function(info) {
     clienteOriginal: props.cliente,
     dataOriginal,
     horaOriginal,
-    procedimentoOriginal: props.procedimento || "",
+    tecnicaOriginal: props.tecnica || props.procedimento || "",
     googleEventId: props.googleEventId || null,
     googleAppointmentId: props.googleAppointmentId || null,
     googlePrivateProperties: props.googlePrivateProperties || {},
@@ -4999,7 +5071,7 @@ eventClick: function(info) {
   const clienteSelecionado = clientesData.find(c => c.Nome === props.cliente);
   document.getElementById("agendamentoCep").value = clienteSelecionado ? clienteSelecionado.CEP : "";
 
-  document.getElementById("agendamentoProcedimento").value = props.procedimento || "";
+  document.getElementById("agendamentoProcedimento").value = props.tecnica || props.procedimento || "";
   renderizarModalidadesAgendamento(props.modalidade || "");
   renderizarTiposAgendamento(props.tipo || "", true);
   document.getElementById("agendamentoTipo").value = props.tipo || "";
@@ -5081,6 +5153,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function atualizarSessaoAgenda(session) {
     sessaoAgenda = session;
+    if (canalRealtimeBloqueiosAgenda) {
+      await supabaseClient.removeChannel(canalRealtimeBloqueiosAgenda);
+      canalRealtimeBloqueiosAgenda = null;
+    }
     const conectadoAoSite = Boolean(session);
     document.getElementById("loginAgendaEmailField").classList.toggle("hidden", conectadoAoSite);
     document.getElementById("loginAgendaSenhaField").classList.toggle("hidden", conectadoAoSite);
@@ -5090,10 +5166,41 @@ document.addEventListener("DOMContentLoaded", () => {
     googleCalendarConnected = false;
 
     if (!session) {
+      bloqueiosAgenda = new Map();
+      bloqueiosAgendaCarregados = false;
+      atualizarListaBloqueiosAgenda();
+      const statusBloqueios = document.getElementById("statusBloqueiosAgenda");
+      if (statusBloqueios) statusBloqueios.textContent = "Entre com sua conta do Studio para sincronizar as datas bloqueadas.";
       googleCalendarStatus.textContent = "Entre com sua conta do Studio para acessar a agenda.";
       await atualizarResumosHome();
+      await carregarProximosAgendamentos();
       agendaCalendar?.refetchEvents();
+      agendaCalendar?.render();
       return;
+    }
+
+    try {
+      await carregarBloqueiosAgenda();
+      agendaCalendar?.render();
+      canalRealtimeBloqueiosAgenda = supabaseClient
+        .channel(`studio-agenda-bloqueios-${session.user.id}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "studio_agenda_bloqueios",
+            filter: `user_id=eq.${session.user.id}`
+          },
+          () => {
+            void carregarBloqueiosAgenda()
+              .then(() => agendaCalendar?.render())
+              .catch(error => console.error("Erro ao atualizar bloqueios sincronizados:", error));
+          }
+        )
+        .subscribe();
+    } catch (error) {
+      console.error("Erro ao carregar bloqueios sincronizados:", error);
     }
 
     googleCalendarStatus.textContent = `Sessão ativa: ${session.user.email || "conta do Studio"}. Verificando Google Agenda...`;
@@ -5113,7 +5220,9 @@ document.addEventListener("DOMContentLoaded", () => {
       googleCalendarStatus.textContent = `Não foi possível verificar a conexão Google: ${error.message}`;
     }
     await atualizarResumosHome();
+    await carregarProximosAgendamentos();
     agendaCalendar?.refetchEvents();
+    agendaCalendar?.render();
   }
 
   formLoginAgenda.addEventListener("submit", async event => {
@@ -5393,7 +5502,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Preenche Bloco 4
     document.getElementById("anamneseModalidade").value = dadosAgendamento.Modalidade || '';
-    document.getElementById("anamneseProcedimento").value = dadosAgendamento.Procedimento || '';
+    document.getElementById("anamneseTecnica").value = tecnicaAgendamento(dadosAgendamento);
     const agora = new Date();
     document.getElementById("anamneseHorarioInicio").value = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
