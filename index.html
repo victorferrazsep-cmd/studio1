@@ -1451,13 +1451,23 @@ button:active:not(:disabled) {
 }
 
 .upcoming-item {
-  display: grid;
-  grid-template-columns: 2rem 1.5rem minmax(0, 1fr);
-  grid-template-rows: auto auto;
-  align-items: start;
-  gap: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   padding: 0.75rem 0;
   border-bottom: 1px solid rgba(244, 191, 174, 0.1);
+}
+
+.upcoming-line {
+  display: grid;
+  grid-template-columns: 2rem 1.15rem minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.2rem;
+  min-width: 0;
+}
+
+.upcoming-line-secondary {
+  margin-top: -0.2rem;
 }
 
 .upcoming-item:last-child {
@@ -1465,16 +1475,14 @@ button:active:not(:disabled) {
   padding-bottom: 0;
 }
 
-.upcoming-item > div:last-child {
-  display: contents;
+.upcoming-line > * {
   min-width: 0;
 }
 
 .upcoming-time {
   display: block;
   grid-column: 1;
-  grid-row: 2;
-  transform: translateY(-0.65rem);
+  grid-row: 1;
   color: var(--texto);
   font-size: 0.61rem;
   font-weight: 600;
@@ -1492,15 +1500,17 @@ button:active:not(:disabled) {
   line-height: 1.1;
 }
 
-.upcoming-datetime {
-  display: contents;
+.upcoming-line-spacer {
+  grid-column: 2;
+  grid-row: 1;
+  width: 1.15rem;
 }
 
 .upcoming-avatar {
   grid-column: 2;
   grid-row: 1;
-  width: 1.45rem;
-  height: 1.45rem;
+  width: 1.15rem;
+  height: 1.15rem;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -1531,8 +1541,7 @@ button:active:not(:disabled) {
 
 .upcoming-service {
   grid-column: 3;
-  grid-row: 2;
-  transform: translateY(-0.75rem);
+  grid-row: 1;
 }
 
 .upcoming-empty {
@@ -2182,7 +2191,7 @@ button:active:not(:disabled) {
             <legend class="px-2 font-semibold text-rose-300">Termo de Consentimento</legend>
             <p class="text-xs italic text-gray-400 mb-2">"Autorizo a realização da técnica de alongamento de cílios. Autorizo o registro fotográfico do "antes e depois" para documentação e divulgação da profissional. As declarações acima são verdadeiras, não cabendo ao profissional a responsabilidade por informações omitidas nesta avaliação. Me comprometo a seguir todos os cuidados necessários após a técnica."</p>
             <div class="relative w-full h-32 bg-gray-200 rounded-md">
-              <canvas id="signature-pad" class="absolute top-0 left-0 w-full h-full"></canvas>
+              <canvas id="signature-pad" class="absolute top-0 left-0 w-full h-full" style="touch-action: none;"></canvas>
             </div>
             <button type="button" id="clear-signature" class="text-xs text-gray-400 hover:text-white mt-1">Limpar Assinatura</button>
             <input type="hidden" name="Assinatura" id="assinaturaOutput">
@@ -3551,7 +3560,12 @@ async function alterarStatusCliente(nome, statusAtual, botao) {
 }
 
 function normalizarNomeCliente(nome) {
-  return (nome || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+  return (nome || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
 }
 
 function aplicarBuscaClientes() {
@@ -3604,10 +3618,12 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
 
   const count = card.querySelector("[data-atendimentos-count]");
   const list = card.querySelector("[data-atendimentos-list]");
+  const dataEl = card.querySelector(".cliente-proximo-value");
   count.textContent = `(${atendimentos.length})`;
 
   if (!atendimentos.length) {
     list.innerHTML = '<p class="text-xs text-gray-400">Nenhum atendimento cadastrado.</p>';
+    dataEl.textContent = "Sem Agend.";
     return;
   }
 
@@ -3651,8 +3667,6 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
   });
 
   const proximo = atendimentos.find(atendimento => atendimento.dataHora >= agora);
-  const dataEl = card.querySelector(`#${CSS.escape(`data-${cli.nome.replace(/\s+/g, "-")}`)}`);
-
   if (proximo) {
     dataEl.textContent = proximo.dataHora.toLocaleDateString("pt-BR", {
       day: "2-digit", month: "2-digit"
@@ -3671,14 +3685,21 @@ async function carregarClientes() {
     const [resClientes, agenda] = await Promise.all([
       fetch(SUPABASE_CLIENTES_URL),
       fetch(SUPABASE_AGENDA_URL)
-        .then(response => response.ok ? response.json() : [])
-        .catch(error => {
-          console.error("Erro ao carregar agenda dos clientes:", error);
-          return [];
+        .then(response => {
+          if (!response.ok) throw new Error(`A consulta da agenda respondeu com HTTP ${response.status}.`);
+          return response.json();
+        })
+        .then(data => {
+          if (!Array.isArray(data)) throw new Error("A consulta da agenda retornou dados inválidos.");
+          return data;
         })
     ]);
 
+    if (!resClientes.ok) {
+      throw new Error(`A consulta de clientes respondeu com HTTP ${resClientes.status}.`);
+    }
     const data = await resClientes.json();
+    if (!Array.isArray(data)) throw new Error("A consulta de clientes retornou dados inválidos.");
 
     if (!data.length) {
       container.innerHTML = "<p class='text-center text-rose-300'>Nenhum cliente cadastrado.</p>";
@@ -3954,13 +3975,14 @@ function renderizarProximosAgendamentos(eventos) {
 
     return `
       <div class="upcoming-item">
-        <div class="upcoming-datetime">
+        <div class="upcoming-line">
           <span class="upcoming-date">${data}</span>
-          <span class="upcoming-time">${hora}</span>
-        </div>
-        <span class="upcoming-avatar"><i class="fas fa-user"></i></span>
-        <div>
+          <span class="upcoming-avatar"><i class="fas fa-user"></i></span>
           <div class="upcoming-name">${cliente}</div>
+        </div>
+        <div class="upcoming-line upcoming-line-secondary">
+          <span class="upcoming-time">${hora}</span>
+          <span class="upcoming-line-spacer" aria-hidden="true"></span>
           <div class="upcoming-service">${tecnica}</div>
         </div>
       </div>`;
@@ -5645,9 +5667,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("signature-pad");
   const signaturePad = new SignaturePad(canvas);
 
+  function ajustarCanvasAssinatura() {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) {
+      throw new Error("Não foi possível dimensionar o campo de assinatura.");
+    }
+
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = rect.width * ratio;
+    canvas.height = rect.height * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+    signaturePad.clear();
+  }
+
   window.abrirModalAnamnese = async (dadosAgendamento) => {
     document.getElementById("formAnamnese").reset();
-    signaturePad.clear();
 
     // Busca dados completos do cliente
     const clienteCompleto = clientesData.find(c => c.Nome === dadosAgendamento.Cliente);
@@ -5673,11 +5707,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Mostra o modal
     modalAnamnese.classList.remove("hidden");
-    setTimeout(() => {
+    requestAnimationFrame(() => {
+      ajustarCanvasAssinatura();
       modalAnamneseContent.classList.remove("scale-95", "opacity-0");
       modalAnamneseContent.classList.add("scale-100", "opacity-100");
-      signaturePad.fromData(signaturePad.toData()); // Redesenha o canvas
-    }, 10);
+    });
   };
 
   // Lógica para campos condicionais
@@ -5727,101 +5761,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const canvas = document.getElementById("signature-pad");
-const ctx = canvas.getContext("2d");
-
-let desenhando = false;
-
-// 🔹 Ajusta o canvas ao tamanho real visível (ESSENCIAL)
-function ajustarCanvas() {
-  const rect = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-
-  canvas.width = rect.width * ratio;
-  canvas.height = rect.height * ratio;
-
-  ctx.scale(ratio, ratio);
-
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#000";
-}
-
-// 🔹 Posição correta do toque/mouse
-function getPosicao(event) {
-  const rect = canvas.getBoundingClientRect();
-
-  let clientX, clientY;
-
-  if (event.touches) {
-    clientX = event.touches[0].clientX;
-    clientY = event.touches[0].clientY;
-  } else {
-    clientX = event.clientX;
-    clientY = event.clientY;
-  }
-
-  return {
-    x: clientX - rect.left,
-    y: clientY - rect.top
-  };
-}
-
-// 🔹 Início
-function iniciar(event) {
-  event.preventDefault();
-  desenhando = true;
-
-  const pos = getPosicao(event);
-  ctx.beginPath();
-  ctx.moveTo(pos.x, pos.y);
-}
-
-// 🔹 Movimento
-function desenhar(event) {
-  if (!desenhando) return;
-  event.preventDefault();
-
-  const pos = getPosicao(event);
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
-}
-
-// 🔹 Fim
-function parar() {
-  desenhando = false;
-}
-
-// 🔹 Eventos
-canvas.addEventListener("mousedown", iniciar);
-canvas.addEventListener("mousemove", desenhar);
-canvas.addEventListener("mouseup", parar);
-canvas.addEventListener("mouseleave", parar);
-
-canvas.addEventListener("touchstart", iniciar, { passive: false });
-canvas.addEventListener("touchmove", desenhar, { passive: false });
-canvas.addEventListener("touchend", parar);
-
-// 🔹 Limpar assinatura
-document.getElementById("clear-signature").addEventListener("click", () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-// 🔹 Ajusta ao abrir o modal
-ajustarCanvas();
-window.addEventListener("resize", ajustarCanvas);
-
-function abrirModalAnamnese() {
-  const modal = document.getElementById("modalAnamnese");
-  modal.classList.remove("hidden");
-  document.body.style.overflow = "hidden"; // trava scroll do fundo
-}
-
-function fecharModalAnamnese() {
-  const modal = document.getElementById("modalAnamnese");
-  modal.classList.add("hidden");
-  document.body.style.overflow = ""; // libera scroll
-}
 </script>
 </body>
 </html>
