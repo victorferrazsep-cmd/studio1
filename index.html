@@ -4436,10 +4436,15 @@ document.addEventListener("DOMContentLoaded", () => {
           });
 
       if (!createResponse.ok) {
+        const responseData = await createResponse.json().catch(() => ({}));
         if (googleEventCriado) {
           await requisitarGoogleCalendar(`events/${encodeURIComponent(googleEventCriado)}`, { method: "DELETE" }).catch(console.error);
         }
-        throw new Error("O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados.");
+        throw new Error(
+          responseData.error
+            ? `O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados: ${responseData.error}`
+            : "O Google Agenda foi atualizado, mas não foi possível salvar no banco de dados."
+        );
       }
 
       alert("✅ Agendamento salvo com sucesso!");
@@ -4491,7 +4496,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 2000);
     } catch (err) {
       console.error("Erro ao salvar agendamento:", err);
-      alert("❌ Erro ao salvar agendamento. Verifique os dados e a conexão.");
+      const mensagem = err instanceof Error ? err.message : String(err);
+      alert(`❌ Não foi possível salvar o agendamento: ${mensagem}`);
     }
   });
 
