@@ -204,6 +204,10 @@
     text-transform: none;
   }
 
+  #calendarAgenda .fc-toolbar-title::first-letter {
+    text-transform: uppercase;
+  }
+
   #calendarAgenda .fc-button {
     border: 1px solid #ead8d4 !important;
     border-radius: 0.45rem !important;
@@ -322,23 +326,43 @@
     white-space: nowrap;
   }
 
-  #calendarAgenda .agenda-month-event::before {
-    width: 0.3rem;
-    height: 0.3rem;
-    flex: 0 0 0.3rem;
-    border-radius: 50%;
-    background: #d77f87;
-    content: "";
-  }
-
   #calendarAgenda .agenda-month-event-time {
     flex: 0 0 auto;
+    font-size: 0.58rem;
     font-weight: 600;
   }
 
   #calendarAgenda .agenda-month-event-name {
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 0.55rem;
+  }
+
+  #calendarAgenda .agenda-month-event-presente {
+    color: #4f9a67;
+  }
+
+  #calendarAgenda .agenda-timegrid-event {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    gap: 0.25rem;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  #calendarAgenda .agenda-timegrid-event-time {
+    flex: 0 0 auto;
+    font-weight: 600;
+  }
+
+  #calendarAgenda .agenda-timegrid-event-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
 #calendarAgenda td.fc-daygrid-day.fc-day-bloqueado,
@@ -1428,7 +1452,8 @@ button:active:not(:disabled) {
 
 .upcoming-item {
   display: grid;
-  grid-template-columns: 3rem 1.5rem minmax(0, 1fr);
+  grid-template-columns: 2rem 1.5rem minmax(0, 1fr);
+  grid-template-rows: auto auto;
   align-items: start;
   gap: 0.25rem;
   padding: 0.75rem 0;
@@ -1441,28 +1466,39 @@ button:active:not(:disabled) {
 }
 
 .upcoming-item > div:last-child {
+  display: contents;
   min-width: 0;
 }
 
 .upcoming-time {
+  display: block;
+  grid-column: 1;
+  grid-row: 2;
+  transform: translateY(-0.65rem);
   color: var(--texto);
-  font-size: 0.78rem;
+  font-size: 0.61rem;
   font-weight: 600;
+  line-height: 1.1;
 }
 
 .upcoming-date {
   display: block;
-  margin-bottom: 0.15rem;
+  grid-column: 1;
+  grid-row: 1;
+  margin-bottom: 0;
   color: #7F7F7F;
   font-size: 0.62rem;
   font-weight: 500;
+  line-height: 1.1;
 }
 
 .upcoming-datetime {
-  min-width: 0;
+  display: contents;
 }
 
 .upcoming-avatar {
+  grid-column: 2;
+  grid-row: 1;
   width: 1.45rem;
   height: 1.45rem;
   display: grid;
@@ -1480,6 +1516,8 @@ button:active:not(:disabled) {
 }
 
 .upcoming-name {
+  grid-column: 3;
+  grid-row: 1;
   color: var(--texto);
   font-size: 0.82rem;
   font-weight: 600;
@@ -1489,6 +1527,12 @@ button:active:not(:disabled) {
 .upcoming-empty {
   color: #7F7F7F;
   font-size: 0.7rem;
+}
+
+.upcoming-service {
+  grid-column: 3;
+  grid-row: 2;
+  transform: translateY(-0.75rem);
 }
 
 .upcoming-empty {
@@ -3900,7 +3944,11 @@ function renderizarProximosAgendamentos(eventos) {
       hour: "2-digit",
       minute: "2-digit"
     });
-    const cliente = escaparHtml(evento.Cliente);
+    const nomesCliente = String(evento.Cliente).trim().split(/\s+/).filter(Boolean);
+    const nomeExibicao = nomesCliente.length > 1
+      ? `${nomesCliente[0]} ${nomesCliente[nomesCliente.length - 1]}`
+      : nomesCliente[0] || "";
+    const cliente = escaparHtml(nomeExibicao);
     const modalidade = evento.Modalidade ? `${evento.Modalidade} · ` : "";
     const tecnica = escaparHtml(`${modalidade}${tecnicaAgendamento(evento) || "Atendimento"}${evento.Tipo ? ` · ${evento.Tipo}` : ""}`);
 
@@ -5034,7 +5082,21 @@ async function renderAgendaCalendar() {
       day: "Dia"
     },
     eventContent: function(info) {
-      if (info.view.type !== "dayGridMonth") return { html: escaparHtml(info.timeText ? `${info.timeText} ${info.event.title}` : info.event.title) };
+      if (info.view.type !== "dayGridMonth") {
+        const conteudo = document.createElement("div");
+        conteudo.className = "agenda-timegrid-event";
+        if (info.timeText) {
+          const hora = document.createElement("span");
+          hora.className = "agenda-timegrid-event-time";
+          hora.textContent = info.timeText;
+          conteudo.append(hora);
+        }
+        const titulo = document.createElement("span");
+        titulo.className = "agenda-timegrid-event-title";
+        titulo.textContent = info.event.title;
+        conteudo.append(titulo);
+        return { domNodes: [conteudo] };
+      }
       const nomeCliente = String(info.event.title || "").split(" - ")[0].trim().split(/\s+/)[0];
       const conteudo = document.createElement("span");
       conteudo.className = "agenda-month-event";
@@ -5044,6 +5106,9 @@ async function renderAgendaCalendar() {
       const nome = document.createElement("span");
       nome.className = "agenda-month-event-name";
       nome.textContent = nomeCliente;
+      if (String(info.event.extendedProps.Presenca || "").trim().toLowerCase() === "sim") {
+        conteudo.classList.add("agenda-month-event-presente");
+      }
       conteudo.append(hora, nome);
       return { domNodes: [conteudo] };
     },
@@ -5210,10 +5275,6 @@ eventClick: function(info) {
 
     // 🔹 Atualiza os resumos ao mudar de mês/view
     datesSet: function(dateInfo) {
-      const title = calendarEl.querySelector(".fc-toolbar-title");
-      if (title) {
-        title.textContent = title.textContent.replace(/^./, letra => letra.toLocaleUpperCase("pt-BR"));
-      }
       // A função é chamada com a view atual para pegar o mês correto
       atualizarResumosAgenda(dateInfo);
     }
