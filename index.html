@@ -161,12 +161,13 @@
   }
 
   #calendarCardAgenda {
-    border: 1px solid #eaded9;
-    background: #fffdfc;
-    box-shadow: 0 8px 24px rgba(120, 90, 80, 0.08);
+    border: 0;
+    padding: 0 !important;
+    background: transparent;
+    box-shadow: none;
   }
 
-  #calendarAgenda .fc {
+  #calendarAgenda {
     --fc-border-color: #eaded9;
     --fc-page-bg-color: #fffdfc;
     --fc-neutral-bg-color: #fff8f6;
@@ -182,28 +183,28 @@
     font-size: 0.78rem;
   }
 
-  #calendarAgenda .fc .fc-toolbar {
+  #calendarAgenda .fc-toolbar {
     flex-wrap: wrap;
     gap: 0.65rem;
     margin-bottom: 0.8rem;
     font-size: 0.78rem;
   }
 
-  #calendarAgenda .fc .fc-toolbar-chunk {
+  #calendarAgenda .fc-toolbar-chunk {
     display: flex;
     align-items: center;
     gap: 0.3rem;
   }
 
-  #calendarAgenda .fc .fc-toolbar-title {
+  #calendarAgenda .fc-toolbar-title {
     color: #9f5f62;
     font-family: Inter, sans-serif;
-    font-size: clamp(0.5rem, 0.8vw, 0.625rem) !important;
+    font-size: clamp(0.625rem, 1vw, 0.75rem) !important;
     font-weight: 500;
     text-transform: none;
   }
 
-  #calendarAgenda .fc .fc-button {
+  #calendarAgenda .fc-button {
     border: 1px solid #ead8d4 !important;
     border-radius: 0.45rem !important;
     background: #fffaf8 !important;
@@ -217,36 +218,41 @@
     transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  #calendarAgenda .fc .fc-button:hover,
-  #calendarAgenda .fc .fc-button-primary:not(:disabled).fc-button-active,
-  #calendarAgenda .fc .fc-button-primary:not(:disabled):active {
+  #calendarAgenda .fc-button:hover,
+  #calendarAgenda .fc-button-primary:not(:disabled).fc-button-active,
+  #calendarAgenda .fc-button-primary:not(:disabled):active {
     border-color: #c98286 !important;
     background: #c98286 !important;
     color: #ffffff !important;
   }
 
-  #calendarAgenda .fc .fc-button:focus {
+  #calendarAgenda .fc-button:focus {
     box-shadow: 0 0 0 2px rgba(201, 130, 134, 0.15) !important;
   }
 
-  #calendarAgenda .fc .fc-scrollgrid,
-  #calendarAgenda .fc th,
-  #calendarAgenda .fc td {
+  #modalAgendamentoContent {
+    max-width: 56rem;
+    width: calc(100% - 2rem);
+  }
+
+  #calendarAgenda .fc-scrollgrid,
+  #calendarAgenda th,
+  #calendarAgenda td {
     border-color: #eaded9;
   }
 
-  #calendarAgenda .fc .fc-scrollgrid {
+  #calendarAgenda .fc-scrollgrid {
     overflow: hidden;
     border: 1px solid #eaded9;
     border-radius: 0.55rem;
   }
 
-  #calendarAgenda .fc .fc-col-header-cell {
+  #calendarAgenda .fc-col-header-cell {
     padding: 0.3rem 0;
     background: #fff8f6;
   }
 
-  #calendarAgenda .fc .fc-col-header-cell-cushion {
+  #calendarAgenda .fc-col-header-cell-cushion {
     color: #9f5f62;
     font-family: Inter, sans-serif;
     font-size: 0.55rem;
@@ -255,37 +261,37 @@
     text-transform: lowercase;
   }
 
-  #calendarAgenda .fc .fc-daygrid-day {
+  #calendarAgenda .fc-daygrid-day {
     background: #fffdfc;
   }
 
-  #calendarAgenda .fc .fc-daygrid-day-number {
+  #calendarAgenda .fc-daygrid-day-number {
     min-width: 1.25rem;
     padding: 0.25rem 0.32rem;
     color: #6f6663;
     font-family: Inter, sans-serif;
-    font-size: 0.28rem;
+    font-size: 0.65rem;
     text-decoration: none;
   }
 
-  #calendarAgenda .fc .fc-day-other .fc-daygrid-day-number {
+  #calendarAgenda .fc-day-other .fc-daygrid-day-number {
     color: #c8bfbc;
   }
 
-  #calendarAgenda .fc .fc-day-today {
+  #calendarAgenda .fc-day-today {
     background: #fdf0ef !important;
   }
 
-  #calendarAgenda .fc .fc-day-today .fc-daygrid-day-number {
+  #calendarAgenda .fc-day-today .fc-daygrid-day-number {
     color: #b86d72;
     font-weight: 700;
   }
 
-  #calendarAgenda .fc .fc-daygrid-day-frame {
+  #calendarAgenda .fc-daygrid-day-frame {
     min-height: 3.6rem;
   }
 
-  #calendarAgenda .fc .fc-daygrid-event {
+  #calendarAgenda .fc-daygrid-event {
     margin: 0.1rem 0.2rem;
     padding: 0;
     border: 0;
@@ -295,15 +301,15 @@
     font-family: Inter, sans-serif;
   }
 
-  #calendarAgenda .fc .fc-daygrid-event-dot {
+  #calendarAgenda .fc-daygrid-event-dot {
     display: none;
   }
 
-  #calendarAgenda .fc .fc-event-main {
+  #calendarAgenda .fc-event-main {
     overflow: hidden;
   }
 
-  #calendarAgenda .fc .agenda-month-event {
+  #calendarAgenda .agenda-month-event {
     display: flex;
     align-items: center;
     min-width: 0;
@@ -316,7 +322,7 @@
     white-space: nowrap;
   }
 
-  #calendarAgenda .fc .agenda-month-event::before {
+  #calendarAgenda .agenda-month-event::before {
     width: 0.3rem;
     height: 0.3rem;
     flex: 0 0 0.3rem;
@@ -325,28 +331,28 @@
     content: "";
   }
 
-  #calendarAgenda .fc .agenda-month-event-time {
+  #calendarAgenda .agenda-month-event-time {
     flex: 0 0 auto;
     font-weight: 600;
   }
 
-  #calendarAgenda .fc .agenda-month-event-name {
+  #calendarAgenda .agenda-month-event-name {
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-#calendarAgenda .fc td.fc-daygrid-day.fc-day-bloqueado,
-#calendarAgenda .fc td.fc-daygrid-day.fc-day-bloqueado .fc-daygrid-day-frame,
-#calendarAgenda .fc td.fc-timegrid-col.fc-day-bloqueado,
-#calendarAgenda .fc td.fc-timegrid-col.fc-day-bloqueado .fc-timegrid-col-frame {
+#calendarAgenda td.fc-daygrid-day.fc-day-bloqueado,
+#calendarAgenda td.fc-daygrid-day.fc-day-bloqueado .fc-daygrid-day-frame,
+#calendarAgenda td.fc-timegrid-col.fc-day-bloqueado,
+#calendarAgenda td.fc-timegrid-col.fc-day-bloqueado .fc-timegrid-col-frame {
   background-color: #f9e8e7 !important;
 }
 
-#calendarAgenda .fc .fc-day-bloqueado .fc-daygrid-day-number {
+#calendarAgenda .fc-day-bloqueado .fc-daygrid-day-number {
   color: #b86d72 !important;
 }
 
-#calendarAgenda .fc .fc-day-bloqueado .fc-timegrid-col-frame {
+#calendarAgenda .fc-day-bloqueado .fc-timegrid-col-frame {
   background-color: #f9e8e7 !important;
 }
 
@@ -456,7 +462,7 @@
   padding: 0.35rem 0.5rem;
 }
 
-#calendarAgenda .fc .fc-day-bloqueado {
+#calendarAgenda .fc-day-bloqueado {
   cursor: not-allowed;
 }
 
