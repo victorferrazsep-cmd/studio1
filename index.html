@@ -1322,6 +1322,7 @@ button:active:not(:disabled) {
   min-width: 0;
   background-color: rgba(37, 37, 37, 0.72);
   width: 100%;
+  justify-content: flex-start;
 }
 
 .home-feature-grid {
@@ -1366,14 +1367,14 @@ button:active:not(:disabled) {
 }
 
 .upcoming-list {
-  margin-top: 1.15rem;
+  margin-top: 0.75rem;
 }
 
 .upcoming-item {
   display: grid;
-  grid-template-columns: 4.2rem 2.2rem minmax(0, 1fr);
-  align-items: center;
-  gap: 0.65rem;
+  grid-template-columns: 3.4rem 1.7rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.45rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid rgba(244, 191, 174, 0.1);
 }
@@ -1381,6 +1382,10 @@ button:active:not(:disabled) {
 .upcoming-item:last-child {
   border-bottom: 0;
   padding-bottom: 0;
+}
+
+.upcoming-item > div:last-child {
+  min-width: 0;
 }
 
 .upcoming-time {
@@ -1402,8 +1407,8 @@ button:active:not(:disabled) {
 }
 
 .upcoming-avatar {
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -1415,9 +1420,7 @@ button:active:not(:disabled) {
 
 .upcoming-name,
 .upcoming-service {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .upcoming-name {
@@ -1490,13 +1493,30 @@ button:active:not(:disabled) {
   }
 
   .upcoming-item {
-    grid-template-columns: 4rem 2rem minmax(0, 1fr);
+    grid-template-columns: 3rem 1.5rem minmax(0, 1fr);
+    gap: 0.4rem;
   }
 }
 
 @media (max-width: 640px) {
   main {
     padding: 1.25rem 1rem 2rem;
+  }
+
+  .home-feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+  }
+
+  .home-feature-grid > .card:first-child {
+    width: 100%;
+  }
+
+  .home-feature-image {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: 300px;
   }
 
   .card {
