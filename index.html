@@ -1370,6 +1370,7 @@ button:active:not(:disabled) {
     <a href="#" data-page="clientes">Clientes</a>
     <a href="#" data-page="agenda">Agenda</a>
     <a href="#" data-page="financeiro2">Financeiro</a>
+    <a href="#" data-page="configuracoes">Configurações</a>
   </nav>
 </aside>
 
@@ -1685,30 +1686,6 @@ button:active:not(:disabled) {
   <div id="calendarAgenda" class="w-full" style="height: 400px;"></div>
 </div>
 
-<section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="googleCalendarTitle">
-  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <div>
-      <h3 id="googleCalendarTitle" class="text-lg font-semibold">Google Agenda</h3>
-      <p id="googleCalendarStatus" class="text-sm text-gray-400" role="status" aria-live="polite">
-        Entre com sua conta do Studio para acessar a agenda.
-      </p>
-    </div>
-  </div>
-  <form id="formLoginAgenda" class="flex flex-wrap items-end gap-3">
-    <label id="loginAgendaEmailField" class="flex flex-col gap-1 text-sm">E-mail
-      <input id="loginAgendaEmail" type="email" autocomplete="username" required
-        class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-    </label>
-    <label id="loginAgendaSenhaField" class="flex flex-col gap-1 text-sm">Senha
-      <input id="loginAgendaSenha" type="password" autocomplete="current-password" required
-        class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-    </label>
-    <button id="btnEntrarAgenda" type="submit" class="btn-primary px-4 py-2 rounded-md font-semibold">Entrar</button>
-    <button id="btnSairAgenda" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Sair</button>
-    <button id="btnConectarGoogleCalendar" type="button" class="hidden btn-primary px-4 py-2 rounded-md font-semibold">Conectar Google Agenda</button>
-  </form>
-</section>
-
 <!-- 🔹 Modal de Agendamento (mesmo layout do boxCliente) -->
 <div id="modalAgendamento"
   class="hidden fixed inset-0 z-50 flex items-center justify-center transition-all duration-300">
@@ -1727,12 +1704,8 @@ button:active:not(:disabled) {
     </h2>
 
     <form id="formAgendamento" class="space-y-4">
-      <!-- Container para checkboxes de e-mail e presença -->
+      <!-- Presença do atendimento -->
       <div class="flex justify-between items-center">
-        <label class="flex items-center gap-2 text-sm text-gray-300">
-          <input type="checkbox" id="enviarEmail" checked />
-          Enviar e-mail para a cliente
-        </label>
         <div id="campoPresenca" class="hidden">
           <label class="flex items-center gap-2 cursor-pointer text-sm">
             <input type="checkbox" id="agendamentoPresenca" class="h-4 w-4 rounded text-green-500 bg-gray-700 border-gray-600 focus:ring-green-600 ring-offset-gray-800 focus:ring-2">
@@ -1922,6 +1895,33 @@ button:active:not(:disabled) {
         </form>
       </div>
     </div>
+    </div>
+
+    <div id="configuracoesPage" class="page hidden">
+      <h2 class="text-2xl font-bold text-rose-300 mb-5">Configurações ✨</h2>
+      <section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="googleCalendarTitle">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 id="googleCalendarTitle" class="text-lg font-semibold">Google Agenda</h3>
+            <p id="googleCalendarStatus" class="text-sm text-gray-400" role="status" aria-live="polite">
+              Entre com sua conta do Studio para acessar a agenda.
+            </p>
+          </div>
+        </div>
+        <form id="formLoginAgenda" class="flex flex-wrap items-end gap-3">
+          <label id="loginAgendaEmailField" class="flex flex-col gap-1 text-sm">E-mail
+            <input id="loginAgendaEmail" type="email" autocomplete="username" required
+              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+          </label>
+          <label id="loginAgendaSenhaField" class="flex flex-col gap-1 text-sm">Senha
+            <input id="loginAgendaSenha" type="password" autocomplete="current-password" required
+              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+          </label>
+          <button id="btnEntrarAgenda" type="submit" class="btn-primary px-4 py-2 rounded-md font-semibold">Entrar</button>
+          <button id="btnSairAgenda" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Sair</button>
+          <button id="btnConectarGoogleCalendar" type="button" class="hidden btn-primary px-4 py-2 rounded-md font-semibold">Conectar Google Agenda</button>
+        </form>
+      </section>
     </div>
 
     <!-- FINANCEIRO 2 --> 
@@ -3702,7 +3702,7 @@ function dadosEventoGoogle(evento) {
   };
 }
 
-async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failureCallback, idsLocais) {
+async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failureCallback, idsAgendamentosLocais, idsEventosGoogleLocais, assinaturasAgendamentosLocais) {
   if (!sessaoAgenda || !googleCalendarConnected) {
     successCallback([]);
     return;
@@ -3718,7 +3718,14 @@ async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failure
     });
     const data = await requisitarGoogleCalendar(`events?${query}`);
     const eventos = (data.items || [])
-      .filter(evento => !idsLocais.has(String(evento.extendedProperties?.private?.studioAppointmentId || "")))
+      .filter(evento => {
+        const idAgendamento = String(evento.extendedProperties?.private?.studioAppointmentId || "");
+        const inicio = evento.start?.dateTime || evento.start?.date;
+        const assinatura = `${String(evento.summary || "").trim().toLocaleLowerCase("pt-BR")}|${inicio ? new Date(inicio).getTime() : ""}`;
+        return !idsEventosGoogleLocais.has(String(evento.id || "")) &&
+          !idsAgendamentosLocais.has(idAgendamento) &&
+          !assinaturasAgendamentosLocais.has(assinatura);
+      })
       .map(evento => ({
         id: `google-${evento.id}`,
         title: evento.summary || "(Sem título)",
@@ -4068,7 +4075,7 @@ async function renderAgendaCalendar() {
       color: e.Presenca === 'Sim' ? '#34a853' : '#1a73e8', // Verde para presença confirmada, azul nos demais
       allDay: false,
       extendedProps: {
-        id: e.ID, // 🔑 Pega o ID único do banco de dados
+        id: e.ID ?? e._db_id,
         cliente: e.Cliente,
         procedimento: e.Procedimento, // 🔑 Adiciona o procedimento
         modalidade: e.Modalidade,
@@ -4107,7 +4114,17 @@ async function renderAgendaCalendar() {
       { events: eventos },
       {
         events: (fetchInfo, successCallback, failureCallback) =>
-          carregarEventosGoogleCalendar(fetchInfo, successCallback, failureCallback, new Set(eventos.map(evento => String(evento.ID))))
+          carregarEventosGoogleCalendar(
+            fetchInfo,
+            successCallback,
+            failureCallback,
+            new Set(eventos.map(evento => String(evento.extendedProps.id || "")).filter(Boolean)),
+            new Set(eventos.map(evento => String(evento.extendedProps.googleEventId || "")).filter(Boolean)),
+            new Set(eventos.map(evento => {
+              const start = new Date(evento.start).getTime();
+              return `${String(evento.title).trim().toLocaleLowerCase("pt-BR")}|${start}`;
+            }))
+          )
       }
     ],
 
@@ -4385,7 +4402,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData(formAgendamento);
     const evento = Object.fromEntries(formData.entries());
     const editando = !!eventoEmEdicao;
-    const enviarEmail = document.getElementById("enviarEmail").checked;
     let abrirAnamnese = false;
     let googleEventCriado = null;
 
@@ -4470,7 +4486,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // 🔹 Envia o e-mail via EmailJS
-      if (enviarEmail && !apenasPresencaMudou) {
+      if (!apenasPresencaMudou) {
         try {
           const resultadoEmail = await emailjs.send(
             "service_j2axhfl",
