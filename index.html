@@ -3644,6 +3644,22 @@ let agendaCalendar;
 let sessaoAgenda = null;
 let googleCalendarConnected = false;
 
+async function mensagemErroEdgeFunction(error, fallback) {
+  const response = error?.context;
+  if (response instanceof Response) {
+    try {
+      const payload = await response.clone().json();
+      if (typeof payload?.error === "string" && payload.error) {
+        return new Error(`${payload.error} (HTTP ${response.status})`);
+      }
+    } catch {
+      // Use the SDK error message if the function did not return a JSON body.
+    }
+    return new Error(`${error.message || fallback} (HTTP ${response.status})`);
+  }
+  return new Error(error?.message || fallback);
+}
+
 async function requisitarGoogleCalendar(path, options = {}) {
   if (!sessaoAgenda) throw new Error("Entre com sua conta do Studio para acessar o Google Agenda.");
 
@@ -3654,7 +3670,7 @@ async function requisitarGoogleCalendar(path, options = {}) {
       body: options.body ? JSON.parse(options.body) : undefined
     }
   });
-  if (error) throw new Error(error.message || "Não foi possível acessar o Google Agenda.");
+  if (error) throw await mensagemErroEdgeFunction(error, "Não foi possível acessar o Google Agenda.");
   if (data?.error) throw new Error(data.error);
   return data;
 }
@@ -4222,7 +4238,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const { data, error } = await supabaseClient.functions.invoke("google-calendar-api", {
         body: { path: "status", method: "GET" }
       });
-      if (error) throw error;
+        if (error) throw await mensagemErroEdgeFunction(error, "Falha ao verificar a conexão com o calendário.");
       googleCalendarConnected = Boolean(data?.connected);
       googleCalendarStatus.textContent = googleCalendarConnected
         ? "Conectado. Os eventos Google aparecem junto com os agendamentos do Studio."
