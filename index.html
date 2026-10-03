@@ -1579,6 +1579,299 @@ button:active:not(:disabled) {
   grid-template-columns: repeat(3, minmax(120px, 1fr));
 }
 
+.reports-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+}
+
+.reports-header h2 {
+  margin: -2rem 0 0 1.5rem;
+  color: var(--rose);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.reports-card-heading p {
+  color: #aaa;
+  font-size: 0.78rem;
+}
+
+.reports-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(244, 191, 174, 0.16);
+  border-radius: 0.8rem;
+  background: rgba(37, 37, 37, 0.8);
+}
+
+.reports-period-toggle {
+  display: flex;
+  gap: 0.15rem;
+  margin-right: 0.25rem;
+  padding: 0.15rem;
+  border-radius: 0.55rem;
+  background: #171717;
+}
+
+.reports-period-toggle button,
+.reports-nav-button {
+  display: grid;
+  min-width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.reports-period-toggle button[aria-pressed="true"] {
+  background: var(--rose);
+  color: #211a18;
+  font-weight: 700;
+}
+
+.reports-nav-button {
+  font-size: 1.4rem;
+}
+
+.reports-nav-button:hover,
+.reports-period-toggle button:hover {
+  background-color: rgba(244, 191, 174, 0.16);
+}
+
+.reports-period-toggle button[aria-pressed="true"]:hover {
+  background: var(--rose);
+}
+
+.reports-period-label {
+  min-width: 8.5rem;
+  color: #f4bfae;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.reports-status {
+  margin: 0.75rem 0;
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.reports-status[data-state="error"] {
+  color: #fca5a5;
+}
+
+.reports-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(7rem, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+  overflow-x: auto;
+}
+
+.reports-card {
+  min-width: 0;
+  border: 1px solid rgba(244, 191, 174, 0.13);
+  border-radius: 0.9rem;
+  background: linear-gradient(145deg, rgba(43, 43, 43, 0.96), rgba(31, 31, 31, 0.96));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.reports-kpi {
+  display: flex;
+  min-height: 7rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 1rem;
+}
+
+.reports-kpi:nth-child(odd) {
+  border-color: transparent;
+  background: #191919;
+}
+
+.reports-kpi:nth-child(even) {
+  border-color: rgba(244, 191, 174, 0.18);
+  background: #2b2b2b;
+}
+
+.reports-kpi > span,
+.reports-return-stats span {
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+.reports-kpi strong {
+  overflow: hidden;
+  color: #f4bfae;
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reports-kpi small {
+  min-height: 1rem;
+  color: #aaa;
+  font-size: 0.68rem;
+}
+
+.reports-kpi small[data-trend="up"] { color: #86d3a1; }
+.reports-kpi small[data-trend="down"] { color: #f2a0a0; }
+
+.reports-chart-grid,
+.reports-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.reports-chart-card,
+.reports-detail-card,
+.reports-products-card {
+  padding: 1.1rem;
+}
+
+.reports-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.reports-card-heading h3 {
+  color: #f4bfae;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.reports-card-heading p {
+  margin-top: 0.2rem;
+  line-height: 1.45;
+}
+
+.reports-chart {
+  width: 100%;
+  min-height: 15rem;
+  margin-top: 0.65rem;
+}
+
+.reports-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.reports-chart-empty {
+  display: grid;
+  min-height: 14rem;
+  place-items: center;
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.reports-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  color: #bbb;
+  font-size: 0.7rem;
+}
+
+.reports-chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.reports-chart-legend i {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+}
+
+.reports-comparison-list {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.reports-comparison-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, minmax(4rem, auto));
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  color: #eee;
+  font-size: 0.75rem;
+}
+
+.reports-comparison-row:last-child {
+  border-bottom: 0;
+}
+
+.reports-comparison-row > :not(:first-child) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.reports-comparison-heading {
+  color: #aaa;
+  font-size: 0.65rem;
+}
+
+.reports-comparison-empty {
+  padding: 0.8rem 0;
+  color: #999;
+  font-size: 0.78rem;
+}
+
+.reports-return-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.reports-return-stats > div {
+  display: flex;
+  min-height: 4.5rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.reports-return-stats strong {
+  color: #f4bfae;
+  font-size: 1.4rem;
+}
+
+.reports-top-returning {
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+  border-left: 2px solid #f4bfae;
+  border-radius: 0.25rem;
+  background: rgba(244, 191, 174, 0.07);
+  color: #ddd;
+  font-size: 0.78rem;
+}
+
+.reports-products-card {
+  margin-bottom: 1rem;
+}
+
 @media (max-width: 480px) {
   .home-metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1636,6 +1929,34 @@ button:active:not(:disabled) {
     width: calc(100% - 1.5rem);
     padding: 1rem;
   }
+
+  .reports-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reports-header h2 {
+    margin-top: -1.5rem;
+  }
+
+  .reports-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .reports-chart-grid,
+  .reports-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .reports-comparison-row {
+    grid-template-columns: minmax(0, 1fr) repeat(2, minmax(3.5rem, auto));
+    gap: 0.4rem;
+  }
+
+  .reports-comparison-row > :nth-child(3) {
+    display: none;
+  }
 }
 
 
@@ -1652,6 +1973,7 @@ button:active:not(:disabled) {
     <a href="#" data-page="clientes">Clientes</a>
     <a href="#" data-page="agenda">Agenda</a>
     <a href="#" data-page="financeiro2">Financeiro</a>
+    <a href="#" data-page="relatorios">Relatórios</a>
     <a href="#" data-page="configuracoes">Configurações</a>
   </nav>
 </aside>
@@ -2284,6 +2606,7 @@ button:active:not(:disabled) {
     <button id="btnLoadRelatorio" class="btn-primary px-4 py-2 rounded-md">Relatório</button>
   </div>
 </div>
+<p id="financePresenceSyncStatus" class="hidden mb-4 text-sm text-amber-300" role="status"></p>
       <div id="boxFinanceiro2" class="card rounded-xl shadow p-5 max-w-xl mx-auto hidden">
         <form id="formFinanceiro2" class="space-y-4" action="supabase://financeiro" method="post">
           <div>
@@ -2366,6 +2689,64 @@ button:active:not(:disabled) {
 </div>
       </div>
   </div>
+
+  <section id="relatoriosPage" class="page hidden">
+    <header class="reports-header">
+      <h2>Relatórios ✨</h2>
+      <div class="reports-controls mr-4">
+        <div class="reports-period-toggle" role="group" aria-label="Período dos relatórios">
+          <button type="button" data-report-mode="month" aria-pressed="true">M</button>
+          <button type="button" data-report-mode="week" aria-pressed="false">S</button>
+        </div>
+        <button type="button" id="reportsPrevious" class="reports-nav-button" aria-label="Período anterior">‹</button>
+        <span id="reportsPeriodLabel" class="reports-period-label">Carregando...</span>
+        <button type="button" id="reportsNext" class="reports-nav-button" aria-label="Próximo período">›</button>
+      </div>
+    </header>
+    <p id="reportsStatus" class="reports-status" role="status">Carregando relatórios...</p>
+
+    <div id="reportsContent" class="hidden">
+      <div class="reports-kpi-grid">
+        <article class="reports-card reports-kpi"><span>Ganhos no período</span><strong id="reportGains">—</strong><small id="reportGainsDelta"></small></article>
+        <article class="reports-card reports-kpi"><span>Despesas no período</span><strong id="reportExpenses">—</strong><small id="reportExpensesDelta"></small></article>
+        <article class="reports-card reports-kpi"><span>Saldo no período</span><strong id="reportBalance">—</strong><small id="reportBalanceDelta"></small></article>
+        <article class="reports-card reports-kpi"><span>Novas clientes</span><strong id="reportNewClients">—</strong><small id="reportNewClientsDelta"></small></article>
+        <article class="reports-card reports-kpi"><span>Atendimentos realizados</span><strong id="reportAppointments">—</strong><small id="reportAppointmentsDelta"></small></article>
+      </div>
+
+      <div class="reports-chart-grid">
+        <article class="reports-card reports-chart-card">
+          <div class="reports-card-heading"><div><h3>Ganhos ao longo do período</h3><p>Valores registrados em Ganhos</p></div></div>
+          <div id="reportGainsChart" class="reports-chart" aria-label="Gráfico de ganhos"></div>
+        </article>
+        <article class="reports-card reports-chart-card">
+          <div class="reports-card-heading"><div><h3>Atendimentos por modalidade</h3><p>Presenças confirmadas, comparadas ao período anterior</p></div></div>
+          <div id="reportAppointmentsChart" class="reports-chart" aria-label="Gráfico de atendimentos"></div>
+        </article>
+      </div>
+
+      <div class="reports-detail-grid">
+        <article class="reports-card reports-detail-card">
+          <div class="reports-card-heading"><div><h3>Despesas por família</h3><p>Comparação com o período anterior</p></div></div>
+          <div id="reportExpenseFamilies" class="reports-comparison-list"></div>
+        </article>
+        <article class="reports-card reports-detail-card">
+          <div class="reports-card-heading"><div><h3>Aplicações e retornos</h3><p>Atendimentos concluídos no período</p></div></div>
+          <div class="reports-return-stats">
+            <div><span>Aplicações</span><strong id="reportApplications">—</strong></div>
+            <div><span>Manutenções / retornos</span><strong id="reportReturns">—</strong></div>
+            <div><span>Clientes que retornaram</span><strong id="reportReturningClients">—</strong></div>
+          </div>
+          <div id="reportTopReturningClient" class="reports-top-returning"></div>
+        </article>
+      </div>
+
+      <article class="reports-card reports-products-card">
+        <div class="reports-card-heading"><div><h3>Comparativo de preços de produtos</h3><p>Compara Descrição e Valor das ocorrências em Despesas. Sem quantidade informada, compara o último valor lançado por período.</p></div></div>
+        <div id="reportProductPrices" class="reports-comparison-list"></div>
+      </article>
+    </div>
+  </section>
 
 <dialog id="siteDialog" class="site-dialog" aria-labelledby="siteDialogTitle" aria-describedby="siteDialogMessage">
   <div class="site-dialog-content">
@@ -2488,6 +2869,141 @@ const relatorioDiv = document.getElementById("relatorioFinanceiro2");
 const relatorioContainer = document.getElementById("relatorioContainer");
 const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
 
+async function registrarGanhoPorPresenca(evento, registrosConhecidos = null) {
+  const data = String(evento.Data || "");
+  const mesRef = data.slice(0, 7);
+  const modalidade = normalizarNomeCliente(evento.Modalidade);
+  const tecnica = normalizarNomeCliente(tecnicaAgendamento(evento));
+  const familia = modalidade.includes("sobrancelha")
+    ? "Sobrancelhas"
+    : modalidade.includes("cilio") ? "Cílios" : "";
+  const nome = tecnica.includes("manutencao")
+    ? "Manutenção"
+    : tecnica.includes("aplicacao") ? "Aplicação" : "";
+  const valor = Number(evento.ValorProcedimento);
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(data) || !mesRef ||
+      !familia || !nome || !Number.isFinite(valor) || valor < 0) {
+    throw new Error("Confira a data, modalidade, técnica e valor total do procedimento.");
+  }
+
+  const agendamentoId = String(
+    evento.ID ??
+    evento.GoogleAppointmentId ??
+    [evento.Cliente, data, evento.Hora, tecnicaAgendamento(evento)].join("|")
+  );
+  let registrosExistentes = registrosConhecidos;
+  if (!Array.isArray(registrosExistentes)) {
+    const respostaExistentes = await fetch(SUPABASE_FINANCEIRO_URL);
+    if (!respostaExistentes.ok) {
+      throw new Error(`Não foi possível consultar o Financeiro (HTTP ${respostaExistentes.status}).`);
+    }
+    registrosExistentes = await respostaExistentes.json();
+  }
+  if (!Array.isArray(registrosExistentes)) {
+    throw new Error("A consulta do Financeiro retornou dados inválidos.");
+  }
+  const jaLancado = registrosExistentes.some(registro =>
+    registro.Origem === "presenca_agendamento" &&
+    String(registro.AgendamentoID) === agendamentoId
+  );
+  if (jaLancado) return false;
+
+  const registro = {
+    DtRegistro: data,
+    Tipo: "Ganhos",
+    Familia: familia,
+    Nome: nome,
+    Descricao: `Presença: ${evento.Cliente} - ${tecnicaAgendamento(evento)}`,
+    Valor: valor.toFixed(2),
+    MesRef: mesRef,
+    Origem: "presenca_agendamento",
+    AgendamentoID: agendamentoId
+  };
+  const resposta = await fetch(SUPABASE_FINANCEIRO_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(registro)
+  });
+  if (!resposta.ok) {
+    const detalhe = await resposta.json().catch(() => ({}));
+    throw new Error(detalhe.error || `Não foi possível inserir o ganho (HTTP ${resposta.status}).`);
+  }
+
+  registrosExistentes.push(registro);
+  if (Array.isArray(window.financeiroRelatorioData) && window.financeiroRelatorioData !== registrosExistentes) {
+    window.financeiroRelatorioData.push(registro);
+  }
+  return true;
+}
+
+let sincronizacaoGanhosPresencasAtiva = null;
+
+function sincronizarGanhosPresencas() {
+  if (sincronizacaoGanhosPresencasAtiva) return sincronizacaoGanhosPresencasAtiva;
+
+  const sincronizacao = (async () => {
+    const respostas = await Promise.all([
+      fetch(SUPABASE_FINANCEIRO_URL),
+      fetch(SUPABASE_AGENDA_URL)
+    ]);
+    const [resFinanceiro, resAgenda] = respostas;
+    if (!resFinanceiro.ok) {
+      throw new Error(`Não foi possível consultar o Financeiro (HTTP ${resFinanceiro.status}).`);
+    }
+    if (!resAgenda.ok) {
+      throw new Error(`Não foi possível consultar a Agenda (HTTP ${resAgenda.status}).`);
+    }
+
+    const [financeiro, agenda] = await Promise.all([resFinanceiro.json(), resAgenda.json()]);
+    if (!Array.isArray(financeiro) || !Array.isArray(agenda)) {
+      throw new Error("A consulta do Financeiro ou da Agenda retornou dados inválidos.");
+    }
+
+    const erros = [];
+    const identificadoresVerificados = new Set();
+    for (const evento of agenda) {
+      if (String(evento.Presenca || "").trim().toLowerCase() !== "sim") continue;
+      const id = String(
+        evento.ID ??
+        evento.GoogleAppointmentId ??
+        [evento.Cliente, evento.Data, evento.Hora, tecnicaAgendamento(evento)].join("|")
+      );
+      if (identificadoresVerificados.has(id)) continue;
+      identificadoresVerificados.add(id);
+
+      try {
+        await registrarGanhoPorPresenca(evento, financeiro);
+      } catch (error) {
+        erros.push({
+          cliente: String(evento.Cliente || "Cliente sem nome"),
+          mensagem: error instanceof Error ? error.message : String(error)
+        });
+      }
+    }
+    return { financeiro, agenda, erros };
+  })();
+
+  const promise = sincronizacao.finally(() => {
+    if (sincronizacaoGanhosPresencasAtiva === promise) {
+      sincronizacaoGanhosPresencasAtiva = null;
+    }
+  });
+  sincronizacaoGanhosPresencasAtiva = promise;
+  return promise;
+}
+
+function exibirErrosSincronizacaoFinanceiro(erros, elemento) {
+  if (!elemento) return;
+  if (!erros.length) {
+    elemento.textContent = "";
+    elemento.classList.add("hidden");
+    return;
+  }
+  elemento.textContent = `Atenção: ${erros.length} presença(s) não foram lançadas em Ganhos. ${erros.map(item => `${item.cliente}: ${item.mensagem}`).join(" ")}`;
+  elemento.classList.remove("hidden");
+}
+
   // Set MesRef to current month when opening the form
   const setMesRefToCurrent = () => {
     const currentMonth = new Date().toISOString().slice(0, 7);
@@ -2566,9 +3082,13 @@ formFinanceiro2.addEventListener("submit", function(event) {
 btnLoadRelatorio.addEventListener("click", () => {
   relatorioContainer.innerHTML = "Carregando...";
 
-  fetch("supabase://financeiro")
-    .then(res => res.json())
-    .then(data => {
+  sincronizarGanhosPresencas()
+    .then(sincronizacao => {
+      const data = sincronizacao.financeiro;
+      exibirErrosSincronizacaoFinanceiro(
+        sincronizacao.erros,
+        document.getElementById("financePresenceSyncStatus")
+      );
       if (!data.length) {
         relatorioContainer.innerHTML = "<p>Nenhum dado encontrado.</p>";
         return;
@@ -2590,6 +3110,11 @@ atualizarDashboard(mesInicial);
     })
     .catch(err => {
       console.error(err);
+      const status = document.getElementById("financePresenceSyncStatus");
+      if (status) {
+        status.textContent = `Não foi possível atualizar ganhos a partir das presenças: ${err instanceof Error ? err.message : String(err)}`;
+        status.classList.remove("hidden");
+      }
       relatorioContainer.innerHTML = "<p>Erro ao carregar dados.</p>";
     });
 });
@@ -2626,8 +3151,12 @@ async function carregarDadosFinanceiro() {
 
   // 🔹 Busca dados do banco de dados
   try {
-    const res = await fetch("supabase://financeiro");
-    const data = await res.json();
+    const sincronizacao = await sincronizarGanhosPresencas();
+    const data = sincronizacao.financeiro;
+    exibirErrosSincronizacaoFinanceiro(
+      sincronizacao.erros,
+      document.getElementById("financePresenceSyncStatus")
+    );
 
     if (!data.length) {
       relatorioContainer.innerHTML = "<p class='text-rose-300'>Nenhum dado encontrado.</p>";
@@ -2658,6 +3187,11 @@ async function carregarDadosFinanceiro() {
 
   } catch (err) {
     console.error("Erro ao carregar relatório:", err);
+    const status = document.getElementById("financePresenceSyncStatus");
+    if (status) {
+      status.textContent = `Não foi possível atualizar ganhos a partir das presenças: ${err instanceof Error ? err.message : String(err)}`;
+      status.classList.remove("hidden");
+    }
     relatorioContainer.innerHTML = "<p class='text-red-400'>Erro ao carregar dados do banco de dados.</p>";
   }
 
@@ -2761,6 +3295,429 @@ function atualizarDashboard(mesSelecionado) {
   renderizarTabelaRelatorio(dadosFiltrados);
 }
 
+let reportMode = "month";
+let reportAnchor = new Date();
+let reportData = { finance: [], clients: [], appointments: [] };
+
+function reportDate(value) {
+  if (!value) return null;
+  const isoMonth = /^(\d{4})-(\d{2})$/.exec(String(value));
+  if (isoMonth) return new Date(Number(isoMonth[1]), Number(isoMonth[2]) - 1, 1);
+  const isoDate = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value));
+  const date = isoDate
+    ? new Date(Number(isoDate[1]), Number(isoDate[2]) - 1, Number(isoDate[3]))
+    : new Date(value);
+  return Number.isNaN(date.getTime())
+    ? null
+    : new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function reportDateKey(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function reportPeriod(anchor, mode, offset = 0) {
+  if (mode === "month") {
+    const start = new Date(anchor.getFullYear(), anchor.getMonth() + offset, 1);
+    return { start, end: new Date(start.getFullYear(), start.getMonth() + 1, 1) };
+  }
+  const start = new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate());
+  const dayFromMonday = (start.getDay() + 6) % 7;
+  start.setDate(start.getDate() - dayFromMonday + offset * 7);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 7);
+  return { start, end };
+}
+
+function reportPeriodLabel(period, mode) {
+  if (mode === "month") {
+    return period.start.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+  }
+  const end = new Date(period.end);
+  end.setDate(end.getDate() - 1);
+  const inicioTexto = period.start.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+  const fimTexto = end.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return `${inicioTexto} – ${fimTexto}`;
+}
+
+function reportValue(value) {
+  return parseValorBR(value);
+}
+
+function reportCurrency(value) {
+  return Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function reportEscapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function reportInPeriod(date, period) {
+  return date && date >= period.start && date < period.end;
+}
+
+function reportPeriodFinance(period) {
+  return reportData.finance.filter(item => reportInPeriod(reportDate(item.DtRegistro || item.MesRef), period));
+}
+
+function reportPeriodClients(period) {
+  return reportData.clients.filter(item => reportInPeriod(reportDate(item._created_at), period));
+}
+
+function reportPeriodAppointments(period) {
+  const vistos = new Set();
+  return reportData.appointments.filter(item => {
+    if (String(item.Presenca || "").trim().toLowerCase() !== "sim" ||
+        !reportInPeriod(reportDate(item.Data), period)) return false;
+    const chave = String(item.ID ?? item._db_id ?? [item.Cliente, item.Data, item.Hora, tecnicaAgendamento(item)].join("|"));
+    if (vistos.has(chave)) return false;
+    vistos.add(chave);
+    return true;
+  });
+}
+
+function reportDelta(current, previous, format = value => String(value)) {
+  const difference = current - previous;
+  if (difference === 0) return { text: "Sem variação vs. período anterior", direction: "flat" };
+  const sign = difference > 0 ? "+" : "−";
+  const percent = previous > 0 ? ` (${Math.round(Math.abs(difference / previous) * 100)}%)` : " (sem base anterior)";
+  return {
+    text: `${sign}${format(Math.abs(difference))} vs. período anterior${percent}`,
+    direction: difference > 0 ? "up" : "down"
+  };
+}
+
+function setReportMetric(id, deltaId, current, previous, format) {
+  document.getElementById(id).textContent = format(current);
+  const delta = reportDelta(current, previous, format);
+  const element = document.getElementById(deltaId);
+  element.textContent = delta.text;
+  element.dataset.trend = delta.direction;
+}
+
+function reportChartNode(parent, name, attrs = {}) {
+  const element = document.createElementNS("http://www.w3.org/2000/svg", name);
+  Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, String(value)));
+  parent.appendChild(element);
+  return element;
+}
+
+function renderReportLineChart(containerId, labels, series, currency = false) {
+  const container = document.getElementById(containerId);
+  const allValues = series.flatMap(item => item.values).filter(Number.isFinite);
+  const highestValue = Math.max(...allValues, 0);
+  if (!labels.length || !allValues.length || highestValue === 0) {
+    container.innerHTML = '<div class="reports-chart-empty">Não há dados para comparar neste período.</div>';
+    return;
+  }
+
+  const width = 760;
+  const height = 270;
+  const left = 62;
+  const right = 20;
+  const top = 18;
+  const bottom = 48;
+  const plotWidth = width - left - right;
+  const plotHeight = height - top - bottom;
+  const maxValue = highestValue;
+  const step = maxValue / 4;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("role", "img");
+
+  for (let line = 0; line <= 4; line++) {
+    const y = top + plotHeight * line / 4;
+    reportChartNode(svg, "line", {
+      x1: left, y1: y, x2: width - right, y2: y,
+      stroke: "rgba(255,255,255,0.1)", "stroke-width": 1
+    });
+    const value = maxValue - step * line;
+    const label = reportChartNode(svg, "text", {
+      x: left - 9, y: y + 4, fill: "#aaa", "font-size": 11,
+      "text-anchor": "end", "font-family": "Inter, sans-serif"
+    });
+    label.textContent = currency
+      ? (value >= 1000 ? `R$${(value / 1000).toFixed(1)}k` : `R$${Math.round(value)}`)
+      : Math.round(value).toString();
+  }
+
+  const pointX = index => labels.length === 1
+    ? left + plotWidth / 2
+    : left + plotWidth * index / (labels.length - 1);
+  series.forEach(item => {
+    const points = item.values.map((value, index) => ({
+      x: pointX(index),
+      y: top + plotHeight - plotHeight * Math.max(0, value) / maxValue
+    }));
+    if (!points.length) return;
+    const linePath = points.map((point, index) => `${index ? "L" : "M"} ${point.x} ${point.y}`).join(" ");
+    const first = points[0];
+    const last = points[points.length - 1];
+    reportChartNode(svg, "path", {
+      d: `${linePath} L ${last.x} ${top + plotHeight} L ${first.x} ${top + plotHeight} Z`,
+      fill: item.color, opacity: 0.1
+    });
+    reportChartNode(svg, "path", {
+      d: linePath, fill: "none", stroke: item.color, "stroke-width": 3,
+      "stroke-linecap": "round", "stroke-linejoin": "round"
+    });
+    points.forEach(point => {
+      reportChartNode(svg, "circle", {
+        cx: point.x, cy: point.y, r: 4.5, fill: item.color, stroke: "#242424", "stroke-width": 2
+      });
+    });
+  });
+
+  const labelStep = Math.max(1, Math.ceil(labels.length / 8));
+  labels.forEach((text, index) => {
+    if (index % labelStep !== 0 && index !== labels.length - 1) return;
+    const label = reportChartNode(svg, "text", {
+      x: pointX(index), y: height - 12, fill: "#aaa", "font-size": 10,
+      "text-anchor": "middle", "font-family": "Inter, sans-serif"
+    });
+    label.textContent = text;
+  });
+  container.replaceChildren(svg);
+  const legend = document.createElement("div");
+  legend.className = "reports-chart-legend";
+  series.forEach(item => {
+    const entry = document.createElement("span");
+    const marker = document.createElement("i");
+    marker.style.backgroundColor = item.color;
+    entry.append(marker, document.createTextNode(item.label));
+    legend.appendChild(entry);
+  });
+  container.appendChild(legend);
+}
+
+function reportDayBuckets(period, mode) {
+  const count = mode === "month" ? new Date(period.end.getFullYear(), period.end.getMonth(), 0).getDate() : 7;
+  const labels = [];
+  const dates = [];
+  for (let index = 0; index < count; index++) {
+    const date = new Date(period.start);
+    date.setDate(date.getDate() + index);
+    dates.push(reportDateKey(date));
+    labels.push(mode === "month"
+      ? String(index + 1)
+      : date.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", ""));
+  }
+  return { labels, dates };
+}
+
+function reportFinanceTrend(period, mode, type) {
+  const { dates } = reportDayBuckets(period, mode);
+  const totals = new Map(dates.map(date => [date, 0]));
+  reportPeriodFinance(period)
+    .filter(item => item.Tipo === type)
+    .forEach(item => {
+      const date = reportDateKey(reportDate(item.DtRegistro || item.MesRef));
+      if (totals.has(date)) totals.set(date, totals.get(date) + reportValue(item.Valor));
+    });
+  return [...totals.values()];
+}
+
+function reportAppointmentCounts(period) {
+  const appointments = reportPeriodAppointments(period);
+  const cilios = appointments.filter(item => normalizarNomeCliente(item.Modalidade).includes("cilio")).length;
+  const sobrancelhas = appointments.filter(item => normalizarNomeCliente(item.Modalidade).includes("sobrancelha")).length;
+  return { appointments, cilios, sobrancelhas };
+}
+
+function reportRenderComparisonList(containerId, currentRows, previousRows, getKey, getAmount, emptyText) {
+  const container = document.getElementById(containerId);
+  const keys = [...new Set([...currentRows, ...previousRows].map(getKey).filter(Boolean))];
+  if (!keys.length) {
+    container.innerHTML = `<p class="reports-comparison-empty">${emptyText}</p>`;
+    return;
+  }
+  const totals = (rows, key) => rows
+    .filter(row => getKey(row) === key)
+    .reduce((sum, row) => sum + getAmount(row), 0);
+  container.innerHTML = `
+    <div class="reports-comparison-row reports-comparison-heading"><span>Categoria</span><span>Período</span><span>Anterior</span><span>Variação</span></div>
+    ${keys.map(key => {
+      const current = totals(currentRows, key);
+      const previous = totals(previousRows, key);
+      const difference = current - previous;
+      const variance = previous ? `${difference > 0 ? "+" : ""}${Math.round(difference / previous * 100)}%` : current ? "Novo" : "—";
+      return `<div class="reports-comparison-row"><span>${reportEscapeHtml(key)}</span><span>${reportCurrency(current)}</span><span>${reportCurrency(previous)}</span><span>${variance}</span></div>`;
+    }).join("")}`;
+}
+
+function reportRenderProductComparison(currentRows, previousRows) {
+  const keyFor = item => String(item.Descricao || "").trim();
+  const comprasInsumos = item =>
+    item.Tipo === "Despesas" && normalizarNomeCliente(item.Nome) === "compras de insumos";
+  const latestForPeriod = rows => {
+    const latest = new Map();
+    rows.filter(item => comprasInsumos(item) && keyFor(item)).forEach(item => {
+      const key = keyFor(item).toLocaleLowerCase("pt-BR");
+      const date = reportDate(item.DtRegistro || item.MesRef);
+      const existing = latest.get(key);
+      if (!existing || date >= reportDate(existing.DtRegistro || existing.MesRef)) latest.set(key, item);
+    });
+    return latest;
+  };
+  const current = latestForPeriod(currentRows);
+  const previous = latestForPeriod(previousRows);
+  const descriptions = new Map();
+  [...currentRows, ...previousRows].filter(item => comprasInsumos(item) && keyFor(item))
+    .forEach(item => descriptions.set(keyFor(item).toLocaleLowerCase("pt-BR"), keyFor(item)));
+  const sorted = [...descriptions.entries()].sort((a, b) => {
+    const currentA = current.get(a[0]);
+    const currentB = current.get(b[0]);
+    return (reportDate(currentB?.DtRegistro || currentB?.MesRef)?.getTime() || 0) -
+      (reportDate(currentA?.DtRegistro || currentA?.MesRef)?.getTime() || 0);
+  }).slice(0, 12);
+  const container = document.getElementById("reportProductPrices");
+  if (!sorted.length) {
+    container.innerHTML = '<p class="reports-comparison-empty">Nenhuma ocorrência de despesa com descrição de produto nos períodos comparados.</p>';
+    return;
+  }
+  container.innerHTML = `
+    <div class="reports-comparison-row reports-comparison-heading"><span>Produto (Descrição)</span><span>Último valor</span><span>Anterior</span><span>Variação</span></div>
+    ${sorted.map(([key, description]) => {
+      const currentItem = current.get(key);
+      const previousItem = previous.get(key);
+      const currentValue = currentItem ? reportValue(currentItem.Valor) : null;
+      const previousValue = previousItem ? reportValue(previousItem.Valor) : null;
+      let variation = "—";
+      if (currentValue !== null && previousValue !== null) {
+        variation = previousValue
+          ? `${currentValue > previousValue ? "+" : ""}${Math.round((currentValue - previousValue) / previousValue * 100)}%`
+          : currentValue ? "Novo" : "0%";
+      } else if (currentValue !== null) variation = "Novo";
+      return `<div class="reports-comparison-row"><span>${reportEscapeHtml(description)}</span><span>${currentValue === null ? "—" : reportCurrency(currentValue)}</span><span>${previousValue === null ? "—" : reportCurrency(previousValue)}</span><span>${variation}</span></div>`;
+    }).join("")}`;
+}
+
+function renderizarRelatorios() {
+  const currentPeriod = reportPeriod(reportAnchor, reportMode);
+  const previousPeriod = reportPeriod(reportAnchor, reportMode, -1);
+  document.getElementById("reportsPeriodLabel").textContent = reportPeriodLabel(currentPeriod, reportMode);
+  const currentFinance = reportPeriodFinance(currentPeriod);
+  const previousFinance = reportPeriodFinance(previousPeriod);
+  const sumType = (rows, type) => rows.filter(item => item.Tipo === type).reduce((sum, item) => sum + reportValue(item.Valor), 0);
+  const currentGains = sumType(currentFinance, "Ganhos");
+  const previousGains = sumType(previousFinance, "Ganhos");
+  const currentExpenses = sumType(currentFinance, "Despesas");
+  const previousExpenses = sumType(previousFinance, "Despesas");
+  setReportMetric("reportGains", "reportGainsDelta", currentGains, previousGains, reportCurrency);
+  setReportMetric("reportExpenses", "reportExpensesDelta", currentExpenses, previousExpenses, reportCurrency);
+  setReportMetric("reportBalance", "reportBalanceDelta", currentGains - currentExpenses, previousGains - previousExpenses, reportCurrency);
+
+  const currentClients = reportPeriodClients(currentPeriod).length;
+  const previousClients = reportPeriodClients(previousPeriod).length;
+  setReportMetric("reportNewClients", "reportNewClientsDelta", currentClients, previousClients, value => String(value));
+
+  const currentVisits = reportAppointmentCounts(currentPeriod);
+  const previousVisits = reportAppointmentCounts(previousPeriod);
+  setReportMetric("reportAppointments", "reportAppointmentsDelta", currentVisits.appointments.length, previousVisits.appointments.length, value => String(value));
+
+  const currentBuckets = reportDayBuckets(currentPeriod, reportMode);
+  const previousBuckets = reportDayBuckets(previousPeriod, reportMode);
+  renderReportLineChart("reportGainsChart", currentBuckets.labels, [
+    { label: "Período selecionado", color: "#f4bfae", values: reportFinanceTrend(currentPeriod, reportMode, "Ganhos") },
+    { label: "Período anterior", color: "#909090", values: reportFinanceTrend(previousPeriod, reportMode, "Ganhos").slice(0, currentBuckets.labels.length) }
+  ], true);
+  renderReportLineChart("reportAppointmentsChart", ["Cílios", "Sobrancelhas"], [
+    { label: "Período selecionado", color: "#f4bfae", values: [currentVisits.cilios, currentVisits.sobrancelhas] },
+    { label: "Período anterior", color: "#909090", values: [previousVisits.cilios, previousVisits.sobrancelhas] }
+  ]);
+
+  reportRenderComparisonList(
+    "reportExpenseFamilies",
+    currentFinance.filter(item => item.Tipo === "Despesas"),
+    previousFinance.filter(item => item.Tipo === "Despesas"),
+    item => String(item.Familia || "Sem família").trim(),
+    item => reportValue(item.Valor),
+    "Não há despesas registradas nestes períodos."
+  );
+
+  const presencas = currentVisits.appointments;
+  const aplicacoes = presencas.filter(item => normalizarNomeCliente(tecnicaAgendamento(item)).includes("aplicacao"));
+  const manutencoes = presencas.filter(item => normalizarNomeCliente(tecnicaAgendamento(item)).includes("manutencao"));
+  const retornosPorCliente = new Map();
+  manutencoes.forEach(item => {
+    const chave = normalizarNomeCliente(item.Cliente);
+    const atual = retornosPorCliente.get(chave) || { nome: item.Cliente, total: 0 };
+    atual.total++;
+    retornosPorCliente.set(chave, atual);
+  });
+  document.getElementById("reportApplications").textContent = String(aplicacoes.length);
+  document.getElementById("reportReturns").textContent = String(manutencoes.length);
+  document.getElementById("reportReturningClients").textContent = String(retornosPorCliente.size);
+  const top = [...retornosPorCliente.values()].sort((a, b) => b.total - a.total)[0];
+  document.getElementById("reportTopReturningClient").textContent = top
+    ? `Quem mais retornou: ${top.nome} · ${top.total} ${top.total === 1 ? "retorno" : "retornos"} no período`
+    : "Ainda não há retornos registrados neste período.";
+  reportRenderProductComparison(currentFinance, previousFinance);
+  document.getElementById("reportsContent").classList.remove("hidden");
+  document.getElementById("reportsStatus").textContent = "";
+  document.getElementById("reportsStatus").dataset.state = "ready";
+}
+
+async function carregarRelatorios() {
+  const status = document.getElementById("reportsStatus");
+  status.textContent = "Atualizando relatórios...";
+  status.dataset.state = "loading";
+  try {
+    const [respostaClientes, sincronizacao] = await Promise.all([
+      fetch("supabase://cadastros"),
+      sincronizarGanhosPresencas()
+    ]);
+    if (!respostaClientes.ok) {
+      throw new Error(`Falha ao carregar Clientes (HTTP ${respostaClientes.status}).`);
+    }
+    const clients = await respostaClientes.json();
+    if (!Array.isArray(clients)) {
+      throw new Error("A consulta de Clientes retornou dados inválidos.");
+    }
+    reportData = {
+      finance: sincronizacao.financeiro,
+      clients,
+      appointments: sincronizacao.agenda
+    };
+    renderizarRelatorios();
+    if (sincronizacao.erros.length) {
+      status.textContent = `Atenção: ${sincronizacao.erros.length} presença(s) não puderam ser lançadas em Ganhos. ${sincronizacao.erros.map(item => `${item.cliente}: ${item.mensagem}`).join(" ")}`;
+      status.dataset.state = "error";
+    }
+  } catch (error) {
+    console.error("Erro ao carregar relatórios:", error);
+    document.getElementById("reportsContent").classList.add("hidden");
+    status.textContent = `Não foi possível carregar os relatórios: ${error instanceof Error ? error.message : String(error)}`;
+    status.dataset.state = "error";
+  }
+}
+
+document.querySelectorAll("[data-report-mode]").forEach(button => {
+  button.addEventListener("click", () => {
+    reportMode = button.dataset.reportMode === "week" ? "week" : "month";
+    document.querySelectorAll("[data-report-mode]").forEach(option => {
+      option.setAttribute("aria-pressed", String(option === button));
+    });
+    renderizarRelatorios();
+  });
+});
+
+document.getElementById("reportsPrevious").addEventListener("click", () => {
+  if (reportMode === "month") reportAnchor = new Date(reportAnchor.getFullYear(), reportAnchor.getMonth() - 1, 1);
+  else reportAnchor.setDate(reportAnchor.getDate() - 7);
+  renderizarRelatorios();
+});
+
+document.getElementById("reportsNext").addEventListener("click", () => {
+  if (reportMode === "month") reportAnchor = new Date(reportAnchor.getFullYear(), reportAnchor.getMonth() + 1, 1);
+  else reportAnchor.setDate(reportAnchor.getDate() + 7);
+  renderizarRelatorios();
+});
 
 function parseValorBR(str) {
   if (!str) return 0;
@@ -3871,6 +4828,7 @@ document.addEventListener("DOMContentLoaded", function() {
       document.querySelectorAll(".sidebar a").forEach(x=>x.classList.remove("active"));
       a.classList.add("active");
       if(a.dataset.page==="clientes") carregarClientes();
+      if(a.dataset.page==="relatorios") carregarRelatorios();
       if (a.dataset.page === "home") {
         if (typeof atualizarResumosHome === 'function') atualizarResumosHome();
         if (typeof atualizarResumoFinanceiroHome === 'function') atualizarResumoFinanceiroHome();
@@ -3888,9 +4846,13 @@ document.addEventListener("DOMContentLoaded", function() {
   if (btnLoadRelatorio) btnLoadRelatorio.style.display = "none"; // Botão já não é mais usado
 
   // 🔹 Carrega os dados do banco de dados silenciosamente
-  fetch("supabase://financeiro")
-    .then(res => res.json())
-    .then(data => {
+  sincronizarGanhosPresencas()
+    .then(sincronizacao => {
+      const data = sincronizacao.financeiro;
+      exibirErrosSincronizacaoFinanceiro(
+        sincronizacao.erros,
+        document.getElementById("financePresenceSyncStatus")
+      );
       if (!data.length) return;
 
       // Corrige formato do mês
@@ -3913,7 +4875,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
       document.getElementById("relatorioFinanceiro2").classList.remove("hidden");
     })
-    .catch(err => console.error("Erro ao carregar relatório:", err));
+    .catch(err => {
+      console.error("Erro ao carregar relatório:", err);
+      const status = document.getElementById("financePresenceSyncStatus");
+      if (status) {
+        status.textContent = `Não foi possível atualizar ganhos a partir das presenças: ${err instanceof Error ? err.message : String(err)}`;
+        status.classList.remove("hidden");
+      }
+    });
 }
 
 
@@ -5574,6 +6543,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Adiciona o valor da presença ao objeto do evento, já que o checkbox não tem 'name'
     evento.Presenca = document.getElementById("agendamentoPresenca").checked ? "Sim" : "Não";
+    const presencaFoiDada = editando &&
+      !eventoEmEdicao.googleOnlyEvent &&
+      String(eventoEmEdicao.event.extendedProps.Presenca || "").trim().toLowerCase() !== "sim" &&
+      evento.Presenca === "Sim";
 
     try {
       if (editando) {
@@ -5639,7 +6612,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      alert("✅ Agendamento salvo com sucesso!");
+      let avisoFinanceiro = "";
+      if (presencaFoiDada) {
+        try {
+          const lancado = await registrarGanhoPorPresenca(evento);
+          avisoFinanceiro = lancado
+            ? " O valor total do procedimento foi lançado em Ganhos no Financeiro."
+            : " O lançamento deste atendimento já existia no Financeiro; não foi duplicado.";
+        } catch (erroFinanceiro) {
+          console.error("A presença foi salva, mas o lançamento financeiro falhou:", erroFinanceiro);
+          const detalhe = erroFinanceiro instanceof Error ? erroFinanceiro.message : String(erroFinanceiro);
+          avisoFinanceiro = ` Atenção: a presença foi salva, mas não foi possível lançar o ganho no Financeiro. ${detalhe} Desmarque e marque a presença novamente para tentar de novo.`;
+        }
+      }
+
+      alert(`✅ Agendamento salvo com sucesso!${avisoFinanceiro}`);
 
       formAgendamento.reset();
       modalAgendamento.classList.add("hidden");
