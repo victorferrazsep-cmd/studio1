@@ -369,6 +369,79 @@
     overflow-y: auto;
   }
 
+  .site-dialog {
+    width: min(92vw, 28rem);
+    max-width: none;
+    padding: 0;
+    border: 1px solid rgba(244, 191, 174, 0.45);
+    border-radius: 1rem;
+    background: #252525;
+    color: var(--texto);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+  }
+
+  .site-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+  }
+
+  .site-dialog-content {
+    padding: 1.5rem;
+  }
+
+  .site-dialog-title {
+    margin: 0;
+    color: var(--rose);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .site-dialog-message {
+    margin: 0.8rem 0 1.4rem;
+    color: #e5e5e5;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .site-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .site-dialog-button {
+    min-width: 6rem;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .site-dialog-button:focus-visible {
+    outline: 2px solid var(--rose);
+    outline-offset: 3px;
+  }
+
+  .site-dialog-button-cancel {
+    border: 1px solid #555;
+    background: #353535;
+    color: #f3f3f3;
+  }
+
+  .site-dialog-button-cancel:hover {
+    background: #454545;
+  }
+
+  .site-dialog-button-confirm {
+    background: var(--rose);
+    color: #111;
+    box-shadow: 0 0 10px rgba(244, 191, 174, 0.3);
+  }
+
+  .site-dialog-button-confirm:hover {
+    background: #ffd2c2;
+  }
+
   .btn-primary {
     background-color: var(--rose);
     color: #111;
@@ -1473,7 +1546,8 @@ button:active:not(:disabled) {
 
       <div class="cliente-form-field">
         <label class="block mb-1 font-semibold" for="clienteDn">DN</label>
-        <input type="date" id="clienteDn" name="DN"
+        <input type="text" id="clienteDn" name="DN" inputmode="numeric" autocomplete="bday"
+          placeholder="dd/mm/aaaa" maxlength="10" pattern="\d{2}/\d{2}/\d{4}"
           class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
       </div>
 
@@ -1926,9 +2000,79 @@ button:active:not(:disabled) {
       </div>
   </div>
 
+<dialog id="siteDialog" class="site-dialog" aria-labelledby="siteDialogTitle" aria-describedby="siteDialogMessage">
+  <div class="site-dialog-content">
+    <h2 id="siteDialogTitle" class="site-dialog-title">Aviso</h2>
+    <p id="siteDialogMessage" class="site-dialog-message"></p>
+    <div class="site-dialog-actions">
+      <button id="siteDialogCancel" type="button" class="site-dialog-button site-dialog-button-cancel">Cancelar</button>
+      <button id="siteDialogConfirm" type="button" class="site-dialog-button site-dialog-button-confirm">OK</button>
+    </div>
+  </div>
+</dialog>
+
 <script>
 
   let eventoEmEdicao = null;
+
+const siteDialogQueue = [];
+let siteDialogActive = false;
+
+function abrirDialogoSite(mensagem, confirmar = false) {
+  return new Promise(resolve => {
+    siteDialogQueue.push({ mensagem: String(mensagem ?? ""), confirmar, resolve });
+    mostrarProximoDialogoSite();
+  });
+}
+
+function mostrarProximoDialogoSite() {
+  if (siteDialogActive || !siteDialogQueue.length) return;
+
+  const dialog = document.getElementById("siteDialog");
+  const title = document.getElementById("siteDialogTitle");
+  const message = document.getElementById("siteDialogMessage");
+  const cancel = document.getElementById("siteDialogCancel");
+  const confirm = document.getElementById("siteDialogConfirm");
+  const current = siteDialogQueue.shift();
+  siteDialogActive = true;
+
+  title.textContent = current.confirmar ? "Confirmação" : "Aviso";
+  message.textContent = current.mensagem;
+  cancel.classList.toggle("hidden", !current.confirmar);
+  confirm.textContent = current.confirmar ? "Confirmar" : "OK";
+  dialog.dataset.confirmation = String(current.confirmar);
+
+  const finish = result => {
+    if (dialog.open) dialog.close(result ? "confirm" : "cancel");
+  };
+  confirm.onclick = () => finish(true);
+  cancel.onclick = () => finish(false);
+  dialog.oncancel = event => {
+    event.preventDefault();
+    finish(false);
+  };
+  dialog.onclose = () => {
+    const confirmed = dialog.returnValue === "confirm";
+    current.resolve(confirmed);
+    siteDialogActive = false;
+    mostrarProximoDialogoSite();
+  };
+
+  dialog.showModal();
+  (current.confirmar ? cancel : confirm).focus();
+}
+
+function mostrarAviso(mensagem) {
+  return abrirDialogoSite(mensagem);
+}
+
+function confirmarAcao(mensagem) {
+  return abrirDialogoSite(mensagem, true);
+}
+
+window.alert = mensagem => {
+  void mostrarAviso(mensagem);
+};
 
 const financeiroData = {
   'Despesas': {
@@ -2500,7 +2644,7 @@ function renderizarTabelaRelatorio(dadosFiltrados) {
   btnExcluir.style.cursor = "pointer";
 
   btnExcluir.addEventListener("click", async () => {
-    if (!confirm("Deseja realmente excluir este registro?")) return;
+    if (!await confirmarAcao("Deseja realmente excluir este registro?")) return;
 
     try {
       const baseURL = "supabase://financeiro";
@@ -2805,7 +2949,7 @@ async function salvarClienteSupabase(cliente) {
 
 async function excluirClienteSupabase(nome) {
   if (!nome) return alert("Nome inválido.");
-  if (!confirm(`Tem certeza que deseja excluir "${nome}" do banco de dados?`)) return;
+  if (!await confirmarAcao(`Tem certeza que deseja excluir "${nome}" do banco de dados?`)) return;
 
   const baseURL = SUPABASE_CLIENTES_URL;
 
@@ -2863,7 +3007,7 @@ async function editarCliente(nome) {
     document.getElementById("clienteNome").value = cliente.Nome || "";
     document.getElementById("clienteCpf").value = cliente.CPF || "";
     document.getElementById("clienteTelefone").value = cliente.Telefone || "";
-    document.getElementById("clienteDn").value = cliente.DN || "";
+    document.getElementById("clienteDn").value = formatarDataNascimento(cliente.DN || "");
     document.getElementById("clienteEnderecoNum").value = cliente.Endereco || "";
     document.getElementById("clienteCep").value = cliente.CEP || "";
     document.getElementById("clienteInstagram").value = String(cliente.Instagram || "").replace(/^@+/, "").toUpperCase();
@@ -2916,7 +3060,10 @@ function formatarDataEIdade(dataStr, apenasData = false) {
 
 function formatarDataNascimento(dataStr) {
   if (!dataStr) return "";
-  const dataIso = String(dataStr).slice(0, 10);
+  const valor = String(dataStr).trim();
+  const dataBrasileira = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(valor);
+  if (dataBrasileira) return valor;
+  const dataIso = valor.slice(0, 10);
   const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dataIso);
   if (partes) return `${partes[3]}/${partes[2]}/${partes[1]}`;
 
@@ -2924,6 +3071,25 @@ function formatarDataNascimento(dataStr) {
   if (Number.isNaN(data.getTime())) return dataStr;
   return `${String(data.getDate()).padStart(2, "0")}/${String(data.getMonth() + 1).padStart(2, "0")}/${data.getFullYear()}`;
 }
+
+function dataNascimentoParaISO(valor) {
+  const partes = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(valor).trim());
+  if (!partes) return null;
+  const dia = Number(partes[1]);
+  const mes = Number(partes[2]);
+  const ano = Number(partes[3]);
+  const data = new Date(ano, mes - 1, dia);
+  if (data.getFullYear() !== ano || data.getMonth() !== mes - 1 || data.getDate() !== dia) return null;
+  return `${partes[3]}-${partes[2]}-${partes[1]}`;
+}
+
+const campoDataNascimento = document.getElementById("clienteDn");
+campoDataNascimento.addEventListener("input", () => {
+  const digitos = campoDataNascimento.value.replace(/\D/g, "").slice(0, 8);
+  campoDataNascimento.value = digitos.length > 4
+    ? `${digitos.slice(0, 2)}/${digitos.slice(2, 4)}/${digitos.slice(4)}`
+    : digitos.length > 2 ? `${digitos.slice(0, 2)}/${digitos.slice(2)}` : digitos;
+});
 
 function formatarTelefoneCliente(telefone) {
   const numeros = String(telefone || "").replace(/\D/g, "");
@@ -3201,8 +3367,15 @@ async function carregarClientes() {
 // ✅ Enviar cliente (substitui localStorage)
 document.getElementById("formCliente").addEventListener("submit", async (e) => {
   e.preventDefault();
+  const dataNascimentoISO = dataNascimentoParaISO(campoDataNascimento.value);
+  if (!dataNascimentoISO) {
+    await mostrarAviso("Informe uma data de nascimento válida no formato dd/mm/aaaa.");
+    campoDataNascimento.focus();
+    return;
+  }
   const formData = new FormData(e.target);
   const cliente = Object.fromEntries(formData.entries());
+  cliente.DN = dataNascimentoISO;
   cliente.Instagram = String(cliente.Instagram || "").replace(/^@+/, "").toUpperCase();
 
   // Se for edição
@@ -3461,7 +3634,7 @@ const SUPABASE_AGENDA_URL = "supabase://agenda";
 
 let agendaCalendar;
 const GOOGLE_CALENDAR_CLIENT_ID = "781144859470-r1a30imce2sk9ahng4q1gdpql8joh96a.apps.googleusercontent.com";
-const GOOGLE_CALENDAR_ID = "fbe12b8d91d53a69707e316c32ade151d0ff74a322563bcd0fd3d93ccd54a5a2@group.calendar.google.com";
+const GOOGLE_CALENDAR_ID = "8aa9c471f4a7867bd258f56370c7fbf3d14cca306dd0bcff6d2043ce45a3060d@group.calendar.google.com";
 let googleCalendarAccessToken = null;
 let googleCalendarTokenClient = null;
 
@@ -4003,7 +4176,7 @@ eventClick: function(info) {
 
 
     eventDrop: async function(info) {
-      if (!confirm("Tem certeza que deseja mover este agendamento?")) {
+      if (!await confirmarAcao("Tem certeza que deseja mover este agendamento?")) {
         info.revert();
         return;
       }
@@ -4077,7 +4250,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 🔹 Excluir agendamento
   document.getElementById("btnExcluirAgendamento").addEventListener("click", async () => {
-    if (!eventoEmEdicao || !confirm("Tem certeza que deseja excluir este agendamento?")) {
+    if (!eventoEmEdicao || !await confirmarAcao("Tem certeza que deseja excluir este agendamento?")) {
       return;
     }
 
