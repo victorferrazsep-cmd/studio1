@@ -154,150 +154,200 @@
     animation: fadeIn 0.25s ease;
   }
 
-  /* Visual inspirado no Google Agenda */
-#calendarAgenda .fc {
-  background: #fff;
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  color: #3c4043;
-  font-family: Arial, sans-serif;
-  padding: 12px;
-}
+  #calendarAgenda {
+    min-height: 0;
+    color: #5f5552;
+    font-family: Inter, sans-serif;
+  }
 
-#calendarAgenda .fc .fc-toolbar {
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 16px;
-}
+  #calendarCardAgenda {
+    border: 1px solid #eaded9;
+    background: #fffdfc;
+    box-shadow: 0 8px 24px rgba(120, 90, 80, 0.08);
+  }
 
-#calendarAgenda .fc .fc-toolbar-title {
-  color: #3c4043;
-  font-size: 1.375rem;
-  font-weight: 400;
-}
+  #calendarAgenda .fc {
+    --fc-border-color: #eaded9;
+    --fc-page-bg-color: #fffdfc;
+    --fc-neutral-bg-color: #fff8f6;
+    --fc-neutral-text-color: #7f7f7f;
+    --fc-today-bg-color: #fdf0ef;
+    --fc-highlight-color: rgba(127, 127, 127, 0.12);
+    padding: 0.25rem;
+    border: 1px solid #eaded9;
+    border-radius: 0.7rem;
+    background: #fffdfc;
+    color: #5f5552;
+    font-family: Inter, sans-serif;
+    font-size: 0.78rem;
+  }
 
-#calendarAgenda .fc .fc-button {
-  background: #fff !important;
-  border: 1px solid #dadce0 !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
-  color: #3c4043 !important;
-  font-weight: 500;
-  text-transform: none;
-}
+  #calendarAgenda .fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.78rem;
+  }
 
-#calendarAgenda .fc .fc-button:hover {
-  background: #f1f3f4 !important;
-}
+  #calendarAgenda .fc .fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
 
-#calendarAgenda .fc .fc-button-primary:not(:disabled).fc-button-active,
-#calendarAgenda .fc .fc-button-primary:not(:disabled):active {
-  background: #e8f0fe !important;
-  border-color: #d2e3fc !important;
-  color: #1967d2 !important;
-}
+  #calendarAgenda .fc .fc-toolbar-title {
+    color: #9f5f62;
+    font-family: Inter, sans-serif;
+    font-size: clamp(0.5rem, 0.8vw, 0.625rem) !important;
+    font-weight: 500;
+    text-transform: none;
+  }
 
-#calendarAgenda .fc .fc-scrollgrid,
-#calendarAgenda .fc th,
-#calendarAgenda .fc td {
-  border-color: #dadce0;
-}
+  #calendarAgenda .fc .fc-button {
+    border: 1px solid #ead8d4 !important;
+    border-radius: 0.45rem !important;
+    background: #fffaf8 !important;
+    box-shadow: none !important;
+    color: #9f5f62 !important;
+    font-family: Inter, sans-serif;
+    font-size: 0.5rem !important;
+    font-weight: 500;
+    text-transform: none;
+    padding: 0.35rem 0.45rem !important;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
 
-#calendarAgenda .fc .fc-col-header-cell {
-  background: #f8f9fa;
-  padding: 8px 0;
-}
+  #calendarAgenda .fc .fc-button:hover,
+  #calendarAgenda .fc .fc-button-primary:not(:disabled).fc-button-active,
+  #calendarAgenda .fc .fc-button-primary:not(:disabled):active {
+    border-color: #c98286 !important;
+    background: #c98286 !important;
+    color: #ffffff !important;
+  }
 
-#calendarAgenda .fc .fc-col-header-cell-cushion {
-  color: #70757a;
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-decoration: none;
-  text-transform: uppercase;
-}
+  #calendarAgenda .fc .fc-button:focus {
+    box-shadow: 0 0 0 2px rgba(201, 130, 134, 0.15) !important;
+  }
 
-#calendarAgenda .fc .fc-daygrid-day-number {
-  color: #3c4043;
-  font-size: 0.8rem;
-  text-decoration: none;
-}
+  #calendarAgenda .fc .fc-scrollgrid,
+  #calendarAgenda .fc th,
+  #calendarAgenda .fc td {
+    border-color: #eaded9;
+  }
 
-#calendarAgenda .fc .fc-day-today {
-  background: #f8faff;
-}
+  #calendarAgenda .fc .fc-scrollgrid {
+    overflow: hidden;
+    border: 1px solid #eaded9;
+    border-radius: 0.55rem;
+  }
 
-#calendarAgenda .fc .fc-day-today .fc-daygrid-day-number {
-  background: #1a73e8;
-  border-radius: 50%;
-  color: #fff;
-  margin: 4px;
-  min-width: 24px;
-  text-align: center;
-}
+  #calendarAgenda .fc .fc-col-header-cell {
+    padding: 0.3rem 0;
+    background: #fff8f6;
+  }
 
-#calendarAgenda .fc .fc-daygrid-event {
-  border: 0;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  padding: 2px 4px;
-}
+  #calendarAgenda .fc .fc-col-header-cell-cushion {
+    color: #9f5f62;
+    font-family: Inter, sans-serif;
+    font-size: 0.55rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: lowercase;
+  }
 
-#calendarAgenda {
-  min-height: 500px;
-}
+  #calendarAgenda .fc .fc-daygrid-day {
+    background: #fffdfc;
+  }
 
-#calendarAgenda .fc {
-  background: #14191c !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
-  color: #e8e9ea !important;
-}
+  #calendarAgenda .fc .fc-daygrid-day-number {
+    min-width: 1.25rem;
+    padding: 0.25rem 0.32rem;
+    color: #6f6663;
+    font-family: Inter, sans-serif;
+    font-size: 0.28rem;
+    text-decoration: none;
+  }
 
-#calendarAgenda .fc .fc-toolbar-title {
-  color: #e9e9e9 !important;
-  font-size: 17px !important;
-}
+  #calendarAgenda .fc .fc-day-other .fc-daygrid-day-number {
+    color: #c8bfbc;
+  }
 
-#calendarAgenda .fc .fc-col-header-cell {
-  background: #1a2024 !important;
-  color: #92979b !important;
-}
+  #calendarAgenda .fc .fc-day-today {
+    background: #fdf0ef !important;
+  }
 
-#calendarAgenda .fc .fc-daygrid-day {
-  background: #14191c !important;
-  border-color: #252c30 !important;
-}
+  #calendarAgenda .fc .fc-day-today .fc-daygrid-day-number {
+    color: #b86d72;
+    font-weight: 700;
+  }
 
-#calendarAgenda .fc .fc-daygrid-day-number {
-  color: #9da3a7 !important;
-}
+  #calendarAgenda .fc .fc-daygrid-day-frame {
+    min-height: 3.6rem;
+  }
 
-#calendarAgenda .fc .fc-button {
-  background: #252b2f !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: none !important;
-  color: #d5d8da !important;
-}
+  #calendarAgenda .fc .fc-daygrid-event {
+    margin: 0.1rem 0.2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent !important;
+    color: #9f5f62 !important;
+    font-family: Inter, sans-serif;
+  }
 
-#calendarAgenda .fc .fc-button:hover,
-#calendarAgenda .fc .fc-button-primary:not(:disabled).fc-button-active,
-#calendarAgenda .fc .fc-button-primary:not(:disabled):active {
-  background: var(--rose) !important;
-  color: #111111 !important;
-}
+  #calendarAgenda .fc .fc-daygrid-event-dot {
+    display: none;
+  }
+
+  #calendarAgenda .fc .fc-event-main {
+    overflow: hidden;
+  }
+
+  #calendarAgenda .fc .agenda-month-event {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    gap: 0.2rem;
+    overflow: hidden;
+    color: #9f5f62;
+    font-family: Inter, sans-serif;
+    font-size: 0.5rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  #calendarAgenda .fc .agenda-month-event::before {
+    width: 0.3rem;
+    height: 0.3rem;
+    flex: 0 0 0.3rem;
+    border-radius: 50%;
+    background: #d77f87;
+    content: "";
+  }
+
+  #calendarAgenda .fc .agenda-month-event-time {
+    flex: 0 0 auto;
+    font-weight: 600;
+  }
+
+  #calendarAgenda .fc .agenda-month-event-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
 #calendarAgenda .fc td.fc-daygrid-day.fc-day-bloqueado,
 #calendarAgenda .fc td.fc-daygrid-day.fc-day-bloqueado .fc-daygrid-day-frame,
 #calendarAgenda .fc td.fc-timegrid-col.fc-day-bloqueado,
 #calendarAgenda .fc td.fc-timegrid-col.fc-day-bloqueado .fc-timegrid-col-frame {
-  background-color: rgba(244, 191, 174, 0.14) !important;
+  background-color: #f9e8e7 !important;
 }
 
 #calendarAgenda .fc .fc-day-bloqueado .fc-daygrid-day-number {
-  color: #f4bfae !important;
+  color: #b86d72 !important;
 }
 
 #calendarAgenda .fc .fc-day-bloqueado .fc-timegrid-col-frame {
-  background-color: rgba(244, 191, 174, 0.14) !important;
+  background-color: #f9e8e7 !important;
 }
 
 .bloqueio-agenda-panel {
@@ -1372,9 +1422,9 @@ button:active:not(:disabled) {
 
 .upcoming-item {
   display: grid;
-  grid-template-columns: 3.4rem 1.7rem minmax(0, 1fr);
+  grid-template-columns: 3rem 1.5rem minmax(0, 1fr);
   align-items: start;
-  gap: 0.45rem;
+  gap: 0.25rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid rgba(244, 191, 174, 0.1);
 }
@@ -1390,7 +1440,7 @@ button:active:not(:disabled) {
 
 .upcoming-time {
   color: var(--texto);
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
@@ -1407,8 +1457,8 @@ button:active:not(:disabled) {
 }
 
 .upcoming-avatar {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.45rem;
+  height: 1.45rem;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -1493,8 +1543,8 @@ button:active:not(:disabled) {
   }
 
   .upcoming-item {
-    grid-template-columns: 3rem 1.5rem minmax(0, 1fr);
-    gap: 0.4rem;
+    grid-template-columns: 2.8rem 1.4rem minmax(0, 1fr);
+    gap: 0.2rem;
   }
 }
 
@@ -1855,8 +1905,8 @@ button:active:not(:disabled) {
 
 
 <!-- Calendário -->
-<div class="card rounded-xl shadow p-5 mb-5 relative overflow-hidden">
-  <div id="calendarAgenda" class="w-full" style="height: 400px;"></div>
+<div id="calendarCardAgenda" class="card rounded-xl shadow p-3 mb-5 relative overflow-hidden">
+  <div id="calendarAgenda" class="w-full"></div>
 </div>
 
 <div class="bloqueio-agenda-actions">
@@ -4935,7 +4985,7 @@ async function renderAgendaCalendar() {
         id: `${e.Data}-${e.Hora}-${e.Cliente}`,
         title: `${e.Cliente} - ${tecnicaAgendamento(e)}`,
         start: `${e.Data}T${e.Hora || "00:00"}`,
-        color: e.Presenca === 'Sim' ? '#34a853' : '#1a73e8',
+        color: e.Presenca === 'Sim' ? '#34a853' : '#7f7f7f',
         allDay: false,
         extendedProps: {
           id: e.ID ?? e._db_id,
@@ -4961,7 +5011,8 @@ async function renderAgendaCalendar() {
   agendaCalendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: "pt-br",
-    height: 600,
+    height: "auto",
+    contentHeight: 440,
     firstDay: 0,
     dayMaxEvents: true,
     fixedWeekCount: false,
@@ -4977,20 +5028,34 @@ async function renderAgendaCalendar() {
       week: "Semana",
       day: "Dia"
     },
+    eventContent: function(info) {
+      if (info.view.type !== "dayGridMonth") return { html: escaparHtml(info.timeText ? `${info.timeText} ${info.event.title}` : info.event.title) };
+      const nomeCliente = String(info.event.title || "").split(" - ")[0].trim().split(/\s+/)[0];
+      const conteudo = document.createElement("span");
+      conteudo.className = "agenda-month-event";
+      const hora = document.createElement("span");
+      hora.className = "agenda-month-event-time";
+      hora.textContent = info.timeText || "";
+      const nome = document.createElement("span");
+      nome.className = "agenda-month-event-name";
+      nome.textContent = nomeCliente;
+      conteudo.append(hora, nome);
+      return { domNodes: [conteudo] };
+    },
     dayCellClassNames: function(info) {
       return bloqueiosAgenda.has(dataLocalCalendario(info.date)) ? ["fc-day-bloqueado"] : [];
     },
     dayCellDidMount: function(info) {
       if (!bloqueiosAgenda.has(dataLocalCalendario(info.date))) return;
-      info.el.style.setProperty("background-color", "rgba(244, 191, 174, 0.14)", "important");
+      info.el.style.setProperty("background-color", "#f9e8e7", "important");
       info.el.querySelector(".fc-daygrid-day-frame")?.style.setProperty(
         "background-color",
-        "rgba(244, 191, 174, 0.14)",
+        "#f9e8e7",
         "important"
       );
       info.el.closest(".fc-timegrid-col")?.style.setProperty(
         "background-color",
-        "rgba(244, 191, 174, 0.14)",
+        "#f9e8e7",
         "important"
       );
     },
@@ -5140,6 +5205,10 @@ eventClick: function(info) {
 
     // 🔹 Atualiza os resumos ao mudar de mês/view
     datesSet: function(dateInfo) {
+      const title = calendarEl.querySelector(".fc-toolbar-title");
+      if (title) {
+        title.textContent = title.textContent.replace(/^./, letra => letra.toLocaleUpperCase("pt-BR"));
+      }
       // A função é chamada com a view atual para pegar o mês correto
       atualizarResumosAgenda(dateInfo);
     }
