@@ -38,6 +38,14 @@
     console.warn('Configure SUPABASE_URL e SUPABASE_ANON_KEY no index.html.');
   }
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabaseDataClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+      detectSessionInUrl: false,
+      storageKey: 'studio-public-data-auth'
+    }
+  });
 
   const tabelasStudio = {
     financeiro: 'studio_financeiro',
@@ -81,7 +89,7 @@
       const valor = match ? decodeURIComponent(match[2]) : null;
 
       if (method === 'GET') {
-        let query = supabaseClient.from(tabela).select('id,data,created_at').order('id', { ascending: true });
+        let query = supabaseDataClient.from(tabela).select('id,data,created_at').order('id', { ascending: true });
         const { data, error } = await query;
         if (error) throw error;
         let out = (data || []).map(registroSaida);
@@ -95,7 +103,7 @@
           : init.body instanceof FormData
             ? Object.fromEntries(init.body.entries())
             : {};
-        const { data, error } = await supabaseClient.from(tabela).insert({ data: body }).select('id,data,created_at').single();
+        const { data, error } = await supabaseDataClient.from(tabela).insert({ data: body }).select('id,data,created_at').single();
         if (error) throw error;
         return jsonResponse(registroSaida(data), 201);
       }
@@ -103,24 +111,24 @@
       if (method === 'PUT') {
         const body = typeof init.body === 'string' ? JSON.parse(init.body) : {};
         if (!campo) return jsonResponse({ error: 'Campo de atualização não informado.' }, 400);
-        const { data: rows, error: findError } = await supabaseClient.from(tabela).select('id,data');
+        const { data: rows, error: findError } = await supabaseDataClient.from(tabela).select('id,data');
         if (findError) throw findError;
         const found = (rows || []).find(r => String(r.data?.[campo] ?? '').toLowerCase() === String(valor ?? '').toLowerCase());
         if (!found) return jsonResponse({ error: 'Registro não encontrado.' }, 404);
         const novoData = { ...(found.data || {}), ...body };
-        const { data, error } = await supabaseClient.from(tabela).update({ data: novoData }).eq('id', found.id).select('id,data,created_at').single();
+        const { data, error } = await supabaseDataClient.from(tabela).update({ data: novoData }).eq('id', found.id).select('id,data,created_at').single();
         if (error) throw error;
         return jsonResponse(registroSaida(data));
       }
 
       if (method === 'DELETE') {
         if (!campo) return jsonResponse({ error: 'Campo de exclusão não informado.' }, 400);
-        const { data: rows, error: findError } = await supabaseClient.from(tabela).select('id,data');
+        const { data: rows, error: findError } = await supabaseDataClient.from(tabela).select('id,data');
         if (findError) throw findError;
         const found = (rows || []).filter(r => String(r.data?.[campo] ?? '').toLowerCase() === String(valor ?? '').toLowerCase());
         if (!found.length) return jsonResponse({ error: 'Registro não encontrado.' }, 404);
         const ids = found.map(r => r.id);
-        const { error } = await supabaseClient.from(tabela).delete().in('id', ids);
+        const { error } = await supabaseDataClient.from(tabela).delete().in('id', ids);
         if (error) throw error;
         return jsonResponse({ deleted: ids.length });
       }
