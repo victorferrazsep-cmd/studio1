@@ -1772,11 +1772,11 @@ button:active:not(:disabled) {
   <!-- AGENDA -->
   <div id="agendaPage" class="page hidden">
     <div class="flex justify-between mb-5 items-center">
-      <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-3">Agenda ✨</h2>
-      <!-- O botão de presença foi removido daqui -->
+      <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Agenda ✨</h2>
+      <div class="flex gap-3 mr-4 h-10"></div>
     </div>
 
-<div class="grid gap-4 mb-5 home-metric-grid agenda-metric-grid">
+<div class="grid gap-4 mt-6 mb-5 home-metric-grid agenda-metric-grid">
   <div class="card home-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
     <div class="home-metric-icon"><i class="fas fa-users"></i></div>
     <div class="home-metric-content">
@@ -2094,9 +2094,10 @@ button:active:not(:disabled) {
 
     <div id="configuracoesPage" class="page hidden">
       <div class="flex justify-between mb-5 items-center">
-  <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Configurações ✨</h2>
-  <div class="flex gap-3 mr-4"></div>      </div>
-      <section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="catalogoAgendamentosTitle">
+        <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Configurações ✨</h2>
+        <div class="flex gap-3 mr-4 h-10"></div>
+      </div>
+      <section class="card rounded-xl shadow p-5 mt-6 mb-5" aria-labelledby="catalogoAgendamentosTitle">
         <h3 id="catalogoAgendamentosTitle" class="text-lg font-semibold mb-1">Listas do agendamento</h3>
         <p class="text-sm text-gray-400 mb-4">Cadastre as técnicas e seus valores padrão. Essas configurações ficam salvas somente neste navegador.</p>
         <form id="formCatalogoAgendamentos" class="flex flex-wrap items-end gap-3">
@@ -3796,20 +3797,21 @@ function renderizarProximosAgendamentos(eventos) {
   const container = document.getElementById("proximosAgendamentos");
   if (!container) return;
 
-  const agora = new Date();
-  const limite = new Date(agora);
-  limite.setDate(limite.getDate() + 5);
+  const inicio = new Date();
+  inicio.setHours(0, 0, 0, 0);
+  const limite = new Date(inicio);
+  limite.setDate(limite.getDate() + 7);
   const proximos = eventos
     .filter(evento => evento.Cliente && evento.Data)
     .map(evento => ({
       ...evento,
       dataHora: new Date(`${evento.Data}T${evento.Hora || "00:00"}`)
     }))
-    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= agora && evento.dataHora < limite)
+    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= inicio && evento.dataHora < limite)
     .sort((a, b) => a.dataHora - b.dataHora);
 
   if (!proximos.length) {
-    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento nos próximos 5 dias.</p>';
+    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento de hoje até os próximos 6 dias.</p>';
     return;
   }
 
@@ -3878,6 +3880,8 @@ async function carregarProximosAgendamentos() {
     }
   }
 }
+
+window.carregarProximosAgendamentos = carregarProximosAgendamentos;
 
 carregarProximosAgendamentos();
 
@@ -5150,8 +5154,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const formLoginAgenda = document.getElementById("formLoginAgenda");
   const btnSairAgenda = document.getElementById("btnSairAgenda");
   const btnEntrarAgenda = document.getElementById("btnEntrarAgenda");
+  let sessaoAgendaInicializada = false;
+  let usuarioSessaoAgendaId = null;
 
   async function atualizarSessaoAgenda(session) {
+    const usuarioId = session?.user?.id || null;
+    if (sessaoAgendaInicializada && usuarioId === usuarioSessaoAgendaId) return;
+    sessaoAgendaInicializada = true;
+    usuarioSessaoAgendaId = usuarioId;
     sessaoAgenda = session;
     if (canalRealtimeBloqueiosAgenda) {
       await supabaseClient.removeChannel(canalRealtimeBloqueiosAgenda);
@@ -5173,7 +5183,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (statusBloqueios) statusBloqueios.textContent = "Entre com sua conta do Studio para sincronizar as datas bloqueadas.";
       googleCalendarStatus.textContent = "Entre com sua conta do Studio para acessar a agenda.";
       await atualizarResumosHome();
-      await carregarProximosAgendamentos();
+      await window.carregarProximosAgendamentos();
       agendaCalendar?.refetchEvents();
       agendaCalendar?.render();
       return;
@@ -5220,7 +5230,7 @@ document.addEventListener("DOMContentLoaded", () => {
       googleCalendarStatus.textContent = `Não foi possível verificar a conexão Google: ${error.message}`;
     }
     await atualizarResumosHome();
-    await carregarProximosAgendamentos();
+    await window.carregarProximosAgendamentos();
     agendaCalendar?.refetchEvents();
     agendaCalendar?.render();
   }
