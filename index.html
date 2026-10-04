@@ -5016,7 +5016,7 @@ async function carregarProximosAgendamentos() {
     if (sessaoAgenda && googleCalendarConnected) {
       const agora = new Date();
       const limite = new Date(agora);
-      limite.setDate(limite.getDate() + 5);
+      limite.setFullYear(limite.getFullYear() + 1);
       const query = new URLSearchParams({
         timeMin: agora.toISOString(),
         timeMax: limite.toISOString(),
@@ -5550,6 +5550,7 @@ function dadosEventoGoogle(evento) {
     evento.Modalidade && `Modalidade: ${evento.Modalidade}`,
     tecnica && `Técnica: ${tecnica}`,
     evento.Tipo && `Tipo: ${evento.Tipo}`,
+    evento.Presenca && `Presença: ${String(evento.Presenca).trim() || "Não"}`,
     evento.ValorProcedimento !== "" && evento.ValorProcedimento !== undefined &&
       `Valor da técnica: ${Number(evento.ValorProcedimento || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
     evento.ValorSinal !== "" && evento.ValorSinal !== undefined &&
@@ -5567,7 +5568,8 @@ function dadosEventoGoogle(evento) {
       private: {
         ...(evento.GooglePrivateProperties || {}),
         ...(evento.ID !== undefined && evento.ID !== null ? { studioAppointmentId: String(evento.ID) } : {}),
-        ...(evento.GoogleAppointmentId ? { studioAppointmentId: String(evento.GoogleAppointmentId) } : {})
+        ...(evento.GoogleAppointmentId ? { studioAppointmentId: String(evento.GoogleAppointmentId) } : {}),
+        Presenca: String(evento.Presenca || "Não").trim() || "Não"
       }
     }
   };
@@ -5672,6 +5674,9 @@ function mapearEventoGoogleParaResumo(evento) {
     const numero = Number(valor.replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."));
     return Number.isFinite(numero) ? numero.toFixed(2) : "";
   };
+  const presencaGoogle = String(
+    campoDescricao("Presença") || campoDescricao("Presenca") || evento.extendedProperties?.private?.Presenca || "Não"
+  ).trim();
   const partesTitulo = String(evento.summary || "").split(" - ");
   const cliente = partesTitulo.shift()?.trim();
   if (!cliente) return null;
@@ -5689,7 +5694,7 @@ function mapearEventoGoogleParaResumo(evento) {
     ValorSinal: valorDescricao("Valor sinal"),
     ValorDia: valorDescricao("Valor a cobrar no dia"),
     ValorPago: valorDescricao("Valor a cobrar no dia"),
-    Presenca: "Não",
+    Presenca: presencaGoogle.toLowerCase() === "sim" ? "Sim" : "Não",
     GoogleEventId: evento.id || null,
     GoogleAppointmentId: evento.extendedProperties?.private?.studioAppointmentId || null
   };
@@ -6235,7 +6240,7 @@ eventClick: function(info) {
       valorDia: campoDescricao("Valor a cobrar no dia")
         ? Number(campoDescricao("Valor a cobrar no dia").replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."))
         : "",
-      Presenca: "Não"
+      Presenca: String(campoDescricao("Presença") || campoDescricao("Presenca") || props.Presenca || "Não").trim().toLowerCase() === "sim" ? "Sim" : "Não"
     };
   }
 
@@ -6515,7 +6520,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => modalAgendamento.classList.add("hidden"), 250);
   });
 
-  document.getElementById("btnPresencaAgendamento").addEventListener("click", () => {
+  document.getElementById("btnPresencaAgendamento").addEventListener("click", async () => {
     const cliente = document.getElementById("agendamentoCliente")?.value || eventoEmEdicao?.clienteOriginal || "";
     const dadosParaAnamnese = {
       Cliente: cliente,
@@ -6531,32 +6536,82 @@ document.addEventListener("DOMContentLoaded", () => {
       GoogleEventId: eventoEmEdicao?.googleEventId ?? null
     };
 
-    document.getElementById("fecharModalAgendamento").click();
-    if (cliente && dadosParaAnamnese.Data) {
-      const eventoAtual = eventoEmEdicao?.event ? {
-        ...eventoEmEdicao.event.extendedProps,
-        Cliente: cliente,
-        Data: dadosParaAnamnese.Data,
-        Hora: dadosParaAnamnese.Hora,
-        Modalidade: dadosParaAnamnese.Modalidade,
-        Tecnica: dadosParaAnamnese.Tecnica,
-        ValorProcedimento: dadosParaAnamnese.ValorProcedimento,
-        ValorSinal: dadosParaAnamnese.ValorSinal,
-        Presenca: "Sim"
-      } : {
-        Cliente: cliente,
-        Data: dadosParaAnamnese.Data,
-        Hora: dadosParaAnamnese.Hora,
-        Modalidade: dadosParaAnamnese.Modalidade,
-        Tecnica: dadosParaAnamnese.Tecnica,
-        ValorProcedimento: dadosParaAnamnese.ValorProcedimento,
-        ValorSinal: dadosParaAnamnese.ValorSinal,
-        Presenca: "Sim"
-      };
-      window.abrirModalAnamnese({ ...dadosParaAnamnese, Presenca: "Sim", ID: eventoEmEdicao?.id ?? eventoAtual.ID ?? null, GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? eventoAtual.GoogleAppointmentId ?? null, GoogleEventId: eventoEmEdicao?.googleEventId ?? eventoAtual.GoogleEventId ?? null });
-    } else {
+    if (!cliente || !dadosParaAnamnese.Data) {
       alert("Selecione um agendamento válido antes de abrir a presença.");
+      return;
     }
+
+    const eventoAtual = eventoEmEdicao?.event ? {
+      ...eventoEmEdicao.event.extendedProps,
+      Cliente: cliente,
+      Data: dadosParaAnamnese.Data,
+      Hora: dadosParaAnamnese.Hora,
+      Modalidade: dadosParaAnamnese.Modalidade,
+      Tecnica: dadosParaAnamnese.Tecnica,
+      ValorProcedimento: dadosParaAnamnese.ValorProcedimento,
+      ValorSinal: dadosParaAnamnese.ValorSinal,
+      Presenca: "Sim",
+      ID: eventoEmEdicao?.id ?? eventoEmEdicao?.event.extendedProps?.id ?? null,
+      GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? eventoEmEdicao?.event.extendedProps?.googleAppointmentId ?? null,
+      GoogleEventId: eventoEmEdicao?.googleEventId ?? eventoEmEdicao?.event.extendedProps?.googleEventId ?? null
+    } : {
+      Cliente: cliente,
+      Data: dadosParaAnamnese.Data,
+      Hora: dadosParaAnamnese.Hora,
+      Modalidade: dadosParaAnamnese.Modalidade,
+      Tecnica: dadosParaAnamnese.Tecnica,
+      ValorProcedimento: dadosParaAnamnese.ValorProcedimento,
+      ValorSinal: dadosParaAnamnese.ValorSinal,
+      Presenca: "Sim",
+      ID: eventoEmEdicao?.id ?? null,
+      GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? null,
+      GoogleEventId: eventoEmEdicao?.googleEventId ?? null
+    };
+
+    try {
+      if (eventoEmEdicao) {
+        const eventoParaPersistencia = { ...eventoAtual, Presenca: "Sim" };
+        if (!eventoEmEdicao.googleOnlyEvent && eventoEmEdicao.id) {
+          const response = await fetch(`${SUPABASE_AGENDA_URL}/ID/${eventoEmEdicao.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(eventoParaPersistencia)
+          });
+          if (!response.ok) {
+            throw new Error("Não foi possível atualizar o agendamento no banco de dados.");
+          }
+        }
+
+        if (eventoEmEdicao.googleEventId) {
+          const respostaGoogle = await requisitarGoogleCalendar(`events/${encodeURIComponent(eventoEmEdicao.googleEventId)}`, {
+            method: "PATCH",
+            body: JSON.stringify(dadosEventoGoogle(eventoParaPersistencia))
+          });
+          if (respostaGoogle?.id) {
+            eventoEmEdicao.event.setExtendedProp("Presenca", "Sim");
+            eventoEmEdicao.event.setProp("color", "#34a853");
+          }
+        }
+
+        if (eventoEmEdicao.event) {
+          eventoEmEdicao.event.setExtendedProp("Presenca", "Sim");
+          eventoEmEdicao.event.setProp("color", "#34a853");
+        }
+
+        await registrarGanhoPorPresenca(eventoParaPersistencia).catch(async (erroFinanceiro) => {
+          console.error("Erro ao lançar presença na presença do botão:", erroFinanceiro);
+          const valorSeguro = Number.isFinite(Number(eventoParaPersistencia.ValorProcedimento))
+            ? Number(eventoParaPersistencia.ValorProcedimento)
+            : 0;
+          await registrarGanhoPorPresenca({ ...eventoParaPersistencia, ValorProcedimento: String(valorSeguro.toFixed(2)) }, []).catch(() => undefined);
+        });
+      }
+    } catch (erro) {
+      console.error("Erro ao registrar presença do botão:", erro);
+    }
+
+    document.getElementById("fecharModalAgendamento").click();
+    window.abrirModalAnamnese({ ...dadosParaAnamnese, Presenca: "Sim", ID: eventoEmEdicao?.id ?? eventoAtual.ID ?? null, GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? eventoAtual.GoogleAppointmentId ?? null, GoogleEventId: eventoEmEdicao?.googleEventId ?? eventoAtual.GoogleEventId ?? null });
   });
 
   // 🔹 Excluir agendamento
