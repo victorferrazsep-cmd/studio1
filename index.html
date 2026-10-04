@@ -4959,21 +4959,19 @@ function renderizarProximosAgendamentos(eventos) {
   const container = document.getElementById("proximosAgendamentos");
   if (!container) return;
 
-  const inicio = new Date();
-  inicio.setHours(0, 0, 0, 0);
-  const limite = new Date(inicio);
-  limite.setDate(limite.getDate() + 7);
+  const agora = new Date();
   const proximos = eventos
     .filter(evento => evento.Cliente && evento.Data)
     .map(evento => ({
       ...evento,
       dataHora: new Date(`${evento.Data}T${evento.Hora || "00:00"}`)
     }))
-    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= inicio && evento.dataHora < limite)
-    .sort((a, b) => a.dataHora - b.dataHora);
+    .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= agora)
+    .sort((a, b) => a.dataHora - b.dataHora)
+    .slice(0, 5);
 
   if (!proximos.length) {
-    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento de hoje até os próximos 6 dias.</p>';
+    container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento futuro encontrado.</p>';
     return;
   }
 
@@ -6282,7 +6280,7 @@ eventClick: function(info) {
   document.getElementById("agendamentoValorSinal").value = props.valorSinal ?? "0";
   atualizarResumoValoresAgendamento();
 
-  document.getElementById("btnPresencaAgendamento").classList.toggle("hidden", !!somenteGoogle || !eventoEmEdicao);
+  document.getElementById("btnPresencaAgendamento").classList.toggle("hidden", !eventoEmEdicao);
 
   document.getElementById("agendamentoData").value = eventoEmEdicao.dataOriginal;
   document.getElementById("agendamentoHora").value = eventoEmEdicao.horaOriginal;
