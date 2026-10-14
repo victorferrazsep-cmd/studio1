@@ -4181,6 +4181,58 @@ function renderizarTabelaRelatorio(dadosFiltrados) {
   });
 
 table.appendChild(tbody);
+
+  const indiceValor = keys.indexOf("Valor");
+  if (indiceValor !== -1) {
+    const totais = dadosFiltrados.reduce((soma, row) => {
+      const valor = parseValorBR(row.Valor);
+      soma.geral += valor;
+      if (row.Tipo === "Despesas") soma.despesas += valor;
+      if (row.Tipo === "Ganhos") soma.ganhos += valor;
+      return soma;
+    }, { despesas: 0, ganhos: 0, geral: 0 });
+    const tfoot = document.createElement("tfoot");
+    const linhasTotais = [
+      ["TOTAL DESPESAS", totais.despesas],
+      ["TOTAL GANHOS", totais.ganhos],
+      ["TOTAL GERAL DAS LINHAS", totais.geral]
+    ];
+
+    linhasTotais.forEach(([rotulo, total]) => {
+      const tr = document.createElement("tr");
+      tr.style.fontWeight = "bold";
+      tr.style.backgroundColor = "#202020";
+      tr.style.borderTop = "1px solid #666";
+
+      const tdTotal = document.createElement("td");
+      tdTotal.textContent = formataValor(total);
+      tdTotal.style.textAlign = "center";
+      tdTotal.style.padding = "6px";
+
+      const tdRotulo = document.createElement("td");
+      tdRotulo.textContent = rotulo;
+      tdRotulo.style.textAlign = "right";
+      tdRotulo.style.padding = "6px";
+
+      if (indiceValor === 0) {
+        tr.append(tdTotal, tdRotulo);
+        tdRotulo.colSpan = Math.max(1, keys.length - 1);
+      } else {
+        tdRotulo.colSpan = indiceValor;
+        tr.append(tdRotulo, tdTotal);
+        for (let i = indiceValor + 1; i < keys.length; i++) {
+          tr.appendChild(document.createElement("td"));
+        }
+      }
+
+      const tdAcoes = document.createElement("td");
+      tr.appendChild(tdAcoes);
+      tfoot.appendChild(tr);
+    });
+
+    table.appendChild(tfoot);
+  }
+
     relatorioContainer.appendChild(table);
 }
 
