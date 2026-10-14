@@ -5330,7 +5330,11 @@ function renderizarTiposAgendamento(valorSelecionado = "", manterTipoDesconhecid
   const modalidade = document.getElementById("agendamentoModalidade")?.value || "";
   const select = document.getElementById("agendamentoProcedimento");
   if (!select) return;
-  const tipos = catalogoAgendamentos.find(item => item.nome === modalidade)?.tipos || [];
+  const modalidadeCatalogo = catalogoAgendamentos.find(item => item.nome === modalidade);
+  const tiposComTecnicas = new Set(
+    (modalidadeCatalogo?.procedimentos || []).map(procedimento => procedimento.tipo).filter(Boolean)
+  );
+  const tipos = (modalidadeCatalogo?.tipos || []).filter(tipo => tiposComTecnicas.has(tipo));
   select.innerHTML = '<option value="">Selecione o tipo</option>';
   tipos.forEach(tipo => {
     select.add(new Option(tipo, tipo));
