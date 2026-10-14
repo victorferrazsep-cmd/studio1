@@ -2404,7 +2404,12 @@ button:active:not(:disabled) {
     </h2>
 
     <form id="formAgendamento" class="space-y-4">
-      <div class="flex justify-end items-center gap-3">
+      <div class="flex justify-between items-center gap-3">
+        <label for="agendamentoPermuta" class="inline-flex items-center gap-2 rounded-md border border-rose-300 px-3 py-2 text-sm font-semibold text-rose-200">
+          <input id="agendamentoPermuta" name="Permuta" type="checkbox" value="Sim"
+            class="accent-rose-300">
+          <span>PERMUTA</span>
+        </label>
         <button id="btnPresencaAgendamento" type="button" class="hidden px-3 py-2 rounded-md font-semibold text-xs uppercase tracking-wide transition-all" style="background-color: var(--rose); color: #000; box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);">
           PRESENÇA
         </button>
@@ -3375,7 +3380,7 @@ function atualizarDashboard(mesSelecionado) {
   const dadosAgrupados = agruparDados(dadosFiltrados);
 
   renderizarPainel(totais);
-  renderizarResumoDetalhado(dadosAgrupados);
+  renderizarResumoDetalhado(dadosAgrupados, dadosFiltrados);
   renderizarTabelaRelatorio(dadosFiltrados);
 }
 
@@ -3866,7 +3871,7 @@ function agruparDados(dados) {
   return acumulador;
 }
 
-function renderizarResumoDetalhado(dadosAgrupados) {
+function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
   // Helper to create a row with category left and value right with dotted leader
   function createRow(label, value, options = {}) {
     const row = document.createElement("div");
@@ -3903,7 +3908,28 @@ function renderizarResumoDetalhado(dadosAgrupados) {
     valueSpan.style.minWidth = "7ch";
     valueSpan.style.textAlign = "right";
 
-    labelContainer.appendChild(labelSpan);
+    if (options.onClick) {
+      const botao = document.createElement("button");
+      botao.type = "button";
+      botao.textContent = label;
+      botao.setAttribute("aria-expanded", "false");
+      botao.style.font = "inherit";
+      botao.style.fontWeight = options.bold ? "bold" : "normal";
+      botao.style.fontStyle = options.italic ? "italic" : "normal";
+      botao.style.fontSize = options.fontSize || "1rem";
+      botao.style.paddingLeft = options.paddingLeft || "0";
+      botao.style.whiteSpace = "nowrap";
+      botao.style.zIndex = "1";
+      botao.style.border = "0";
+      botao.style.background = "transparent";
+      botao.style.color = "inherit";
+      botao.style.cursor = "pointer";
+      botao.style.textAlign = "left";
+      botao.addEventListener("click", options.onClick);
+      labelContainer.appendChild(botao);
+    } else {
+      labelContainer.appendChild(labelSpan);
+    }
     labelContainer.appendChild(dotsSpan);
 
     row.appendChild(labelContainer);
@@ -3938,7 +3964,44 @@ function renderizarResumoDetalhado(dadosAgrupados) {
       const nomes = familias[famKey].nomes;
       for (const nomeKey in nomes) {
         const nomeTotal = formataValor(nomes[nomeKey]);
-      resumoDetalhadoDiv.appendChild(createRow("   └ " + nomeKey, nomeTotal, { fontSize: "0.875rem", paddingLeft: "2rem", marginBottom: "2px", italic: false }));
+        const ocorrencias = registros.filter(registro =>
+          (registro.Tipo || "Sem Tipo") === tipoKey &&
+          (registro.Familia || "Sem Família") === famKey &&
+          (registro.Nome || "Sem Nome") === nomeKey
+        );
+        const detalhes = document.createElement("div");
+        detalhes.hidden = true;
+        detalhes.style.paddingLeft = "3rem";
+        detalhes.style.margin = "2px 0 6px";
+        detalhes.style.color = "#d1d5db";
+        detalhes.style.fontSize = "0.8rem";
+
+        ocorrencias.forEach(ocorrencia => {
+          const detalhe = document.createElement("div");
+          detalhe.style.display = "flex";
+          detalhe.style.justifyContent = "space-between";
+          detalhe.style.gap = "1rem";
+          detalhe.style.padding = "2px 0";
+
+          const descricao = document.createElement("span");
+          descricao.textContent = ocorrencia.Descricao || "Sem descrição";
+          const valor = document.createElement("span");
+          valor.textContent = formataValor(parseValorBR(ocorrencia.Valor));
+          valor.style.whiteSpace = "nowrap";
+          detalhe.append(descricao, valor);
+          detalhes.appendChild(detalhe);
+        });
+
+        const linhaNome = createRow("   └ " + nomeKey, nomeTotal, {
+          fontSize: "0.875rem",
+          paddingLeft: "2rem",
+          marginBottom: "2px",
+          onClick: event => {
+            detalhes.hidden = !detalhes.hidden;
+            event.currentTarget.setAttribute("aria-expanded", String(!detalhes.hidden));
+          }
+        });
+        resumoDetalhadoDiv.append(linhaNome, detalhes);
       }
 
       // Add Familia subtotal separator line with background
@@ -5206,6 +5269,21 @@ function formatarMoedaCentavos(valor) {
   });
 }
 
+function atualizarValorPermuta() {
+  const permuta = document.getElementById("agendamentoPermuta");
+  const valor = document.getElementById("agendamentoValorProcedimento");
+  const sinal = document.getElementById("agendamentoValorSinal");
+  if (!permuta || !valor || !sinal) return;
+
+  valor.readOnly = permuta.checked;
+  sinal.readOnly = permuta.checked;
+  if (permuta.checked) {
+    valor.value = "0";
+    sinal.value = "0";
+  }
+  atualizarResumoValoresAgendamento();
+}
+
 function atualizarResumoValoresAgendamento() {
   const procedimento = document.getElementById("agendamentoValorProcedimento");
   const sinal = document.getElementById("agendamentoValorSinal");
@@ -5221,7 +5299,7 @@ function atualizarResumoValoresAgendamento() {
     valorDia.textContent = "—";
     return false;
   }
-  if (sinalCentavos > procedimentoCentavos) {
+  if (!document.getElementById("agendamentoPermuta")?.checked && sinalCentavos > procedimentoCentavos) {
     erro.textContent = "O sinal não pode ser maior que o valor da técnica.";
     erro.classList.remove("hidden");
     valorDia.textContent = "—";
@@ -5469,19 +5547,52 @@ function configurarCatalogoAgendamentos() {
   document.getElementById("agendamentoModalidade").addEventListener("change", () => {
     renderizarTiposAgendamento();
     renderizarTecnicasAgendamento();
-    document.getElementById("agendamentoValorProcedimento").value = "";
-    document.getElementById("agendamentoValorSinal").value = "0";
-    atualizarResumoValoresAgendamento();
+    if (document.getElementById("agendamentoPermuta").checked) {
+      atualizarValorPermuta();
+    } else {
+      document.getElementById("agendamentoValorProcedimento").value = "";
+      document.getElementById("agendamentoValorSinal").value = "0";
+      atualizarResumoValoresAgendamento();
+    }
   });
   document.getElementById("agendamentoProcedimento").addEventListener("change", () => {
     renderizarTecnicasAgendamento();
-    document.getElementById("agendamentoValorProcedimento").value = "";
-    document.getElementById("agendamentoValorSinal").value = "0";
-    atualizarResumoValoresAgendamento();
+    if (document.getElementById("agendamentoPermuta").checked) {
+      atualizarValorPermuta();
+    } else {
+      document.getElementById("agendamentoValorProcedimento").value = "";
+      document.getElementById("agendamentoValorSinal").value = "0";
+      atualizarResumoValoresAgendamento();
+    }
   });
-  document.getElementById("agendamentoTipo").addEventListener("change", atualizarValorPadraoAgendamento);
-  document.getElementById("agendamentoValorProcedimento").addEventListener("input", atualizarResumoValoresAgendamento);
-  document.getElementById("agendamentoValorSinal").addEventListener("input", atualizarResumoValoresAgendamento);
+  document.getElementById("agendamentoTipo").addEventListener("change", () => {
+    if (document.getElementById("agendamentoPermuta").checked) {
+      atualizarValorPermuta();
+    } else {
+      atualizarValorPadraoAgendamento();
+    }
+  });
+  document.getElementById("agendamentoPermuta").addEventListener("change", () => {
+    atualizarValorPermuta();
+    if (!document.getElementById("agendamentoPermuta").checked) {
+      document.getElementById("agendamentoValorSinal").value = "0";
+      atualizarValorPadraoAgendamento();
+    }
+  });
+  document.getElementById("agendamentoValorProcedimento").addEventListener("input", () => {
+    if (document.getElementById("agendamentoPermuta").checked) {
+      atualizarValorPermuta();
+    } else {
+      atualizarResumoValoresAgendamento();
+    }
+  });
+  document.getElementById("agendamentoValorSinal").addEventListener("input", () => {
+    if (document.getElementById("agendamentoPermuta").checked) {
+      atualizarValorPermuta();
+    } else {
+      atualizarResumoValoresAgendamento();
+    }
+  });
 }
 
 function atualizarOpcoesModalidadeCatalogo(valorSelecionado = "") {
@@ -5710,6 +5821,7 @@ function dadosEventoGoogle(evento) {
     evento.Modalidade && `Modalidade: ${evento.Modalidade}`,
     tecnica && `Tipo do agendamento: ${tecnica}`,
     evento.Tipo && `Técnica realizada: ${evento.Tipo}`,
+    String(evento.Permuta || "").trim().toLowerCase() === "sim" && "Permuta: Sim",
     evento.Presenca && `Presença: ${String(evento.Presenca).trim() || "Não"}`,
     evento.ValorProcedimento !== "" && evento.ValorProcedimento !== undefined &&
       `Valor da técnica: ${Number(evento.ValorProcedimento || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
@@ -5731,6 +5843,7 @@ function dadosEventoGoogle(evento) {
         ...(evento.GoogleAppointmentId ? { studioAppointmentId: String(evento.GoogleAppointmentId) } : {}),
         ...(evento.Tecnica ? { studioTipo: String(evento.Tecnica) } : {}),
         ...(evento.Tipo ? { studioTecnica: String(evento.Tipo) } : {}),
+        studioPermuta: String(evento.Permuta || "").trim().toLowerCase() === "sim" ? "Sim" : "Não",
         Presenca: String(evento.Presenca || "Não").trim() || "Não"
       }
     }
@@ -5782,6 +5895,11 @@ async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failure
           googlePrivateProperties: evento.extendedProperties?.private || {},
           googleDescription: evento.description || "",
           Presenca: presencaEventoGoogle(evento),
+          Permuta: String(
+            evento.extendedProperties?.private?.studioPermuta ||
+            evento.description?.split(/\r?\n/).find(linha => /^Permuta:/i.test(linha))?.split(":").slice(1).join(":").trim() ||
+            ""
+          ).toLowerCase() === "sim" ? "Sim" : "Não",
           googleHtmlLink: evento.htmlLink
         }
       }));
@@ -5865,6 +5983,7 @@ function mapearEventoGoogleParaResumo(evento) {
     Tecnica: tipoAgendamento,
     Modalidade: campoDescricao("Modalidade"),
     Tipo: tecnicaRealizada,
+    Permuta: String(evento.extendedProperties?.private?.studioPermuta || campoDescricao("Permuta") || "").trim().toLowerCase() === "sim" ? "Sim" : "Não",
     ValorProcedimento: valorDescricao("Valor da técnica") || valorDescricao("Valor do procedimento"),
     ValorSinal: valorDescricao("Valor sinal"),
     ValorDia: valorDescricao("Valor a cobrar no dia"),
@@ -6274,6 +6393,7 @@ async function renderAgendaCalendar() {
           valorDia: e.ValorDia ?? e.ValorPago,
           cep: e.CEP,
           Presenca: e.Presenca,
+          Permuta: e.Permuta,
           googleEventId: e.GoogleEventId || null,
           inicioAgendaISO: `${e.Data}T${e.Hora || "00:00"}:00-03:00`
         }
@@ -6380,6 +6500,7 @@ async function renderAgendaCalendar() {
       }
       eventoEmEdicao = null; // Garante que não estamos em modo de edição
       document.getElementById("formAgendamento").reset();
+      atualizarValorPermuta();
       renderizarModalidadesAgendamento();
       renderizarTiposAgendamento();
       renderizarTecnicasAgendamento();
@@ -6410,6 +6531,7 @@ eventClick: function(info) {
         campoDescricao("Procedimento") || partesTitulo.join(" - ").trim() || "Agendamento",
       tipo: props.googlePrivateProperties?.studioTecnica ||
         campoDescricao("Técnica realizada") || campoDescricao("Tipo"),
+      Permuta: String(props.googlePrivateProperties?.studioPermuta || campoDescricao("Permuta") || "").toLowerCase() === "sim" ? "Sim" : "Não",
       modalidade: campoDescricao("Modalidade"),
       valorProcedimento: campoDescricao("Valor da técnica") || campoDescricao("Valor do procedimento")
         ? Number((campoDescricao("Valor da técnica") || campoDescricao("Valor do procedimento")).replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."))
@@ -6459,9 +6581,12 @@ eventClick: function(info) {
   renderizarModalidadesAgendamento(props.modalidade || "");
   renderizarTiposAgendamento(props.tecnica || props.procedimento || "", true);
   renderizarTecnicasAgendamento(props.tipo || "", true);
+  document.getElementById("agendamentoPermuta").checked =
+    String(props.Permuta || "").trim().toLowerCase() === "sim";
   document.getElementById("agendamentoValorProcedimento").value =
     props.valorProcedimento ?? props.valorPago ?? "";
   document.getElementById("agendamentoValorSinal").value = props.valorSinal ?? "0";
+  atualizarValorPermuta();
   atualizarResumoValoresAgendamento();
 
   document.getElementById("btnPresencaAgendamento").classList.toggle("hidden", !eventoEmEdicao);
@@ -6718,6 +6843,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Tecnica: document.getElementById("agendamentoProcedimento")?.value || "",
       ValorProcedimento: document.getElementById("agendamentoValorProcedimento")?.value || "",
       ValorSinal: document.getElementById("agendamentoValorSinal")?.value || "0",
+      Permuta: document.getElementById("agendamentoPermuta")?.checked ? "Sim" : "Não",
       Presenca: "Sim",
       ID: eventoEmEdicao?.id ?? null,
       GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? null,
@@ -6738,6 +6864,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Tecnica: dadosParaAnamnese.Tecnica,
       ValorProcedimento: dadosParaAnamnese.ValorProcedimento,
       ValorSinal: dadosParaAnamnese.ValorSinal,
+      Permuta: dadosParaAnamnese.Permuta,
       Presenca: "Sim",
       ID: eventoEmEdicao?.id ?? eventoEmEdicao?.event.extendedProps?.id ?? null,
       GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? eventoEmEdicao?.event.extendedProps?.googleAppointmentId ?? null,
@@ -6750,6 +6877,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Tecnica: dadosParaAnamnese.Tecnica,
       ValorProcedimento: dadosParaAnamnese.ValorProcedimento,
       ValorSinal: dadosParaAnamnese.ValorSinal,
+      Permuta: dadosParaAnamnese.Permuta,
       Presenca: "Sim",
       ID: eventoEmEdicao?.id ?? null,
       GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? null,
@@ -6883,6 +7011,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(formAgendamento);
     const evento = Object.fromEntries(formData.entries());
+    evento.Permuta = document.getElementById("agendamentoPermuta").checked ? "Sim" : "Não";
+    if (evento.Permuta === "Sim") {
+      atualizarValorPermuta();
+      evento.ValorProcedimento = "0";
+      evento.ValorSinal = "0";
+    }
     const editando = !!eventoEmEdicao;
     let abrirAnamnese = false;
     let googleEventCriado = null;
