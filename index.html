@@ -4374,6 +4374,8 @@ function atualizarClientesAgendamento(clientes) {
 
   clientesData = clientes.filter(cliente =>
     String(cliente.Status || "").trim().toLowerCase() === "ativo"
+  ).sort((a, b) =>
+    String(a.Nome || "").localeCompare(String(b.Nome || ""), "pt-BR", { sensitivity: "base" })
   );
   select.replaceChildren(new Option("Selecione um cliente", ""));
   clientesData.forEach(cliente => {
