@@ -1,20 +1,22 @@
 {
-  "name": "Gestão Studio Sa Lopes",
-  "short_name": "Studio Sa Lopes",
-  "start_url": "index.html",
+  "id": "./",
+  "name": "Studio Sa Lopes",
+  "short_name": "Sa Lopes",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#1e1e1e",
-  "theme_color": "#f4bfae",
-  "description": "App de gestão do Studio Sa Lopes, com agenda, clientes e financeiro.",
+  "theme_color": "#1e1e1e",
   "icons": [
     {
-      "src": "assets/logo.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "assets/logo.png",
-      "sizes": "512x512",
+      "src": "Assets/icon.png",
+      "sizes": "250x250",
       "type": "image/png"
     }
   ]

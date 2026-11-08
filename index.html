@@ -2,9 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="Assets/icon.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="Assets/icon.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Studio Sa Lopes ✨</title>
+<meta name="theme-color" content="#1e1e1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Sa Lopes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1975,7 +1980,43 @@ button:active:not(:disabled) {
 
 @media (max-width: 640px) {
   main {
-    padding: 1.25rem 1rem 2rem;
+    height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    padding: calc(4.5rem + env(safe-area-inset-top, 0px)) 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  #menuBtn {
+    top: calc(0.75rem + env(safe-area-inset-top, 0px));
+    right: 1rem;
+    left: auto;
+    background: #111111;
+    border: 1px solid rgba(244, 191, 174, 0.22);
+  }
+
+  .page > .flex.justify-between.mb-5.items-center {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .page > .flex.justify-between.mb-5.items-center h2 {
+    margin: 0;
+  }
+
+  .page > .flex.justify-between.mb-5.items-center > div {
+    margin-right: 0;
+    flex-wrap: wrap;
+  }
+
+  #clientesPage > .mb-5.ml-4,
+  #clientesPage > .mt-6.ml-4 {
+    margin-left: 0;
+  }
+
+  .home-metric-grid,
+  .agenda-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .home-feature-grid {
@@ -2008,13 +2049,37 @@ button:active:not(:disabled) {
     flex-direction: column;
   }
 
+  #financeiro2Page #relatorioFinanceiro2 > h3 {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  #financeiro2Page #relatorioDashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .reports-header h2 {
     margin-top: -1.5rem;
+  }
+
+  #relatoriosPage .reports-header {
+    align-items: stretch;
   }
 
   .reports-controls {
     width: 100%;
     justify-content: space-between;
+  }
+
+  #relatoriosPage .reports-controls {
+    gap: 0.25rem;
+    margin-right: 0;
+  }
+
+  .reports-period-label {
+    min-width: 0;
+    flex: 1;
   }
 
   .reports-chart-grid,
@@ -2030,16 +2095,45 @@ button:active:not(:disabled) {
   .reports-comparison-row > :nth-child(3) {
     display: none;
   }
+
+  #calendarAgenda .fc-toolbar {
+    align-items: stretch;
+  }
+
+  #calendarAgenda .fc-toolbar-title {
+    font-size: 0.85rem !important;
+  }
+
+  #calendarAgenda .fc-button {
+    font-size: 0.65rem !important;
+  }
 }
 
+#sidebarBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  border: 0;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
 
+#sidebarBackdrop.sidebar-backdrop-visible {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
 
 </style>
 </head>
 <body class="flex h-screen">
 
 <!-- Sidebar -->
-<aside id="sidebar" class="sidebar w-64 p-5 pt-8 flex flex-col fixed inset-y-0 left-0 z-40 sidebar-hidden">
+<aside id="sidebar" class="sidebar w-64 p-5 pt-8 flex flex-col fixed inset-y-0 left-0 z-40 sidebar-hidden" aria-hidden="true" inert>
   <h1 class="text-2x1 font-semibold mb-8 text-center">Menu</h1>
   <nav class="flex flex-col space-y-2">
     <a href="#" class="active" data-page="home">Home</a>
@@ -2051,8 +2145,10 @@ button:active:not(:disabled) {
   </nav>
 </aside>
 
+<button id="sidebarBackdrop" type="button" aria-label="Fechar menu"></button>
+
 <!-- Botão de menu -->
-<button id="menuBtn" type="button" aria-label="Abrir ou fechar menu" aria-controls="sidebar" aria-expanded="false" class="fixed top-5 left-5 p-2 rounded-md shadow-md z-50">
+<button id="menuBtn" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false" class="fixed top-5 left-5 p-2 rounded-md shadow-md z-50">
   <span style="color: var(--rose);" class="text-2xl">☰</span>
 </button>
 
@@ -4020,19 +4116,24 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
       resumoDetalhadoDiv.appendChild(famSubtotalContainer);
     }
 
-    grandTotal += dadosAgrupados[tipoKey].total;
+    grandTotal += tipoKey === "Despesas"
+      ? -dadosAgrupados[tipoKey].total
+      : dadosAgrupados[tipoKey].total;
   }
 
-  // Add grand total line after all Tipos with background
-  const grandTotalContainer = document.createElement("div");
-  grandTotalContainer.style.backgroundColor = "rgba(204, 204, 204, 0.2)";
-  grandTotalContainer.style.borderRadius = "6px";
-  grandTotalContainer.style.padding = "6px 10px";
-  grandTotalContainer.style.margin = "12px 0";
+  const totalDespesas = dadosAgrupados["Despesas"]?.total || 0;
+  const totalGanhos = dadosAgrupados["Ganhos"]?.total || 0;
+  const totaisContainer = document.createElement("div");
+  totaisContainer.style.backgroundColor = "rgba(204, 204, 204, 0.2)";
+  totaisContainer.style.borderRadius = "6px";
+  totaisContainer.style.padding = "6px 10px";
+  totaisContainer.style.margin = "12px 0";
 
-  grandTotalContainer.appendChild(createRow("TOTAL", formataValor(grandTotal), { bold: true, marginBottom: "0" }));
+  totaisContainer.appendChild(createRow("TOTAL DESPESAS", formataValor(totalDespesas), { bold: true }));
+  totaisContainer.appendChild(createRow("TOTAL GANHOS", formataValor(totalGanhos), { bold: true }));
+  totaisContainer.appendChild(createRow("TOTAL GERAL DAS LINHAS", formataValor(grandTotal), { bold: true, marginBottom: "0" }));
 
-  resumoDetalhadoDiv.appendChild(grandTotalContainer);
+  resumoDetalhadoDiv.appendChild(totaisContainer);
 }
 
 function renderizarTabelaRelatorio(dadosFiltrados) {
@@ -4186,9 +4287,13 @@ table.appendChild(tbody);
   if (indiceValor !== -1) {
     const totais = dadosFiltrados.reduce((soma, row) => {
       const valor = parseValorBR(row.Valor);
-      soma.geral += valor;
-      if (row.Tipo === "Despesas") soma.despesas += valor;
-      if (row.Tipo === "Ganhos") soma.ganhos += valor;
+      if (row.Tipo === "Despesas") {
+        soma.despesas += valor;
+        soma.geral -= valor;
+      } else if (row.Tipo === "Ganhos") {
+        soma.ganhos += valor;
+        soma.geral += valor;
+      }
       return soma;
     }, { despesas: 0, ganhos: 0, geral: 0 });
     const tfoot = document.createElement("tfoot");
@@ -5014,11 +5119,26 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
+  const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+  const definirMenuAberto = aberto => {
+    sidebar.classList.toggle("sidebar-hidden", !aberto);
+    sidebarBackdrop.classList.toggle("sidebar-backdrop-visible", aberto);
+    sidebar.setAttribute("aria-hidden", String(!aberto));
+    sidebar.inert = !aberto;
+    menuBtn.setAttribute("aria-expanded", String(aberto));
+    menuBtn.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+  };
   menuBtn.addEventListener("click", function(e) {
     e.preventDefault();
     e.stopPropagation();
-    sidebar.classList.toggle("sidebar-hidden");
-    menuBtn.setAttribute("aria-expanded", String(!sidebar.classList.contains("sidebar-hidden")));
+    definirMenuAberto(sidebar.classList.contains("sidebar-hidden"));
+  });
+  sidebarBackdrop.addEventListener("click", () => definirMenuAberto(false));
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !sidebar.classList.contains("sidebar-hidden")) {
+      definirMenuAberto(false);
+      menuBtn.focus();
+    }
   });
 
   // Fecha o menu ao clicar fora da sidebar ou do botão
@@ -5027,8 +5147,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const isClickInsideSidebar = sidebar.contains(e.target);
       const isClickOnMenuBtn = menuBtn.contains(e.target);
       if (!isClickInsideSidebar && !isClickOnMenuBtn) {
-        sidebar.classList.add("sidebar-hidden");
-        menuBtn.setAttribute("aria-expanded", "false");
+        definirMenuAberto(false);
       }
     }
   });
@@ -5040,6 +5159,7 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById(a.dataset.page+"Page").classList.remove("hidden");
       document.querySelectorAll(".sidebar a").forEach(x=>x.classList.remove("active"));
       a.classList.add("active");
+      definirMenuAberto(false);
       if(a.dataset.page==="clientes") carregarClientes();
       if(a.dataset.page==="relatorios") carregarRelatorios();
       if (a.dataset.page === "home") {
