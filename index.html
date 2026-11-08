@@ -1212,6 +1212,26 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.14);
 }
 
+#boxClienteContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#boxClienteContent select,
+#boxClienteContent textarea,
+#modalAgendamentoContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#modalAgendamentoContent select,
+#modalAgendamentoContent textarea,
+#modalAnamneseContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#modalAnamneseContent select,
+#modalAnamneseContent textarea,
+#boxFinanceiro2 input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#boxFinanceiro2 select,
+#boxFinanceiro2 textarea {
+  color: #111111 !important;
+}
+
+select option {
+  color: #111111;
+  background-color: #ffffff;
+}
+
 button {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
@@ -2475,11 +2495,20 @@ button:active:not(:disabled) {
 }
 
 @media (max-width: 640px) {
-  main {
+  main.flex-1 {
     padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
-    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
     padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
-    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  #resumoFinanceiro {
+    border-color: rgba(244, 191, 174, 0.08) !important;
+  }
+
+  #resumoFinanceiro .home-finance-kpi,
+  #resumoFinanceiro .home-finance-comparison {
+    border-color: rgba(244, 191, 174, 0.05) !important;
   }
 
   #homePage > .text-center.mb-8 img {
