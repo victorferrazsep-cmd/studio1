@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="Assets/apple-touch-icon.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Studio Sa Lopes ✨</title>
 <meta name="theme-color" content="#1e1e1e">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1315,6 +1315,131 @@ button:active:not(:disabled) {
   gap: 1rem;
 }
 
+.home-finance-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.home-finance-kpi {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid rgba(244, 191, 174, 0.14);
+  border-radius: 0.85rem;
+  background: #1e1e1e;
+}
+
+.home-finance-kpi h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.home-finance-kpi p {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-weight: 600;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.home-finance-kpi > span {
+  display: block;
+  margin-top: 0.45rem;
+  color: #aaa;
+  font-size: 0.68rem;
+}
+
+.home-finance-comparison {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(244, 191, 174, 0.12);
+  border-radius: 0.85rem;
+  background: #1e1e1e;
+}
+
+.home-finance-comparison-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.home-finance-comparison-heading h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.home-finance-comparison-heading > span {
+  color: var(--rose);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.home-finance-table-wrap {
+  overflow-x: auto;
+}
+
+.home-finance-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.78rem;
+}
+
+.home-finance-table th,
+.home-finance-table td {
+  padding: 0.58rem 0.35rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+
+.home-finance-table th {
+  color: #aaa;
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.home-finance-table td:first-child {
+  color: #fff;
+  font-weight: 600;
+}
+
+.home-finance-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.home-finance-table .home-finance-income {
+  color: var(--rose);
+}
+
+.home-finance-table .home-finance-expense {
+  color: #c78181;
+}
+
+.home-finance-table .home-finance-balance-positive,
+.home-finance-table .home-finance-mom-positive {
+  color: #8fbd92;
+}
+
+.home-finance-table .home-finance-balance-negative,
+.home-finance-table .home-finance-mom-negative {
+  color: #c78181;
+}
+
+.home-finance-status {
+  margin: 0.7rem 0 0;
+  color: #c78181;
+  font-size: 0.75rem;
+}
+
 .home-metric-icon {
   width: 2.35rem;
   height: 2.35rem;
@@ -1372,6 +1497,16 @@ button:active:not(:disabled) {
   text-align: right;
 }
 
+.home-metric-cilios {
+  border-color: rgba(244, 191, 174, 0.3);
+  background: linear-gradient(145deg, rgba(244, 191, 174, 0.12), #252525 78%);
+}
+
+.home-metric-sobrancelhas {
+  border-color: rgba(201, 130, 134, 0.3);
+  background: linear-gradient(145deg, rgba(201, 130, 134, 0.12), #252525 78%);
+}
+
 .titulo-card {
   display: block;
   font-size: 0.74rem;
@@ -1410,6 +1545,61 @@ button:active:not(:disabled) {
   font-size: 0.95rem;
   font-weight: 400;
   color: var(--texto);
+}
+
+.home-finance-period-filters {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.05rem;
+  padding: 0.1rem;
+  border: 1px solid rgba(244, 191, 174, 0.14);
+  border-radius: 999px;
+  background: #1e1e1e;
+}
+
+#resumoFinanceiro .home-finance-period-filters button {
+  box-sizing: border-box;
+  display: inline-flex;
+  width: 1.8rem;
+  min-width: 1.8rem;
+  height: 1.4rem;
+  min-height: 1.4rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #b8b8b8;
+  cursor: pointer;
+  font-size: 0.55rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+#resumoFinanceiro > .home-section-heading > .home-finance-period-filters {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+#resumoFinanceiro .home-finance-period-filters button[aria-pressed="true"] {
+  border-color: var(--rose);
+  background: var(--rose);
+  color: #1e1e1e;
+  font-weight: 700;
+}
+
+#resumoFinanceiro .home-finance-period-filters button:hover:not(:disabled) {
+  transform: none;
+  color: var(--rose);
+}
+
+#resumoFinanceiro .home-finance-period-filters button[aria-pressed="true"]:hover:not(:disabled) {
+  color: #1e1e1e;
 }
 
 .eyebrow {
@@ -1988,10 +2178,27 @@ button:active:not(:disabled) {
 
   #menuBtn {
     top: calc(0.75rem + env(safe-area-inset-top, 0px));
-    right: 1rem;
-    left: auto;
-    background: #111111;
-    border: 1px solid rgba(244, 191, 174, 0.22);
+    right: auto;
+    left: 1.25rem;
+  }
+
+  #resumoFinanceiro > .home-section-heading {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  #resumoFinanceiro > .home-section-heading > div:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  #resumoFinanceiro .home-finance-period-filters {
+    flex: 0 0 auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    width: auto;
+    max-width: 100%;
+    margin-left: auto;
   }
 
   .page > .flex.justify-between.mb-5.items-center {
@@ -2128,6 +2335,677 @@ button:active:not(:disabled) {
   visibility: visible;
 }
 
+@media (max-width: 1280px) {
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  main {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: clamp(1rem, 3vw, 2rem);
+  }
+
+  .page,
+  .page > * {
+    min-width: 0;
+  }
+
+  .home-metric-grid,
+  .agenda-metric-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-feature-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+
+  .home-feature-image {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: 28rem;
+  }
+
+  #resumoFinanceiro .grid,
+  #relatorioDashboard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #configuracoesPage form,
+  #configuracoesPage form.flex-wrap,
+  #configuracoesPage .flex-wrap,
+  .bloqueio-agenda-panel form {
+    flex-wrap: wrap;
+  }
+
+  #configuracoesPage form > label {
+    flex: 1 1 12rem;
+  }
+
+  #configuracoesPage form > button {
+    flex: 0 1 auto;
+  }
+
+  #formLoginAgenda input {
+    width: 100%;
+  }
+
+  .reports-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .reports-chart-grid,
+  .reports-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  button,
+  .sidebar a,
+  .upcoming-link,
+  .status-filter-option span,
+  .cliente-atendimentos summary {
+    min-height: 2.75rem;
+    touch-action: manipulation;
+  }
+
+  .page button {
+    font-size: max(0.875rem, 1em);
+  }
+
+  #configuracoesPage button,
+  #configuracoesPage .btn-primary {
+    font-size: 0.875rem;
+  }
+
+  input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  select,
+  textarea {
+    box-sizing: border-box;
+    min-height: 2.75rem;
+    max-width: 100%;
+  }
+
+  #buscaCliente {
+    height: 2.75rem;
+    min-height: 2.75rem;
+    font-size: 16px;
+  }
+
+  .status-filter-option span {
+    justify-content: center;
+  }
+
+  .cliente-actions button,
+  .cliente-atendimento-actions button {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+  }
+
+  #calendarAgenda .fc-button {
+    min-height: 2.75rem;
+    padding: 0.4rem 0.55rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .reports-period-toggle button,
+  .reports-nav-button {
+    min-width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  #calendarAgenda .fc-col-header-cell-cushion {
+    font-size: 0.68rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1280px) {
+  .home-metric-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .home-metric-card .home-metric-icon {
+    left: 0.45rem;
+  }
+}
+
+@media (max-width: 640px) {
+  main {
+    padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  #homePage > .text-center.mb-8 img {
+    width: min(20rem, 100%) !important;
+    height: auto;
+  }
+
+  .home-metric-grid,
+  .agenda-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .home-metric-card {
+    min-height: 7.5rem;
+    padding: 0.7rem;
+  }
+
+  .home-metric-icon {
+    top: 0.65rem;
+    left: 0.7rem;
+  }
+
+  .home-metric-card .numero-grande {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
+
+  .titulo-card {
+    font-size: 0.7rem;
+    white-space: normal;
+  }
+
+  .metric-detail {
+    font-size: 0.64rem;
+  }
+
+  #resumoFinanceiro .grid,
+  #relatorioDashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-finance-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .home-finance-kpi:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .home-finance-kpi,
+  .home-finance-comparison {
+    padding: 0.8rem;
+  }
+
+  .home-finance-table-wrap {
+    overflow: visible;
+  }
+
+  .home-finance-table {
+    min-width: 0;
+  }
+
+  .home-finance-table thead {
+    display: none;
+  }
+
+  .home-finance-table tbody {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .home-finance-table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 0.75rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.65rem;
+  }
+
+  .home-finance-table tbody td {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.3rem;
+    padding: 0.25rem 0;
+    border: 0;
+    font-size: 0.68rem;
+    white-space: normal;
+  }
+
+  .home-finance-table tbody td:first-child {
+    grid-column: 1 / -1;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.75rem;
+  }
+
+  .home-finance-table tbody td:not(:first-child)::before {
+    flex: 0 0 auto;
+    color: #aaa;
+    content: attr(data-label);
+    font-size: 0.62rem;
+  }
+
+  .home-feature-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .home-feature-grid > .card:first-child,
+  .home-feature-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .home-feature-image {
+    height: auto;
+    min-height: 0;
+    max-height: 18rem;
+  }
+
+  .page > .flex.justify-between.mb-5.items-center {
+    gap: 0.75rem;
+  }
+
+  .page > .flex.justify-between.mb-5.items-center > div {
+    gap: 0.5rem;
+  }
+
+  #clientesPage > .flex.justify-between.mb-5.items-center {
+    align-items: stretch;
+  }
+
+  #btnAdicionarCliente {
+    margin-right: 0;
+  }
+
+  .status-filter-options {
+    gap: 0.4rem;
+  }
+
+  .status-filter-option {
+    display: inline-flex;
+  }
+
+  .status-filter-option span {
+    padding-inline: 0.75rem;
+  }
+
+  .cliente-card-summary {
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    gap: 0.65rem;
+  }
+
+  .cliente-avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .cliente-info-heading {
+    align-items: flex-start;
+  }
+
+  .cliente-actions {
+    flex-wrap: wrap;
+    gap: 0.2rem;
+  }
+
+  .cliente-actions button,
+  .cliente-atendimento-actions button {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .cliente-atendimento-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.45rem;
+  }
+
+  .cliente-atendimento-item time,
+  .cliente-atendimento-actions {
+    grid-column: auto;
+  }
+
+  .cliente-atendimento-actions {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .cliente-anamnese-button,
+  .cliente-status-button {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  #calendarCardAgenda {
+    padding: 0.25rem !important;
+  }
+
+  #calendarAgenda {
+    padding: 0.15rem;
+    font-size: 0.72rem;
+  }
+
+  #calendarAgenda .fc-header-toolbar.fc-toolbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+    gap: 0.35rem;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #calendarAgenda .fc-toolbar-title {
+    font-size: 0.9rem !important;
+    text-align: center;
+  }
+
+  #calendarAgenda .fc-daygrid-day-frame {
+    min-height: clamp(2.5rem, 10vw, 3.5rem);
+  }
+
+  #calendarAgenda .agenda-month-event {
+    font-size: 0.58rem;
+  }
+
+  #calendarAgenda .agenda-month-event-time,
+  #calendarAgenda .agenda-month-event-name {
+    font-size: 0.58rem;
+  }
+
+  #btnToggleBloqueiosAgenda,
+  #btnAdicionarBloqueioAgenda {
+    min-height: 2.75rem;
+  }
+
+  #dataBloqueioAgenda,
+  #motivoBloqueioAgenda {
+    width: 100%;
+  }
+
+  #painelBloqueiosAgenda form > div {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #boxCliente,
+  #modalAgendamento {
+    align-items: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: calc(0.75rem + env(safe-area-inset-top, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px))
+      calc(0.75rem + env(safe-area-inset-bottom, 0px))
+      max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  #boxClienteContent,
+  #modalAgendamentoContent {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    flex: 0 0 auto;
+    overflow-y: auto;
+    padding: 1rem;
+    margin-block: auto;
+  }
+
+  #formCliente,
+  .agendamento-form-row {
+    gap: 0.75rem;
+  }
+
+  .agendamento-data-hora-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .agendamento-detalhes-row,
+  .agendamento-valores-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #formAgendamento > .flex.justify-between.items-center {
+    flex-wrap: wrap;
+  }
+
+  #formCliente .cliente-form-actions,
+  #formAgendamento > .flex.justify-end.gap-3 {
+    flex-wrap: wrap;
+  }
+
+  #formCliente .cliente-form-actions > button,
+  #formAgendamento > .flex.justify-end.gap-3 > button:not(.hidden) {
+    flex: 1 1 8rem;
+  }
+
+  #modalAnamnese > div.w-full.h-full {
+    padding: calc(0.75rem + env(safe-area-inset-top, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px))
+      calc(0.75rem + env(safe-area-inset-bottom, 0px))
+      max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  #modalAnamneseContent {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    padding: 1rem;
+  }
+
+  #formAnamnese fieldset .flex.items-center.justify-between {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+  }
+
+  #formAnamnese fieldset .grid.grid-cols-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #formAnamnese label {
+    min-height: 2.75rem;
+    align-items: center;
+  }
+
+  #formAnamnese input[type="radio"],
+  #formAnamnese input[type="checkbox"],
+  #formAgendamento input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex: 0 0 auto;
+  }
+
+  .reports-header {
+    width: 100%;
+  }
+
+  .reports-header h2 {
+    margin: 0;
+  }
+
+  .reports-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .reports-kpi {
+    min-height: 6.5rem;
+    padding: 0.75rem;
+  }
+
+  .reports-kpi > span,
+  .reports-kpi small {
+    overflow-wrap: anywhere;
+  }
+
+  .reports-kpi strong {
+    font-size: clamp(1rem, 5vw, 1.4rem);
+  }
+
+  .reports-chart-grid,
+  .reports-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .reports-chart-card,
+  .reports-detail-card,
+  .reports-products-card {
+    padding: 0.85rem;
+  }
+
+  .reports-return-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reports-controls {
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  #configuracoesPage form,
+  #configuracoesPage form.flex-wrap {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #configuracoesPage form > label,
+  #configuracoesPage form > button,
+  #formLoginAgenda > label,
+  #formLoginAgenda > button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #configuracoesPage form > label {
+    flex: 1 1 auto;
+  }
+
+  #configuracoesPage form > button {
+    flex: 1 1 auto;
+  }
+
+  #configuracoesPage input,
+  #configuracoesPage select,
+  input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  #financeiro2Page > .flex.justify-between.mb-5.items-center > div,
+  #formFinanceiro2 .flex.justify-end.gap-3,
+  .cliente-form-actions {
+    width: 100%;
+  }
+
+  #formFinanceiro2 .flex.justify-end.gap-3 {
+    flex-wrap: wrap;
+  }
+
+  #formFinanceiro2 .flex.justify-end.gap-3 > button,
+  #financeiro2Page > .flex.justify-between.mb-5.items-center > div > button {
+    flex: 1 1 8rem;
+  }
+
+  .site-dialog-content {
+    padding: 1rem;
+  }
+
+  .site-dialog-actions {
+    flex-wrap: wrap;
+  }
+
+  .site-dialog-button {
+    min-height: 2.75rem;
+    flex: 1 1 8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-finance-kpis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-finance-kpi:last-child {
+    grid-column: auto;
+  }
+
+  .home-finance-table tbody tr {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-finance-table tbody td:not(:first-child) {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 380px) {
+  main {
+    padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+    padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  .home-finance-kpis {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-finance-kpi:last-child {
+    grid-column: auto;
+  }
+
+  .home-metric-grid,
+  .agenda-metric-grid,
+  .reports-kpi-grid {
+    gap: 0.45rem;
+  }
+
+  .home-metric-card {
+    padding: 0.6rem;
+  }
+
+  .reports-kpi {
+    padding: 0.65rem;
+  }
+
+  #formAgendamento > .agendamento-form-row.agendamento-data-hora-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cliente-card-summary {
+    padding: 0.7rem;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 600px) {
+  #boxCliente,
+  #modalAgendamento {
+    align-items: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.5rem;
+  }
+
+  #boxClienteContent,
+  #modalAgendamentoContent {
+    box-sizing: border-box;
+    max-height: calc(100dvh - 1rem);
+    overflow-y: auto;
+    margin-block: auto;
+  }
+
+  #modalAnamneseContent {
+    max-height: calc(100dvh - 1rem);
+    overflow-y: auto;
+  }
+}
+
 </style>
 </head>
 <body class="flex h-screen">
@@ -2175,28 +3053,19 @@ button:active:not(:disabled) {
     </div>
   </div>
 
-<div class="card home-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
-  <div class="home-metric-icon"><i class="fas fa-calendar-check"></i></div>
-  <div class="home-metric-content">
-    <div id="agendamentos" class="font-semibold" style="color:#F8C6AF">
-      <div>Agendamentos</div>
-    </div>
-    <div class="metric-detail">Confirmados no Calendário</div>
-  </div>
-</div>
-
-
-  <!-- Caixa 2 -->
   <div class="card home-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
-    <div class="home-metric-icon"><i class="fas fa-user-check"></i></div>
+    <div class="home-metric-icon"><i class="fas fa-calendar-check"></i></div>
     <div class="home-metric-content">
-      <div id="atendimentos" class="font-semibold" style="color:#F8C6AF">Atendimentos</div>
-      <div class="metric-detail">Realizados no Studio</div>
+      <div id="agendamentos" class="font-semibold" style="color:#F8C6AF">
+        <span class="numero-grande">-/-</span>
+        <span class="titulo-card">Atend./Agend.</span>
+      </div>
+      <div class="metric-detail">Presenças / agendamentos</div>
     </div>
   </div>
 
   <!-- Caixa 3 -->
-  <div class="card home-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
+  <div class="card home-metric-card home-metric-cilios px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
     <div class="home-metric-icon"><i class="fas fa-eye"></i></div>
     <div class="home-metric-content">
       <div id="ciliosTotal" class="font-semibold" style="color:#F8C6AF">Cílios</div>
@@ -2205,7 +3074,7 @@ button:active:not(:disabled) {
   </div>
 
   <!-- Caixa 4 -->
-  <div class="card home-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
+  <div class="card home-metric-card home-metric-sobrancelhas px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
     <div class="home-metric-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
     <div class="home-metric-content">
       <div id="sobraTotal" class="font-semibold" style="color:#F8C6AF">Sobrancelhas</div>
@@ -2240,21 +3109,49 @@ button:active:not(:disabled) {
       <span class="eyebrow"><i class="fas fa-chart-line"></i> Visão geral</span>
       <h3>Resumo Financeiro</h3>
     </div>
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white" id="resumoReceita">
-      <h4 class="financial-label financial-income"><i class="fas fa-arrow-trend-up"></i> Ganhos</h4>
-                <p class="text-2xl">R$ 0,00</p>
-    </div>
-    <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white" id="resumoDespesa">
-      <h4 class="financial-label financial-expense"><i class="fas fa-arrow-trend-down"></i> Despesas</h4>
-      <p class="text-2xl">R$ 0,00</p>
-    </div>
-    <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white" id="resumoSaldo">
-      <h4 class="financial-label financial-balance"><i class="fas fa-wallet"></i> Saldo</h4>
-      <p class="text-2xl">R$ 0,00</p>
+    <div class="home-finance-period-filters" role="group" aria-label="Período do resumo financeiro">
+      <button type="button" data-home-finance-period="month" aria-label="Mês" aria-pressed="false">MÊS</button>
+      <button type="button" data-home-finance-period="quarter" aria-label="Trimestre" aria-pressed="true">TRI</button>
+      <button type="button" data-home-finance-period="semester" aria-label="Semestre" aria-pressed="false">SEM</button>
+      <button type="button" data-home-finance-period="year" aria-label="Ano" aria-pressed="false">ANO</button>
     </div>
   </div>
+  <div class="home-finance-kpis">
+    <div class="card home-finance-kpi" id="resumoReceita">
+      <h4 class="financial-label financial-income">Ganhos</h4>
+      <p class="text-2xl">R$ 0,00</p>
+    </div>
+    <div class="card home-finance-kpi" id="resumoDespesa">
+      <h4 class="financial-label financial-expense">Despesas</h4>
+      <p class="text-2xl">R$ 0,00</p>
+    </div>
+    <div class="card home-finance-kpi" id="resumoSaldo">
+      <h4 class="financial-label financial-balance">Saldo</h4>
+      <p class="text-2xl">R$ 0,00</p>
+    </div>
+  </div>
+  <div class="home-finance-comparison">
+    <div class="home-finance-comparison-heading">
+      <h4>Comparativo por mês</h4>
+    </div>
+    <div class="home-finance-table-wrap">
+      <table class="home-finance-table">
+        <thead>
+          <tr>
+            <th scope="col">Período</th>
+            <th scope="col">Ganhos</th>
+            <th scope="col">Despesas</th>
+            <th scope="col">Saldo</th>
+            <th scope="col">MoM</th>
+          </tr>
+        </thead>
+        <tbody id="homeFinanceMonthlyRows">
+          <tr><td colspan="5">Carregando resumo financeiro...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p id="homeFinanceStatus" class="home-finance-status" role="status" aria-live="polite"></p>
 </div>
 </div>
 
@@ -4451,65 +5348,154 @@ function renderizarResumoDetalhadoHome(dadosAgrupados) {
   homeResumoDetalhadoDiv.appendChild(grandTotalContainer);
 }
 
+let homeFinanceiroRegistros = null;
+let homeFinanceiroPeriodo = "quarter";
+
+function renderizarResumoFinanceiroHome() {
+  if (!Array.isArray(homeFinanceiroRegistros)) return;
+
+  const elReceita = document.querySelector("#resumoReceita p");
+  const elDespesa = document.querySelector("#resumoDespesa p");
+  const elSaldo = document.querySelector("#resumoSaldo p");
+  const elLinhasMensais = document.getElementById("homeFinanceMonthlyRows");
+  const elStatus = document.getElementById("homeFinanceStatus");
+  const hoje = new Date();
+  const mesAtual = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+  const mesInicio = new Date(mesAtual);
+  if (homeFinanceiroPeriodo === "quarter") mesInicio.setMonth(mesInicio.getMonth() - 2);
+  else if (homeFinanceiroPeriodo === "semester") mesInicio.setMonth(mesInicio.getMonth() - 5);
+  else if (homeFinanceiroPeriodo === "year") mesInicio.setMonth(0);
+
+  const meses = [];
+  for (const data = new Date(mesInicio); data <= mesAtual; data.setMonth(data.getMonth() + 1)) {
+    const mes = new Date(data);
+    const chave = `${mes.getFullYear()}-${String(mes.getMonth() + 1).padStart(2, "0")}`;
+    meses.push({ data: mes, chave, ganhos: 0, despesas: 0 });
+  }
+  const totaisPorMes = new Map();
+  homeFinanceiroRegistros.forEach(registro => {
+    const mesRef = String(registro.MesRef || registro.DtRegistro || "").slice(0, 7);
+    if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(mesRef)) return;
+    let mes = totaisPorMes.get(mesRef);
+    if (!mes) {
+      mes = { chave: mesRef, ganhos: 0, despesas: 0 };
+      totaisPorMes.set(mesRef, mes);
+    }
+    const valor = parseValorBR(registro.Valor);
+    if (registro.Tipo === "Ganhos") mes.ganhos += valor;
+    else if (registro.Tipo === "Despesas") mes.despesas += valor;
+  });
+  const moeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+  meses.forEach(mes => {
+    const totais = totaisPorMes.get(mes.chave);
+    if (totais) {
+      mes.ganhos = totais.ganhos;
+      mes.despesas = totais.despesas;
+    }
+  });
+
+  const ganhosTotais = meses.reduce((soma, mes) => soma + mes.ganhos, 0);
+  const despesasTotais = meses.reduce((soma, mes) => soma + mes.despesas, 0);
+  const saldoTotal = ganhosTotais - despesasTotais;
+  if (elReceita) elReceita.textContent = moeda.format(ganhosTotais);
+  if (elDespesa) elDespesa.textContent = moeda.format(despesasTotais);
+  if (elSaldo) elSaldo.textContent = moeda.format(saldoTotal);
+
+  if (elLinhasMensais) {
+    elLinhasMensais.replaceChildren();
+    meses.forEach(mes => {
+      const saldo = mes.ganhos - mes.despesas;
+      const anteriorData = new Date(mes.data.getFullYear(), mes.data.getMonth() - 1, 1);
+      const anteriorChave = `${anteriorData.getFullYear()}-${String(anteriorData.getMonth() + 1).padStart(2, "0")}`;
+      const anterior = totaisPorMes.get(anteriorChave);
+      const saldoAnterior = anterior ? anterior.ganhos - anterior.despesas : 0;
+      const variacao = anterior && saldoAnterior !== 0
+        ? `${saldo - saldoAnterior > 0 ? "+" : ""}${((saldo - saldoAnterior) / Math.abs(saldoAnterior) * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`
+        : "—";
+      const linha = document.createElement("tr");
+      const nomeMes = new Intl.DateTimeFormat("pt-BR", { month: "short" })
+        .format(mes.data)
+        .replace(/\./g, "")
+        .toLocaleUpperCase("pt-BR");
+      const valores = [
+        `${nomeMes} ${mes.data.getFullYear()}`,
+        moeda.format(mes.ganhos),
+        moeda.format(mes.despesas),
+        moeda.format(saldo),
+        variacao
+      ];
+      const rotulos = ["Período", "Ganhos", "Despesas", "Saldo", "MoM"];
+      valores.forEach((valor, coluna) => {
+        const celula = document.createElement("td");
+        celula.textContent = valor;
+        celula.dataset.label = rotulos[coluna];
+        if (coluna === 1) celula.classList.add("home-finance-income");
+        if (coluna === 2) celula.classList.add("home-finance-expense");
+        if (coluna === 3) {
+          celula.classList.add(saldo >= 0 ? "home-finance-balance-positive" : "home-finance-balance-negative");
+        }
+        if (coluna === 4 && anterior) {
+          celula.classList.add(saldo >= saldoAnterior ? "home-finance-mom-positive" : "home-finance-mom-negative");
+        }
+        linha.appendChild(celula);
+      });
+      elLinhasMensais.appendChild(linha);
+    });
+  }
+
+  const chavesSelecionadas = new Set(meses.map(mes => mes.chave));
+  const registrosSelecionados = homeFinanceiroRegistros.filter(registro =>
+    chavesSelecionadas.has(String(registro.MesRef || registro.DtRegistro || "").slice(0, 7))
+  );
+  if (elStatus) {
+    elStatus.textContent = registrosSelecionados.length ? "" : "Sem lançamentos financeiros no período selecionado.";
+  }
+  const elResumoDetalhado = document.getElementById("homeResumoDetalhado");
+  if (elResumoDetalhado) {
+    renderizarResumoDetalhadoHome(agruparDados(registrosSelecionados));
+  }
+}
+
+document.querySelectorAll("[data-home-finance-period]").forEach(button => {
+  button.addEventListener("click", () => {
+    homeFinanceiroPeriodo = button.dataset.homeFinancePeriod;
+    document.querySelectorAll("[data-home-finance-period]").forEach(filtro => {
+      filtro.setAttribute("aria-pressed", String(filtro === button));
+    });
+    renderizarResumoFinanceiroHome();
+  });
+});
+
 async function atualizarResumoFinanceiroHome() {
+  const elReceita = document.querySelector("#resumoReceita p");
+  const elDespesa = document.querySelector("#resumoDespesa p");
+  const elSaldo = document.querySelector("#resumoSaldo p");
+  const elLinhasMensais = document.getElementById("homeFinanceMonthlyRows");
+  const elStatus = document.getElementById("homeFinanceStatus");
+
   try {
     const res = await fetch("supabase://financeiro");
+    if (!res.ok) {
+      throw new Error(`Não foi possível carregar o Financeiro (HTTP ${res.status}).`);
+    }
     const data = await res.json();
-
-    // Corrige formato dos meses (yyyy-MM)
-    data.forEach(i => {
-      if (i.MesRef) i.MesRef = i.MesRef.slice(0, 7);
-    });
-
-    const mesAtual = new Date().toISOString().slice(0, 7);
-    const filtrados = data.filter(i => i.MesRef === mesAtual);
-
-    // 🔹 Elementos do DOM (podem NÃO existir em outras páginas)
-    const elResumoDetalhado = document.getElementById("homeResumoDetalhado");
-    const elReceita = document.querySelector("#resumoReceita p");
-    const elDespesa = document.querySelector("#resumoDespesa p");
-    const elSaldo   = document.querySelector("#resumoSaldo p");
-
-    // 🔹 Se não houver dados do mês
-    if (!filtrados.length) {
-      if (elResumoDetalhado) {
-        elResumoDetalhado.innerHTML = "<p>Sem dados para este mês :(</p>";
-      }
-
-      if (elReceita) elReceita.textContent = "R$ 0,00";
-      if (elDespesa) elDespesa.textContent = "R$ 0,00";
-      if (elSaldo)   elSaldo.textContent   = "R$ 0,00";
-
-      return;
+    if (!Array.isArray(data)) {
+      throw new Error("A consulta do Financeiro retornou dados inválidos.");
     }
-
-    let receita = 0;
-    let despesa = 0;
-
-    filtrados.forEach(i => {
-      const valor = parseFloat(i.Valor) || 0;
-      if (i.Tipo === "Ganhos") {
-        receita += valor;
-      } else if (i.Tipo === "Despesas") {
-        despesa += valor;
-      }
-    });
-
-    const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
-
-    // 🔹 Atualiza os cards (somente se existirem)
-    if (elReceita) elReceita.textContent = formataValor(receita);
-    if (elDespesa) elDespesa.textContent = formataValor(despesa);
-    if (elSaldo)   elSaldo.textContent   = formataValor(receita - despesa);
-
-    // 🔹 Resumo detalhado (somente na Home)
-    if (elResumoDetalhado) {
-      const dadosAgrupados = agruparDados(filtrados);
-      renderizarResumoDetalhadoHome(dadosAgrupados);
-    }
-
+    homeFinanceiroRegistros = data;
+    renderizarResumoFinanceiroHome();
   } catch (err) {
     console.error("Erro ao atualizar resumo financeiro:", err);
+    if (elReceita) elReceita.textContent = "—";
+    if (elDespesa) elDespesa.textContent = "—";
+    if (elSaldo) elSaldo.textContent = "—";
+    if (elLinhasMensais) {
+      elLinhasMensais.innerHTML = '<tr><td colspan="5">Não foi possível carregar o comparativo.</td></tr>';
+    }
+    if (elStatus) elStatus.textContent = err instanceof Error
+      ? err.message
+      : "Não foi possível carregar o resumo financeiro.";
   }
 }
 
@@ -6247,10 +7233,8 @@ async function atualizarResumosHome() {
 const eventosDoMes = eventos;
 
 const totalAgendamentos = eventosDoMes.length;
-
-  const totalAtendimentos = eventosDoMes.filter(
-    e => (e.Presenca || '').trim().toLowerCase() === 'sim'
-  ).length;
+const temPresenca = evento => String(evento.Presenca || '').trim().toLowerCase() === 'sim';
+const totalAtendimentos = eventosDoMes.filter(temPresenca).length;
 
   // =====================================================
   // 🔹 EXTENSÃO DE CÍLIOS
@@ -6258,13 +7242,20 @@ const totalAgendamentos = eventosDoMes.length;
   const eventosCilios = eventosDoMes.filter(e =>
     (e.Modalidade || '').toLowerCase().includes('cílios')
   );
+  const atendimentosCilios = eventosCilios.filter(temPresenca).length;
 
   const ciliosAplicacoes = eventosCilios.filter(e =>
     tecnicaAgendamento(e).toLowerCase() === 'aplicação'
   ).length;
+  const ciliosAplicacoesComPresenca = eventosCilios.filter(e =>
+    tecnicaAgendamento(e).toLowerCase() === 'aplicação' && temPresenca(e)
+  ).length;
 
   const ciliosManutencoes = eventosCilios.filter(e =>
     tecnicaAgendamento(e).toLowerCase() === 'manutenção'
+  ).length;
+  const ciliosManutencoesComPresenca = eventosCilios.filter(e =>
+    tecnicaAgendamento(e).toLowerCase() === 'manutenção' && temPresenca(e)
   ).length;
 
   // =====================================================
@@ -6273,13 +7264,20 @@ const totalAgendamentos = eventosDoMes.length;
   const eventosSobrancelhas = eventosDoMes.filter(e =>
     (e.Modalidade || '').toLowerCase().includes('sobrancelha')
   );
+  const atendimentosSobrancelhas = eventosSobrancelhas.filter(temPresenca).length;
 
   const sobraAplicacoes = eventosSobrancelhas.filter(e =>
     tecnicaAgendamento(e).toLowerCase() === 'aplicação'
   ).length;
+  const sobraAplicacoesComPresenca = eventosSobrancelhas.filter(e =>
+    tecnicaAgendamento(e).toLowerCase() === 'aplicação' && temPresenca(e)
+  ).length;
 
   const sobraManutencoes = eventosSobrancelhas.filter(e =>
     tecnicaAgendamento(e).toLowerCase() === 'manutenção'
+  ).length;
+  const sobraManutencoesComPresenca = eventosSobrancelhas.filter(e =>
+    tecnicaAgendamento(e).toLowerCase() === 'manutenção' && temPresenca(e)
   ).length;
 
   // =====================================================
@@ -6290,17 +7288,8 @@ const totalAgendamentos = eventosDoMes.length;
 const elAgendamentos = document.getElementById("agendamentos");
 if (elAgendamentos) {
   elAgendamentos.innerHTML = `
-    <span class="numero-grande">${totalAgendamentos}</span>
-    <span class="titulo-card">Agendamentos</span>
-  `;
-}
-
-// Atendimentos
-const elAtendimentos = document.getElementById("atendimentos");
-if (elAtendimentos) {
-  elAtendimentos.innerHTML = `
-    <span class="numero-grande">${totalAtendimentos}</span>
-    <span class="titulo-card">Atendimentos</span>
+    <span class="numero-grande">${totalAtendimentos}/${totalAgendamentos}</span>
+    <span class="titulo-card">Atend./Agend.</span>
   `;
 }
 
@@ -6310,14 +7299,14 @@ const elCiliosDetalhe = document.getElementById("ciliosDetalhe");
 
 if (elCiliosTotal) {
   elCiliosTotal.innerHTML = `
-    <span class="numero-grande">${eventosCilios.length}</span>
+    <span class="numero-grande">${atendimentosCilios}/${eventosCilios.length}</span>
     <span class="titulo-card">Extensão Cílios</span>
   `;
 }
 
 // ❗ NÃO MEXE NOS DETALHES
 if (elCiliosDetalhe) {
-  elCiliosDetalhe.textContent = `Aplicações: ${ciliosAplicacoes}  Manutenções: ${ciliosManutencoes}`;
+  elCiliosDetalhe.textContent = `Aplicações: ${ciliosAplicacoesComPresenca}/${ciliosAplicacoes}  Manutenções: ${ciliosManutencoesComPresenca}/${ciliosManutencoes}`;
 }
 
 // Sobrancelhas
@@ -6326,14 +7315,14 @@ const elSobraDetalhe = document.getElementById("sobraDetalhe");
 
 if (elSobraTotal) {
   elSobraTotal.innerHTML = `
-    <span class="numero-grande">${eventosSobrancelhas.length}</span>
+    <span class="numero-grande">${atendimentosSobrancelhas}/${eventosSobrancelhas.length}</span>
     <span class="titulo-card">Sobrancelhas</span>
   `;
 }
 
 // ❗ NÃO MEXE NOS DETALHES
 if (elSobraDetalhe) {
-  elSobraDetalhe.textContent = `Aplicações: ${sobraAplicacoes}  Manutenções: ${sobraManutencoes}`;
+  elSobraDetalhe.textContent = `Aplicações: ${sobraAplicacoesComPresenca}/${sobraAplicacoes}  Manutenções: ${sobraManutencoesComPresenca}/${sobraManutencoes}`;
 }
 
 const elClientesAtivos = document.getElementById("clientesAtivos");
@@ -6357,7 +7346,6 @@ if (elClientesAtivosDelta) {
   console.error("Erro ao atualizar resumos da home:", err);
 
   const elAgendamentos = document.getElementById("agendamentos");
-  const elAtendimentos = document.getElementById("atendimentos");
   const elCiliosTotal = document.getElementById("ciliosTotal");
   const elCiliosDetalhe = document.getElementById("ciliosDetalhe");
   const elSobraTotal = document.getElementById("sobraTotal");
@@ -6365,8 +7353,7 @@ if (elClientesAtivosDelta) {
   const elClientesAtivos = document.getElementById("clientesAtivos");
   const elClientesAtivosDelta = document.getElementById("clientesAtivosDelta");
 
-  if (elAgendamentos) elAgendamentos.textContent = `Agendamentos -`;
-  if (elAtendimentos) elAtendimentos.textContent = `Atendimentos -`;
+  if (elAgendamentos) elAgendamentos.textContent = `Atend./Agend. -/-`;
   if (elCiliosTotal) elCiliosTotal.textContent = `Extensão de Cílios -`;
   if (elCiliosDetalhe) elCiliosDetalhe.textContent = `Aplic.: - | Manut.: -`;
   if (elSobraTotal) elSobraTotal.textContent = `Sobrancelhas -`;
