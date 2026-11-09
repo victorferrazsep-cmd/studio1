@@ -1658,24 +1658,108 @@ button:active:not(:disabled) {
   width: fit-content;
   max-width: 100%;
   padding: 0;
+  border: 0;
   overflow: hidden;
   background-color: transparent;
-  border-color: transparent;
   box-shadow: none;
   border-radius: 1rem;
 }
 
 .home-feature-image {
-  width: auto;
-  max-width: 100%;
-  height: 500px;
-  min-height: 500px;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
   margin: 0;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   background-color: transparent;
   border-radius: 1rem;
+}
+
+@keyframes home-carousel-slide-next {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes home-carousel-slide-previous {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.home-feature-image.is-sliding-next {
+  animation: home-carousel-slide-next 0.45s ease-out;
+}
+
+.home-feature-image.is-sliding-previous {
+  animation: home-carousel-slide-previous 0.45s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-feature-image.is-sliding-next,
+  .home-feature-image.is-sliding-previous {
+    animation: none;
+  }
+}
+
+.home-carousel {
+  position: relative;
+  width: auto;
+  height: 500px;
+  aspect-ratio: 800 / 1340;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-color: #1e1e1e;
+}
+
+.home-carousel-control {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: grid;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  min-height: 2.75rem;
+  place-items: center;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  background: rgba(30, 30, 30, 0.32);
+  color: rgba(255, 255, 255, 0.62);
+  cursor: pointer;
+}
+
+.home-carousel-control:hover:not(:disabled) {
+  transform: translateY(calc(-50% - 1px));
+  background: rgba(30, 30, 30, 0.52);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.home-carousel-control:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 2px;
+}
+
+.home-carousel-control-previous {
+  left: 0.75rem;
+}
+
+.home-carousel-control-next {
+  right: 0.75rem;
 }
 
 .upcoming-link {
@@ -1693,6 +1777,7 @@ button:active:not(:disabled) {
 }
 
 .upcoming-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -1702,9 +1787,9 @@ button:active:not(:disabled) {
 
 .upcoming-line {
   display: grid;
-  grid-template-columns: 2rem 1.15rem minmax(0, 1fr);
+  grid-template-columns: 2rem 1px minmax(0, 1fr);
   align-items: center;
-  column-gap: 0.2rem;
+  column-gap: 0.4rem;
   min-width: 0;
 }
 
@@ -1737,29 +1822,25 @@ button:active:not(:disabled) {
   grid-row: 1;
   margin-bottom: 0;
   color: #7F7F7F;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   font-weight: 500;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .upcoming-line-spacer {
   grid-column: 2;
   grid-row: 1;
-  width: 1.15rem;
+  width: 1px;
 }
 
-.upcoming-avatar {
-  grid-column: 2;
-  grid-row: 1;
-  width: 1.15rem;
-  height: 1.15rem;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: var(--rose);
-  background-color: rgba(244, 191, 174, 0.1);
-  border: 1px solid rgba(244, 191, 174, 0.18);
-  font-size: 0.75rem;
+.upcoming-divider {
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  left: calc(2rem + 0.4rem);
+  width: 1px;
+  background-color: rgba(244, 191, 174, 0.35);
 }
 
 .upcoming-name,
@@ -1768,11 +1849,42 @@ button:active:not(:disabled) {
 }
 
 .upcoming-name {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   grid-column: 3;
   grid-row: 1;
   color: var(--texto);
   font-size: 0.82rem;
   font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.upcoming-payment-status {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  box-sizing: border-box;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 0.35rem;
+  font-size: 0.48rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.upcoming-payment-status.is-paid {
+  color: #c6ead2;
+  border-color: rgba(144, 210, 165, 0.3);
+  background-color: rgba(90, 160, 110, 0.16);
+}
+
+.upcoming-payment-status.is-unpaid {
+  color: #b0b0b0;
+  border-color: rgba(160, 160, 160, 0.22);
+  background-color: rgba(140, 140, 140, 0.12);
 }
 
 .upcoming-service,
@@ -2170,11 +2282,6 @@ button:active:not(:disabled) {
     min-height: 8.5rem;
   }
 
-  .home-feature-image {
-    height: 500px;
-    min-height: 500px;
-  }
-
   .upcoming-item {
     grid-template-columns: 2.8rem 1.4rem minmax(0, 1fr);
     gap: 0.2rem;
@@ -2251,13 +2358,6 @@ button:active:not(:disabled) {
 
   .home-feature-grid > .card:first-child {
     width: 100%;
-  }
-
-  .home-feature-image {
-    width: 100%;
-    height: auto;
-    min-height: 0;
-    max-height: 300px;
   }
 
   .card,
@@ -2382,10 +2482,13 @@ button:active:not(:disabled) {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   }
 
-  .home-feature-image {
+  .home-feature-grid > .card:first-child,
+  .home-carousel {
     width: 100%;
+  }
+
+  .home-carousel {
     height: auto;
-    min-height: 0;
     max-height: 28rem;
   }
 
@@ -2489,6 +2592,57 @@ button:active:not(:disabled) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  .upcoming-card .home-section-heading {
+    align-items: flex-start;
+  }
+
+  .upcoming-card .home-section-heading h3 {
+    font-size: 0.86rem;
+    font-weight: 400;
+  }
+
+  .upcoming-card .upcoming-link {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    font-size: 0.72rem;
+    position: relative;
+    top: -0.45rem;
+  }
+
+  .upcoming-card {
+    padding: 0.75rem;
+  }
+
+  .upcoming-card .upcoming-list {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  #resumoFinanceiro > .home-section-heading > .home-finance-period-filters {
+    transform: translateY(0.85rem);
+  }
+
+  .upcoming-card .upcoming-empty {
+    margin-block: auto;
+  }
+
+  .upcoming-card .upcoming-item {
+    flex: 1 1 0;
+    justify-content: center;
+    padding-block: 0.25rem;
+  }
+
+  .upcoming-service {
+    font-size: 0.64rem;
+  }
+
+  .upcoming-line-secondary {
+    margin-top: 0;
+  }
+
   .home-metric-card .numero-grande {
     font-size: clamp(1.7rem, 3vw, 2.1rem);
   }
@@ -2569,7 +2723,7 @@ button:active:not(:disabled) {
   }
 
   .home-finance-kpi p {
-    font-size: clamp(0.62rem, 2.8vw, 0.9rem);
+    font-size: clamp(0.85rem, 4vw, 1.05rem);
     letter-spacing: -0.02em;
     white-space: nowrap;
   }
@@ -2625,15 +2779,32 @@ button:active:not(:disabled) {
   }
 
   .home-feature-grid > .card:first-child,
-  .home-feature-image {
+  .home-carousel {
     width: 100%;
     max-width: 100%;
   }
 
-  .home-feature-image {
+  .home-carousel {
     height: auto;
-    min-height: 0;
-    max-height: 18rem;
+    max-height: none;
+  }
+
+  .upcoming-card .home-section-heading {
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .upcoming-card .home-section-heading h3 {
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+
+  .upcoming-card .upcoming-link {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    font-size: 0.72rem;
+    position: relative;
+    top: -0.45rem;
   }
 
   .page > .flex.justify-between.mb-5.items-center {
@@ -3096,7 +3267,15 @@ button:active:not(:disabled) {
 
 <div class="grid gap-5 mb-5 home-feature-grid">
   <div class="card rounded-xl shadow p-3">
-    <img src="Assets/home.png" alt="Imagem do Studio Sa Lopes" class="home-feature-image">
+    <div id="homeCarousel" class="home-carousel" role="group" aria-label="Carrossel de imagens do Studio Sa Lopes">
+      <img id="homeCarouselImage" src="Assets/Carrossel/1.png" alt="Imagem 1 de 4 do Studio Sa Lopes" class="home-feature-image">
+      <button type="button" class="home-carousel-control home-carousel-control-previous" aria-label="Imagem anterior">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <button type="button" class="home-carousel-control home-carousel-control-next" aria-label="Próxima imagem">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
 
   <div class="card rounded-xl shadow p-5 upcoming-card">
@@ -6227,6 +6406,54 @@ function escaparHtml(valor) {
     .replace(/'/g, "&#039;");
 }
 
+function configurarCarrosselHome() {
+  const carrossel = document.getElementById("homeCarousel");
+  const imagem = document.getElementById("homeCarouselImage");
+  const anterior = carrossel?.querySelector(".home-carousel-control-previous");
+  const proxima = carrossel?.querySelector(".home-carousel-control-next");
+  if (!carrossel || !imagem || !anterior || !proxima) return;
+
+  const imagens = ["1.png", "2.png", "3.png", "4.png"];
+  let indiceAtual = 0;
+  let temporizador;
+
+  function mostrarImagem(indice, direcao) {
+    indiceAtual = (indice + imagens.length) % imagens.length;
+    imagem.classList.remove("is-sliding-next", "is-sliding-previous");
+    void imagem.offsetWidth;
+    imagem.src = `Assets/Carrossel/${imagens[indiceAtual]}`;
+    imagem.alt = `Imagem ${indiceAtual + 1} de ${imagens.length} do Studio Sa Lopes`;
+    imagem.classList.add(direcao > 0 ? "is-sliding-next" : "is-sliding-previous");
+  }
+
+  function pararRotacao() {
+    window.clearInterval(temporizador);
+    temporizador = undefined;
+  }
+
+  function iniciarRotacao() {
+    pararRotacao();
+    if (document.hidden) return;
+    temporizador = window.setInterval(() => {
+      mostrarImagem(indiceAtual + 1, 1);
+    }, 10000);
+  }
+
+  anterior.addEventListener("click", () => {
+    mostrarImagem(indiceAtual - 1, -1);
+    iniciarRotacao();
+  });
+  proxima.addEventListener("click", () => {
+    mostrarImagem(indiceAtual + 1, 1);
+    iniciarRotacao();
+  });
+  document.addEventListener("visibilitychange", iniciarRotacao);
+
+  iniciarRotacao();
+}
+
+configurarCarrosselHome();
+
 function renderizarProximosAgendamentos(eventos) {
   const container = document.getElementById("proximosAgendamentos");
   if (!container) return;
@@ -6240,7 +6467,7 @@ function renderizarProximosAgendamentos(eventos) {
     }))
     .filter(evento => !Number.isNaN(evento.dataHora.getTime()) && evento.dataHora >= agora)
     .sort((a, b) => a.dataHora - b.dataHora)
-    .slice(0, 5);
+    .slice(0, 6);
 
   if (!proximos.length) {
     container.innerHTML = '<p class="upcoming-empty">Nenhum agendamento futuro encontrado.</p>';
@@ -6261,15 +6488,19 @@ function renderizarProximosAgendamentos(eventos) {
       ? `${nomesCliente[0]} ${nomesCliente[nomesCliente.length - 1]}`
       : nomesCliente[0] || "";
     const cliente = escaparHtml(nomeExibicao);
+    const sinalPago = valorEmCentavos(evento.ValorSinal) > 0;
     const modalidade = evento.Modalidade ? `${evento.Modalidade} · ` : "";
     const tecnica = escaparHtml(`${modalidade}${tecnicaAgendamento(evento) || "Atendimento"}${evento.Tipo ? ` · ${evento.Tipo}` : ""}`);
+    const statusPagamento = sinalPago
+      ? '<span class="upcoming-payment-status is-paid" role="img" aria-label="Sinal pago" title="Sinal pago">SINAL ✓</span>'
+      : '<span class="upcoming-payment-status is-unpaid" role="img" aria-label="Sinal não pago" title="Sinal não pago">SINAL X</span>';
 
     return `
       <div class="upcoming-item">
         <div class="upcoming-line">
           <span class="upcoming-date">${data}</span>
-          <span class="upcoming-avatar"><i class="fas fa-user"></i></span>
-          <div class="upcoming-name">${cliente}</div>
+          <span class="upcoming-divider" aria-hidden="true"></span>
+          <div class="upcoming-name"><span>${cliente}</span>${statusPagamento}</div>
         </div>
         <div class="upcoming-line upcoming-line-secondary">
           <span class="upcoming-time">${hora}</span>
