@@ -1069,6 +1069,21 @@
   font-size: 0.66rem;
 }
 
+.cliente-atendimento-item.is-upcoming {
+  border-color: #d1d5db;
+  background: #e5e7eb;
+  color: #1f2937;
+}
+
+.cliente-atendimento-item.is-upcoming > time,
+.cliente-atendimento-item.is-upcoming .cliente-atendimento-procedure {
+  color: #374151;
+}
+
+.cliente-atendimento-item.is-upcoming .cliente-atendimento-value {
+  color: #166534;
+}
+
 .cliente-atendimento-item > time {
   color: #d3d3d3;
   font-variant-numeric: tabular-nums;
@@ -2386,6 +2401,19 @@ button:active:not(:disabled) {
     padding-left: 4rem;
   }
 
+  #clientesPage > .flex.justify-between.mb-5.items-center,
+  #agendaPage > .flex.justify-between.mb-5.items-center,
+  #configuracoesPage > .flex.justify-between.mb-5.items-center,
+  #financeiro2Page > .flex.justify-between.mb-5.items-center {
+    align-items: center;
+  }
+
+  #relatoriosPage .reports-header h2 {
+    display: flex;
+    align-items: center;
+    min-height: 3rem;
+  }
+
   #resumoFinanceiro > .home-section-heading {
     flex-wrap: nowrap;
     align-items: flex-start;
@@ -2926,11 +2954,18 @@ button:active:not(:disabled) {
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center {
-    align-items: stretch;
+    align-items: center;
   }
 
   #btnAdicionarCliente {
     margin-right: 0;
+  }
+
+  #clientesPage .clientes-toolbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   #clientesPage .status-filter-options {
@@ -2948,6 +2983,19 @@ button:active:not(:disabled) {
     font-size: 0.7rem;
   }
 
+  #clientesPage .clientes-toolbar > #btnAdicionarCliente {
+    order: 1;
+    height: 2rem;
+    min-height: 2rem;
+    margin-left: auto;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.7rem;
+  }
+
+  #clientesPage .cliente-search-field {
+    order: 2;
+  }
+
   #clientesPage #btnAdicionarCliente {
     padding: 0.4rem 0.65rem;
     font-size: 0.75rem;
@@ -2962,6 +3010,14 @@ button:active:not(:disabled) {
     min-height: 2.25rem;
     padding-block: 0.3rem;
     font-size: 14px;
+  }
+
+  #clientesPage #btnAdicionarCliente {
+    height: 2rem;
+    min-height: 2rem;
+    margin-right: 0;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.7rem;
   }
 
   .cliente-card-summary {
@@ -3479,7 +3535,6 @@ button:active:not(:disabled) {
   <div id="clientesPage" class="page hidden">
     <div class="flex justify-between mb-5 items-center">
       <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Clientes ✨</h2>
-      <button id="btnAdicionarCliente" class="btn-primary px-4 py-2 rounded-md mr-4">Adicionar Cliente</button>
     </div>
     <div class="mb-5 ml-4">
       <label class="block mb-2 font-semibold text-rose-300">Filtro por Status:</label>
@@ -3498,6 +3553,7 @@ button:active:not(:disabled) {
             <span>Inativo</span>
           </label>
         </div>
+        <button id="btnAdicionarCliente" class="btn-primary px-4 py-2 rounded-md mr-4">Adicionar Cliente</button>
         <label class="cliente-search-field">
           <span class="sr-only">Pesquisar cliente</span>
           <i class="fas fa-search cliente-search-icon" aria-hidden="true"></i>
@@ -6215,7 +6271,7 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
       ? Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
       : "Não informado";
 
-    return `<div class="cliente-atendimento-item">
+    return `<div class="cliente-atendimento-item${dataHora >= agora ? " is-upcoming" : ""}">
       <time>${dataFormatada} ${horaFormatada}</time>
       <span class="cliente-atendimento-procedure">${tecnica}</span>
       <span class="cliente-atendimento-value">${valorFormatado}</span>
