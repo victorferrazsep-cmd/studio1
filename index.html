@@ -549,7 +549,9 @@
 }
 
   .sidebar a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     padding: 12px 20px;
     border-radius: 8px;
     color: var(--rose);
@@ -916,6 +918,76 @@
   color: var(--rose);
 }
 
+.auto-whatsapp-modal-content {
+  width: min(100%, 34rem);
+}
+
+.auto-whatsapp-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.auto-whatsapp-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #e8c5bb;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.auto-whatsapp-form select,
+.auto-whatsapp-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #dfc7c0;
+  border-radius: 0.55rem;
+  background: #fffaf8;
+  color: #111;
+  padding: 0.65rem 0.75rem;
+}
+
+.auto-whatsapp-form textarea {
+  min-height: 8rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.auto-whatsapp-help {
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.auto-whatsapp-status {
+  min-height: 1.2em;
+  margin: 0;
+  color: #bdbdbd;
+  font-size: 0.78rem;
+}
+
+.auto-whatsapp-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #25d366;
+  color: #102015;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auto-whatsapp-send[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .status-filter-options {
   display: flex;
   flex-wrap: wrap;
@@ -924,42 +996,126 @@
 
 .clientes-toolbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 0.75rem;
 }
 
-.cliente-search-field {
-  position: relative;
-  flex: 0 1 19rem;
-  min-width: 12rem;
+#clientesPage #btnAdicionarCliente {
+  margin-left: auto;
+  margin-right: 0;
 }
 
-#buscaCliente {
+#mensagensAutoPage #btnNovaMensagemAuto {
+  margin-right: 0;
+}
+
+.cliente-search-field {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-left: auto;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.cliente-search-toggle {
+  display: grid;
+  place-items: center;
   box-sizing: border-box;
-  width: 100%;
+  width: 2rem;
   height: 2rem;
   min-height: 2rem;
   border: 1px solid #3a3a3a;
   border-radius: 0.55rem;
   background: #252525;
+  color: #a3a3a3;
+  cursor: pointer;
+}
+
+.cliente-search-toggle:hover,
+.cliente-search-field.is-open .cliente-search-toggle {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+#buscaCliente {
+  box-sizing: border-box;
+  width: 0;
+  min-width: 0;
+  height: 2rem;
+  min-height: 0;
+  border: 0;
+  border-radius: 0.55rem;
+  background: #252525;
   color: #ffffff;
-  padding: 0.35rem 0.65rem 0.35rem 2rem;
+  padding: 0;
   font-size: 0.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease, border-color 0.2s ease;
+}
+
+.cliente-search-field.is-open #buscaCliente {
+  width: clamp(8rem, 20vw, 12rem);
+  min-height: 2rem;
+  border: 1px solid #3a3a3a;
+  padding: 0.35rem 0.65rem;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cliente-search-field.is-open {
+  flex-direction: row-reverse;
 }
 
 #buscaCliente:focus {
   border-color: var(--rose);
 }
 
-.cliente-search-icon {
-  position: absolute;
-  top: 50%;
-  left: 0.7rem;
-  color: #a3a3a3;
-  font-size: 0.75rem;
-  pointer-events: none;
-  transform: translateY(-50%);
+#boxCliente {
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+#boxClienteContent {
+  box-sizing: border-box;
+  width: min(100%, 42rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem;
+}
+
+#boxClienteContent #tituloCliente {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(244, 191, 174, 0.2);
+}
+
+#boxClienteContent .cliente-form-grid {
+  gap: 1rem 1.15rem;
+}
+
+#boxClienteContent .cliente-form-field > label {
+  color: #e8c5bb;
+  font-size: 0.72rem;
+  letter-spacing: 0.035em;
+}
+
+#boxClienteContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]) {
+  min-height: 2.65rem;
+  border: 1px solid #dfc7c0;
+  border-radius: 0.55rem;
+  background: #fffaf8;
+  padding: 0.6rem 0.75rem;
+}
+
+#boxClienteContent .cliente-form-actions {
+  margin-top: 0.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(244, 191, 174, 0.16);
 }
 
 .status-filter-option {
@@ -1157,8 +1313,279 @@
   padding-top: 0.35rem;
 }
 
+.auto-messages-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.auto-messages-panel {
+  min-width: 0;
+  padding: 1.25rem;
+}
+
+.auto-messages-panel h3 {
+  margin-bottom: 1rem;
+  color: var(--rose);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.auto-message-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.auto-message-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #e8c5bb;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.auto-message-form input,
+.auto-message-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #dfc7c0;
+  border-radius: 0.55rem;
+  background: #fffaf8;
+  color: #111;
+  padding: 0.65rem 0.75rem;
+}
+
+.auto-message-form textarea {
+  min-height: 9rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.auto-message-form .btn-primary {
+  justify-self: start;
+}
+
+.auto-message-modal {
+  box-sizing: border-box;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.auto-message-modal-content {
+  box-sizing: border-box;
+  width: min(100%, 38rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 191, 174, 0.3);
+  border-radius: 0.85rem;
+  background: #252525;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+}
+
+.auto-message-modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(244, 191, 174, 0.18);
+}
+
+.auto-message-modal-heading h3 {
+  margin: 0;
+  color: var(--rose);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.auto-message-modal-close {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  border: 1px solid rgba(244, 191, 174, 0.2);
+  border-radius: 0.45rem;
+  background: #303030;
+  color: var(--rose);
+}
+
+.auto-messages-status {
+  min-height: 1.2em;
+  margin-top: 0.75rem;
+  color: #bdbdbd;
+  font-size: 0.78rem;
+}
+
+.auto-messages-list {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.auto-message-card {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #353535;
+  border-radius: 0.5rem;
+  background: #252525;
+}
+
+.auto-message-summary {
+  display: grid;
+  grid-template-columns: 1.15rem minmax(0, 1fr) 0.75rem;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  gap: 0.65rem;
+  padding: 0.62rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: #f2f2f2;
+  text-align: left;
+  cursor: pointer;
+}
+
+.auto-message-summary-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.4rem;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.auto-message-summary-row > .auto-message-summary {
+  min-height: 3.25rem;
+}
+
+.auto-message-summary-icon {
+  color: #c98286;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.auto-message-whatsapp {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  min-height: 2rem;
+  align-self: center;
+  justify-self: center;
+  padding: 0;
+  border: 1px solid rgba(37, 211, 102, 0.32);
+  border-radius: 0.45rem;
+  background: rgba(37, 211, 102, 0.1);
+  color: #25d366;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+#mensagensAutoPage .auto-message-whatsapp {
+  min-height: 2rem;
+  font-size: 1rem;
+}
+
+.auto-message-whatsapp:hover {
+  border-color: rgba(37, 211, 102, 0.65);
+  background: rgba(37, 211, 102, 0.18);
+}
+
+.auto-message-summary-text {
+  display: grid;
+  min-width: 0;
+  gap: 0.18rem;
+}
+
+.auto-message-summary h4,
+.auto-message-summary .auto-message-preview {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auto-message-summary h4 {
+  color: #f1e8e7;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.auto-message-summary .auto-message-preview {
+  color: #aaa5a4;
+  font-size: 0.62rem;
+  line-height: 1.25;
+}
+
+.auto-message-summary-chevron {
+  color: #aaa5a4;
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.auto-message-card.is-expanded .auto-message-summary-chevron {
+  transform: rotate(90deg);
+}
+
+.auto-message-details {
+  padding: 0 0.75rem 0.75rem 2.55rem;
+}
+
+.auto-message-details[hidden] {
+  display: none;
+}
+
+.auto-message-card p {
+  color: #e5e5e5;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.auto-message-details p {
+  margin: 0.2rem 0 0;
+}
+
+.auto-message-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+}
+
+.auto-message-actions button {
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(244, 191, 174, 0.25);
+  border-radius: 0.45rem;
+  background: #303030;
+  color: var(--rose);
+  font-size: 0.75rem;
+}
+
+.auto-message-actions .auto-message-delete {
+  color: #e59b9b;
+}
+
 .cliente-instagram-input {
   text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .auto-message-modal {
+    padding: 0.5rem;
+  }
+
+  .auto-message-modal-content {
+    width: 100%;
+    max-height: calc(100dvh - 1rem);
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1169,8 +1596,16 @@
 
   .cliente-search-field {
     flex-basis: auto;
-    width: 100%;
+    width: auto;
     min-width: 0;
+  }
+
+  .cliente-search-field.is-open {
+    flex: 1 1 10rem;
+  }
+
+  .cliente-search-field.is-open #buscaCliente {
+    width: 100%;
   }
 
   .cliente-form-grid {
@@ -1271,6 +1706,12 @@ main {
   font-size: 0.92rem;
   font-weight: 500;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar a i {
+  width: 1.2rem;
+  flex: 0 0 1.2rem;
+  text-align: center;
 }
 
 .sidebar a:hover {
@@ -2393,6 +2834,7 @@ button:active:not(:disabled) {
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
   #agendaPage > .flex.justify-between.mb-5.items-center,
+  #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
   #configuracoesPage > .flex.justify-between.mb-5.items-center,
   #financeiro2Page > .flex.justify-between.mb-5.items-center,
   #relatoriosPage .reports-header {
@@ -2403,6 +2845,7 @@ button:active:not(:disabled) {
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
   #agendaPage > .flex.justify-between.mb-5.items-center,
+  #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
   #configuracoesPage > .flex.justify-between.mb-5.items-center,
   #financeiro2Page > .flex.justify-between.mb-5.items-center {
     align-items: center;
@@ -2412,6 +2855,29 @@ button:active:not(:disabled) {
     display: flex;
     align-items: center;
     min-height: 3rem;
+  }
+
+  #clientesPage #btnAdicionarCliente,
+  #mensagensAutoPage #btnNovaMensagemAuto {
+    height: 2rem;
+    min-height: 2rem;
+    margin-left: auto;
+    margin-right: 0;
+    flex: 0 0 auto;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.7rem;
+  }
+
+  #mensagensAutoPage > .flex.justify-between.mb-5.items-center {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+  }
+
+  #mensagensAutoPage > .flex.justify-between.mb-5.items-center h2 {
+    min-width: 0;
+    margin: 0;
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+    white-space: nowrap;
   }
 
   #resumoFinanceiro > .home-section-heading {
@@ -2653,16 +3119,40 @@ button:active:not(:disabled) {
     font-size: 0.75rem;
   }
 
-  #clientesPage #buscaCliente {
+  #clientesPage .cliente-search-toggle {
+    width: 2.25rem;
+    height: 2.25rem;
+    min-height: 2.25rem;
+  }
+
+  #clientesPage .cliente-search-field.is-open #buscaCliente {
+    width: 9.5rem;
     height: 2.25rem;
     min-height: 2.25rem;
     font-size: 0.8rem;
   }
 
-  #clientesPage #btnAdicionarCliente {
+  #clientesPage .cliente-search-field:not(.is-open) #buscaCliente {
+    width: 0;
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  #clientesPage #btnAdicionarCliente,
+  #mensagensAutoPage #btnNovaMensagemAuto {
+    height: 2.25rem;
     min-height: 2.25rem;
+    margin-left: auto;
+    margin-right: 0;
     padding: 0.45rem 0.75rem;
     font-size: 0.8rem;
+  }
+
+  #boxClienteContent {
+    width: min(100%, 40rem);
+    max-height: calc(100dvh - 2rem);
   }
 
   .page .cliente-status-button {
@@ -2957,6 +3447,10 @@ button:active:not(:disabled) {
     align-items: center;
   }
 
+  #mensagensAutoPage > .flex.justify-between.mb-5.items-center {
+    align-items: center;
+  }
+
   #btnAdicionarCliente {
     margin-right: 0;
   }
@@ -2983,41 +3477,74 @@ button:active:not(:disabled) {
     font-size: 0.7rem;
   }
 
-  #clientesPage .clientes-toolbar > #btnAdicionarCliente {
-    order: 1;
+  #clientesPage .cliente-search-toggle {
+    width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+  }
+
+  #clientesPage .cliente-search-field.is-open #buscaCliente {
+    width: clamp(4.5rem, calc(100vw - 300px), 9.5rem);
+  }
+
+  #clientesPage .cliente-search-field:not(.is-open) #buscaCliente {
+    height: 0;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  #clientesPage #btnAdicionarCliente,
+  #mensagensAutoPage #btnNovaMensagemAuto {
     height: 2rem;
     min-height: 2rem;
     margin-left: auto;
+    margin-right: 0;
     padding: 0.3rem 0.55rem;
     font-size: 0.7rem;
   }
 
   #clientesPage .cliente-search-field {
-    order: 2;
-  }
-
-  #clientesPage #btnAdicionarCliente {
-    padding: 0.4rem 0.65rem;
-    font-size: 0.75rem;
-  }
-
-  #clientesPage .cliente-search-field {
-    min-height: 0;
+    min-height: 2rem;
   }
 
   #clientesPage #buscaCliente {
-    height: 2.25rem;
-    min-height: 2.25rem;
+    height: 2rem;
+    min-height: 2rem;
     padding-block: 0.3rem;
     font-size: 14px;
   }
 
-  #clientesPage #btnAdicionarCliente {
-    height: 2rem;
-    min-height: 2rem;
-    margin-right: 0;
-    padding: 0.3rem 0.55rem;
-    font-size: 0.7rem;
+  #boxCliente {
+    padding: 0.5rem;
+  }
+
+  #boxClienteContent {
+    width: 100%;
+    max-height: calc(100dvh - 1rem);
+    padding: 1rem;
+  }
+
+  #boxClienteContent .cliente-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.8rem;
+  }
+
+  #boxClienteContent .cliente-form-field-wide,
+  #boxClienteContent .cliente-form-actions {
+    grid-column: auto;
+  }
+
+  #boxClienteContent .cliente-form-actions {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+    margin-top: 0.25rem;
+    padding: 0.85rem 0 0;
+  }
+
+  #boxClienteContent .cliente-form-actions > button {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   .cliente-card-summary {
@@ -3381,12 +3908,13 @@ button:active:not(:disabled) {
 <aside id="sidebar" class="sidebar w-64 p-5 pt-8 flex flex-col fixed inset-y-0 left-0 z-40 sidebar-hidden" aria-hidden="true" inert>
   <h1 class="text-2x1 font-semibold mb-8 text-center">Menu</h1>
   <nav class="flex flex-col space-y-2">
-    <a href="#" class="active" data-page="home">Home</a>
-    <a href="#" data-page="clientes">Clientes</a>
-    <a href="#" data-page="agenda">Agenda</a>
-    <a href="#" data-page="financeiro2">Financeiro</a>
-    <a href="#" data-page="relatorios">Relatórios</a>
-    <a href="#" data-page="configuracoes">Configurações</a>
+    <a href="#" class="active" data-page="home"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a>
+    <a href="#" data-page="clientes"><i class="fas fa-users" aria-hidden="true"></i><span>Clientes</span></a>
+    <a href="#" data-page="agenda"><i class="fas fa-calendar-days" aria-hidden="true"></i><span>Agenda</span></a>
+    <a href="#" data-page="mensagensAuto"><i class="fas fa-comment-dots" aria-hidden="true"></i><span>Mensagens Auto</span></a>
+    <a href="#" data-page="financeiro2"><i class="fas fa-wallet" aria-hidden="true"></i><span>Financeiro</span></a>
+    <a href="#" data-page="relatorios"><i class="fas fa-chart-pie" aria-hidden="true"></i><span>Relatórios</span></a>
+    <a href="#" data-page="configuracoes"><i class="fas fa-gear" aria-hidden="true"></i><span>Configurações</span></a>
   </nav>
 </aside>
 
@@ -3535,6 +4063,12 @@ button:active:not(:disabled) {
   <div id="clientesPage" class="page hidden">
     <div class="flex justify-between mb-5 items-center">
       <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Clientes ✨</h2>
+      <div class="cliente-search-field">
+        <button type="button" class="cliente-search-toggle" aria-label="Abrir pesquisa" aria-expanded="false" aria-controls="buscaCliente">
+          <i class="fas fa-search" aria-hidden="true"></i>
+        </button>
+        <input type="search" id="buscaCliente" aria-label="Pesquisar cliente" placeholder="Pesquisar cliente..." autocomplete="off">
+      </div>
     </div>
     <div class="mb-5 ml-4">
       <label class="block mb-2 font-semibold text-rose-300">Filtro por Status:</label>
@@ -3554,11 +4088,6 @@ button:active:not(:disabled) {
           </label>
         </div>
         <button id="btnAdicionarCliente" class="btn-primary px-4 py-2 rounded-md mr-4">Adicionar Cliente</button>
-        <label class="cliente-search-field">
-          <span class="sr-only">Pesquisar cliente</span>
-          <i class="fas fa-search cliente-search-icon" aria-hidden="true"></i>
-          <input type="search" id="buscaCliente" placeholder="Pesquisar cliente..." autocomplete="off">
-        </label>
       </div>
     </div>
 <!-- Formulário de Cliente (MODAL) -->
@@ -4031,6 +4560,73 @@ button:active:not(:disabled) {
         </form>
       </section>
     </div>
+
+    <section id="mensagensAutoPage" class="page hidden">
+      <div class="flex justify-between mb-5 items-center">
+        <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Mensagens Auto</h2>
+        <button id="btnNovaMensagemAuto" type="button" class="btn-primary px-4 py-2 rounded-md mr-4">
+          <i class="fas fa-plus mr-1" aria-hidden="true"></i>Nova mensagem
+        </button>
+      </div>
+      <div class="auto-messages-layout">
+        <section class="card auto-messages-panel" aria-labelledby="autoMessagesListTitle">
+          <h3 id="autoMessagesListTitle">Mensagens Salvas</h3>
+          <div id="autoMessagesList" class="auto-messages-list" aria-live="polite">
+            <p class="text-sm text-gray-400">Abra esta aba para carregar as mensagens.</p>
+          </div>
+          <p id="autoMessagesStatus" class="auto-messages-status" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+      <div id="autoMessageModal" class="auto-message-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="autoMessageFormTitle">
+        <div class="auto-message-modal-content">
+          <div class="auto-message-modal-heading">
+            <h3 id="autoMessageFormTitle">Nova mensagem</h3>
+            <button id="autoMessageClose" type="button" class="auto-message-modal-close" aria-label="Fechar">
+              <i class="fas fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+          <form id="autoMessageForm" class="auto-message-form">
+            <input id="autoMessageId" type="hidden">
+            <label for="autoMessageTitle">Título
+              <input id="autoMessageTitle" type="text" maxlength="120" required>
+            </label>
+            <label for="autoMessageBody">Mensagem
+              <textarea id="autoMessageBody" maxlength="5000" required></textarea>
+            </label>
+            <div class="flex flex-wrap gap-2">
+              <button id="autoMessageSubmit" type="submit" class="btn-primary px-4 py-2 rounded-md">Salvar mensagem</button>
+              <button id="autoMessageCancel" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Cancelar edição</button>
+            </div>
+          </form>
+          <p id="autoMessageFormStatus" class="auto-messages-status" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+      <div id="autoWhatsAppModal" class="auto-message-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="autoWhatsAppTitle">
+        <div class="auto-message-modal-content auto-whatsapp-modal-content">
+          <div class="auto-message-modal-heading">
+            <h3 id="autoWhatsAppTitle">Enviar pelo WhatsApp</h3>
+            <button id="autoWhatsAppClose" type="button" class="auto-message-modal-close" aria-label="Fechar">
+              <i class="fas fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+          <form id="autoWhatsAppForm" class="auto-whatsapp-form">
+            <label for="autoWhatsAppClient">Cliente
+              <select id="autoWhatsAppClient" required disabled>
+                <option value="">Carregando clientes...</option>
+              </select>
+            </label>
+            <label for="autoWhatsAppBody">Mensagem
+              <textarea id="autoWhatsAppBody" maxlength="5000" required></textarea>
+            </label>
+            <p class="auto-whatsapp-help">O WhatsApp será aberto com a mensagem preenchida. Revise e toque em enviar no aplicativo.</p>
+            <p id="autoWhatsAppStatus" class="auto-whatsapp-status" role="status" aria-live="polite"></p>
+            <a id="autoWhatsAppSend" class="auto-whatsapp-send" target="_blank" rel="noopener noreferrer" aria-disabled="true">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir WhatsApp
+            </a>
+          </form>
+        </div>
+      </div>
+    </section>
 
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
@@ -6442,7 +7038,35 @@ document.querySelectorAll('input[name="filtroStatus"]').forEach(radio => {
   radio.addEventListener("change", carregarClientes);
 });
 
-document.getElementById("buscaCliente").addEventListener("input", aplicarBuscaClientes);
+const buscaCliente = document.getElementById("buscaCliente");
+const clienteSearchField = buscaCliente.closest(".cliente-search-field");
+const clienteSearchToggle = clienteSearchField.querySelector(".cliente-search-toggle");
+
+buscaCliente.addEventListener("input", aplicarBuscaClientes);
+
+function definirPesquisaClienteAberta(aberta) {
+  clienteSearchField.classList.toggle("is-open", aberta);
+  clienteSearchToggle.setAttribute("aria-expanded", String(aberta));
+  clienteSearchToggle.setAttribute("aria-label", aberta ? "Fechar pesquisa" : "Abrir pesquisa");
+  buscaCliente.setAttribute("aria-hidden", String(!aberta));
+  buscaCliente.tabIndex = aberta ? 0 : -1;
+
+  if (aberta) {
+    requestAnimationFrame(() => buscaCliente.focus());
+  } else {
+    buscaCliente.blur();
+  }
+}
+
+clienteSearchToggle.addEventListener("click", () => {
+  definirPesquisaClienteAberta(!clienteSearchField.classList.contains("is-open"));
+});
+
+buscaCliente.addEventListener("keydown", event => {
+  if (event.key === "Escape") definirPesquisaClienteAberta(false);
+});
+
+definirPesquisaClienteAberta(false);
 
 const btnAdicionarCliente = document.getElementById("btnAdicionarCliente");
 const boxCliente = document.getElementById("boxCliente");
@@ -6529,6 +7153,334 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   });
+
+  const autoMessageForm = document.getElementById("autoMessageForm");
+  const autoMessageFormTitle = document.getElementById("autoMessageFormTitle");
+  const autoMessageSubmit = document.getElementById("autoMessageSubmit");
+  const autoMessageCancel = document.getElementById("autoMessageCancel");
+  const autoMessageModal = document.getElementById("autoMessageModal");
+  const autoMessageOpen = document.getElementById("btnNovaMensagemAuto");
+  const autoMessageClose = document.getElementById("autoMessageClose");
+  const autoWhatsAppModal = document.getElementById("autoWhatsAppModal");
+  const autoWhatsAppClose = document.getElementById("autoWhatsAppClose");
+  const autoWhatsAppClient = document.getElementById("autoWhatsAppClient");
+  const autoWhatsAppBody = document.getElementById("autoWhatsAppBody");
+  const autoWhatsAppStatus = document.getElementById("autoWhatsAppStatus");
+  const autoWhatsAppSend = document.getElementById("autoWhatsAppSend");
+  const autoMessagesList = document.getElementById("autoMessagesList");
+  const autoMessagesStatus = document.getElementById("autoMessagesStatus");
+  const autoMessageFormStatus = document.getElementById("autoMessageFormStatus");
+  let autoMessageEditingId = null;
+
+  function definirEdicaoMensagemAuto(mensagem = null) {
+    autoMessageForm.reset();
+    autoMessageEditingId = mensagem?.id ?? null;
+    autoMessageFormTitle.textContent = mensagem ? "Editar mensagem" : "Nova mensagem";
+    autoMessageSubmit.textContent = mensagem ? "Salvar alterações" : "Salvar mensagem";
+    autoMessageCancel.classList.toggle("hidden", !mensagem);
+
+    if (mensagem) {
+      document.getElementById("autoMessageTitle").value = mensagem.titulo;
+      document.getElementById("autoMessageBody").value = mensagem.mensagem;
+    }
+  }
+
+  function abrirModalMensagemAuto(mensagem = null) {
+    definirEdicaoMensagemAuto(mensagem);
+    autoMessageModal.classList.remove("hidden");
+    requestAnimationFrame(() => {
+      document.getElementById("autoMessageTitle").focus();
+    });
+  }
+
+  function fecharModalMensagemAuto() {
+    autoMessageModal.classList.add("hidden");
+    definirEdicaoMensagemAuto();
+    autoMessageFormStatus.textContent = "";
+    autoMessageOpen.focus();
+  }
+
+  autoMessageOpen.addEventListener("click", () => {
+    autoMessageFormStatus.textContent = "";
+    abrirModalMensagemAuto();
+  });
+  autoMessageClose.addEventListener("click", fecharModalMensagemAuto);
+  autoMessageModal.addEventListener("click", event => {
+    if (event.target === autoMessageModal) fecharModalMensagemAuto();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !autoMessageModal.classList.contains("hidden")) {
+      fecharModalMensagemAuto();
+    }
+  });
+
+  let autoWhatsAppTrigger = null;
+  let autoWhatsAppRequestId = 0;
+
+  function normalizarTelefoneWhatsApp(telefone) {
+    const numeros = String(telefone || "").replace(/\D/g, "");
+    if (numeros.length === 10 || numeros.length === 11) return `55${numeros}`;
+    if ((numeros.length === 12 || numeros.length === 13) && numeros.startsWith("55")) return numeros;
+    return "";
+  }
+
+  function atualizarLinkWhatsApp() {
+    const cliente = autoWhatsAppClient.selectedOptions[0];
+    const telefone = cliente?.dataset.telefone;
+    const texto = autoWhatsAppBody.value.trim();
+    const disponivel = Boolean(telefone && texto);
+
+    autoWhatsAppSend.setAttribute("aria-disabled", String(!disponivel));
+    if (disponivel) {
+      autoWhatsAppSend.href = `https://wa.me/${telefone}?text=${encodeURIComponent(texto)}`;
+    } else {
+      autoWhatsAppSend.removeAttribute("href");
+    }
+  }
+
+  async function abrirModalEnviarMensagemAuto(mensagem, trigger) {
+    const requestId = ++autoWhatsAppRequestId;
+    autoWhatsAppTrigger = trigger;
+    autoWhatsAppModal.classList.remove("hidden");
+    autoWhatsAppClient.disabled = true;
+    autoWhatsAppClient.replaceChildren(new Option("Carregando clientes...", ""));
+    autoWhatsAppBody.value = mensagem.mensagem;
+    autoWhatsAppStatus.textContent = "Buscando clientes com telefone cadastrado...";
+    atualizarLinkWhatsApp();
+
+    try {
+      const response = await fetch(SUPABASE_CLIENTES_URL);
+      if (!response.ok) throw new Error(`A consulta de clientes respondeu com HTTP ${response.status}.`);
+      const clientes = await response.json();
+      if (!Array.isArray(clientes)) throw new Error("A consulta de clientes retornou dados inválidos.");
+      if (requestId !== autoWhatsAppRequestId) return;
+
+      const opcoes = clientes
+        .filter(cliente => cliente.Nome && normalizarTelefoneWhatsApp(cliente.Telefone))
+        .sort((a, b) => String(a.Nome).localeCompare(String(b.Nome), "pt-BR", { sensitivity: "base" }));
+
+      autoWhatsAppClient.replaceChildren(new Option("Selecione uma cliente", ""));
+      opcoes.forEach(cliente => {
+        const telefone = normalizarTelefoneWhatsApp(cliente.Telefone);
+        const option = new Option(`${cliente.Nome} · ${formatarTelefoneCliente(cliente.Telefone)}`, telefone);
+        option.dataset.telefone = telefone;
+        autoWhatsAppClient.appendChild(option);
+      });
+
+      autoWhatsAppClient.disabled = !opcoes.length;
+      autoWhatsAppStatus.textContent = opcoes.length
+        ? `${opcoes.length} cliente(s) com telefone disponível.`
+        : "Nenhuma cliente possui telefone válido cadastrado.";
+      requestAnimationFrame(() => autoWhatsAppClient.focus());
+    } catch (error) {
+      if (requestId !== autoWhatsAppRequestId) return;
+      console.error("Erro ao carregar clientes para envio pelo WhatsApp:", error);
+      autoWhatsAppClient.replaceChildren(new Option("Não foi possível carregar clientes", ""));
+      autoWhatsAppStatus.textContent = `Não foi possível carregar as clientes: ${error.message}`;
+    }
+  }
+
+  function fecharModalEnviarMensagemAuto() {
+    autoWhatsAppRequestId += 1;
+    autoWhatsAppModal.classList.add("hidden");
+    autoWhatsAppClient.replaceChildren(new Option("Selecione uma cliente", ""));
+    autoWhatsAppClient.disabled = true;
+    autoWhatsAppBody.value = "";
+    autoWhatsAppStatus.textContent = "";
+    atualizarLinkWhatsApp();
+    if (autoWhatsAppTrigger?.isConnected) autoWhatsAppTrigger.focus();
+    autoWhatsAppTrigger = null;
+  }
+
+  autoWhatsAppClient.addEventListener("change", atualizarLinkWhatsApp);
+  autoWhatsAppBody.addEventListener("input", atualizarLinkWhatsApp);
+  autoWhatsAppClose.addEventListener("click", fecharModalEnviarMensagemAuto);
+  autoWhatsAppModal.addEventListener("click", event => {
+    if (event.target === autoWhatsAppModal) fecharModalEnviarMensagemAuto();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !autoWhatsAppModal.classList.contains("hidden")) {
+      fecharModalEnviarMensagemAuto();
+    }
+  });
+
+  function criarCartaoMensagemAuto(mensagem) {
+    const card = document.createElement("article");
+    card.className = "auto-message-card";
+
+    const summaryRow = document.createElement("div");
+    summaryRow.className = "auto-message-summary-row";
+
+    const summary = document.createElement("button");
+    summary.type = "button";
+    summary.className = "auto-message-summary";
+    summary.setAttribute("aria-expanded", "false");
+
+    const icon = document.createElement("i");
+    icon.className = "fas fa-calendar-days auto-message-summary-icon";
+    icon.setAttribute("aria-hidden", "true");
+
+    const summaryText = document.createElement("span");
+    summaryText.className = "auto-message-summary-text";
+
+    const title = document.createElement("h4");
+    title.textContent = mensagem.titulo;
+
+    const preview = document.createElement("span");
+    preview.textContent = mensagem.mensagem.replace(/\s+/g, " ").trim();
+    preview.className = "auto-message-preview";
+
+    const chevron = document.createElement("i");
+    chevron.className = "fas fa-chevron-right auto-message-summary-chevron";
+    chevron.setAttribute("aria-hidden", "true");
+
+    const details = document.createElement("div");
+    details.className = "auto-message-details";
+    details.id = `auto-message-details-${mensagem.id}`;
+    details.hidden = true;
+    summary.setAttribute("aria-controls", details.id);
+
+    const whatsappButton = document.createElement("button");
+    whatsappButton.type = "button";
+    whatsappButton.className = "auto-message-whatsapp";
+    whatsappButton.setAttribute("aria-label", `Enviar "${mensagem.titulo}" pelo WhatsApp`);
+    whatsappButton.title = "Enviar pelo WhatsApp";
+    whatsappButton.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i>';
+    whatsappButton.addEventListener("click", () => abrirModalEnviarMensagemAuto(mensagem, whatsappButton));
+
+    const body = document.createElement("p");
+    body.textContent = mensagem.mensagem;
+
+    const actions = document.createElement("div");
+    actions.className = "auto-message-actions";
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "Editar";
+    editButton.addEventListener("click", () => {
+      abrirModalMensagemAuto(mensagem);
+      autoMessageFormStatus.textContent = "Edite o título ou o texto e salve as alterações.";
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "auto-message-delete";
+    deleteButton.textContent = "Excluir";
+    deleteButton.addEventListener("click", async () => {
+      if (!window.confirm(`Excluir a mensagem "${mensagem.titulo}"?`)) return;
+
+      deleteButton.disabled = true;
+      autoMessagesStatus.textContent = "Excluindo mensagem...";
+      try {
+        const { data, error } = await supabaseDataClient
+          .from("studio_mensagens_auto")
+          .delete()
+          .eq("id", mensagem.id)
+          .select("id")
+          .maybeSingle();
+        if (error) throw error;
+        if (!data) throw new Error("A mensagem não foi encontrada para exclusão.");
+
+        definirEdicaoMensagemAuto();
+        await carregarMensagensAuto();
+        autoMessagesStatus.textContent = "Mensagem excluída.";
+      } catch (error) {
+        console.error("Erro ao excluir mensagem automática:", error);
+        autoMessagesStatus.textContent = `Não foi possível excluir a mensagem: ${error.message}`;
+        deleteButton.disabled = false;
+      }
+    });
+
+    actions.append(editButton, deleteButton);
+    summaryText.append(title, preview);
+    summary.append(icon, summaryText, chevron);
+    summary.addEventListener("click", () => {
+      const expanded = summary.getAttribute("aria-expanded") === "true";
+      summary.setAttribute("aria-expanded", String(!expanded));
+      details.hidden = expanded;
+      card.classList.toggle("is-expanded", !expanded);
+    });
+    summaryRow.append(summary, whatsappButton);
+    details.append(body, actions);
+    card.append(summaryRow, details);
+    return card;
+  }
+
+  async function carregarMensagensAuto() {
+    autoMessagesList.replaceChildren();
+    autoMessagesList.innerHTML = '<p class="text-sm text-gray-400">Carregando mensagens...</p>';
+    autoMessagesStatus.textContent = "";
+
+    try {
+      const { data, error } = await supabaseDataClient
+        .from("studio_mensagens_auto")
+        .select("id,titulo,mensagem,created_at")
+        .order("created_at", { ascending: false })
+        .order("id", { ascending: false });
+      if (error) throw error;
+      if (!Array.isArray(data)) throw new Error("O Supabase retornou uma lista inválida.");
+
+      autoMessagesList.replaceChildren();
+      if (!data.length) {
+        autoMessagesList.innerHTML = '<p class="text-sm text-gray-400">Nenhuma mensagem cadastrada ainda.</p>';
+        return;
+      }
+
+      data.forEach(mensagem => autoMessagesList.appendChild(criarCartaoMensagemAuto(mensagem)));
+      autoMessagesStatus.textContent = `${data.length} mensagem(ns) carregada(s).`;
+    } catch (error) {
+      console.error("Erro ao carregar mensagens automáticas:", error);
+      autoMessagesList.replaceChildren();
+      autoMessagesList.innerHTML = '<p class="text-sm text-red-400">Não foi possível carregar as mensagens.</p>';
+      autoMessagesStatus.textContent = `Não foi possível carregar as mensagens: ${error.message}. Confira se a migration da tabela studio_mensagens_auto foi executada no Supabase.`;
+    }
+  }
+
+  autoMessageForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const titulo = document.getElementById("autoMessageTitle").value.trim();
+    const mensagem = document.getElementById("autoMessageBody").value.trim();
+    if (!titulo || !mensagem) {
+      autoMessageFormStatus.textContent = "Preencha o título e o texto da mensagem.";
+      return;
+    }
+
+    autoMessageSubmit.disabled = true;
+    autoMessageFormStatus.textContent = autoMessageEditingId === null
+      ? "Salvando mensagem..."
+      : "Salvando alterações...";
+
+    try {
+      const query = autoMessageEditingId === null
+        ? supabaseDataClient.from("studio_mensagens_auto").insert({ titulo, mensagem })
+        : supabaseDataClient
+            .from("studio_mensagens_auto")
+            .update({ titulo, mensagem, updated_at: new Date().toISOString() })
+            .eq("id", autoMessageEditingId);
+      const { data, error } = await query.select("id").maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error("O Supabase não confirmou a gravação da mensagem.");
+
+      const foiEdicao = autoMessageEditingId !== null;
+      definirEdicaoMensagemAuto();
+      await carregarMensagensAuto();
+      fecharModalMensagemAuto();
+      autoMessagesStatus.textContent = foiEdicao
+        ? "Mensagem atualizada."
+        : "Mensagem salva.";
+    } catch (error) {
+      console.error("Erro ao salvar mensagem automática:", error);
+      autoMessageFormStatus.textContent = `Não foi possível salvar a mensagem: ${error.message}`;
+    } finally {
+      autoMessageSubmit.disabled = false;
+    }
+  });
+
+  autoMessageCancel.addEventListener("click", () => {
+    definirEdicaoMensagemAuto();
+    autoMessageFormStatus.textContent = "Edição cancelada.";
+  });
+
   const pages = document.querySelectorAll(".page");
   document.querySelectorAll(".sidebar a").forEach(a=>{
     a.addEventListener("click", e=>{
@@ -6540,6 +7492,7 @@ document.addEventListener("DOMContentLoaded", function() {
       definirMenuAberto(false);
       if(a.dataset.page==="clientes") carregarClientes();
       if(a.dataset.page==="relatorios") carregarRelatorios();
+      if(a.dataset.page==="mensagensAuto") carregarMensagensAuto();
       if (a.dataset.page === "home") {
         if (typeof atualizarResumosHome === 'function') atualizarResumosHome();
         if (typeof atualizarResumoFinanceiroHome === 'function') atualizarResumoFinanceiroHome();
