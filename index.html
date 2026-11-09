@@ -742,7 +742,7 @@
 
 .cliente-card-summary {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) minmax(8rem, 10rem);
+  grid-template-columns: 3rem minmax(0, 1fr) minmax(12rem, 14rem);
   align-items: center;
   gap: 1rem;
   padding: 1rem;
@@ -753,9 +753,9 @@
 .cliente-summary-info {
   display: flex;
   min-width: 0;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.28rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .cliente-card-summary::-webkit-details-marker {
@@ -863,6 +863,34 @@
   color: #ffffff;
   font-size: 0.68rem;
   font-weight: 300;
+}
+
+.cliente-proximo[data-has-upcoming="true"] {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  border-left-color: rgba(134, 239, 172, 0.75);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.cliente-proximo[data-has-upcoming="true"] .cliente-proximo-label {
+  color: #b7d9c2;
+}
+
+.cliente-proximo[data-has-upcoming="true"] .cliente-proximo-value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: #c6ead2;
+}
+
+.cliente-proximo-item {
+  line-height: 1.35;
+}
+
+.cliente-proximo-item + .cliente-proximo-item {
+  padding-top: 0.3rem;
+  border-top: 1px solid rgba(134, 239, 172, 0.16);
 }
 
 .cliente-actions {
@@ -973,12 +1001,19 @@
 }
 
 .cliente-status-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 0;
   border: 1px solid transparent;
-  border-radius: 9999px;
-  padding: 0.18rem 0.55rem;
-  font-size: 0.68rem;
+  border-radius: 0.35rem;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.48rem;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -1017,19 +1052,40 @@
 
 .cliente-atendimentos-list {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.55rem;
   margin-top: 0.6rem;
 }
 
 .cliente-atendimento-item {
   display: grid;
-  grid-template-columns: minmax(6.5rem, auto) minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr) minmax(7rem, auto) auto;
   align-items: center;
-  gap: 0.75rem;
-  border-bottom: 1px solid rgba(58, 58, 58, 0.7);
-  padding: 0.35rem 0;
+  gap: 0.55rem 0.85rem;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid rgba(244, 191, 174, 0.1);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.025);
   color: #ffffff;
   font-size: 0.66rem;
+}
+
+.cliente-atendimento-item > time {
+  color: #d3d3d3;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cliente-atendimento-procedure {
+  min-width: 0;
+  color: #f0f0f0;
+  overflow-wrap: anywhere;
+}
+
+.cliente-atendimento-value {
+  color: #c6ead2;
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .cliente-atendimento-actions {
@@ -1037,12 +1093,6 @@
   align-items: center;
   justify-content: flex-end;
   gap: 0.55rem;
-}
-
-.cliente-atendimento-status {
-  color: #ffffff;
-  font-size: 0.62rem;
-  white-space: nowrap;
 }
 
 .cliente-anamnese-button {
@@ -1054,6 +1104,15 @@
   font-size: 0.62rem;
   cursor: pointer;
   white-space: nowrap;
+}
+
+.cliente-atendimento-actions .cliente-anamnese-button {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.62rem;
 }
 
 .cliente-anamnese-button:hover {
@@ -1140,12 +1199,30 @@
   }
 
   .cliente-atendimento-item {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "when value actions"
+      "procedure procedure procedure";
+    gap: 0.45rem 0.65rem;
+    padding: 0.7rem;
   }
 
-  .cliente-atendimento-item time,
-  .cliente-atendimento-actions {
-    grid-column: 1 / -1;
+  .cliente-atendimento-item > time {
+    grid-area: when;
+  }
+
+  .cliente-atendimento-item > .cliente-atendimento-procedure {
+    grid-area: procedure;
+  }
+
+  .cliente-atendimento-item > .cliente-atendimento-value {
+    grid-area: value;
+    text-align: right;
+  }
+
+  .cliente-atendimento-item > .cliente-atendimento-actions {
+    grid-area: actions;
+    justify-content: center;
   }
 }
 
@@ -1675,42 +1752,22 @@ button:active:not(:disabled) {
   max-height: none;
   margin: 0;
   display: block;
+  backface-visibility: hidden;
+  will-change: transform;
   object-fit: cover;
   object-position: center;
   background-color: transparent;
   border-radius: 1rem;
+  transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@keyframes home-carousel-slide-next {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes home-carousel-slide-previous {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.home-feature-image.is-sliding-next {
-  animation: home-carousel-slide-next 0.45s ease-out;
-}
-
-.home-feature-image.is-sliding-previous {
-  animation: home-carousel-slide-previous 0.45s ease-out;
+.home-feature-image.is-inactive {
+  visibility: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-feature-image.is-sliding-next,
-  .home-feature-image.is-sliding-previous {
-    animation: none;
+  .home-feature-image {
+    will-change: auto;
   }
 }
 
@@ -1736,7 +1793,7 @@ button:active:not(:disabled) {
   place-items: center;
   padding: 0;
   transform: translateY(-50%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 0;
   border-radius: 50%;
   background: rgba(30, 30, 30, 0.32);
   color: rgba(255, 255, 255, 0.62);
@@ -1942,10 +1999,14 @@ button:active:not(:disabled) {
 }
 
 .reports-header h2 {
-  margin: -2rem 0 0 1.5rem;
+  margin: -2.7rem 0 0 2.25rem;
   color: var(--rose);
   font-size: 1.5rem;
   font-weight: 700;
+}
+
+.page > .flex.justify-between.mb-5.items-center h2 {
+  margin-left: 2.25rem;
 }
 
 .reports-card-heading p {
@@ -2298,13 +2359,31 @@ button:active:not(:disabled) {
     height: 100dvh;
     overflow-y: auto;
     overscroll-behavior-y: contain;
-    padding: calc(4.5rem + env(safe-area-inset-top, 0px)) 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
+    padding: calc(0.75rem + env(safe-area-inset-top, 0px)) 1rem calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  main.flex-1 {
+    padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
+  }
+
+  #homePage {
+    padding-top: 3rem;
   }
 
   #menuBtn {
     top: calc(0.75rem + env(safe-area-inset-top, 0px));
     right: auto;
     left: 1.25rem;
+  }
+
+  #clientesPage > .flex.justify-between.mb-5.items-center,
+  #agendaPage > .flex.justify-between.mb-5.items-center,
+  #configuracoesPage > .flex.justify-between.mb-5.items-center,
+  #financeiro2Page > .flex.justify-between.mb-5.items-center,
+  #relatoriosPage .reports-header {
+    box-sizing: border-box;
+    min-height: 3rem;
+    padding-left: 4rem;
   }
 
   #resumoFinanceiro > .home-section-heading {
@@ -2387,7 +2466,7 @@ button:active:not(:disabled) {
   }
 
   .reports-header h2 {
-    margin-top: -1.5rem;
+    margin-top: 0;
   }
 
   #relatoriosPage .reports-header {
@@ -2539,6 +2618,32 @@ button:active:not(:disabled) {
     font-size: max(0.875rem, 1em);
   }
 
+  #clientesPage .status-filter-option span {
+    height: 2.25rem;
+    min-height: 2.25rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  #clientesPage #buscaCliente {
+    height: 2.25rem;
+    min-height: 2.25rem;
+    font-size: 0.8rem;
+  }
+
+  #clientesPage #btnAdicionarCliente {
+    min-height: 2.25rem;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .page .cliente-status-button {
+    height: auto;
+    min-height: 0;
+    padding: 0.15rem 0.35rem;
+    font-size: 0.48rem;
+  }
+
   #configuracoesPage button,
   #configuracoesPage .btn-primary {
     font-size: 0.875rem;
@@ -2654,7 +2759,7 @@ button:active:not(:disabled) {
 
 @media (max-width: 640px) {
   main.flex-1 {
-    padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+    padding-top: calc(0.75rem + env(safe-area-inset-top, 0px));
     padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
     padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
     padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
@@ -2669,9 +2774,14 @@ button:active:not(:disabled) {
     border-color: rgba(244, 191, 174, 0.05) !important;
   }
 
+  #homePage > .text-center.mb-8 {
+    margin-bottom: 1.25rem;
+  }
+
   #homePage > .text-center.mb-8 img {
-    width: min(20rem, 100%) !important;
+    width: min(18rem, 100%) !important;
     height: auto;
+    margin-bottom: 0.75rem;
   }
 
   .home-metric-grid,
@@ -2823,26 +2933,46 @@ button:active:not(:disabled) {
     margin-right: 0;
   }
 
-  .status-filter-options {
-    gap: 0.4rem;
+  #clientesPage .status-filter-options {
+    gap: 0.3rem;
   }
 
-  .status-filter-option {
+  #clientesPage .status-filter-option {
     display: inline-flex;
   }
 
-  .status-filter-option span {
-    padding-inline: 0.75rem;
+  #clientesPage .status-filter-option span {
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.7rem;
+  }
+
+  #clientesPage #btnAdicionarCliente {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.75rem;
+  }
+
+  #clientesPage .cliente-search-field {
+    min-height: 0;
+  }
+
+  #clientesPage #buscaCliente {
+    height: 2.25rem;
+    min-height: 2.25rem;
+    padding-block: 0.3rem;
+    font-size: 14px;
   }
 
   .cliente-card-summary {
-    grid-template-columns: 2.75rem minmax(0, 1fr);
+    grid-template-columns: 2.25rem minmax(0, 1fr);
     gap: 0.65rem;
   }
 
   .cliente-avatar {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    font-size: 0.95rem;
   }
 
   .cliente-info-heading {
@@ -2862,25 +2992,25 @@ button:active:not(:disabled) {
   }
 
   .cliente-atendimento-item {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.45rem;
-  }
-
-  .cliente-atendimento-item time,
-  .cliente-atendimento-actions {
-    grid-column: auto;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .cliente-atendimento-actions {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    flex-wrap: nowrap;
+    justify-content: center;
   }
 
-  .cliente-anamnese-button,
-  .cliente-status-button {
+  .cliente-anamnese-button {
     min-height: 2.75rem;
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
+  }
+
+  .page .cliente-status-button {
+    height: auto;
+    min-height: 0;
+    padding: 0.15rem 0.35rem;
+    font-size: 0.48rem;
   }
 
   #calendarCardAgenda {
@@ -3269,6 +3399,7 @@ button:active:not(:disabled) {
   <div class="card rounded-xl shadow p-3">
     <div id="homeCarousel" class="home-carousel" role="group" aria-label="Carrossel de imagens do Studio Sa Lopes">
       <img id="homeCarouselImage" src="Assets/Carrossel/1.png" alt="Imagem 1 de 4 do Studio Sa Lopes" class="home-feature-image">
+      <img id="homeCarouselNextImage" src="Assets/Carrossel/1.png" alt="" class="home-feature-image is-inactive" aria-hidden="true">
       <button type="button" class="home-carousel-control home-carousel-control-previous" aria-label="Imagem anterior">
         <i class="fas fa-chevron-left" aria-hidden="true"></i>
       </button>
@@ -5903,6 +6034,10 @@ function formatarTelefoneCliente(telefone) {
 function criarCardCliente(cli) {
   const isAtivo = (cli.status || "").toLowerCase() === "ativo";
   const idData = `data-${cli.nome.replace(/\s+/g, "-")}`;
+  const nomesCliente = String(cli.nome || "").trim().split(/\s+/).filter(Boolean);
+  const nomeExibicao = nomesCliente.length >= 4
+    ? [nomesCliente[0], ...nomesCliente.slice(-2)].join(" ")
+    : nomesCliente.join(" ");
 
   const card = document.createElement("div");
   card.className = "cliente-card";
@@ -5918,10 +6053,10 @@ function criarCardCliente(cli) {
       <summary class="cliente-card-summary">
         <div class="cliente-avatar">${cli.nome.charAt(0).toUpperCase()}</div>
         <div class="cliente-summary-info">
-          <h2 class="cliente-name">${cli.nome.toUpperCase()}</h2>
+          <h2 class="cliente-name">${nomeExibicao.toUpperCase()}</h2>
           <button type="button" class="cliente-status-button" data-cliente-status aria-label="Alternar status do cliente"></button>
         </div>
-        <div class="cliente-proximo">
+        <div class="cliente-proximo" data-has-upcoming="false">
           <span class="cliente-proximo-label">Próximo Agendamento:</span>
           <span class="cliente-proximo-value" id="${idData}">Carregando...</span>
         </div>
@@ -6052,11 +6187,15 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
   const count = card.querySelector("[data-atendimentos-count]");
   const list = card.querySelector("[data-atendimentos-list]");
   const dataEl = card.querySelector(".cliente-proximo-value");
+  const proximoEl = card.querySelector(".cliente-proximo");
+  const proximoLabel = card.querySelector(".cliente-proximo-label");
   count.textContent = `(${atendimentos.length})`;
 
   if (!atendimentos.length) {
     list.innerHTML = '<p class="text-xs text-gray-400">Nenhum atendimento cadastrado.</p>';
-    dataEl.textContent = "Sem Agend.";
+    dataEl.textContent = "Sem Agendamentos";
+    proximoLabel.textContent = "Próximo Agendamento:";
+    proximoEl.dataset.hasUpcoming = "false";
     return;
   }
 
@@ -6071,9 +6210,6 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
       .filter(Boolean)
       .map(escaparTexto)
       .join(" · ");
-    const status = dataHora >= agora
-      ? "Agendado"
-      : normalizarNomeCliente(item.Presenca) === "sim" ? "Realizado" : "Não realizado";
     const valor = item.ValorPago ?? item.Valor;
     const valorFormatado = valor !== undefined && valor !== null && valor !== "" && Number.isFinite(Number(valor))
       ? Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
@@ -6081,10 +6217,9 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
 
     return `<div class="cliente-atendimento-item">
       <time>${dataFormatada} ${horaFormatada}</time>
-      <span>${tecnica}</span>
-      <span>${valorFormatado}</span>
+      <span class="cliente-atendimento-procedure">${tecnica}</span>
+      <span class="cliente-atendimento-value">${valorFormatado}</span>
       <div class="cliente-atendimento-actions">
-        <span class="cliente-atendimento-status">${status}</span>
         <button type="button" class="cliente-anamnese-button" data-anamnese-index="${index}">Anamnese</button>
       </div>
     </div>`;
@@ -6099,13 +6234,30 @@ function renderizarAtendimentosCliente(cli, card, agenda) {
     });
   });
 
-  const proximo = atendimentos.find(atendimento => atendimento.dataHora >= agora);
-  if (proximo) {
-    dataEl.textContent = proximo.dataHora.toLocaleDateString("pt-BR", {
-      day: "2-digit", month: "2-digit"
-    });
+  const proximos = atendimentos.filter(atendimento => atendimento.dataHora >= agora);
+  if (proximos.length) {
+    proximoEl.dataset.hasUpcoming = "true";
+    proximoLabel.textContent = proximos.length === 1
+      ? "Próximo Agendamento:"
+      : "Próximos Agendamentos:";
+    dataEl.innerHTML = proximos.map(({ item, dataHora }) => {
+      const dataProximo = dataHora.toLocaleDateString("pt-BR", {
+        day: "2-digit", month: "2-digit"
+      });
+      const horaProximo = dataHora.toLocaleTimeString("pt-BR", {
+        hour: "2-digit", minute: "2-digit"
+      });
+      const procedimentoProximo = [
+        item.Modalidade,
+        tecnicaAgendamento(item) || "Atendimento",
+        item.Tipo
+      ].filter(Boolean).map(escaparTexto).join(" · ");
+      return `<span class="cliente-proximo-item">${dataProximo} · ${horaProximo} · ${procedimentoProximo}</span>`;
+    }).join("");
   } else {
-    dataEl.textContent = "Sem Agend.";
+    proximoEl.dataset.hasUpcoming = "false";
+    proximoLabel.textContent = "Próximo Agendamento:";
+    dataEl.textContent = "Sem Agendamentos";
   }
 }
 
@@ -6408,22 +6560,91 @@ function escaparHtml(valor) {
 
 function configurarCarrosselHome() {
   const carrossel = document.getElementById("homeCarousel");
-  const imagem = document.getElementById("homeCarouselImage");
+  let imagemAtual = document.getElementById("homeCarouselImage");
+  let proximaImagem = document.getElementById("homeCarouselNextImage");
   const anterior = carrossel?.querySelector(".home-carousel-control-previous");
   const proxima = carrossel?.querySelector(".home-carousel-control-next");
-  if (!carrossel || !imagem || !anterior || !proxima) return;
+  if (!carrossel || !imagemAtual || !proximaImagem || !anterior || !proxima) return;
 
   const imagens = ["1.png", "2.png", "3.png", "4.png"];
   let indiceAtual = 0;
   let temporizador;
+  let transicionando = false;
 
   function mostrarImagem(indice, direcao) {
-    indiceAtual = (indice + imagens.length) % imagens.length;
-    imagem.classList.remove("is-sliding-next", "is-sliding-previous");
-    void imagem.offsetWidth;
-    imagem.src = `Assets/Carrossel/${imagens[indiceAtual]}`;
-    imagem.alt = `Imagem ${indiceAtual + 1} de ${imagens.length} do Studio Sa Lopes`;
-    imagem.classList.add(direcao > 0 ? "is-sliding-next" : "is-sliding-previous");
+    if (transicionando) return;
+
+    const proximoIndice = (indice + imagens.length) % imagens.length;
+    transicionando = true;
+    anterior.disabled = true;
+    proxima.disabled = true;
+    proximaImagem.src = `Assets/Carrossel/${imagens[proximoIndice]}`;
+    proximaImagem.alt = `Imagem ${proximoIndice + 1} de ${imagens.length} do Studio Sa Lopes`;
+    proximaImagem.setAttribute("aria-hidden", "false");
+
+    let temporizadorFinalizacao;
+    let animacoes;
+    const finalizarTransicao = () => {
+      if (!transicionando) return;
+      window.clearTimeout(temporizadorFinalizacao);
+      imagemAtual.classList.add("is-inactive");
+      imagemAtual.setAttribute("aria-hidden", "true");
+      imagemAtual.style.zIndex = "";
+      proximaImagem.classList.remove("is-inactive");
+      proximaImagem.setAttribute("aria-hidden", "false");
+      proximaImagem.style.zIndex = "";
+      animacoes?.forEach(animacao => animacao.cancel());
+      imagemAtual = proximaImagem;
+      proximaImagem = imagemAtual === document.getElementById("homeCarouselImage")
+        ? document.getElementById("homeCarouselNextImage")
+        : document.getElementById("homeCarouselImage");
+      indiceAtual = proximoIndice;
+      anterior.disabled = false;
+      proxima.disabled = false;
+      transicionando = false;
+    };
+
+    const iniciarTransicao = () => {
+      proximaImagem.classList.remove("is-inactive");
+      imagemAtual.style.zIndex = "0";
+      proximaImagem.style.zIndex = "1";
+      const deslocamentoEntrada = direcao > 0 ? 100 : -100;
+      const deslocamentoSaida = -deslocamentoEntrada;
+      const duracao = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 700;
+      const opcoesAnimacao = {
+        duration: duracao,
+        easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+        fill: "both"
+      };
+
+      animacoes = [
+        proximaImagem.animate([
+          { transform: `translate3d(${deslocamentoEntrada}%, 0, 0)` },
+          { transform: "translate3d(0, 0, 0)" }
+        ], opcoesAnimacao),
+        imagemAtual.animate([
+          { transform: "translate3d(0, 0, 0)" },
+          { transform: `translate3d(${deslocamentoSaida}%, 0, 0)` }
+        ], opcoesAnimacao)
+      ];
+
+      Promise.all(animacoes.map(animacao => animacao.finished))
+        .then(finalizarTransicao)
+        .catch(error => {
+          if (!transicionando) return;
+          console.error("Não foi possível concluir a transição do carrossel:", error);
+          finalizarTransicao();
+        });
+      temporizadorFinalizacao = window.setTimeout(finalizarTransicao, duracao + 300);
+    };
+
+    proximaImagem.addEventListener("load", iniciarTransicao, { once: true });
+    proximaImagem.addEventListener("error", () => {
+      transicionando = false;
+      anterior.disabled = false;
+      proxima.disabled = false;
+      console.error(`Não foi possível carregar a imagem ${imagens[proximoIndice]} do carrossel.`);
+    }, { once: true });
   }
 
   function pararRotacao() {
