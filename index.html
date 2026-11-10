@@ -185,7 +185,7 @@
     background: #fffdfc;
     color: #5f5552;
     font-family: Inter, sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.78rem !important;
   }
 
   #calendarAgenda .fc-toolbar {
@@ -1863,7 +1863,7 @@ button:active:not(:disabled) {
   gap: 1rem;
 }
 
-#resumoFinanceiro .grid {
+.home-finance-summary .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -1903,6 +1903,297 @@ button:active:not(:disabled) {
   margin-top: 0.45rem;
   color: #aaa;
   font-size: 0.68rem;
+}
+
+#financeiro2Page .financeiro-header-actions {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+#financeiro2Page #btnAdicionarOcorrencia {
+  width: auto;
+  flex: 0 0 auto;
+  min-height: 2rem;
+  margin-left: auto;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+}
+
+.finance-report-card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.finance-report-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  color: var(--rose);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.finance-report-period {
+  flex: 0 0 auto;
+  color: #d6aaa0;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+.finance-report-summary,
+.finance-report-table {
+  box-sizing: border-box;
+  width: 100%;
+  max-height: 50rem;
+  overflow: auto;
+  padding: 0.5rem;
+  border: 1px solid rgba(244, 191, 174, 0.12);
+  border-radius: 0.75rem;
+  background: #1e1e1e;
+  color: #f3eeee;
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
+.finance-report-row {
+  display: flex;
+  min-height: 0;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 !important;
+  padding: 0.22rem 0.35rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+  font-size: inherit;
+}
+
+.finance-report-label {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.finance-report-label-text,
+.finance-report-label button {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.finance-report-dots {
+  display: none;
+}
+
+.finance-report-value {
+  flex: 0 0 auto;
+  min-width: 6.5ch;
+  color: #d7d0cf;
+  font-size: inherit;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.finance-report-row-type {
+  margin: 0.12rem 0 0.1rem !important;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid rgba(244, 191, 174, 0.09);
+  border-radius: 0.45rem;
+  background: linear-gradient(90deg, rgba(244, 191, 174, 0.09), rgba(244, 191, 174, 0.025));
+  color: var(--rose);
+}
+
+.finance-report-row-type .finance-report-value,
+.finance-report-row-total .finance-report-value {
+  font-weight: 700;
+}
+
+.finance-report-row-type .finance-report-label-text {
+  font-size: inherit !important;
+  font-weight: 700;
+}
+
+.finance-report-row-type .finance-report-value {
+  color: var(--rose);
+}
+
+.finance-report-row-type .finance-report-label {
+  gap: 0.4rem;
+}
+
+.finance-report-icon {
+  display: inline-grid;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 1rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(244, 191, 174, 0.12);
+  color: var(--rose);
+  font-size: 0.55rem;
+}
+
+.finance-report-row-family .finance-report-label-text {
+  color: #c9c0be;
+  font-size: inherit !important;
+}
+
+.finance-report-row-family {
+  padding-left: 1.35rem;
+}
+
+.finance-report-row-name {
+  padding-left: 2rem;
+}
+
+.finance-report-row-family .finance-report-label::before,
+.finance-report-row-name .finance-report-label::before {
+  content: "";
+  width: 0.22rem;
+  height: 0.22rem;
+  flex: 0 0 0.22rem;
+  border-radius: 50%;
+  background: var(--rose);
+}
+
+.finance-report-row-name .finance-report-value,
+.finance-report-row-family .finance-report-value {
+  color: #bfb6b4;
+}
+
+.finance-report-row-name .finance-report-label button {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0.3rem;
+  font-size: inherit !important;
+  color: #c9c0be;
+  text-align: left;
+}
+
+.finance-report-row-name .finance-report-label button:hover,
+.finance-report-row-name .finance-report-label button[aria-expanded="true"] {
+  color: var(--rose);
+}
+
+.finance-report-occurrences {
+  margin: 0.1rem 0 0.25rem 1rem;
+  padding-left: 0.65rem;
+  border-left: 1px solid rgba(244, 191, 174, 0.25);
+  color: #aaa;
+  font-size: 0.78rem;
+}
+
+.finance-report-occurrence {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.15rem 0;
+}
+
+.finance-report-occurrence span:first-child {
+  overflow-wrap: anywhere;
+}
+
+.finance-report-occurrence span:last-child {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.finance-report-divider {
+  margin: 0.35rem 0;
+  border: 0;
+  border-top: 1px solid rgba(244, 191, 174, 0.12);
+}
+
+.finance-report-family-divider {
+  display: none;
+}
+
+.finance-report-totals {
+  margin-top: 0.35rem;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid rgba(244, 191, 174, 0.12);
+  border-radius: 0.45rem;
+  background: linear-gradient(90deg, rgba(244, 191, 174, 0.09), rgba(244, 191, 174, 0.025));
+}
+
+.finance-report-row-total {
+  font-size: inherit;
+  color: #c9c0be;
+}
+
+.finance-report-row-total:last-child {
+  margin-top: 0.08rem !important;
+  padding-top: 0.22rem;
+  border-top: 1px solid rgba(244, 191, 174, 0.12);
+  color: var(--rose);
+}
+
+.finance-report-row-total:last-child .finance-report-label {
+  gap: 0.4rem;
+}
+
+.finance-report-totals .finance-report-row-expense .finance-report-value {
+  color: #c78181;
+}
+
+.finance-report-totals .finance-report-row-income .finance-report-value {
+  color: var(--rose);
+}
+
+.finance-report-totals .finance-report-row-balance-positive .finance-report-value {
+  color: #8fbd92;
+}
+
+.finance-report-totals .finance-report-row-balance-negative .finance-report-value {
+  color: #c78181;
+}
+
+.finance-report-row-type .finance-report-value {
+  color: var(--rose);
+}
+
+@media (max-width: 640px) {
+  #financeiro2Page .finance-report-card {
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
+  }
+
+  #financeiro2Page .finance-report-summary,
+  #financeiro2Page .finance-report-summary .finance-report-row,
+  #financeiro2Page .finance-report-summary .finance-report-label-text,
+  #financeiro2Page .finance-report-summary .finance-report-label button,
+  #financeiro2Page .finance-report-summary .finance-report-value,
+  #financeiro2Page .finance-report-summary .finance-report-occurrences {
+    font-size: clamp(0.45rem, 2.8vw, 0.58rem) !important;
+  }
+
+  #financeiro2Page .finance-report-summary {
+    padding: 0.4rem;
+    border-color: rgba(244, 191, 174, 0.05);
+  }
+}
+
+.finance-report-toggle {
+  align-self: flex-end;
+  width: auto;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid rgba(244, 191, 174, 0.18);
+  border-radius: 999px;
+  background: #1e1e1e;
+  color: var(--rose);
+  cursor: pointer;
+  line-height: 1;
 }
 
 .home-finance-comparison {
@@ -2113,7 +2404,7 @@ button:active:not(:disabled) {
   background: #1e1e1e;
 }
 
-#resumoFinanceiro .home-finance-period-filters button {
+.home-finance-summary .home-finance-period-filters button {
   box-sizing: border-box;
   display: grid;
   width: 1.8rem;
@@ -2134,29 +2425,29 @@ button:active:not(:disabled) {
   text-transform: uppercase;
 }
 
-#resumoFinanceiro .home-finance-period-filters button span {
+.home-finance-summary .home-finance-period-filters button span {
   display: block;
   line-height: 1;
 }
 
-#resumoFinanceiro > .home-section-heading > .home-finance-period-filters {
+.home-finance-summary > .home-section-heading > .home-finance-period-filters {
   flex: 0 0 auto;
   width: auto;
 }
 
-#resumoFinanceiro .home-finance-period-filters button[aria-pressed="true"] {
+.home-finance-summary .home-finance-period-filters button[aria-pressed="true"] {
   border-color: var(--rose);
   background: var(--rose);
   color: #1e1e1e;
   font-weight: 700;
 }
 
-#resumoFinanceiro .home-finance-period-filters button:hover:not(:disabled) {
+.home-finance-summary .home-finance-period-filters button:hover:not(:disabled) {
   transform: none;
   color: var(--rose);
 }
 
-#resumoFinanceiro .home-finance-period-filters button[aria-pressed="true"]:hover:not(:disabled) {
+.home-finance-summary .home-finance-period-filters button[aria-pressed="true"]:hover:not(:disabled) {
   color: #1e1e1e;
 }
 
@@ -2214,6 +2505,7 @@ button:active:not(:disabled) {
   object-position: center;
   background-color: transparent;
   border-radius: 1rem;
+  cursor: grab;
   transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
@@ -2235,44 +2527,16 @@ button:active:not(:disabled) {
   overflow: hidden;
   border-radius: 1rem;
   background-color: #1e1e1e;
+  touch-action: pan-y;
+  user-select: none;
 }
 
-.home-carousel-control {
-  position: absolute;
-  top: 50%;
-  z-index: 1;
-  display: grid;
-  width: 2.75rem;
-  min-width: 2.75rem;
-  height: 2.75rem;
-  min-height: 2.75rem;
-  place-items: center;
-  padding: 0;
-  transform: translateY(-50%);
-  border: 0;
-  border-radius: 50%;
-  background: rgba(30, 30, 30, 0.32);
-  color: rgba(255, 255, 255, 0.62);
-  cursor: pointer;
+.home-carousel.is-dragging {
+  cursor: grabbing;
 }
 
-.home-carousel-control:hover:not(:disabled) {
-  transform: translateY(calc(-50% - 1px));
-  background: rgba(30, 30, 30, 0.52);
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.home-carousel-control:focus-visible {
-  outline: 2px solid var(--rose);
-  outline-offset: 2px;
-}
-
-.home-carousel-control-previous {
-  left: 0.75rem;
-}
-
-.home-carousel-control-next {
-  right: 0.75rem;
+.home-carousel.is-dragging .home-feature-image {
+  cursor: grabbing;
 }
 
 .upcoming-link {
@@ -2442,7 +2706,7 @@ button:active:not(:disabled) {
   grid-template-columns: repeat(5, minmax(110px, 1fr));
 }
 
-#resumoFinanceiro .grid {
+.home-finance-summary .grid {
   grid-template-columns: repeat(3, minmax(120px, 1fr));
 }
 
@@ -2791,7 +3055,7 @@ button:active:not(:disabled) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  #resumoFinanceiro .grid {
+  .home-finance-summary .grid {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 
@@ -2806,7 +3070,7 @@ button:active:not(:disabled) {
 }
 
 @media (max-width: 640px) {
-  #resumoFinanceiro {
+  .home-finance-summary {
     padding-right: 0.65rem;
     padding-left: 0.65rem;
   }
@@ -2880,17 +3144,17 @@ button:active:not(:disabled) {
     white-space: nowrap;
   }
 
-  #resumoFinanceiro > .home-section-heading {
+  .home-finance-summary > .home-section-heading {
     flex-wrap: nowrap;
     align-items: flex-start;
   }
 
-  #resumoFinanceiro > .home-section-heading > div:first-child {
+  .home-finance-summary > .home-section-heading > div:first-child {
     flex: 1 1 auto;
     min-width: 0;
   }
 
-  #resumoFinanceiro .home-finance-period-filters {
+  .home-finance-summary .home-finance-period-filters {
     flex: 0 0 auto;
     flex-wrap: nowrap;
     justify-content: flex-end;
@@ -2949,10 +3213,19 @@ button:active:not(:disabled) {
     flex-direction: column;
   }
 
-  #financeiro2Page #relatorioFinanceiro2 > h3 {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.75rem;
+  #financeiro2Page .finance-report-heading {
+    gap: 0.4rem;
+    font-size: 0.82rem;
+  }
+
+  #financeiro2Page .finance-report-period {
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+
+  #financeiro2Page .finance-report-summary {
+    padding: 0.55rem;
+    border-color: rgba(244, 191, 174, 0.05);
   }
 
   #financeiro2Page #relatorioDashboard {
@@ -3065,7 +3338,7 @@ button:active:not(:disabled) {
     max-height: 28rem;
   }
 
-  #resumoFinanceiro .grid,
+  .home-finance-summary .grid,
   #relatorioDashboard {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -3244,7 +3517,7 @@ button:active:not(:disabled) {
     margin-top: 0;
   }
 
-  #resumoFinanceiro > .home-section-heading > .home-finance-period-filters {
+  .home-finance-summary > .home-section-heading > .home-finance-period-filters {
     transform: translateY(0.85rem);
   }
 
@@ -3283,12 +3556,12 @@ button:active:not(:disabled) {
     padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
   }
 
-  #resumoFinanceiro {
+  .home-finance-summary {
     border-color: rgba(244, 191, 174, 0.08) !important;
   }
 
-  #resumoFinanceiro .home-finance-kpi,
-  #resumoFinanceiro .home-finance-comparison {
+  .home-finance-summary .home-finance-kpi,
+  .home-finance-summary .home-finance-comparison {
     border-color: rgba(244, 191, 174, 0.05) !important;
   }
 
@@ -3331,7 +3604,7 @@ button:active:not(:disabled) {
     font-size: 0.64rem;
   }
 
-  #resumoFinanceiro .grid,
+  .home-finance-summary .grid,
   #relatorioDashboard {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -3955,7 +4228,7 @@ button:active:not(:disabled) {
         <span class="numero-grande">-/-</span>
         <span class="titulo-card">Atend./Agend.</span>
       </div>
-      <div class="metric-detail">Presenças / agendamentos</div>
+      <div class="metric-detail">Presenças & Agendamentos</div>
     </div>
   </div>
 
@@ -3982,14 +4255,8 @@ button:active:not(:disabled) {
 <div class="grid gap-5 mb-5 home-feature-grid">
   <div class="card rounded-xl shadow p-3">
     <div id="homeCarousel" class="home-carousel" role="group" aria-label="Carrossel de imagens do Studio Sa Lopes">
-      <img id="homeCarouselImage" src="Assets/Carrossel/1.png" alt="Imagem 1 de 4 do Studio Sa Lopes" class="home-feature-image">
-      <img id="homeCarouselNextImage" src="Assets/Carrossel/1.png" alt="" class="home-feature-image is-inactive" aria-hidden="true">
-      <button type="button" class="home-carousel-control home-carousel-control-previous" aria-label="Imagem anterior">
-        <i class="fas fa-chevron-left" aria-hidden="true"></i>
-      </button>
-      <button type="button" class="home-carousel-control home-carousel-control-next" aria-label="Próxima imagem">
-        <i class="fas fa-chevron-right" aria-hidden="true"></i>
-      </button>
+      <img id="homeCarouselImage" src="Assets/Carrossel/1.png" alt="Imagem 1 de 4 do Studio Sa Lopes" class="home-feature-image" draggable="false">
+      <img id="homeCarouselNextImage" src="Assets/Carrossel/1.png" alt="" class="home-feature-image is-inactive" aria-hidden="true" draggable="false">
     </div>
   </div>
 
@@ -4007,7 +4274,7 @@ button:active:not(:disabled) {
   </div>
 </div>
 
-<div class="card rounded-xl shadow p-5 flex flex-col justify-center" id="resumoFinanceiro">
+<div class="card rounded-xl shadow p-5 flex flex-col justify-center mb-5 home-finance-summary" id="resumoFinanceiro">
   <div class="home-section-heading mb-4">
     <div>
       <span class="eyebrow"><i class="fas fa-chart-line"></i> Visão geral</span>
@@ -4023,15 +4290,15 @@ button:active:not(:disabled) {
   <div class="home-finance-kpis">
     <div class="card home-finance-kpi" id="resumoReceita">
       <h4 class="financial-label financial-income">Ganhos</h4>
-      <p class="text-2xl">R$ 0,00</p>
+      <p class="text-2xl home-finance-income-value">R$ 0,00</p>
     </div>
     <div class="card home-finance-kpi" id="resumoDespesa">
       <h4 class="financial-label financial-expense">Despesas</h4>
-      <p class="text-2xl">R$ 0,00</p>
+      <p class="text-2xl home-finance-expense-value">R$ 0,00</p>
     </div>
     <div class="card home-finance-kpi" id="resumoSaldo">
       <h4 class="financial-label financial-balance">Saldo</h4>
-      <p class="text-2xl">R$ 0,00</p>
+      <p class="text-2xl home-finance-balance-value">R$ 0,00</p>
     </div>
   </div>
   <div class="home-finance-comparison">
@@ -4049,14 +4316,15 @@ button:active:not(:disabled) {
             <th scope="col">MoM</th>
           </tr>
         </thead>
-        <tbody id="homeFinanceMonthlyRows">
+        <tbody id="homeFinanceMonthlyRows" class="home-finance-monthly-rows">
           <tr><td colspan="5">Carregando resumo financeiro...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
-  <p id="homeFinanceStatus" class="home-finance-status" role="status" aria-live="polite"></p>
+  <p id="homeFinanceStatus" class="home-finance-status home-finance-status-message" role="status" aria-live="polite"></p>
 </div>
+
 </div>
 
     <!-- CLIENTES -->
@@ -4217,7 +4485,7 @@ button:active:not(:disabled) {
         <span class="numero-grande">-/-</span>
         <span class="titulo-card">Atend./Agend.</span>
       </div>
-      <div class="metric-detail">Presenças / agendamentos</div>
+      <div class="metric-detail">Presenças & Agendamentos</div>
     </div>
   </div>
 
@@ -4632,10 +4900,60 @@ button:active:not(:disabled) {
     <div id="financeiro2Page" class="page hidden">
 <div class="flex justify-between mb-5 items-center">
   <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Financeiro ✨</h2>
-  <div class="flex gap-3 mr-4">
-    <button id="btnAdicionarOcorrencia" class="btn-primary px-4 py-2 rounded-md">+ Ocorrência</button>
+  <div class="flex gap-3 mr-4 financeiro-header-actions">
+    <button id="btnAdicionarOcorrencia" class="btn-primary px-3 py-1.5 text-sm rounded-md">+ Ocorrência</button>
     <button id="btnLoadRelatorio" class="btn-primary px-4 py-2 rounded-md">Relatório</button>
   </div>
+</div>
+<div class="card rounded-xl shadow p-5 flex flex-col justify-center mb-5 home-finance-summary" id="financeiroResumo">
+  <div class="home-section-heading mb-4">
+    <div>
+      <span class="eyebrow"><i class="fas fa-chart-line"></i> Visão geral</span>
+      <h3>Resumo Financeiro</h3>
+    </div>
+    <div class="home-finance-period-filters" role="group" aria-label="Período do resumo financeiro">
+      <button type="button" data-home-finance-period="month" aria-label="Mês" aria-pressed="false"><span>MÊS</span></button>
+      <button type="button" data-home-finance-period="quarter" aria-label="Trimestre" aria-pressed="true"><span>TRI</span></button>
+      <button type="button" data-home-finance-period="semester" aria-label="Semestre" aria-pressed="false"><span>SEM</span></button>
+      <button type="button" data-home-finance-period="year" aria-label="Ano" aria-pressed="false"><span>ANO</span></button>
+    </div>
+  </div>
+  <div class="home-finance-kpis">
+    <div class="card home-finance-kpi" id="financeiroResumoReceita">
+      <h4 class="financial-label financial-income">Ganhos</h4>
+      <p class="text-2xl home-finance-income-value">R$ 0,00</p>
+    </div>
+    <div class="card home-finance-kpi" id="financeiroResumoDespesa">
+      <h4 class="financial-label financial-expense">Despesas</h4>
+      <p class="text-2xl home-finance-expense-value">R$ 0,00</p>
+    </div>
+    <div class="card home-finance-kpi" id="financeiroResumoSaldo">
+      <h4 class="financial-label financial-balance">Saldo</h4>
+      <p class="text-2xl home-finance-balance-value">R$ 0,00</p>
+    </div>
+  </div>
+  <div class="home-finance-comparison">
+    <div class="home-finance-comparison-heading">
+      <h4>Comparativo por mês</h4>
+    </div>
+    <div class="home-finance-table-wrap">
+      <table class="home-finance-table">
+        <thead>
+          <tr>
+            <th scope="col">Período</th>
+            <th scope="col">Ganhos</th>
+            <th scope="col">Despesas</th>
+            <th scope="col">Saldo</th>
+            <th scope="col">MoM</th>
+          </tr>
+        </thead>
+        <tbody id="financeiroHomeFinanceMonthlyRows" class="home-finance-monthly-rows">
+          <tr><td colspan="5">Carregando resumo financeiro...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <p id="financeiroHomeFinanceStatus" class="home-finance-status home-finance-status-message" role="status" aria-live="polite"></p>
 </div>
 <p id="financePresenceSyncStatus" class="hidden mb-4 text-sm text-amber-300" role="status"></p>
       <div id="boxFinanceiro2" class="card rounded-xl shadow p-5 max-w-xl mx-auto hidden">
@@ -4684,37 +5002,16 @@ button:active:not(:disabled) {
           </div>
         </form>
       </div>
-<div id="relatorioFinanceiro2" class="card rounded-xl shadow p-5 mx-auto mt-6" style="width: 100%; display: flex; flex-direction: column; gap: 1rem;">
-        <h3 class="text-xl font-bold mb-4 text-rose-300 flex justify-between items-center">
+<div id="relatorioFinanceiro2" class="card finance-report-card rounded-xl shadow p-5 mx-auto mt-6">
+        <h3 class="finance-report-heading">
           Relatório Financeiro
-<label class="flex items-center gap-2 text-sm text-rose-300" for="relatorioMesSelector">
-  Mês
-  <select id="relatorioMesSelector" class="rounded border border-rose-300 bg-[#1e1e1e] px-2 py-1 text-sm text-rose-300" title="Selecione o mês">
-    <option value="">Carregando meses...</option>
-  </select>
-</label>
-                                                                                                                                        
+          <span id="relatorioFinanceiroPeriodo" class="finance-report-period"></span>
 
         </h3>
-<div id="relatorioDashboard" class="grid grid-cols-3 gap-4 mb-4 max-w-full">
-          <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white">
-            <h4 class="font-semibold mb-2">Ganhos</h4>
-            <p id="dashboardReceita" class="text-2xl">R$0</p>
-          </div>
-          <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white">
-            <h4 class="font-semibold mb-2">Despesas</h4>
-            <p id="dashboardDespesa" class="text-2xl">R$0</p>
-          </div>
-          <div class="card p-4 rounded-xl shadow text-center bg-[#2b2b2b] text-white">
-            <h4 class="font-semibold mb-2">Saldo</h4>
-            <p id="dashboardSaldo" class="text-2xl">R$0</p>
-          </div>
-        </div>
+<div id="relatorioResumoDetalhado" class="finance-report-summary"></div>
+<button id="toggleRelatorioBtn" class="finance-report-toggle" style="display:none;" aria-label="Mostrar tabela detalhada">+</button>
 
-<div id="relatorioResumoDetalhado" class="bg-[#2b2b2b] text-white p-4 rounded-xl shadow w-full mb-2 font-mono whitespace-pre-wrap" style="font-size: 0.85rem; max-height: 800px; overflow-y: auto;"></div>
-<button id="toggleRelatorioBtn" style="display:none;">+</button>
-
-<div id="relatorioContainer" style="display:none; Font-size: 0.65rem; max-height: 800px; overflow-y: auto; background-color: #2b2b2b; color: white; padding: 1rem; border-radius: 0.5rem;">
+<div id="relatorioContainer" class="finance-report-table" style="display:none;">
   <!-- conteúdo do relatório -->
   <p>Relatório carregado aqui</p>
 </div>
@@ -4875,28 +5172,6 @@ const financeiroData = {
     'Sobrancelhas': ['Aplicação', 'Manutenção']
   }
 };
-
-function preencherSeletorMesesFinanceiro(registros, seletor, mesPreferido) {
-  const meses = [...new Set(registros.map(registro => registro.MesRef).filter(Boolean))].sort().reverse();
-  seletor.replaceChildren();
-
-  meses.forEach(mes => {
-    const [ano, numeroMes] = mes.split("-").map(Number);
-    const nomeMes = new Date(ano, numeroMes - 1, 1)
-      .toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-    const opcao = document.createElement("option");
-    opcao.value = mes;
-    opcao.textContent = nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1);
-    seletor.appendChild(opcao);
-  });
-
-  const mesAtual = new Date().toISOString().slice(0, 7);
-  const mesInicial = meses.includes(mesPreferido)
-    ? mesPreferido
-    : meses.includes(mesAtual) ? mesAtual : meses[0] || "";
-  seletor.value = mesInicial;
-  return mesInicial;
-}
 
 const financeiroTipo = document.getElementById('financeiroTipo');
 const financeiroFamilia = document.getElementById('financeiroFamilia');
@@ -5143,11 +5418,7 @@ btnLoadRelatorio.addEventListener("click", () => {
       });
 
       window.financeiroRelatorioData = data;
-
-const mesSelector = document.getElementById("relatorioMesSelector");
-const mesInicial = preencherSeletorMesesFinanceiro(data, mesSelector, mesSelector.value);
-atualizarDashboard(mesInicial);
-
+      atualizarRelatorioFinanceiroPeriodo();
 
       relatorioDiv.classList.remove("hidden");
     })
@@ -5166,7 +5437,6 @@ atualizarDashboard(mesInicial);
 async function carregarDadosFinanceiro() {
   const relatorioContainer = document.getElementById("relatorioContainer");
   const toggleBtn = document.getElementById("toggleRelatorioBtn");
-  const mesSelector = document.getElementById("relatorioMesSelector");
 
   // 🧩 Estado inicial
   if (!relatorioContainer || !toggleBtn) return;
@@ -5203,6 +5473,8 @@ async function carregarDadosFinanceiro() {
 
     if (!data.length) {
       relatorioContainer.innerHTML = "<p class='text-rose-300'>Nenhum dado encontrado.</p>";
+      window.financeiroRelatorioData = [];
+      atualizarRelatorioFinanceiroPeriodo();
       return;
     }
 
@@ -5214,19 +5486,7 @@ async function carregarDadosFinanceiro() {
     // Guarda global
     window.financeiroRelatorioData = data;
 
-    // Cria lista de meses únicos
-    const mesInicial = preencherSeletorMesesFinanceiro(data, mesSelector, mesSelector.value);
-
-    // Armazena o mês selecionado no localStorage
-    localStorage.setItem('mesSelecionadoFinanceiro', mesInicial);
-
-    // Atualiza o dashboard
-    atualizarDashboard(mesInicial);
-
-    // Atualiza ao trocar o mês
-    mesSelector.addEventListener("change", e => {
-      atualizarDashboard(e.target.value);
-    });
+    atualizarRelatorioFinanceiroPeriodo();
 
   } catch (err) {
     console.error("Erro ao carregar relatório:", err);
@@ -5237,96 +5497,34 @@ async function carregarDadosFinanceiro() {
     }
     relatorioContainer.innerHTML = "<p class='text-red-400'>Erro ao carregar dados do banco de dados.</p>";
   }
-
-  // 🔹 Função para atualizar o resumo financeiro
-  function atualizarDashboard(mesSelecionado) {
-    const registros = window.financeiroRelatorioData.filter(item => item.MesRef === mesSelecionado);
-    if (!registros.length) {
-      dashboardReceita.textContent = "R$0";
-      dashboardDespesa.textContent = "R$0";
-      dashboardSaldo.textContent = "R$0";
-      relatorioContainer.innerHTML = "<p class='text-rose-300'>Nenhum registro para este mês.</p>";
-      return;
-    }
-
-    const ganhos = registros.filter(r => r.Tipo === "Ganhos");
-    const despesas = registros.filter(r => r.Tipo === "Despesas");
-
-    const totalGanhos = ganhos.reduce((s, g) => s + parseFloat(g.Valor || 0), 0);
-    const totalDespesas = despesas.reduce((s, d) => s + parseFloat(d.Valor || 0), 0);
-    const saldo = totalGanhos - totalDespesas;
-
-    dashboardReceita.textContent = `R$${totalGanhos.toFixed(2)}`;
-    dashboardDespesa.textContent = `R$${totalDespesas.toFixed(2)}`;
-    dashboardSaldo.textContent = `R$${saldo.toFixed(2)}`;
-
-// Mostra o detalhamento dentro da área existente
-const relatorioDados = document.getElementById("relatorioDados");
-
-// Se a área não existir, não faz nada (evita duplicar)
-if (!relatorioDados) return;
-
-// Limpa apenas o conteúdo da área de dados
-relatorioDados.innerHTML = "";
-
-// Cria os registros mantendo o estilo
-registros.forEach(r => {
-  const linha = document.createElement("div");
-  linha.className = "grid grid-cols-5 gap-2 border-b border-gray-700 py-1 text-xs";
-  linha.innerHTML = `
-    <div class="text-rose-300 font-semibold">${r.Tipo || "-"}</div>
-    <div>${r.Familia || "-"}</div>
-    <div>${r.Nome || "-"}</div>
-    <div>R$${parseFloat(r.Valor || 0).toFixed(2)}</div>
-    <div>${r.Descricao || ""}</div>
-  `;
-  relatorioDados.appendChild(linha);
-});
-
-
-  }
-};
-
-// Carrega dados ao abrir a página de Financeiro
-document.addEventListener("DOMContentLoaded", carregarDadosFinanceiro);
-
-// Listener para mudança de mês (com proteção se elemento não existir)
-document.addEventListener("DOMContentLoaded", () => {
-  const mesSelector = document.getElementById("relatorioMesSelector");
-  if (mesSelector) {
-    mesSelector.addEventListener("change", (e) => {
-      const mes = e.target.value;
-      if (window.financeiroRelatorioData) {
-        atualizarDashboard(mes);
-      }
-    });
-  }
-});
-
-// 🔹 Função para atualizar o resumo financeiro (VERSÃO COMPLETA)
-function filtrarDadosPorMes(mesSelecionado) {
-  return window.financeiroRelatorioData.filter(item => item.MesRef === mesSelecionado);
 }
 
-function atualizarDashboard(mesSelecionado) {
-  const dadosFiltrados = filtrarDadosPorMes(mesSelecionado);
+document.addEventListener("DOMContentLoaded", carregarDadosFinanceiro);
+
+function atualizarRelatorioFinanceiroPeriodo() {
+  const dadosFinanceiros = window.financeiroRelatorioData;
+  if (!Array.isArray(dadosFinanceiros)) return;
+
+  const mesesSelecionados = new Set(obterMesesResumoFinanceiro().map(mes => mes.chave));
+  const dadosFiltrados = dadosFinanceiros.filter(item => {
+    const mes = String(item.MesRef || item.DtRegistro || "").slice(0, 7);
+    return mesesSelecionados.has(mes);
+  });
 
   const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
   const relatorioContainer = document.getElementById("relatorioContainer");
+  const periodo = document.getElementById("relatorioFinanceiroPeriodo");
+  if (periodo) periodo.textContent = rotuloPeriodoResumoFinanceiro();
 
   if (!dadosFiltrados.length) {
-    // Caso não tenha dados, mostra mensagem no resumo e oculta tabela
-    if (resumoDetalhadoDiv) resumoDetalhadoDiv.innerHTML = "<p>Sem dados para este mês :(</p>";
+    if (resumoDetalhadoDiv) resumoDetalhadoDiv.innerHTML = "<p>Sem dados para o período selecionado.</p>";
     if (relatorioContainer) relatorioContainer.innerHTML = "";
     if (resumoDetalhadoDiv) resumoDetalhadoDiv.style.display = "block";
     if (relatorioContainer) relatorioContainer.style.display = "none";
-    
-    // Zera o painel
     renderizarPainel({ receita: 0, despesa: 0, saldo: 0 });
     return;
   }
 
-  // Garante que o resumo é visível e a tabela detalhada, não.
   if (resumoDetalhadoDiv) resumoDetalhadoDiv.style.display = "block";
   if (relatorioContainer) relatorioContainer.style.display = "none";
 
@@ -5786,21 +5984,13 @@ function calcularTotais(dados) {
 }
 
 function renderizarPainel(totais) {
-  // Format values to BRL currency
-  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
-
-  document.getElementById("dashboardReceita").textContent = formataValor(totais.receita);
-  document.getElementById("dashboardDespesa").textContent = formataValor(totais.despesa);
-  document.getElementById("dashboardSaldo").textContent = formataValor(totais.saldo);
-
-  // Replicate data to home resumo (apenas se existir na página)
-  const elReceita = document.querySelector("#resumoReceita p");
-  const elDespesa = document.querySelector("#resumoDespesa p");
-  const elSaldo = document.querySelector("#resumoSaldo p");
-  
-  if (elReceita) elReceita.textContent = formataValor(totais.receita);
-  if (elDespesa) elDespesa.textContent = formataValor(totais.despesa);
-  if (elSaldo) elSaldo.textContent = formataValor(totais.saldo);
+  const dashboardReceita = document.getElementById("dashboardReceita");
+  const dashboardDespesa = document.getElementById("dashboardDespesa");
+  const dashboardSaldo = document.getElementById("dashboardSaldo");
+  const formataValor = valor => "R$" + valor.toFixed(2).replace(".", ",");
+  if (dashboardReceita) dashboardReceita.textContent = formataValor(totais.receita);
+  if (dashboardDespesa) dashboardDespesa.textContent = formataValor(totais.despesa);
+  if (dashboardSaldo) dashboardSaldo.textContent = formataValor(totais.saldo);
 }
 
 function agruparDados(dados) {
@@ -5829,33 +6019,46 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
   // Helper to create a row with category left and value right with dotted leader
   function createRow(label, value, options = {}) {
     const row = document.createElement("div");
+    row.className = `finance-report-row finance-report-row-${options.level || "detail"}`;
+    if (options.tone) row.classList.add(`finance-report-row-${options.tone}`);
     row.style.display = "flex";
     row.style.alignItems = "center";
     row.style.marginBottom = options.marginBottom || "2px";
 
     // Label container flex
     const labelContainer = document.createElement("div");
+    labelContainer.className = "finance-report-label";
     labelContainer.style.display = "flex";
     labelContainer.style.alignItems = "center";
     labelContainer.style.flexGrow = "1";
 
     const labelSpan = document.createElement("span");
+    labelSpan.className = "finance-report-label-text";
     labelSpan.textContent = label;
     labelSpan.style.fontWeight = options.bold ? "bold" : "normal";
     labelSpan.style.fontStyle = options.italic ? "italic" : "normal";
     labelSpan.style.fontSize = options.fontSize || "1rem";
     labelSpan.style.paddingLeft = options.paddingLeft || "0";
-    labelSpan.style.whiteSpace = "nowrap";
+    labelSpan.style.whiteSpace = "normal";
     labelSpan.style.zIndex = "1";
+
+    let icon;
+    if (options.icon) {
+      icon = document.createElement("i");
+      icon.className = `finance-report-icon ${options.icon}`;
+      icon.setAttribute("aria-hidden", "true");
+    }
 
     // Dots filler that expands horizontally between label and value
     const dotsSpan = document.createElement("span");
+    dotsSpan.className = "finance-report-dots";
     dotsSpan.style.flexGrow = "1";
     dotsSpan.style.borderBottom = "1px dotted #cccccc";
     dotsSpan.style.margin = "0 6px";
 
     // Value container fixed width on right
     const valueSpan = document.createElement("span");
+    valueSpan.className = "finance-report-value";
     valueSpan.textContent = value;
     valueSpan.style.fontWeight = options.bold ? "bold" : "normal";
     valueSpan.style.whiteSpace = "nowrap";
@@ -5864,6 +6067,7 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
 
     if (options.onClick) {
       const botao = document.createElement("button");
+      botao.className = "finance-report-name-toggle";
       botao.type = "button";
       botao.textContent = label;
       botao.setAttribute("aria-expanded", "false");
@@ -5872,16 +6076,17 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
       botao.style.fontStyle = options.italic ? "italic" : "normal";
       botao.style.fontSize = options.fontSize || "1rem";
       botao.style.paddingLeft = options.paddingLeft || "0";
-      botao.style.whiteSpace = "nowrap";
+      botao.style.whiteSpace = "normal";
       botao.style.zIndex = "1";
       botao.style.border = "0";
       botao.style.background = "transparent";
-      botao.style.color = "inherit";
       botao.style.cursor = "pointer";
       botao.style.textAlign = "left";
       botao.addEventListener("click", options.onClick);
+      if (icon) labelContainer.appendChild(icon);
       labelContainer.appendChild(botao);
     } else {
+      if (icon) labelContainer.appendChild(icon);
       labelContainer.appendChild(labelSpan);
     }
     labelContainer.appendChild(dotsSpan);
@@ -5903,17 +6108,27 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
     // Add a separator line for Tipo groups except first
     if (resumoDetalhadoDiv.childElementCount > 0) {
       const hr = document.createElement("hr");
-      hr.style.border = "none";
-      hr.style.borderTop = "1px solid #cccccc";
-      hr.style.margin = "10px 0";
+      hr.className = "finance-report-divider";
       resumoDetalhadoDiv.appendChild(hr);
     }
-    resumoDetalhadoDiv.appendChild(createRow(tipoKey.toUpperCase(), tipoTotal, { bold: true, marginBottom: "6px" }));
+    resumoDetalhadoDiv.appendChild(createRow(tipoKey, tipoTotal, {
+      bold: true,
+      marginBottom: "6px",
+      fontSize: "0.78rem",
+      level: "type",
+      tone: tipoKey === "Despesas" ? "expense" : "income",
+      icon: tipoKey === "Despesas" ? "fas fa-wallet" : "fas fa-coins"
+    }));
 
     const familias = dadosAgrupados[tipoKey].familias;
     for (const famKey in familias) {
       const famTotal = formataValor(familias[famKey].total);
-      resumoDetalhadoDiv.appendChild(createRow("└ " + famKey, famTotal, { fontSize: "0.875rem", paddingLeft: "1rem", marginBottom: "4px" , italic: false}));
+      resumoDetalhadoDiv.appendChild(createRow(famKey, famTotal, {
+        fontSize: "0.82rem",
+        marginBottom: "4px",
+        level: "family",
+        tone: tipoKey === "Despesas" ? "expense" : "income"
+      }));
 
       const nomes = familias[famKey].nomes;
       for (const nomeKey in nomes) {
@@ -5925,31 +6140,25 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
         );
         const detalhes = document.createElement("div");
         detalhes.hidden = true;
-        detalhes.style.paddingLeft = "3rem";
-        detalhes.style.margin = "2px 0 6px";
-        detalhes.style.color = "#d1d5db";
-        detalhes.style.fontSize = "0.8rem";
+        detalhes.className = "finance-report-occurrences";
 
         ocorrencias.forEach(ocorrencia => {
           const detalhe = document.createElement("div");
-          detalhe.style.display = "flex";
-          detalhe.style.justifyContent = "space-between";
-          detalhe.style.gap = "1rem";
-          detalhe.style.padding = "2px 0";
+          detalhe.className = "finance-report-occurrence";
 
           const descricao = document.createElement("span");
           descricao.textContent = ocorrencia.Descricao || "Sem descrição";
           const valor = document.createElement("span");
           valor.textContent = formataValor(parseValorBR(ocorrencia.Valor));
-          valor.style.whiteSpace = "nowrap";
           detalhe.append(descricao, valor);
           detalhes.appendChild(detalhe);
         });
 
-        const linhaNome = createRow("   └ " + nomeKey, nomeTotal, {
-          fontSize: "0.875rem",
-          paddingLeft: "2rem",
+        const linhaNome = createRow(nomeKey, nomeTotal, {
+          fontSize: "0.82rem",
           marginBottom: "2px",
+          level: "name",
+          tone: tipoKey === "Despesas" ? "expense" : "income",
           onClick: event => {
             detalhes.hidden = !detalhes.hidden;
             event.currentTarget.setAttribute("aria-expanded", String(!detalhes.hidden));
@@ -5959,19 +6168,9 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
       }
 
       // Add Familia subtotal separator line with background
-      const famSubtotalContainer = document.createElement("div");
-      famSubtotalContainer.style.backgroundColor = "rgba(204, 204, 204, 0.1)";
-      famSubtotalContainer.style.padding = "2px 6px";
-      famSubtotalContainer.style.marginBottom = "10px";
-      famSubtotalContainer.style.borderRadius = "4px";
-      
-      const famSubtotalHr = document.createElement("hr");
-      famSubtotalHr.style.border = "none";
-      famSubtotalHr.style.borderTop = "1px dotted #cccccc";
-      famSubtotalHr.style.margin = "0 0 0 1rem";
-      famSubtotalContainer.appendChild(famSubtotalHr);
-
-      resumoDetalhadoDiv.appendChild(famSubtotalContainer);
+      const famSubtotalDivider = document.createElement("div");
+      famSubtotalDivider.className = "finance-report-family-divider";
+      resumoDetalhadoDiv.appendChild(famSubtotalDivider);
     }
 
     grandTotal += tipoKey === "Despesas"
@@ -5982,14 +6181,28 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
   const totalDespesas = dadosAgrupados["Despesas"]?.total || 0;
   const totalGanhos = dadosAgrupados["Ganhos"]?.total || 0;
   const totaisContainer = document.createElement("div");
-  totaisContainer.style.backgroundColor = "rgba(204, 204, 204, 0.2)";
-  totaisContainer.style.borderRadius = "6px";
-  totaisContainer.style.padding = "6px 10px";
-  totaisContainer.style.margin = "12px 0";
+  totaisContainer.className = "finance-report-totals";
 
-  totaisContainer.appendChild(createRow("TOTAL DESPESAS", formataValor(totalDespesas), { bold: true }));
-  totaisContainer.appendChild(createRow("TOTAL GANHOS", formataValor(totalGanhos), { bold: true }));
-  totaisContainer.appendChild(createRow("TOTAL GERAL DAS LINHAS", formataValor(grandTotal), { bold: true, marginBottom: "0" }));
+  totaisContainer.appendChild(createRow("TOTAL DESPESAS", formataValor(totalDespesas), {
+    bold: true,
+    fontSize: "0.78rem",
+    level: "total",
+    tone: "expense"
+  }));
+  totaisContainer.appendChild(createRow("TOTAL GANHOS", formataValor(totalGanhos), {
+    bold: true,
+    fontSize: "0.78rem",
+    level: "total",
+    tone: "income"
+  }));
+  totaisContainer.appendChild(createRow("TOTAL GERAL DAS LINHAS", formataValor(grandTotal), {
+    bold: true,
+    fontSize: "0.78rem",
+    marginBottom: "0",
+    level: "total",
+    tone: grandTotal >= 0 ? "balance-positive" : "balance-negative",
+    icon: "fas fa-chart-line"
+  }));
 
   resumoDetalhadoDiv.appendChild(totaisContainer);
 }
@@ -6118,11 +6331,7 @@ function renderizarTabelaRelatorio(dadosFiltrados) {
     );
   }
 
-  // 🔹 Atualiza o dashboard imediatamente com o mês atual
-  const mesAtual = document.getElementById("relatorioMesSelector")?.value;
-  if (typeof atualizarDashboard === "function" && mesAtual) {
-    atualizarDashboard(mesAtual);
-  }
+  atualizarRelatorioFinanceiroPeriodo();
   } else {
   alert("❌ Erro ao excluir do banco de dados.");
   }
@@ -6312,14 +6521,7 @@ function renderizarResumoDetalhadoHome(dadosAgrupados) {
 let homeFinanceiroRegistros = null;
 let homeFinanceiroPeriodo = "quarter";
 
-function renderizarResumoFinanceiroHome() {
-  if (!Array.isArray(homeFinanceiroRegistros)) return;
-
-  const elReceita = document.querySelector("#resumoReceita p");
-  const elDespesa = document.querySelector("#resumoDespesa p");
-  const elSaldo = document.querySelector("#resumoSaldo p");
-  const elLinhasMensais = document.getElementById("homeFinanceMonthlyRows");
-  const elStatus = document.getElementById("homeFinanceStatus");
+function obterMesesResumoFinanceiro() {
   const hoje = new Date();
   const mesAtual = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
   const mesInicio = new Date(mesAtual);
@@ -6333,6 +6535,27 @@ function renderizarResumoFinanceiroHome() {
     const chave = `${mes.getFullYear()}-${String(mes.getMonth() + 1).padStart(2, "0")}`;
     meses.push({ data: mes, chave, ganhos: 0, despesas: 0 });
   }
+  return meses;
+}
+
+function rotuloPeriodoResumoFinanceiro() {
+  return {
+    month: "Mês atual",
+    quarter: "Últimos 3 meses",
+    semester: "Últimos 6 meses",
+    year: "Este ano"
+  }[homeFinanceiroPeriodo] || "Período selecionado";
+}
+
+function renderizarResumoFinanceiroHome() {
+  if (!Array.isArray(homeFinanceiroRegistros)) return;
+
+  const elReceitas = document.querySelectorAll(".home-finance-income-value");
+  const elDespesas = document.querySelectorAll(".home-finance-expense-value");
+  const elSaldos = document.querySelectorAll(".home-finance-balance-value");
+  const elLinhasMensais = document.querySelectorAll(".home-finance-monthly-rows");
+  const elStatus = document.querySelectorAll(".home-finance-status-message");
+  const meses = obterMesesResumoFinanceiro();
   const totaisPorMes = new Map();
   homeFinanceiroRegistros.forEach(registro => {
     const mesRef = String(registro.MesRef || registro.DtRegistro || "").slice(0, 7);
@@ -6359,13 +6582,11 @@ function renderizarResumoFinanceiroHome() {
   const ganhosTotais = meses.reduce((soma, mes) => soma + mes.ganhos, 0);
   const despesasTotais = meses.reduce((soma, mes) => soma + mes.despesas, 0);
   const saldoTotal = ganhosTotais - despesasTotais;
-  if (elReceita) elReceita.textContent = moeda.format(ganhosTotais);
-  if (elDespesa) elDespesa.textContent = moeda.format(despesasTotais);
-  if (elSaldo) elSaldo.textContent = moeda.format(saldoTotal);
-
-  if (elLinhasMensais) {
-    elLinhasMensais.replaceChildren();
-    meses.forEach(mes => {
+  elReceitas.forEach(elemento => { elemento.textContent = moeda.format(ganhosTotais); });
+  elDespesas.forEach(elemento => { elemento.textContent = moeda.format(despesasTotais); });
+  elSaldos.forEach(elemento => { elemento.textContent = moeda.format(saldoTotal); });
+  elLinhasMensais.forEach(elemento => elemento.replaceChildren());
+  meses.forEach(mes => {
       const saldo = mes.ganhos - mes.despesas;
       const anteriorData = new Date(mes.data.getFullYear(), mes.data.getMonth() - 1, 1);
       const anteriorChave = `${anteriorData.getFullYear()}-${String(anteriorData.getMonth() + 1).padStart(2, "0")}`;
@@ -6401,17 +6622,16 @@ function renderizarResumoFinanceiroHome() {
         }
         linha.appendChild(celula);
       });
-      elLinhasMensais.appendChild(linha);
-    });
-  }
+    elLinhasMensais.forEach(elemento => elemento.appendChild(linha.cloneNode(true)));
+  });
 
   const chavesSelecionadas = new Set(meses.map(mes => mes.chave));
   const registrosSelecionados = homeFinanceiroRegistros.filter(registro =>
     chavesSelecionadas.has(String(registro.MesRef || registro.DtRegistro || "").slice(0, 7))
   );
-  if (elStatus) {
-    elStatus.textContent = registrosSelecionados.length ? "" : "Sem lançamentos financeiros no período selecionado.";
-  }
+  elStatus.forEach(elemento => {
+    elemento.textContent = registrosSelecionados.length ? "" : "Sem lançamentos financeiros no período selecionado.";
+  });
   const elResumoDetalhado = document.getElementById("homeResumoDetalhado");
   if (elResumoDetalhado) {
     renderizarResumoDetalhadoHome(agruparDados(registrosSelecionados));
@@ -6422,19 +6642,14 @@ document.querySelectorAll("[data-home-finance-period]").forEach(button => {
   button.addEventListener("click", () => {
     homeFinanceiroPeriodo = button.dataset.homeFinancePeriod;
     document.querySelectorAll("[data-home-finance-period]").forEach(filtro => {
-      filtro.setAttribute("aria-pressed", String(filtro === button));
+      filtro.setAttribute("aria-pressed", String(filtro.dataset.homeFinancePeriod === homeFinanceiroPeriodo));
     });
     renderizarResumoFinanceiroHome();
+    if (Array.isArray(window.financeiroRelatorioData)) atualizarRelatorioFinanceiroPeriodo();
   });
 });
 
 async function atualizarResumoFinanceiroHome() {
-  const elReceita = document.querySelector("#resumoReceita p");
-  const elDespesa = document.querySelector("#resumoDespesa p");
-  const elSaldo = document.querySelector("#resumoSaldo p");
-  const elLinhasMensais = document.getElementById("homeFinanceMonthlyRows");
-  const elStatus = document.getElementById("homeFinanceStatus");
-
   try {
     const res = await fetch("supabase://financeiro");
     if (!res.ok) {
@@ -6448,15 +6663,16 @@ async function atualizarResumoFinanceiroHome() {
     renderizarResumoFinanceiroHome();
   } catch (err) {
     console.error("Erro ao atualizar resumo financeiro:", err);
-    if (elReceita) elReceita.textContent = "—";
-    if (elDespesa) elDespesa.textContent = "—";
-    if (elSaldo) elSaldo.textContent = "—";
-    if (elLinhasMensais) {
-      elLinhasMensais.innerHTML = '<tr><td colspan="5">Não foi possível carregar o comparativo.</td></tr>';
-    }
-    if (elStatus) elStatus.textContent = err instanceof Error
-      ? err.message
-      : "Não foi possível carregar o resumo financeiro.";
+    document.querySelectorAll(".home-finance-income-value, .home-finance-expense-value, .home-finance-balance-value")
+      .forEach(elemento => { elemento.textContent = "—"; });
+    document.querySelectorAll(".home-finance-monthly-rows").forEach(elemento => {
+      elemento.innerHTML = '<tr><td colspan="5">Não foi possível carregar o comparativo.</td></tr>';
+    });
+    document.querySelectorAll(".home-finance-status-message").forEach(elemento => {
+      elemento.textContent = err instanceof Error
+        ? err.message
+        : "Não foi possível carregar o resumo financeiro.";
+    });
   }
 }
 
@@ -7498,13 +7714,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (typeof atualizarResumoFinanceiroHome === 'function') atualizarResumoFinanceiroHome();
       }
       // 🔹 Atualiza os resumos da home e renderiza o calendário da agenda
-      if (a.dataset.page === "agenda") { renderAgendaCalendar(); } else if (a.dataset.page === "financeiro2") {
-  const relatorioContainer = document.getElementById("relatorioContainer");
-  const toggleBtn = document.getElementById("toggleRelatorioBtn");
-  const mesSelector = document.getElementById("relatorioMesSelector");
+      if (a.dataset.page === "agenda") { renderAgendaCalendar();       } else if (a.dataset.page === "financeiro2") {
+        const relatorioContainer = document.getElementById("relatorioContainer");
 
-  // 🔹 Garante estado inicial
-  relatorioContainer.style.display = "none"; // relatório oculto
+        // 🔹 Garante estado inicial
+        relatorioContainer.style.display = "none"; // relatório oculto
 
   // 🔹 Esconde o botão de carregar relatório
   if (btnLoadRelatorio) btnLoadRelatorio.style.display = "none"; // Botão já não é mais usado
@@ -7527,15 +7741,8 @@ document.addEventListener("DOMContentLoaded", function() {
       // Guarda globalmente
       window.financeiroRelatorioData = data;
 
-      const mesInicial = preencherSeletorMesesFinanceiro(data, mesSelector, mesSelector.value);
-
-      // 🔹 Atualiza o dashboard e os resumos com o mês atual
-      if (typeof atualizarDashboard === "function") atualizarDashboard(mesInicial);
+      atualizarRelatorioFinanceiroPeriodo();
       if (typeof atualizarResumoFinanceiroHome === "function") atualizarResumoFinanceiroHome();
-
-      // Adiciona o listener para o seletor de mês AQUI, após os dados serem carregados
-      mesSelector.removeEventListener("change", handleMesSelectorChange); // Remove listener antigo para evitar duplicação
-      mesSelector.addEventListener("change", handleMesSelectorChange);
 
       document.getElementById("relatorioFinanceiro2").classList.remove("hidden");
     })
@@ -7553,11 +7760,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-function handleMesSelectorChange(e) {
-    const mes = e.target.value;
-    if (typeof atualizarDashboard === "function") atualizarDashboard(mes);
-}
-
 function escaparHtml(valor) {
   return String(valor || "")
     .replace(/&/g, "&amp;")
@@ -7571,22 +7773,19 @@ function configurarCarrosselHome() {
   const carrossel = document.getElementById("homeCarousel");
   let imagemAtual = document.getElementById("homeCarouselImage");
   let proximaImagem = document.getElementById("homeCarouselNextImage");
-  const anterior = carrossel?.querySelector(".home-carousel-control-previous");
-  const proxima = carrossel?.querySelector(".home-carousel-control-next");
-  if (!carrossel || !imagemAtual || !proximaImagem || !anterior || !proxima) return;
+  if (!carrossel || !imagemAtual || !proximaImagem) return;
 
   const imagens = ["1.png", "2.png", "3.png", "4.png"];
   let indiceAtual = 0;
   let temporizador;
   let transicionando = false;
+  let inicioArraste;
 
   function mostrarImagem(indice, direcao) {
     if (transicionando) return;
 
     const proximoIndice = (indice + imagens.length) % imagens.length;
     transicionando = true;
-    anterior.disabled = true;
-    proxima.disabled = true;
     proximaImagem.src = `Assets/Carrossel/${imagens[proximoIndice]}`;
     proximaImagem.alt = `Imagem ${proximoIndice + 1} de ${imagens.length} do Studio Sa Lopes`;
     proximaImagem.setAttribute("aria-hidden", "false");
@@ -7608,8 +7807,6 @@ function configurarCarrosselHome() {
         ? document.getElementById("homeCarouselNextImage")
         : document.getElementById("homeCarouselImage");
       indiceAtual = proximoIndice;
-      anterior.disabled = false;
-      proxima.disabled = false;
       transicionando = false;
     };
 
@@ -7650,8 +7847,6 @@ function configurarCarrosselHome() {
     proximaImagem.addEventListener("load", iniciarTransicao, { once: true });
     proximaImagem.addEventListener("error", () => {
       transicionando = false;
-      anterior.disabled = false;
-      proxima.disabled = false;
       console.error(`Não foi possível carregar a imagem ${imagens[proximoIndice]} do carrossel.`);
     }, { once: true });
   }
@@ -7669,14 +7864,33 @@ function configurarCarrosselHome() {
     }, 10000);
   }
 
-  anterior.addEventListener("click", () => {
-    mostrarImagem(indiceAtual - 1, -1);
+  carrossel.addEventListener("pointerdown", event => {
+    if (transicionando || event.button !== 0 || !event.target.closest(".home-feature-image:not(.is-inactive)")) return;
+    inicioArraste = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+    carrossel.setPointerCapture(event.pointerId);
+    carrossel.classList.add("is-dragging");
+  });
+  carrossel.addEventListener("pointerup", event => {
+    if (!inicioArraste || inicioArraste.pointerId !== event.pointerId) return;
+    const deslocamentoX = event.clientX - inicioArraste.x;
+    const deslocamentoY = event.clientY - inicioArraste.y;
+    inicioArraste = undefined;
+    carrossel.classList.remove("is-dragging");
+
+    if (Math.abs(deslocamentoX) < Math.max(40, carrossel.clientWidth * 0.12)
+      || Math.abs(deslocamentoX) < Math.abs(deslocamentoY) * 1.2) return;
+
+    const direcao = deslocamentoX < 0 ? 1 : -1;
+    mostrarImagem(indiceAtual + direcao, direcao);
     iniciarRotacao();
   });
-  proxima.addEventListener("click", () => {
-    mostrarImagem(indiceAtual + 1, 1);
-    iniciarRotacao();
-  });
+  const cancelarArraste = event => {
+    if (!inicioArraste || inicioArraste.pointerId !== event.pointerId) return;
+    inicioArraste = undefined;
+    carrossel.classList.remove("is-dragging");
+  };
+  carrossel.addEventListener("pointercancel", cancelarArraste);
+  carrossel.addEventListener("lostpointercapture", cancelarArraste);
   document.addEventListener("visibilitychange", iniciarRotacao);
 
   iniciarRotacao();
