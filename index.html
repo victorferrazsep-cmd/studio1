@@ -7229,6 +7229,35 @@ function confirmarAcao(mensagem, opcoes = {}) {
   return abrirDialogoSite(mensagem, true, opcoes);
 }
 
+function montarMensagemConfirmacaoAgendamento(template, evento) {
+  const data = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(evento.Data || ""));
+  if (!data) throw new Error("A data do agendamento está inválida.");
+  const hora = /^(\d{2}):(\d{2})$/.exec(String(evento.Hora || ""));
+  if (!hora) throw new Error("O horário do agendamento está inválido.");
+
+  const procedimento = [evento.Modalidade, evento.Tecnica, evento.Tipo]
+    .map(valor => String(valor || "").trim())
+    .filter(Boolean)
+    .join(" - ");
+  if (!procedimento) throw new Error("O procedimento do agendamento está incompleto.");
+
+  let mensagem = String(template || "");
+  const campos = [
+    { pattern: /^([ \t]*📅[ \t]*Data[ \t]*:[ \t]*).*$/im, value: `${data[3]}/${data[2]}` },
+    { pattern: /^([ \t]*⏰[ \t]*Horário[ \t]*:[ \t]*).*$/im, value: `${hora[1]}h${hora[2]}` },
+    { pattern: /^([ \t]*✨[ \t]*Procedimento[ \t]*:[ \t]*).*$/im, value: procedimento },
+  ];
+
+  for (const campo of campos) {
+    if (!campo.pattern.test(mensagem)) {
+      throw new Error("O modelo automático não contém todos os campos de confirmação esperados.");
+    }
+    mensagem = mensagem.replace(campo.pattern, (_linha, prefixo) => `${prefixo}${campo.value}`);
+  }
+
+  return mensagem;
+}
+
 function registrarFechamentoForaFormulario(alvo, fechar) {
   let aguardandoConfirmacao = false;
   alvo.addEventListener("click", async event => {
@@ -9526,6 +9555,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const autoMessageFormStatus = document.getElementById("autoMessageFormStatus");
   let autoMessageEditingId = null;
 
+  document.body.appendChild(autoWhatsAppModal);
+
   function definirEdicaoMensagemAuto(mensagem = null) {
     autoMessageForm.reset();
     autoMessageEditingId = mensagem?.id ?? null;
@@ -9576,6 +9607,15 @@ document.addEventListener("DOMContentLoaded", function() {
     return "";
   }
 
+  function normalizarNomeWhatsApp(nome) {
+    return String(nome || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLocaleLowerCase("pt-BR");
+  }
+
   function atualizarLinkWhatsApp() {
     const cliente = autoWhatsAppClient.selectedOptions[0];
     const telefone = cliente?.dataset.telefone;
@@ -9590,7 +9630,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  async function abrirModalEnviarMensagemAuto(mensagem, trigger) {
+  async function abrirModalEnviarMensagemAuto(mensagem, trigger, clienteNome = "") {
     const requestId = ++autoWhatsAppRequestId;
     autoWhatsAppTrigger = trigger;
     autoWhatsAppModal.classList.remove("hidden");
@@ -9616,13 +9656,28 @@ document.addEventListener("DOMContentLoaded", function() {
         const telefone = normalizarTelefoneWhatsApp(cliente.Telefone);
         const option = new Option(`${cliente.Nome} · ${formatarTelefoneCliente(cliente.Telefone)}`, telefone);
         option.dataset.telefone = telefone;
+        option.dataset.nome = String(cliente.Nome);
         autoWhatsAppClient.appendChild(option);
       });
 
       autoWhatsAppClient.disabled = !opcoes.length;
-      autoWhatsAppStatus.textContent = opcoes.length
-        ? `${opcoes.length} cliente(s) com telefone disponível.`
-        : "Nenhuma cliente possui telefone válido cadastrado.";
+      const correspondencias = clienteNome
+        ? [...autoWhatsAppClient.options].filter(option =>
+            normalizarNomeWhatsApp(option.dataset.nome) === normalizarNomeWhatsApp(clienteNome))
+        : [];
+      if (correspondencias.length === 1) {
+        autoWhatsAppClient.value = correspondencias[0].value;
+        atualizarLinkWhatsApp();
+      }
+      autoWhatsAppStatus.textContent = clienteNome
+        ? correspondencias.length === 1
+          ? `Mensagem pronta para ${clienteNome}.`
+          : correspondencias.length > 1
+            ? `Encontrei mais de uma cliente chamada ${clienteNome}; confira a destinatária.`
+            : `Não encontrei telefone válido para ${clienteNome}; selecione a cliente correta.`
+        : opcoes.length
+          ? `${opcoes.length} cliente(s) com telefone disponível.`
+          : "Nenhuma cliente possui telefone válido cadastrado.";
       requestAnimationFrame(() => autoWhatsAppClient.focus());
     } catch (error) {
       if (requestId !== autoWhatsAppRequestId) return;
@@ -9631,6 +9686,8 @@ document.addEventListener("DOMContentLoaded", function() {
       autoWhatsAppStatus.textContent = `Não foi possível carregar as clientes: ${error.message}`;
     }
   }
+
+  window.abrirModalEnviarMensagemAuto = abrirModalEnviarMensagemAuto;
 
   function fecharModalEnviarMensagemAuto() {
     autoWhatsAppRequestId += 1;
@@ -12397,6 +12454,44 @@ document.addEventListener("DOMContentLoaded", () => {
           abrirModalAnamnese(evento);
         }
       }, 2000);
+
+      if (!editando) {
+        const enviarConfirmacao = await confirmarAcao(
+          "Deseja enviar uma mensagem de confirmação no WhatsApp para esta cliente?",
+          {
+            titulo: "Agendamento realizado",
+            textoCancelar: "Fechar",
+            textoConfirmar: "Enviar WhatsApp"
+          }
+        );
+        if (enviarConfirmacao) {
+          try {
+            const { data: template, error } = await supabaseDataClient
+              .from("studio_mensagens_auto")
+              .select("id,titulo,mensagem")
+              .eq("titulo", "Confirmação de Agendamento")
+              .order("created_at", { ascending: false })
+              .order("id", { ascending: false })
+              .limit(1)
+              .maybeSingle();
+            if (error) throw error;
+            if (!template) throw new Error('Não encontrei a mensagem automática "Confirmação de Agendamento".');
+
+            await window.abrirModalEnviarMensagemAuto(
+              {
+                ...template,
+                mensagem: montarMensagemConfirmacaoAgendamento(template.mensagem, evento)
+              },
+              null,
+              String(evento.Cliente || "")
+            );
+          } catch (error) {
+            console.error("Erro ao preparar a confirmação de agendamento pelo WhatsApp:", error);
+            const detalhe = error instanceof Error ? error.message : String(error);
+            await mostrarAviso(`O agendamento foi salvo, mas não foi possível preparar a mensagem do WhatsApp: ${detalhe}`);
+          }
+        }
+      }
     } catch (err) {
       console.error("Erro ao salvar agendamento:", err);
       const mensagem = err instanceof Error ? err.message : String(err);
