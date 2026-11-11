@@ -2910,7 +2910,7 @@ button:active:not(:disabled) {
   margin: -2.5rem -2.5rem 1rem;
   padding: 1.25rem 2.5rem 0.75rem;
   background-image:
-    linear-gradient(to bottom, rgba(30, 30, 30, 0.02) 0%, rgba(30, 30, 30, 0.04) 56%, #1e1e1e 100%),
+    linear-gradient(to bottom, #1e1e1e 0%, rgba(30, 30, 30, 0.08) 18%, rgba(30, 30, 30, 0.04) 56%, #1e1e1e 100%),
     linear-gradient(to right, #1e1e1e 0%, rgba(30, 30, 30, 0.72) 42%, rgba(30, 30, 30, 0.08) 100%),
     url("Assets/header-folhas.png");
   background-size: 100% 100%, 100% 100%, auto 36rem;
@@ -3380,10 +3380,10 @@ button:active:not(:disabled) {
 #relatoriosPage > .reports-header::before {
   position: absolute;
   z-index: -1;
-  inset: 0;
+  inset: 0 -2.5rem;
   right: -2.5rem;
   background-image:
-    linear-gradient(to bottom, rgba(30, 30, 30, 0.02) 0%, rgba(30, 30, 30, 0.04) 56%, #1e1e1e 100%),
+    linear-gradient(to bottom, #1e1e1e 0%, rgba(30, 30, 30, 0.08) 18%, rgba(30, 30, 30, 0.04) 56%, #1e1e1e 100%),
     linear-gradient(to right, #1e1e1e 0%, rgba(30, 30, 30, 0.72) 42%, rgba(30, 30, 30, 0.08) 100%),
     url("Assets/header-folhas.png");
   background-repeat: no-repeat;
@@ -3843,6 +3843,7 @@ button:active:not(:disabled) {
   .page:not(#homePage) > .page-title-row::before,
   #relatoriosPage > .reports-header::before {
     top: calc(-1 * max(0.75rem, env(safe-area-inset-top, 0px)));
+    left: calc(-1 * max(0.75rem, env(safe-area-inset-left, 0px)));
     right: calc(-1 * max(0.75rem, env(safe-area-inset-right, 0px)));
     background-position: center, center, right 55%;
     background-size: 100% 100%, 100% 100%, cover;
@@ -4060,6 +4061,7 @@ button:active:not(:disabled) {
   .page:not(#homePage) > .page-title-row::before,
   #relatoriosPage > .reports-header::before {
     top: -1.25rem;
+    left: -1.25rem;
     right: -1.25rem;
     background-position: center, center, right 55%;
     background-size: 100% 100%, 100% 100%, calc(100% + 1rem) auto;
