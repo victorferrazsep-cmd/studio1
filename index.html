@@ -252,8 +252,20 @@
   }
 
   #modalAgendamentoContent {
-    max-width: 56rem;
+    max-width: 48rem;
     width: calc(100% - 2rem);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    padding: 1.25rem;
+  }
+
+  #formAgendamento {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  #formAgendamento > .agendamento-cliente-email-row {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   }
 
   #calendarAgenda .fc-scrollgrid,
@@ -482,47 +494,387 @@
   padding: 0.35rem 0.5rem;
 }
 
+.catalogo-procedimento-groups {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.catalogo-procedimento-group {
+  overflow: hidden;
+  border: 1px solid #353535;
+  border-radius: 0.5rem;
+  background: #252525;
+}
+
+.catalogo-procedimento-group-toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 0.75rem;
+  align-items: center;
+  width: 100%;
+  min-height: 2.5rem;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(244, 191, 174, 0.22);
+  border-radius: 0.45rem;
+  background: rgba(244, 191, 174, 0.09);
+  color: var(--rose);
+  text-align: left;
+  cursor: pointer;
+}
+
+.catalogo-procedimento-group-toggle:hover,
+.catalogo-procedimento-group-toggle[aria-expanded="true"] {
+  border-color: rgba(244, 191, 174, 0.48);
+  background: rgba(244, 191, 174, 0.15);
+  color: var(--rose);
+}
+
+.catalogo-procedimento-group-count {
+  color: #aaa5a4;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.catalogo-procedimento-group-chevron {
+  color: #aaa5a4;
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.catalogo-procedimento-group-toggle[aria-expanded="true"] .catalogo-procedimento-group-chevron {
+  transform: rotate(90deg);
+}
+
+.catalogo-procedimento-group-list {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1rem 0.5rem 0.5rem;
+}
+
+.catalogo-procedimento-group-list[hidden] {
+  display: none;
+}
+
 .catalogo-agendamento-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.65rem 0;
-}
-
-.catalogo-agendamento-item:last-child {
-  border-bottom: 0;
-}
-
-#listaCatalogoAgendamentos button {
-  border: 0;
-  background: transparent;
-  color: var(--rose);
-  cursor: pointer;
+  min-width: 0;
+  gap: 0.5rem;
   padding: 0.35rem 0.5rem;
+  border: 1px solid #353535;
+  border-radius: 0.4rem;
+  background: #1e1e1e;
 }
 
-.catalogo-modalidade-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  margin: 0.35rem 0.35rem 0 0;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(244, 191, 174, 0.35);
-  border-radius: 9999px;
+.catalogo-agendamento-item.catalogo-agendamento-duplicado {
+  border-color: rgba(245, 158, 11, 0.75);
+  background: rgba(120, 67, 16, 0.22);
+}
+
+.catalogo-agendamento-item > span {
+  min-width: 0;
   color: #e5e7eb;
-  font-size: 0.875rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
-.catalogo-modalidade-item button {
+.catalogo-agendamento-duplicado-badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.08rem 0.35rem;
+  border: 1px solid rgba(245, 158, 11, 0.65);
+  border-radius: 999px;
+  background: rgba(120, 67, 16, 0.38);
+  color: #fbbf24;
+  font-size: 0.62rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+#listaCatalogoAgendamentos .catalogo-procedimento-group-toggle {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+#listaCatalogoAgendamentos [data-remover-procedimento] {
+  flex: 0 0 auto;
+}
+
+#configuracoesPage .catalogo-agendamento-item [data-remover-procedimento],
+#configuracoesPage .catalogo-modalidade-row [data-remover-modalidade] {
+  box-sizing: border-box;
+  display: grid;
+  flex: 0 0 1.8rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  min-height: 1.8rem;
+  align-self: center;
+  place-items: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.catalogo-agendamento-item [data-remover-procedimento],
+.catalogo-modalidade-row [data-remover-modalidade] {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  min-height: 1.8rem;
+  place-items: center;
+  padding: 0;
   border: 0;
   background: transparent;
+  color: #d89a8d;
+  font-size: 0.75rem;
+}
+
+.catalogo-agendamento-item [data-remover-procedimento]:hover,
+.catalogo-modalidade-row [data-remover-modalidade]:hover {
   color: var(--rose);
+  transform: scale(1.08);
+}
+
+.catalogo-agendamento-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.7rem;
+}
+
+#modalCatalogoAgendamentos[hidden],
+#formCatalogoAgendamentos[hidden] {
+  display: none;
+}
+
+.catalogo-agendamento-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.catalogo-agendamento-heading-copy {
+  min-width: 0;
+  padding-top: 0.1rem;
+}
+
+#configuracoesPage .card .catalogo-agendamento-heading h3 {
+  margin: 0;
+  color: #fff7f4;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+#configuracoesPage .card .catalogo-agendamento-heading p {
+  margin: 0.25rem 0 0;
+  color: #aaa6a8;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.catalogo-agendamento-form-toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 1.9rem;
+  padding: 0.35rem 0.6rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: var(--rose);
+  color: #171313;
+  font-size: 0.68rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 1.15rem;
-  line-height: 1;
-  padding: 0.1rem 0.25rem;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.18);
+}
+
+.catalogo-agendamento-form-toggle:hover {
+  background: #ffd2c2;
+}
+
+.catalogo-agendamento-form-toggle:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 2px;
+}
+
+#configuracoesPage button.catalogo-agendamento-form-toggle {
+  min-height: 1.9rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.68rem;
+  line-height: 1.2;
+}
+
+#modalCatalogoAgendamentos {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+#modalCatalogoAgendamentosContent {
+  box-sizing: border-box;
+  width: min(100%, 36rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 191, 174, 0.2);
+  border-radius: 1rem;
+  background: linear-gradient(155deg, #24262d 0%, #1b1d23 100%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+  color: #e8e4e3;
+}
+
+#formCatalogoAgendamentos > label {
+  color: #d7d1d1;
+  font-size: 0.68rem;
+}
+
+#formCatalogoAgendamentos > label:first-child,
+#formCatalogoAgendamentos > label:nth-child(2),
+#formCatalogoAgendamentos > button[type="button"],
+#formCatalogoAgendamentos > button[type="submit"] {
+  grid-column: 1 / -1;
+}
+
+#formCatalogoAgendamentos > button[type="button"] {
+  width: 100%;
+  justify-self: center;
+  margin: 0.15rem 0 0;
+  padding: 0.65rem 0.75rem 0.25rem;
+  border: 0;
+  border-top: 1px solid rgba(244, 191, 174, 0.16);
+  background: transparent;
+  color: #bdb8b8;
+  font-size: 0.72rem;
+}
+
+#formCatalogoAgendamentos > button[type="button"]:hover {
+  color: #fff;
+}
+
+#formCatalogoAgendamentos > button[type="submit"] {
+  min-height: 2.35rem;
+  margin-top: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+#formCatalogoAgendamentos input,
+#formCatalogoAgendamentos select {
+  color: #4b5563 !important;
+}
+
+.catalogo-agendamento-form > label {
+  min-width: 0;
+  font-size: 0.75rem;
+}
+
+#configuracoesPage #formCatalogoAgendamentos input:not([type="radio"]):not([type="checkbox"]),
+#configuracoesPage #formCatalogoAgendamentos select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 2.1rem;
+  min-height: 2.1rem;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.72rem;
+}
+
+.catalogo-agendamento-form > button {
+  min-height: 2.1rem;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.7rem;
+}
+
+#configuracoesPage .catalogo-modalidades-toggle,
+#configuracoesPage .catalogo-procedimento-group-toggle {
+  font-size: 0.8rem;
+}
+
+.catalogo-modalidades-list {
+  overflow: hidden;
+  border: 1px solid #353535;
+  border-radius: 0.5rem;
+  background: #252525;
+}
+
+.catalogo-modalidades-toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 0.75rem;
+  align-items: center;
+  width: 100%;
+  min-height: 2.4rem;
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid rgba(244, 191, 174, 0.28);
+  border-radius: 0.45rem;
+  background: rgba(244, 191, 174, 0.11);
+  color: var(--rose);
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.catalogo-modalidades-toggle:hover,
+.catalogo-modalidades-toggle[aria-expanded="true"] {
+  border-color: rgba(244, 191, 174, 0.55);
+  background: rgba(244, 191, 174, 0.18);
+  color: var(--rose);
+}
+
+.catalogo-modalidades-toggle i {
+  color: #aaa5a4;
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.catalogo-modalidades-toggle[aria-expanded="true"] i {
+  transform: rotate(90deg);
+}
+
+.catalogo-modalidades-count {
+  color: #aaa5a4;
+  font-size: 0.68rem;
+}
+
+.catalogo-modalidades-rows {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 0.45rem 0.45rem;
+}
+
+.catalogo-modalidades-rows[hidden] {
+  display: none;
+}
+
+.catalogo-modalidade-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  min-height: 2rem;
+  gap: 0.5rem;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid #353535;
+  border-radius: 0.4rem;
+  background: #1e1e1e;
+  color: #e5e7eb;
+  font-size: 0.72rem;
 }
 
 #calendarAgenda .fc-day-bloqueado {
@@ -590,15 +942,15 @@
     padding-right: 3rem;
   }
 
-  #homePage > .text-center.mb-8 {
+  #homePage > .home-brand-header {
     position: relative;
   }
 
   .page-notification-icon {
     position: absolute;
     z-index: 2;
-    top: 50%;
-    right: 0;
+    top: 0.75rem;
+    right: 0.75rem;
     display: grid;
     width: 2rem;
     height: 2rem;
@@ -606,21 +958,51 @@
     place-items: center;
     padding: 0;
     border: 0;
+    border-radius: 0;
     background: transparent;
     color: var(--rose);
     font-size: 1.15rem;
     cursor: pointer;
-    transform: translateY(-50%);
+    animation: none !important;
+    transform: none !important;
+    transition: color 0.2s ease, border-color 0.2s ease !important;
   }
 
   .page-notification-icon:hover,
   .page-notification-icon:focus-visible {
-    transform: translateY(-50%);
     color: #ffd2c2;
+    background: transparent;
   }
 
-  #homePage > .text-center.mb-8 .page-notification-icon {
-    top: 0.25rem;
+  #homePage > .home-brand-header .page-notification-icon {
+    top: 0.75rem;
+    background: transparent;
+  }
+
+  #homePage > .home-brand-header .page-notification-icon:hover,
+  #homePage > .home-brand-header .page-notification-icon:focus-visible {
+    background: transparent;
+  }
+
+  .page-notification-icon svg {
+    display: block;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: #000;
+    stroke: var(--rose);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .page-notification-icon .bell-black-outline {
+    stroke: #000;
+    stroke-width: 4.4;
+  }
+
+  .page-notification-icon .bell-pink-outline {
+    stroke: var(--rose);
+    stroke-width: 1.6;
   }
   
   /* 🔹 Classe para esconder a sidebar fora da tela */
@@ -658,50 +1040,56 @@
   }
 
   .site-dialog {
-    width: min(92vw, 28rem);
+    width: min(92vw, 36rem);
     max-width: none;
     padding: 0;
-    border: 1px solid rgba(244, 191, 174, 0.45);
+    border: 1px solid rgba(244, 191, 174, 0.2);
     border-radius: 1rem;
-    background: #252525;
+    background: linear-gradient(155deg, #24262d 0%, #1b1d23 100%);
     color: var(--texto);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.65);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
   }
 
   .site-dialog::backdrop {
     background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .site-dialog-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .site-dialog-title {
     margin: 0;
-    color: var(--rose);
-    font-size: 1.15rem;
+    color: #fff7f4;
+    font-size: 1.05rem;
     font-weight: 700;
   }
 
   .site-dialog-message {
-    margin: 0.8rem 0 1.4rem;
-    color: #e5e5e5;
-    line-height: 1.5;
+    margin: 0.22rem 0 0;
+    color: #aaa6a8;
+    font-size: 0.74rem;
+    line-height: 1.4;
     overflow-wrap: anywhere;
   }
 
   .site-dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
   }
 
   .site-dialog-button {
-    min-width: 6rem;
-    padding: 0.6rem 1rem;
-    border-radius: 0.5rem;
+    width: 100%;
+    min-height: 2rem;
+    padding: 0.35rem 0.75rem;
+    border: 0;
+    border-radius: 0.55rem;
     font-weight: 600;
+    font-size: 0.72rem;
+    line-height: 1.2;
     transition: background-color 0.2s ease, transform 0.2s ease;
   }
 
@@ -711,23 +1099,36 @@
   }
 
   .site-dialog-button-cancel {
-    border: 1px solid #555;
-    background: #353535;
-    color: #f3f3f3;
+    background: transparent;
+    color: #bdb8b8;
   }
 
   .site-dialog-button-cancel:hover {
-    background: #454545;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
   }
 
   .site-dialog-button-confirm {
+    min-height: 2.35rem;
+    font-size: 0.8rem;
     background: var(--rose);
-    color: #111;
-    box-shadow: 0 0 10px rgba(244, 191, 174, 0.3);
+    color: #171313;
+    box-shadow: 0 8px 20px rgba(244, 191, 174, 0.16);
   }
 
   .site-dialog-button-confirm:hover {
     background: #ffd2c2;
+  }
+
+  .site-dialog .app-form-heading {
+    margin-bottom: 0;
+  }
+
+  .site-dialog[data-confirmation="true"] .site-dialog-actions {
+    gap: 0.2rem;
+    margin-top: 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(244, 191, 174, 0.16);
   }
 
   .btn-primary {
@@ -1049,7 +1450,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.75rem;
 }
 
@@ -1137,6 +1538,13 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 1.5rem;
+}
+
+#boxFinanceiro2Content {
+  box-sizing: border-box;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 #boxClienteContent #tituloCliente {
@@ -1878,11 +2286,45 @@ button:active:not(:disabled) {
 @media (max-width: 640px) {
   .agendamento-detalhes-row,
   .agendamento-valores-row {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .agendamento-detalhes-row > :last-child,
+  .agendamento-valores-row > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  .catalogo-agendamento-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #configuracoesPage #formCatalogoAgendamentos input:not([type="radio"]):not([type="checkbox"]),
+  #configuracoesPage #formCatalogoAgendamentos select {
+    height: 2.5rem;
+    min-height: 2.5rem;
+  }
+
+  .catalogo-agendamento-form > label:first-child,
+  .catalogo-agendamento-form > #catalogoNovaModalidadeField {
+    grid-column: 1 / -1;
+  }
+
+  .catalogo-agendamento-form > button {
+    grid-column: 1 / -1;
   }
 
   #modalAgendamentoContent {
-    padding: 1rem;
+    padding: 0.85rem;
+  }
+
+  #formAgendamento > .agendamento-cliente-email-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1050px) {
+  .catalogo-agendamento-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -2458,6 +2900,48 @@ button:active:not(:disabled) {
   max-width: 100%;
 }
 
+#homePage > .home-brand-header {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 12rem;
+  margin: -2.5rem -2.5rem 1rem;
+  padding: 1.25rem 2.5rem 0.75rem;
+  background-image:
+    linear-gradient(to bottom, rgba(30, 30, 30, 0.02) 0%, rgba(30, 30, 30, 0.04) 56%, #1e1e1e 100%),
+    linear-gradient(to right, #1e1e1e 0%, rgba(30, 30, 30, 0.72) 42%, rgba(30, 30, 30, 0.08) 100%),
+    url("Assets/header-folhas.png");
+  background-size: 100% 100%, 100% 100%, auto 36rem;
+  background-position: center, center, calc(100% + 1%) 55%;
+  background-repeat: no-repeat;
+}
+
+#homePage > .home-brand-header img {
+  position: relative;
+  z-index: 1;
+  width: min(20rem, 100%);
+  height: auto;
+  margin: 0;
+}
+
+.app-foliage-footer {
+  position: relative;
+  isolation: isolate;
+  min-height: 2.5rem;
+  margin-top: 1.5rem;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.app-foliage-footer::before {
+  position: absolute;
+  inset: 0;
+  background: url("Assets/folhas-neon-rosa-transparente.png") right 68% / auto 42rem no-repeat;
+  content: "";
+}
+
 .home-section-heading {
   display: flex;
   align-items: center;
@@ -2883,6 +3367,30 @@ button:active:not(:disabled) {
   justify-content: space-between;
   gap: 1rem;
   margin: 0 0 1.25rem;
+}
+
+.page:not(#homePage) > .page-title-row,
+#relatoriosPage > .reports-header {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.page:not(#homePage) > .page-title-row::before,
+#relatoriosPage > .reports-header::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  right: -2.5rem;
+  background-image:
+    linear-gradient(to bottom, rgba(30, 30, 30, 0.02) 0%, rgba(30, 30, 30, 0.04) 56%, #1e1e1e 100%),
+    linear-gradient(to right, #1e1e1e 0%, rgba(30, 30, 30, 0.72) 42%, rgba(30, 30, 30, 0.08) 100%),
+    url("Assets/header-folhas.png");
+  background-repeat: no-repeat;
+  background-position: center, center, right 55%;
+  background-size: 100% 100%, 100% 100%, cover;
+  content: "";
+  pointer-events: none;
 }
 
 .page-heading {
@@ -3327,8 +3835,17 @@ button:active:not(:disabled) {
     left: 1.25rem;
   }
 
-  #homePage > .text-center.mb-8 .page-notification-icon {
-    top: calc(0.5rem + env(safe-area-inset-top, 0px));
+  #homePage > .home-brand-header .page-notification-icon {
+    top: calc(0.75rem + env(safe-area-inset-top, 0px));
+    right: max(0.75rem, env(safe-area-inset-right, 0px));
+  }
+
+  .page:not(#homePage) > .page-title-row::before,
+  #relatoriosPage > .reports-header::before {
+    top: calc(-1 * max(0.75rem, env(safe-area-inset-top, 0px)));
+    right: calc(-1 * max(0.75rem, env(safe-area-inset-right, 0px)));
+    background-position: center, center, right 55%;
+    background-size: 100% 100%, 100% 100%, cover;
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
@@ -3540,8 +4057,30 @@ button:active:not(:disabled) {
     padding-left: 1.25rem;
   }
 
-  #homePage > .text-center.mb-8 .page-notification-icon {
-    top: 1.5rem;
+  .page:not(#homePage) > .page-title-row::before,
+  #relatoriosPage > .reports-header::before {
+    top: -1.25rem;
+    right: -1.25rem;
+    background-position: center, center, right 55%;
+    background-size: 100% 100%, 100% 100%, calc(100% + 1rem) auto;
+  }
+
+  #homePage > .home-brand-header {
+    justify-content: center;
+    min-height: 10rem;
+    margin: -1.25rem -1.25rem 1rem;
+    padding: 1rem 1.25rem;
+    background-size: 100% 100%, 100% 100%, calc(100% + 1rem) auto;
+    background-position: center, center, -0.5rem 55%;
+  }
+
+  #homePage > .home-brand-header img {
+    width: min(18rem, 52%);
+  }
+
+  #homePage > .home-brand-header .page-notification-icon {
+    top: 0.75rem;
+    right: 0.75rem;
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
@@ -3839,14 +4378,16 @@ button:active:not(:disabled) {
     border-color: rgba(244, 191, 174, 0.05) !important;
   }
 
-  #homePage > .text-center.mb-8 {
-    margin-bottom: 1.25rem;
+  #homePage > .home-brand-header {
+    justify-content: center;
+    min-height: 10rem;
+    margin: -1rem -0.75rem 1rem;
+    padding: 1.25rem 0.5rem 0.75rem;
+    background-size: 100% 100%, 100% 100%, auto 24rem;
   }
 
-  #homePage > .text-center.mb-8 img {
-    width: min(18rem, 100%) !important;
-    height: auto;
-    margin-bottom: 0.75rem;
+  #homePage > .home-brand-header img {
+    width: min(15rem, 100%);
   }
 
   .home-metric-grid,
@@ -4198,7 +4739,8 @@ button:active:not(:disabled) {
   }
 
   #boxCliente,
-  #modalAgendamento {
+  #modalAgendamento,
+  #boxFinanceiro2 {
     align-items: flex-start;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -4209,7 +4751,8 @@ button:active:not(:disabled) {
   }
 
   #boxClienteContent,
-  #modalAgendamentoContent {
+  #modalAgendamentoContent,
+  #boxFinanceiro2Content {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
@@ -4225,13 +4768,51 @@ button:active:not(:disabled) {
     gap: 0.75rem;
   }
 
+  #modalAgendamentoContent {
+    padding: 0.85rem;
+  }
+
   .agendamento-data-hora-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .agendamento-detalhes-row,
   .agendamento-valores-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .agendamento-detalhes-row > :last-child,
+  .agendamento-valores-row > :last-child {
+    grid-column: 1 / -1;
+  }
+
+  #formAgendamento > .agendamento-cliente-email-row {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .catalogo-agendamento-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .catalogo-agendamento-form > label:first-child,
+  .catalogo-agendamento-form > #catalogoNovaModalidadeField,
+  .catalogo-agendamento-form > button {
+    grid-column: 1 / -1;
+  }
+
+  #configuracoesPage #listaCatalogoAgendamentos button {
+    height: auto;
+    min-height: 0;
+    font-size: 0.7rem;
+  }
+
+  #configuracoesPage #formCatalogoAgendamentos {
+    display: grid;
+  }
+
+  #configuracoesPage #listaCatalogoAgendamentos .catalogo-procedimento-group-toggle {
+    min-height: 2.5rem;
+    font-size: 0.8rem;
   }
 
   #formAgendamento > .flex.justify-between.items-center {
@@ -4425,7 +5006,8 @@ button:active:not(:disabled) {
 
 @media (max-width: 900px) and (max-height: 600px) {
   #boxCliente,
-  #modalAgendamento {
+  #modalAgendamento,
+  #boxFinanceiro2 {
     align-items: flex-start;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -4433,7 +5015,8 @@ button:active:not(:disabled) {
   }
 
   #boxClienteContent,
-  #modalAgendamentoContent {
+  #modalAgendamentoContent,
+  #boxFinanceiro2Content {
     box-sizing: border-box;
     max-height: calc(100dvh - 1rem);
     overflow-y: auto;
@@ -4443,6 +5026,811 @@ button:active:not(:disabled) {
   #modalAnamneseContent {
     max-height: calc(100dvh - 1rem);
     overflow-y: auto;
+  }
+}
+
+#boxClienteContent,
+#modalAgendamentoContent,
+#modalAnamneseContent,
+#boxFinanceiro2Content {
+  border-radius: 1rem;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.38);
+}
+
+#boxClienteContent,
+#modalAgendamentoContent,
+#modalAnamneseContent,
+#boxFinanceiro2Content {
+  padding: 1.15rem;
+}
+
+#boxClienteContent #tituloCliente,
+#modalAgendamentoContent > h2,
+#modalAnamneseContent > h2,
+#boxFinanceiro2Content > h2 {
+  margin-bottom: 0.85rem;
+  font-size: 1.15rem;
+}
+
+#formCliente,
+#formAgendamento,
+#formAnamnese {
+  display: grid;
+  gap: 0.7rem;
+}
+
+#formAgendamento > *,
+#formFinanceiro2 > *,
+#formAnamnese > * {
+  margin-top: 0;
+}
+
+#boxClienteContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#boxClienteContent select,
+#boxClienteContent textarea,
+#modalAgendamentoContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#modalAgendamentoContent select,
+#modalAgendamentoContent textarea,
+#modalAnamneseContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#modalAnamneseContent select,
+#modalAnamneseContent textarea,
+#boxFinanceiro2 input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#boxFinanceiro2 select,
+#boxFinanceiro2 textarea {
+  min-height: 2.4rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.55rem;
+}
+
+#boxFinanceiro2Content {
+  width: min(100%, 36rem);
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 191, 174, 0.28);
+  background: linear-gradient(145deg, #292727, #202020);
+}
+
+#formFinanceiro2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem 0.85rem;
+}
+
+#formFinanceiro2 > div:nth-child(5),
+#formFinanceiro2 > div:last-child {
+  grid-column: 1 / -1;
+}
+
+#formFinanceiro2 > div:not(.flex) label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #e8c5bb;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+#boxFinanceiro2 input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#boxFinanceiro2 select,
+#boxFinanceiro2 textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #d8c8c3;
+  background: #f8f5f4;
+  color: #414047 !important;
+  font-size: 0.9rem;
+}
+
+#boxFinanceiro2 select:disabled {
+  background: #e8e4e2;
+  color: #77716f !important;
+}
+
+#formFinanceiro2 .flex.justify-end.gap-3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 900px) {
+  #boxClienteContent,
+  #modalAgendamentoContent,
+  #modalAnamneseContent,
+  #boxFinanceiro2Content {
+    padding: 0.9rem;
+  }
+
+  #boxClienteContent .cliente-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  #boxClienteContent .cliente-form-field-wide,
+  #boxClienteContent .cliente-form-actions {
+    grid-column: 1 / -1;
+  }
+
+  #boxClienteContent .cliente-form-actions {
+    margin-top: 0.15rem;
+    padding-top: 0.65rem;
+  }
+
+  #formAgendamento > .agendamento-form-row {
+    gap: 0.55rem;
+  }
+
+  #formAgendamento > .flex.justify-end.gap-3 {
+    margin-top: 0.75rem;
+  }
+
+  #formAnamnese fieldset {
+    padding: 0.65rem;
+  }
+
+  #formAnamnese fieldset .grid.grid-cols-2 {
+    gap: 0.6rem;
+  }
+}
+
+@media (max-width: 380px) {
+  #boxClienteContent .cliente-form-grid,
+  #formFinanceiro2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #boxClienteContent .cliente-form-field {
+    grid-column: 1 / -1;
+  }
+
+  #formFinanceiro2 > div:not(.flex) {
+    grid-column: 1 / -1;
+  }
+}
+
+#boxCliente {
+  padding: 1rem;
+}
+
+#boxClienteContent {
+  width: min(100%, 36rem);
+  padding: 1.5rem;
+  border: 1px solid rgba(244, 191, 174, 0.18);
+  background: linear-gradient(155deg, #24262d 0%, #1b1d23 100%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+}
+
+#boxClienteContent #tituloCliente {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.cliente-form-heading {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.cliente-form-heading-icon {
+  display: grid;
+  flex: 0 0 2.8rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  place-items: center;
+  border: 1px solid rgba(244, 191, 174, 0.42);
+  border-radius: 0.9rem;
+  background: linear-gradient(145deg, rgba(244, 191, 174, 0.24), rgba(244, 191, 174, 0.08));
+  color: var(--rose);
+  font-size: 1.05rem;
+}
+
+.cliente-form-heading h2 {
+  margin: 0;
+  color: #fff7f4;
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.cliente-form-heading p {
+  margin: 0.25rem 0 0;
+  color: #aaa6a8;
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+#formCliente {
+  gap: 0.8rem 0.9rem;
+}
+
+#formCliente .cliente-form-field > label {
+  margin-bottom: 0.3rem;
+  color: #d7d1d1;
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+}
+
+#boxClienteContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#boxClienteContent select,
+#boxClienteContent textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.3rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #393d47;
+  border-radius: 0.62rem;
+  background: #292d38;
+  color: #f3eeee !important;
+  font-size: 0.78rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+#boxClienteContent input::placeholder,
+#boxClienteContent textarea::placeholder {
+  color: #85858d;
+  opacity: 1;
+  font-size: 0.72rem;
+}
+
+#boxClienteContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#boxClienteContent select:focus,
+#boxClienteContent textarea:focus {
+  border-color: var(--rose) !important;
+  background: #2d303a;
+  box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.12);
+}
+
+#formCliente .cliente-form-field-wide {
+  grid-column: 1 / -1;
+}
+
+#formCliente .cliente-form-field-wide > .status-filter-options {
+  display: inline-flex;
+  padding: 0.22rem;
+  gap: 0.25rem;
+  border: 1px solid #393d47;
+  border-radius: 0.7rem;
+  background: #20232b;
+}
+
+#formCliente .status-filter-option span {
+  height: 1.9rem;
+  padding: 0.35rem 0.8rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #b7b2b3;
+  font-size: 0.74rem;
+}
+
+#formCliente .status-filter-option input:checked + span {
+  border-color: rgba(244, 191, 174, 0.3);
+  background: rgba(244, 191, 174, 0.16);
+  color: #ffe4da;
+}
+
+#formCliente .cliente-form-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-column: 1 / -1;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+#formCliente .cliente-form-actions button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid rgba(255, 232, 224, 0.35);
+  border-radius: 0.68rem;
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c !important;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 20px rgba(244, 191, 174, 0.16) !important;
+}
+
+#formCliente .cliente-form-actions button[type="submit"]:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+#formCliente #fecharBoxCliente {
+  justify-self: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: #aaa6a8;
+  font-size: 0.75rem;
+}
+
+#formCliente #fecharBoxCliente:hover {
+  background: transparent;
+  color: #fff7f4;
+}
+
+@media (max-width: 640px) {
+  #boxCliente {
+    padding: max(0.75rem, env(safe-area-inset-top, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px))
+      max(0.75rem, env(safe-area-inset-bottom, 0px))
+      max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  #boxClienteContent {
+    width: 100%;
+    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    padding: 1rem;
+  }
+
+  .cliente-form-heading {
+    gap: 0.55rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .cliente-form-heading-icon {
+    flex-basis: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.8rem;
+  }
+
+  .cliente-form-heading h2 {
+    font-size: 1.05rem;
+  }
+
+  #formCliente {
+    gap: 0.65rem;
+  }
+
+  #formCliente .cliente-form-field > label {
+    font-size: 0.64rem;
+  }
+
+  #boxClienteContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  #boxClienteContent select,
+  #boxClienteContent textarea {
+    min-height: 2.15rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 14px;
+  }
+
+  #formCliente .cliente-form-actions {
+    padding-top: 0.65rem;
+  }
+}
+
+.app-form-heading {
+  display: grid;
+  justify-items: start;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.app-form-heading-icon {
+  display: grid;
+  width: 2.55rem;
+  height: 2.55rem;
+  place-items: center;
+  border: 1px solid rgba(244, 191, 174, 0.4);
+  border-radius: 0.8rem;
+  background: linear-gradient(145deg, rgba(244, 191, 174, 0.22), rgba(244, 191, 174, 0.07));
+  color: var(--rose);
+  font-size: 0.95rem;
+}
+
+.app-form-heading h2,
+.app-form-heading h3,
+.app-form-title-copy h3 {
+  margin: 0;
+  color: #fff7f4;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.app-form-heading p,
+.app-form-title-copy p {
+  margin: 0.22rem 0 0;
+  color: #aaa6a8;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+#modalAgendamentoContent,
+#modalAnamneseContent,
+#boxFinanceiro2Content,
+.auto-message-modal-content,
+#homeShareDialog {
+  border: 1px solid rgba(244, 191, 174, 0.2);
+  border-radius: 1rem;
+  background: linear-gradient(155deg, #24262d 0%, #1b1d23 100%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48);
+}
+
+#formBloqueioAgenda,
+#formAgendamento,
+#formAnamnese,
+#formCatalogoAgendamentos,
+#autoMessageForm,
+#autoWhatsAppForm,
+#formFinanceiro2 {
+  color: #e8e4e3;
+}
+
+#formBloqueioAgenda label,
+#formAgendamento > div:not(.flex) > div > label,
+#formAnamnese label,
+#formCatalogoAgendamentos > label,
+#autoMessageForm label,
+#autoWhatsAppForm label,
+#formFinanceiro2 > div:not(.flex) label {
+  color: #d7d1d1;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+}
+
+#formBloqueioAgenda input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#formAgendamento input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#formAgendamento select,
+#formAgendamento textarea,
+#formAnamnese input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#formAnamnese select,
+#formAnamnese textarea,
+#formCatalogoAgendamentos input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#formCatalogoAgendamentos select,
+#autoMessageForm input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#autoMessageForm select,
+#autoMessageForm textarea,
+#autoWhatsAppForm input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#autoWhatsAppForm select,
+#autoWhatsAppForm textarea,
+#formFinanceiro2 input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#formFinanceiro2 select,
+#formFinanceiro2 textarea {
+  box-sizing: border-box;
+  min-height: 2.3rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #393d47;
+  border-radius: 0.62rem;
+  background: #292d38;
+  color: #f3eeee !important;
+  font-size: 0.78rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+#formBloqueioAgenda input::placeholder,
+#formAgendamento input::placeholder,
+#formAgendamento textarea::placeholder,
+#formAnamnese input::placeholder,
+#formAnamnese textarea::placeholder,
+#formCatalogoAgendamentos input::placeholder,
+#autoMessageForm input::placeholder,
+#autoMessageForm textarea::placeholder,
+#autoWhatsAppForm textarea::placeholder,
+#formFinanceiro2 input::placeholder {
+  color: #85858d;
+  opacity: 1;
+  font-size: 0.72rem;
+}
+
+#formBloqueioAgenda input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#formAgendamento input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#formAgendamento select:focus,
+#formAgendamento textarea:focus,
+#formAnamnese input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#formAnamnese select:focus,
+#formAnamnese textarea:focus,
+#formCatalogoAgendamentos input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#formCatalogoAgendamentos select:focus,
+#autoMessageForm input:focus,
+#autoMessageForm textarea:focus,
+#autoWhatsAppForm select:focus,
+#autoWhatsAppForm textarea:focus,
+#formFinanceiro2 input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#formFinanceiro2 select:focus,
+#formFinanceiro2 textarea:focus {
+  border-color: var(--rose) !important;
+  background: #2d303a;
+  box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.12);
+}
+
+#formBloqueioAgenda button[type="submit"],
+#formAgendamento button[type="submit"],
+#formAnamnese button[type="submit"],
+#formCatalogoAgendamentos button[type="submit"],
+#autoMessageForm button[type="submit"],
+#formFinanceiro2 button[type="submit"],
+#homeShareForm button[type="submit"] {
+  min-height: 2.55rem;
+  border: 1px solid rgba(255, 232, 224, 0.35);
+  border-radius: 0.65rem;
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(244, 191, 174, 0.14);
+}
+
+#formBloqueioAgenda button[type="submit"]:hover,
+#formAgendamento button[type="submit"]:hover,
+#formAnamnese button[type="submit"]:hover,
+#formCatalogoAgendamentos button[type="submit"]:hover,
+#autoMessageForm button[type="submit"]:hover,
+#formFinanceiro2 button[type="submit"]:hover,
+#homeShareForm button[type="submit"]:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+#formFinanceiro2 #fecharBoxFinanceiro2,
+#homeShareForm #homeShareCancel,
+#autoMessageForm #autoMessageCancel {
+  min-height: 2.45rem;
+  border: 1px solid #393d47;
+  border-radius: 0.65rem;
+  background: #292d38;
+  color: #e8e4e3;
+  font-size: 0.78rem;
+  box-shadow: none;
+}
+
+#formFinanceiro2 #fecharBoxFinanceiro2 {
+  justify-self: center;
+  min-height: 2rem;
+  padding: 0.3rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: #aaa6a8;
+}
+
+#formFinanceiro2 #fecharBoxFinanceiro2:hover {
+  border: 0;
+  background: transparent;
+  color: #fff7f4;
+}
+
+#formFinanceiro2 button[type="submit"] {
+  width: 100%;
+}
+
+#formFinanceiro2 select:disabled {
+  border-color: #3a3e48;
+  background: #23262e;
+  color: #85858d !important;
+  opacity: 1;
+}
+
+#formFinanceiro2 #fecharBoxFinanceiro2:hover,
+#homeShareForm #homeShareCancel:hover,
+#autoMessageForm #autoMessageCancel:hover {
+  border-color: rgba(244, 191, 174, 0.4);
+  background: #323640;
+  color: #fff7f4;
+}
+
+#formBloqueioAgenda input,
+#formAgendamento input:not([type="checkbox"]),
+#formAnamnese input:not([type="radio"]):not([type="checkbox"]),
+#formCatalogoAgendamentos input,
+#autoMessageForm input,
+#autoWhatsAppForm select,
+#formFinanceiro2 input,
+#formFinanceiro2 select {
+  width: 100%;
+}
+
+#formCatalogoAgendamentos select {
+  width: 100%;
+}
+
+#painelBloqueiosAgenda {
+  border: 1px solid rgba(244, 191, 174, 0.2);
+  border-radius: 1rem;
+  background: linear-gradient(155deg, #24262d 0%, #1b1d23 100%);
+}
+
+#formBloqueioAgenda {
+  align-items: end;
+}
+
+#formBloqueioAgenda > div {
+  min-width: 0;
+}
+
+#formBloqueioAgenda > div:first-child {
+  width: min(100%, 12rem);
+}
+
+#formBloqueioAgenda > div:nth-child(2) {
+  flex: 1 1 14rem;
+}
+
+#modalAgendamentoContent .app-form-heading,
+#modalAnamneseContent .app-form-heading,
+#boxFinanceiro2Content .app-form-heading {
+  margin-bottom: 1.1rem;
+}
+
+#formAgendamento > .agendamento-form-row {
+  gap: 0.7rem;
+}
+
+#formAgendamento .agendamento-valor-dia {
+  border-color: rgba(244, 191, 174, 0.2);
+  border-radius: 0.7rem;
+  background: #292d38;
+}
+
+#formAnamnese fieldset {
+  border-color: #393d47;
+  border-radius: 0.75rem;
+  background: rgba(32, 35, 43, 0.55);
+}
+
+#formAnamnese fieldset legend {
+  color: var(--rose);
+  font-size: 0.8rem;
+}
+
+#formAnamnese input[type="radio"],
+#formAnamnese input[type="checkbox"],
+#formAgendamento input[type="checkbox"],
+#homeShareForm input[type="checkbox"] {
+  accent-color: var(--rose);
+}
+
+#formAnamnese .relative.w-full.h-32 {
+  overflow: hidden;
+  border: 1px solid #393d47;
+  background: #f8f5f4;
+}
+
+#formAnamnese .flex.justify-end.gap-3 {
+  margin-top: 0.8rem;
+}
+
+#formCatalogoAgendamentos {
+  border-color: rgba(244, 191, 174, 0.18);
+  border-radius: 0.8rem;
+  background: rgba(32, 35, 43, 0.68);
+}
+
+#configuracoesPage #formCatalogoAgendamentos input:not([type="radio"]):not([type="checkbox"]),
+#configuracoesPage #formCatalogoAgendamentos select {
+  height: 2.3rem;
+  min-height: 2.3rem;
+}
+
+.auto-message-modal-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  justify-content: initial;
+  gap: 0.55rem 0.75rem;
+  padding-bottom: 0.85rem;
+}
+
+.auto-message-modal-heading > .app-form-heading-icon {
+  grid-column: 1;
+}
+
+.auto-message-modal-heading .app-form-title-copy {
+  grid-column: 1;
+}
+
+.auto-message-modal-heading .auto-message-modal-close {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.auto-message-modal-heading h3 {
+  color: #fff7f4;
+}
+
+#autoMessageForm,
+#autoWhatsAppForm {
+  gap: 0.7rem;
+}
+
+#autoMessageForm textarea,
+#autoWhatsAppForm textarea {
+  min-height: 7rem;
+  line-height: 1.45;
+}
+
+#autoWhatsAppForm .auto-whatsapp-send {
+  min-height: 2.55rem;
+  border: 1px solid rgba(255, 232, 224, 0.28);
+  border-radius: 0.65rem;
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+#homeShareDialog {
+  padding: 1.25rem;
+}
+
+#homeShareForm > h3 {
+  margin: 0.7rem 0 0;
+  color: #fff7f4;
+  font-size: 1.05rem;
+}
+
+#homeShareForm > p {
+  color: #aaa6a8;
+  font-size: 0.74rem;
+}
+
+#homeShareForm .home-share-options {
+  color: #e8e4e3;
+}
+
+@media (max-width: 640px) {
+  .app-form-heading {
+    gap: 0.45rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .app-form-heading-icon {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .app-form-heading h2,
+  .app-form-heading h3,
+  .app-form-title-copy h3 {
+    font-size: 0.98rem;
+  }
+
+  #formBloqueioAgenda,
+  #formAgendamento,
+  #formAnamnese,
+  #formCatalogoAgendamentos,
+  #autoMessageForm,
+  #autoWhatsAppForm,
+  #formFinanceiro2 {
+    gap: 0.6rem;
+  }
+
+  #formBloqueioAgenda input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  #formAgendamento input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  #formAgendamento select,
+  #formAgendamento textarea,
+  #formAnamnese input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  #formAnamnese select,
+  #formAnamnese textarea,
+  #formCatalogoAgendamentos input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  #formCatalogoAgendamentos select,
+  #autoMessageForm input,
+  #autoMessageForm textarea,
+  #autoWhatsAppForm select,
+  #autoWhatsAppForm textarea,
+  #formFinanceiro2 input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  #formFinanceiro2 select {
+    min-height: 2.2rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 14px;
+  }
+
+  #formBloqueioAgenda {
+    align-items: stretch;
+  }
+
+  #formBloqueioAgenda > div:first-child,
+  #formBloqueioAgenda > div:nth-child(2) {
+    width: 100%;
+    flex-basis: 100%;
   }
 }
 
@@ -4476,11 +5864,16 @@ button:active:not(:disabled) {
 
   <!-- HOME -->
   <div id="homePage" class="page">
-    <div class="text-center mb-8">
+    <div class="home-brand-header">
       <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-        <i class="far fa-bell" aria-hidden="true"></i>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-black-outline" d="M10 21h4" fill="none" />
+          <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+        </svg>
       </button>
-      <img src="Assets/logo.png" alt="Logo Studio Sa Lopes" class="mx-auto mb-4" style="width:320px;" onerror="this.onerror=null;">
+      <img src="Assets/logo.png" alt="Logo Studio Sa Lopes" onerror="this.onerror=null;">
     </div>
 
 <div class="grid gap-4 mb-5 home-metric-grid">
@@ -4538,6 +5931,7 @@ button:active:not(:disabled) {
     </div>
     <dialog id="homeShareDialog" class="home-share-dialog" aria-labelledby="homeShareTitle">
       <form id="homeShareForm">
+        <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-share-nodes"></i></span>
         <h3 id="homeShareTitle">Compartilhar no WhatsApp</h3>
         <p>Selecione uma ou mais imagens. Na próxima tela, escolha o WhatsApp para enviar.</p>
         <div class="home-share-options">
@@ -4627,7 +6021,12 @@ button:active:not(:disabled) {
   <div id="clientesPage" class="page hidden">
     <div class="page-title-row flex justify-between mb-5 items-center">
         <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-          <i class="far fa-bell" aria-hidden="true"></i>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path class="bell-black-outline" d="M10 21h4" fill="none" />
+            <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+          </svg>
         </button>
           <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-users" aria-hidden="true"></i></span>
@@ -4677,26 +6076,35 @@ button:active:not(:disabled) {
       class="card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10
               transform scale-95 opacity-0 transition-all duration-300">
     
-    <h2 id="tituloCliente" class="text-xl font-bold mb-4 text-center text-rose-300">
-      Cadastro de Cliente
-    </h2>
+    <div class="cliente-form-heading">
+      <span class="cliente-form-heading-icon" aria-hidden="true">
+        <i class="fas fa-user-plus"></i>
+      </span>
+      <div>
+        <h2 id="tituloCliente" class="text-xl font-bold text-rose-300">Cadastro de Cliente</h2>
+        <p>Preencha os dados para manter o cadastro da cliente.</p>
+      </div>
+    </div>
 
     <form id="formCliente" class="cliente-form-grid" novalidate>
       <div class="cliente-form-field cliente-form-field-wide">
         <label class="block mb-1 font-semibold" for="clienteNome">NOME</label>
         <input type="text" id="clienteNome" name="Nome"
+          placeholder="Nome completo"
           class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
       </div>
 
       <div class="cliente-form-field">
         <label class="block mb-1 font-semibold" for="clienteCpf">CPF</label>
-        <input type="text" id="clienteCpf" name="CPF"
+        <input type="text" id="clienteCpf" name="CPF" inputmode="numeric" autocomplete="off"
+          placeholder="000.000.000-00"
           class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
       </div>
 
       <div class="cliente-form-field">
         <label class="block mb-1 font-semibold" for="clienteTelefone">TELEFONE</label>
         <input type="text" id="clienteTelefone" name="Telefone"
+          placeholder="(00) 00000-0000"
           class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
       </div>
 
@@ -4708,21 +6116,22 @@ button:active:not(:disabled) {
       </div>
 
       <div class="cliente-form-field">
-        <label class="block mb-1 font-semibold" for="clienteEnderecoNum">ENDEREÇO (OPCIONAL)</label>
-        <input type="text" id="clienteEnderecoNum" name="Endereco"
-          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-      </div>
-
-      <div class="cliente-form-field">
-        <label class="block mb-1 font-semibold" for="clienteEmail">E-MAIL</label>
-        <input type="email" id="clienteEmail" name="Email"
-          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-      </div>
-
-      <div class="cliente-form-field">
         <label class="block mb-1 font-semibold" for="clienteInstagram">INSTAGRAM</label>
         <input type="text" id="clienteInstagram" name="Instagram"
           class="cliente-instagram-input w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+      </div>
+
+      <div class="cliente-form-field cliente-form-field-wide">
+        <label class="block mb-1 font-semibold" for="clienteEmail">E-MAIL</label>
+        <input type="email" id="clienteEmail" name="Email"
+          placeholder="cliente@email.com"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+      </div>
+
+      <div class="cliente-form-field cliente-form-field-wide">
+        <label class="block mb-1 font-semibold" for="clienteEnderecoNum">ENDEREÇO (OPCIONAL)</label>
+        <input type="text" id="clienteEnderecoNum" name="Endereco"
+          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
       </div>
 
       <div class="cliente-form-field cliente-form-field-wide">
@@ -4749,7 +6158,7 @@ button:active:not(:disabled) {
     color: #000;
     box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);
   ">
-  Salvar
+  Salvar <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
 </button>
 
       </div>
@@ -4768,7 +6177,12 @@ button:active:not(:disabled) {
   <div id="agendaPage" class="page hidden">
     <div class="page-title-row flex justify-between mb-5 items-center">
       <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-        <i class="far fa-bell" aria-hidden="true"></i>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-black-outline" d="M10 21h4" fill="none" />
+          <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+        </svg>
       </button>
       <h2 class="page-heading">
         <span class="page-heading-icon"><i class="fas fa-calendar-days" aria-hidden="true"></i></span>
@@ -4838,6 +6252,10 @@ button:active:not(:disabled) {
   </button>
 </div>
 <section id="painelBloqueiosAgenda" class="bloqueio-agenda-panel hidden p-4 mb-5" aria-label="Datas bloqueadas">
+  <div class="app-form-heading">
+    <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-calendar-xmark"></i></span>
+    <div><h2>Bloquear agenda</h2><p>Escolha uma data e, se quiser, informe o motivo.</p></div>
+  </div>
   <form id="formBloqueioAgenda" class="flex flex-wrap items-end gap-3">
     <div>
       <label for="dataBloqueioAgenda" class="block mb-1 text-sm font-semibold text-rose-200">Data</label>
@@ -4868,9 +6286,10 @@ button:active:not(:disabled) {
        class="card relative rounded-xl shadow-lg p-6 w-full max-w-3xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10
               transform scale-95 opacity-0 transition-all duration-300">
     
-    <h2 class="text-xl font-bold mb-4 text-center text-rose-300">
-      Agendamento
-    </h2>
+    <div class="app-form-heading">
+      <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-calendar-plus"></i></span>
+      <div><h2>Agendamento</h2><p>Informe os dados para organizar o atendimento.</p></div>
+    </div>
 
     <form id="formAgendamento" class="space-y-4">
       <div class="flex justify-between items-center gap-3">
@@ -4883,18 +6302,19 @@ button:active:not(:disabled) {
           PRESENÇA
         </button>
       </div>
-      <div>
-        <label class="block mb-1 font-semibold" for="agendamentoCliente">CLIENTE</label>
-        <select id="agendamentoCliente" name="Cliente"
-          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
-          <option value="">Selecione um cliente</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block mb-1 font-semibold" for="agendamentoEmail">E-MAIL</label>
-        <input type="email" id="agendamentoEmail" name="CEP"
-          class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" readonly>
+      <div class="agendamento-form-row agendamento-cliente-email-row">
+        <div>
+          <label class="block mb-1 font-semibold" for="agendamentoCliente">CLIENTE</label>
+          <select id="agendamentoCliente" name="Cliente"
+            class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required>
+            <option value="">Selecione um cliente</option>
+          </select>
+        </div>
+        <div>
+          <label class="block mb-1 font-semibold" for="agendamentoEmail">E-MAIL</label>
+          <input type="email" id="agendamentoEmail" name="CEP"
+            class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" readonly>
+        </div>
       </div>
 
       <div class="agendamento-form-row agendamento-data-hora-row">
@@ -4997,7 +6417,10 @@ button:active:not(:disabled) {
 
       <!-- Conteúdo -->
       <div id="modalAnamneseContent" class="card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
-        <h2 class="text-xl font-bold mb-4 text-center text-rose-300">Ficha de Anamnese</h2>
+        <div class="app-form-heading">
+          <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-clipboard-list"></i></span>
+          <div><h2>Ficha de Anamnese</h2><p>Registre as informações e preferências da cliente.</p></div>
+        </div>
         <form id="formAnamnese" class="space-y-4">
 
           <!-- BLOCO 1: Dados da Cliente -->
@@ -5087,7 +6510,12 @@ button:active:not(:disabled) {
     <div id="configuracoesPage" class="page hidden">
       <div class="page-title-row flex justify-between mb-5 items-center">
         <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-          <i class="far fa-bell" aria-hidden="true"></i>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path class="bell-black-outline" d="M10 21h4" fill="none" />
+            <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+          </svg>
         </button>
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-gear" aria-hidden="true"></i></span>
@@ -5098,35 +6526,61 @@ button:active:not(:disabled) {
         </h2>
         <div class="flex gap-3 mr-4 h-10"></div>
       </div>
-      <section class="card rounded-xl shadow p-5 mt-6 mb-5" aria-labelledby="catalogoAgendamentosTitle">
-        <h3 id="catalogoAgendamentosTitle" class="text-lg font-semibold mb-1">Listas do agendamento</h3>
-        <p class="text-sm text-gray-400 mb-4">Cadastre modalidade, tipo, técnica e valor padrão. As listas ficam sincronizadas entre dispositivos pelo Supabase.</p>
-        <form id="formCatalogoAgendamentos" class="flex flex-wrap items-end gap-3">
-          <label class="flex flex-col gap-1 text-sm">Modalidade
-            <select id="catalogoModalidade" class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required></select>
-          </label>
-          <label id="catalogoNovaModalidadeField" class="hidden flex-col gap-1 text-sm">Nova modalidade
-            <input id="catalogoNovaModalidade" type="text" maxlength="80" placeholder="Ex.: Design de sobrancelhas"
-              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-          </label>
-          <label class="flex flex-col gap-1 text-sm">Tipo
-            <input id="catalogoNomeTipo" type="text" maxlength="80" placeholder="Ex.: Aplicação" required
-              class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-          </label>
-          <label class="flex flex-col gap-1 text-sm">Técnica
-            <input id="catalogoNomeProcedimento" type="text" maxlength="80" placeholder="Ex.: Foxy Eyes" required
-              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-          </label>
-          <label class="flex flex-col gap-1 text-sm">Valor padrão (R$)
-            <input id="catalogoValorProcedimento" type="number" min="0" step="0.01" placeholder="Opcional"
-              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-          </label>
-          <button type="submit" class="btn-primary px-4 py-2 rounded-md font-semibold">Adicionar à lista</button>
-        </form>
-        <div id="listaCatalogoModalidades" class="mt-2" aria-label="Modalidades cadastradas"></div>
+      <section class="card rounded-xl shadow p-4 mt-6 mb-5" aria-labelledby="catalogoAgendamentosTitle">
+        <div class="catalogo-agendamento-heading">
+          <div class="catalogo-agendamento-heading-copy">
+            <h3 id="catalogoAgendamentosTitle">Listas do Agendamento</h3>
+            <p>Cadastre modalidade, tipo, técnica e valor padrão.</p>
+          </div>
+          <button type="button" id="toggleFormCatalogoAgendamentos" class="catalogo-agendamento-form-toggle"
+            aria-haspopup="dialog" aria-expanded="false" aria-controls="modalCatalogoAgendamentos">
+            <i class="fas fa-plus" aria-hidden="true"></i><span>Cadastrar</span>
+          </button>
+        </div>
+
+        <div id="listaCatalogoModalidades" class="mt-2" aria-label="Modalidades Cadastradas"></div>
         <p id="statusCatalogoAgendamentos" class="mt-3 text-sm text-gray-400" role="status"></p>
         <div id="listaCatalogoAgendamentos" class="mt-2"></div>
       </section>
+
+      <div id="modalCatalogoAgendamentos" class="hidden" role="dialog" aria-modal="true"
+        aria-labelledby="tituloModalCatalogoAgendamentos" aria-describedby="descricaoModalCatalogoAgendamentos">
+        <button type="button" class="absolute inset-0 border-0 bg-transparent" data-fechar-catalogo-overlay
+          aria-label="Fechar formulário de cadastro"></button>
+        <div id="modalCatalogoAgendamentosContent" class="relative z-10">
+          <div class="app-form-heading">
+            <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-list-check"></i></span>
+            <div>
+              <h2 id="tituloModalCatalogoAgendamentos">Cadastrar Item</h2>
+              <p id="descricaoModalCatalogoAgendamentos">Cadastre modalidade, tipo, técnica e valor padrão.</p>
+            </div>
+          </div>
+          <form id="formCatalogoAgendamentos" class="catalogo-agendamento-form">
+            <label class="flex flex-col gap-1 text-sm">Modalidade
+              <select id="catalogoModalidade" class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required></select>
+            </label>
+            <label id="catalogoNovaModalidadeField" class="hidden flex-col gap-1 text-sm">Nova modalidade
+              <input id="catalogoNovaModalidade" type="text" maxlength="80" placeholder="Ex.: Design de sobrancelhas"
+                class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+            </label>
+            <label class="flex flex-col gap-1 text-sm">Tipo
+              <input id="catalogoNomeTipo" type="text" maxlength="80" placeholder="Ex.: Aplicação" required
+                class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+            </label>
+            <label class="flex flex-col gap-1 text-sm">Técnica
+              <input id="catalogoNomeProcedimento" type="text" maxlength="80" placeholder="Ex.: Foxy Eyes" required
+                class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+            </label>
+            <label class="flex flex-col gap-1 text-sm">Valor padrão (R$)
+              <input id="catalogoValorProcedimento" type="number" min="0" step="0.01" placeholder="Opcional"
+                class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
+            </label>
+            <button type="button" id="fecharModalCatalogoAgendamentos" class="catalogo-agendamento-form-close">Fechar</button>
+            <button type="submit" class="btn-primary rounded-md font-semibold">Adicionar</button>
+          </form>
+        </div>
+      </div>
+
       <section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="googleCalendarTitle">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
           <div>
@@ -5149,7 +6603,12 @@ button:active:not(:disabled) {
     <section id="mensagensAutoPage" class="page hidden">
       <div class="page-title-row flex justify-between mb-5 items-center">
         <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-          <i class="far fa-bell" aria-hidden="true"></i>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path class="bell-black-outline" d="M10 21h4" fill="none" />
+            <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+          </svg>
         </button>
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-comment-dots" aria-hidden="true"></i></span>
@@ -5176,7 +6635,11 @@ button:active:not(:disabled) {
       <div id="autoMessageModal" class="auto-message-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="autoMessageFormTitle">
         <div class="auto-message-modal-content">
           <div class="auto-message-modal-heading">
-            <h3 id="autoMessageFormTitle">Nova mensagem</h3>
+            <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-comment-dots"></i></span>
+            <div class="app-form-title-copy">
+              <h3 id="autoMessageFormTitle">Nova mensagem</h3>
+              <p>Crie uma mensagem para usar com suas clientes.</p>
+            </div>
             <button id="autoMessageClose" type="button" class="auto-message-modal-close" aria-label="Fechar">
               <i class="fas fa-xmark" aria-hidden="true"></i>
             </button>
@@ -5200,7 +6663,11 @@ button:active:not(:disabled) {
       <div id="autoWhatsAppModal" class="auto-message-modal hidden fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true" aria-labelledby="autoWhatsAppTitle">
         <div class="auto-message-modal-content auto-whatsapp-modal-content">
           <div class="auto-message-modal-heading">
-            <h3 id="autoWhatsAppTitle">Enviar pelo WhatsApp</h3>
+            <span class="app-form-heading-icon" aria-hidden="true"><i class="fab fa-whatsapp"></i></span>
+            <div class="app-form-title-copy">
+              <h3 id="autoWhatsAppTitle">Enviar pelo WhatsApp</h3>
+              <p>Revise a mensagem antes de abrir o WhatsApp.</p>
+            </div>
             <button id="autoWhatsAppClose" type="button" class="auto-message-modal-close" aria-label="Fechar">
               <i class="fas fa-xmark" aria-hidden="true"></i>
             </button>
@@ -5228,7 +6695,12 @@ button:active:not(:disabled) {
     <div id="financeiro2Page" class="page hidden">
 <div class="page-title-row flex justify-between mb-5 items-center">
   <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-    <i class="far fa-bell" aria-hidden="true"></i>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+      <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+      <path class="bell-black-outline" d="M10 21h4" fill="none" />
+      <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+    </svg>
   </button>
   <h2 class="page-heading">
     <span class="page-heading-icon"><i class="fas fa-wallet" aria-hidden="true"></i></span>
@@ -5239,7 +6711,7 @@ button:active:not(:disabled) {
   </h2>
   </div>
 <div class="page-actions-row financeiro-header-actions">
-    <button id="btnAdicionarOcorrencia" class="btn-primary px-3 py-1.5 text-sm rounded-md">+ Ocorrência</button>
+    <button id="btnAdicionarOcorrencia" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" aria-haspopup="dialog" aria-expanded="false">+ Ocorrência</button>
     <button id="btnLoadRelatorio" class="btn-primary px-4 py-2 rounded-md">Relatório</button>
 </div>
 <div class="card rounded-xl shadow p-5 flex flex-col justify-center mb-5 home-finance-summary" id="financeiroResumo">
@@ -5293,7 +6765,13 @@ button:active:not(:disabled) {
   <p id="financeiroHomeFinanceStatus" class="home-finance-status home-finance-status-message" role="status" aria-live="polite"></p>
 </div>
 <p id="financePresenceSyncStatus" class="hidden mb-4 text-sm text-amber-300" role="status"></p>
-      <div id="boxFinanceiro2" class="card rounded-xl shadow p-5 max-w-xl mx-auto hidden">
+      <div id="boxFinanceiro2" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="tituloFormFinanceiro2">
+        <button type="button" class="absolute inset-0 border-0 bg-black bg-opacity-70 backdrop-filter" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);" data-fechar-financeiro-overlay aria-label="Fechar formulário de ocorrência"></button>
+        <div id="boxFinanceiro2Content" class="card relative z-10 w-full max-w-xl rounded-xl shadow p-5">
+        <div class="app-form-heading">
+          <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-receipt"></i></span>
+          <div><h2 id="tituloFormFinanceiro2">Nova ocorrência</h2><p>Registre uma entrada ou despesa do Studio.</p></div>
+        </div>
         <form id="formFinanceiro2" class="space-y-4" action="supabase://financeiro" method="post">
           <div>
             <label class="block mb-1 font-semibold" for="financeiroDtRegistro">Data de Registro</label>
@@ -5338,6 +6816,7 @@ button:active:not(:disabled) {
             <button type="submit" class="btn-primary px-4 py-2 rounded-md">Enviar</button>
           </div>
         </form>
+        </div>
       </div>
 <div id="relatorioFinanceiro2" class="card finance-report-card rounded-xl shadow p-5 mx-auto mt-6">
         <h3 class="finance-report-heading">
@@ -5358,7 +6837,12 @@ button:active:not(:disabled) {
   <section id="relatoriosPage" class="page hidden">
     <header class="reports-header">
       <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-        <i class="far fa-bell" aria-hidden="true"></i>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-black-outline" d="M10 21h4" fill="none" />
+          <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+        </svg>
       </button>
       <h2 class="page-heading">
         <span class="page-heading-icon"><i class="fas fa-chart-pie" aria-hidden="true"></i></span>
@@ -5424,10 +6908,17 @@ button:active:not(:disabled) {
     </div>
   </section>
 
+  <footer class="app-foliage-footer" aria-hidden="true"></footer>
+
 <dialog id="siteDialog" class="site-dialog" aria-labelledby="siteDialogTitle" aria-describedby="siteDialogMessage">
   <div class="site-dialog-content">
-    <h2 id="siteDialogTitle" class="site-dialog-title">Aviso</h2>
-    <p id="siteDialogMessage" class="site-dialog-message"></p>
+    <div class="app-form-heading">
+      <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-circle-question"></i></span>
+      <div>
+        <h2 id="siteDialogTitle" class="site-dialog-title">Aviso</h2>
+        <p id="siteDialogMessage" class="site-dialog-message"></p>
+      </div>
+    </div>
     <div class="site-dialog-actions">
       <button id="siteDialogCancel" type="button" class="site-dialog-button site-dialog-button-cancel">Cancelar</button>
       <button id="siteDialogConfirm" type="button" class="site-dialog-button site-dialog-button-confirm">OK</button>
@@ -5500,6 +6991,28 @@ function mostrarAviso(mensagem) {
 
 function confirmarAcao(mensagem, opcoes = {}) {
   return abrirDialogoSite(mensagem, true, opcoes);
+}
+
+function registrarFechamentoForaFormulario(alvo, fechar) {
+  let aguardandoConfirmacao = false;
+  alvo.addEventListener("click", async event => {
+    if (event.target !== alvo || aguardandoConfirmacao) return;
+    event.preventDefault();
+    aguardandoConfirmacao = true;
+    try {
+      const descartar = await confirmarAcao(
+        "Deseja descartar as alterações e fechar este formulário?",
+        {
+          titulo: "Descartar alterações",
+          textoCancelar: "Continuar editando",
+          textoConfirmar: "Descartar"
+        }
+      );
+      if (descartar) fechar();
+    } finally {
+      aguardandoConfirmacao = false;
+    }
+  });
 }
 
 window.alert = mensagem => {
@@ -5734,8 +7247,8 @@ formFinanceiro2.addEventListener("submit", function(event) {
     if (response.ok) {
       alert("Registrado com sucesso.");
       formFinanceiro2.reset();
-      // Optionally hide the form
       boxFinanceiro2.classList.add("hidden");
+      btnAdicionarOcorrencia.setAttribute("aria-expanded", "false");
     } else {
       alert("Erro ao enviar formulário. Tente novamente.");
     }
@@ -7667,21 +9180,15 @@ btnAdicionarCliente.addEventListener("click", event => {
   });
 });
 
-document.addEventListener("click", event => {
-  if (!boxCliente.classList.contains("hidden") &&
-      !boxCliente.contains(event.target) &&
-      !btnAdicionarCliente.contains(event.target)) {
-    boxClienteContent.classList.remove("scale-100", "opacity-100");
-    boxClienteContent.classList.add("scale-95", "opacity-0");
-    setTimeout(() => boxCliente.classList.add("hidden"), 250);
-  }
-});
-
-document.getElementById("fecharBoxCliente").addEventListener("click", () => {
+const fecharFormularioCliente = () => {
   boxClienteContent.classList.remove("scale-100", "opacity-100");
   boxClienteContent.classList.add("scale-95", "opacity-0");
   setTimeout(() => boxCliente.classList.add("hidden"), 250);
-});
+};
+
+registrarFechamentoForaFormulario(boxCliente.firstElementChild, fecharFormularioCliente);
+
+document.getElementById("fecharBoxCliente").addEventListener("click", fecharFormularioCliente);
 
 document.addEventListener("DOMContentLoaded", function() {
   // Add toggle for Ocorrência form similar to Anamnese and Clientes
@@ -7689,16 +9196,30 @@ document.addEventListener("DOMContentLoaded", function() {
   const boxFinanceiro2 = document.getElementById("boxFinanceiro2");
   btnAdicionarOcorrencia.addEventListener("click", function(e) {
     e.stopPropagation();
-    boxFinanceiro2.classList.toggle("hidden");
+    const aberto = boxFinanceiro2.classList.contains("hidden");
+    boxFinanceiro2.classList.toggle("hidden", !aberto);
+    btnAdicionarOcorrencia.setAttribute("aria-expanded", String(aberto));
+    if (aberto) {
+      requestAnimationFrame(() => document.getElementById("financeiroDtRegistro").focus());
+    }
   });
-  document.addEventListener("click", function(e) {
-    if (!boxFinanceiro2.classList.contains("hidden")) {
-      const isClickInside = boxFinanceiro2.contains(e.target) || btnAdicionarOcorrencia.contains(e.target);
-      if (!isClickInside) boxFinanceiro2.classList.add("hidden");
+  const fecharFormularioOcorrencia = () => {
+    boxFinanceiro2.classList.add("hidden");
+    btnAdicionarOcorrencia.setAttribute("aria-expanded", "false");
+  };
+  registrarFechamentoForaFormulario(
+    boxFinanceiro2.querySelector("[data-fechar-financeiro-overlay]"),
+    fecharFormularioOcorrencia
+  );
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && !boxFinanceiro2.classList.contains("hidden")) {
+      fecharFormularioOcorrencia();
+      btnAdicionarOcorrencia.focus();
     }
   });
   document.getElementById("fecharBoxFinanceiro2").addEventListener("click", function() {
-    boxFinanceiro2.classList.add("hidden");
+    fecharFormularioOcorrencia();
+    btnAdicionarOcorrencia.focus();
   });
   const sidebar = document.getElementById("sidebar");
   const menuBtn = document.getElementById("menuBtn");
@@ -7786,9 +9307,7 @@ document.addEventListener("DOMContentLoaded", function() {
     abrirModalMensagemAuto();
   });
   autoMessageClose.addEventListener("click", fecharModalMensagemAuto);
-  autoMessageModal.addEventListener("click", event => {
-    if (event.target === autoMessageModal) fecharModalMensagemAuto();
-  });
+  registrarFechamentoForaFormulario(autoMessageModal, fecharModalMensagemAuto);
   document.addEventListener("keydown", event => {
     if (event.key === "Escape" && !autoMessageModal.classList.contains("hidden")) {
       fecharModalMensagemAuto();
@@ -7876,9 +9395,7 @@ document.addEventListener("DOMContentLoaded", function() {
   autoWhatsAppClient.addEventListener("change", atualizarLinkWhatsApp);
   autoWhatsAppBody.addEventListener("input", atualizarLinkWhatsApp);
   autoWhatsAppClose.addEventListener("click", fecharModalEnviarMensagemAuto);
-  autoWhatsAppModal.addEventListener("click", event => {
-    if (event.target === autoWhatsAppModal) fecharModalEnviarMensagemAuto();
-  });
+  registrarFechamentoForaFormulario(autoWhatsAppModal, fecharModalEnviarMensagemAuto);
   document.addEventListener("keydown", event => {
     if (event.key === "Escape" && !autoWhatsAppModal.classList.contains("hidden")) {
       fecharModalEnviarMensagemAuto();
@@ -8169,6 +9686,9 @@ function configurarCarrosselHome() {
   document.getElementById("homeShareCancel")?.addEventListener("click", () => {
     dialogoCompartilhar?.close();
   });
+  if (dialogoCompartilhar) {
+    registrarFechamentoForaFormulario(dialogoCompartilhar, () => dialogoCompartilhar.close());
+  }
 
   selecionarTodas?.addEventListener("change", () => {
     opcoesCompartilhar.forEach(opcao => {
@@ -8486,6 +10006,8 @@ const MODALIDADES_INICIAIS_AGENDAMENTO = [
   }
 ];
 let catalogoAgendamentos = [];
+const gruposCatalogoAgendamentosExpandidos = new Set();
+let listaModalidadesExpandida = false;
 
 function validarCatalogoAgendamentos(catalogo) {
   if (!Array.isArray(catalogo) || catalogo.some(modalidade =>
@@ -8724,43 +10246,114 @@ function atualizarValorPadraoAgendamento() {
 function renderizarListaCatalogoAgendamentos() {
   const lista = document.getElementById("listaCatalogoAgendamentos");
   if (!lista) return;
-  const linhas = catalogoAgendamentos.flatMap(modalidade =>
-    modalidade.procedimentos.map(procedimento => {
-      const valor = valorNumericoValido(procedimento.valor);
-      const valorExibido = valor
-        ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(valor))
-        : "Valor não definido";
-      return `<div class="catalogo-agendamento-item">
-        <span class="text-sm text-gray-200">${escaparTextoAgenda(modalidade.nome)} · ${escaparTextoAgenda(procedimento.tipo)} · ${escaparTextoAgenda(procedimento.nome)} <span class="text-gray-400">(${valorExibido})</span></span>
-        <button type="button" data-remover-procedimento="${encodeURIComponent(modalidade.nome)}|${encodeURIComponent(procedimento.tipo)}|${encodeURIComponent(procedimento.nome)}">Remover</button>
-      </div>`;
-    })
-  );
-  lista.innerHTML = linhas.length
-    ? linhas.join("")
+  lista.className = "catalogo-procedimento-groups mt-2";
+  lista.innerHTML = catalogoAgendamentos.length
+    ? catalogoAgendamentos.map((modalidade, indice) => {
+        const chaveGrupo = modalidade.nome;
+        const expandido = gruposCatalogoAgendamentosExpandidos.has(chaveGrupo);
+        const quantidade = modalidade.procedimentos.length;
+        const normalizarChaveDuplicidade = valor => valor
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .trim()
+          .replace(/\s+/g, " ")
+          .toLocaleLowerCase("pt-BR");
+        const contagemProcedimentos = new Map();
+        modalidade.procedimentos.forEach(procedimento => {
+          const chave = `${normalizarChaveDuplicidade(procedimento.tipo)}|${normalizarChaveDuplicidade(procedimento.nome)}`;
+          contagemProcedimentos.set(chave, (contagemProcedimentos.get(chave) || 0) + 1);
+        });
+        const itens = quantidade
+          ? modalidade.procedimentos.map(procedimento => {
+              const valor = valorNumericoValido(procedimento.valor);
+              const valorExibido = valor
+                ? new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(valor))
+                : "Valor não definido";
+              const chaveDuplicidade = `${normalizarChaveDuplicidade(procedimento.tipo)}|${normalizarChaveDuplicidade(procedimento.nome)}`;
+              const duplicado = contagemProcedimentos.get(chaveDuplicidade) > 1;
+              return `<div class="catalogo-agendamento-item${duplicado ? " catalogo-agendamento-duplicado" : ""}">
+                <span>${escaparTextoAgenda(procedimento.tipo)} · ${escaparTextoAgenda(procedimento.nome)} <span class="text-gray-400">(${valorExibido})</span>${duplicado ? ' <span class="catalogo-agendamento-duplicado-badge">Duplicado</span>' : ""}</span>
+                <button type="button" data-remover-procedimento="${encodeURIComponent(modalidade.nome)}|${encodeURIComponent(procedimento.tipo)}|${encodeURIComponent(procedimento.nome)}"
+                  aria-label="Excluir ${escaparTextoAgenda(procedimento.nome)}" title="Excluir procedimento">
+                  <i class="fas fa-trash" aria-hidden="true"></i>
+                </button>
+              </div>`;
+            }).join("")
+          : '<p class="px-2 py-1 text-xs text-gray-400">Nenhum procedimento cadastrado.</p>';
+        return `<article class="catalogo-procedimento-group">
+          <button type="button" class="catalogo-procedimento-group-toggle" data-toggle-procedimentos="${indice}"
+            aria-expanded="${expandido}" aria-controls="catalogoProcedimentos${indice}">
+            <span>${escaparTextoAgenda(modalidade.nome)}</span>
+            <span class="catalogo-procedimento-group-count"${expandido ? " hidden" : ""}>${quantidade} ${quantidade === 1 ? "procedimento" : "procedimentos"}</span>
+            <i class="fas fa-chevron-right catalogo-procedimento-group-chevron" aria-hidden="true"></i>
+          </button>
+          <div id="catalogoProcedimentos${indice}" class="catalogo-procedimento-group-list"${expandido ? "" : " hidden"}>
+            ${itens}
+          </div>
+        </article>`;
+      }).join("")
     : '<p class="py-2 text-sm text-gray-400">Nenhuma técnica cadastrada.</p>';
 }
 
 function renderizarListaCatalogoModalidades() {
   const lista = document.getElementById("listaCatalogoModalidades");
   if (!lista) return;
-  lista.innerHTML = catalogoAgendamentos.length
+  const total = catalogoAgendamentos.length;
+  const modalidades = total
     ? catalogoAgendamentos.map(modalidade => `
-        <span class="catalogo-modalidade-item">
-          ${escaparTextoAgenda(modalidade.nome)}
+        <div class="catalogo-modalidade-row">
+          <span>${escaparTextoAgenda(modalidade.nome)}</span>
           <button type="button" data-remover-modalidade="${encodeURIComponent(modalidade.nome)}"
-            aria-label="Excluir modalidade ${escaparTextoAgenda(modalidade.nome)}" title="Excluir modalidade">×</button>
-        </span>
+            aria-label="Excluir modalidade ${escaparTextoAgenda(modalidade.nome)}" title="Excluir modalidade">
+            <i class="fas fa-trash" aria-hidden="true"></i>
+          </button>
+        </div>
       `).join("")
-    : '<p class="py-2 text-sm text-gray-400">Nenhuma modalidade cadastrada.</p>';
+    : '<p class="px-2 py-1 text-xs text-gray-400">Nenhuma modalidade cadastrada.</p>';
+  lista.className = "catalogo-modalidades-list mt-2";
+  lista.innerHTML = `
+    <button type="button" class="catalogo-modalidades-toggle" data-toggle-modalidades
+      aria-expanded="${listaModalidadesExpandida}" aria-controls="catalogoModalidadesRows">
+      <span>Modalidades Cadastradas</span>
+      <span class="catalogo-modalidades-count">${total}</span>
+      <i class="fas fa-chevron-right" aria-hidden="true"></i>
+    </button>
+    <div id="catalogoModalidadesRows" class="catalogo-modalidades-rows"${listaModalidadesExpandida ? "" : " hidden"}>
+      ${modalidades}
+    </div>`;
 }
 
 async function configurarCatalogoAgendamentos() {
   const form = document.getElementById("formCatalogoAgendamentos");
+  const botaoForm = document.getElementById("toggleFormCatalogoAgendamentos");
+  const modalForm = document.getElementById("modalCatalogoAgendamentos");
+  const fecharModalForm = () => {
+    modalForm.classList.add("hidden");
+    botaoForm.setAttribute("aria-expanded", "false");
+    botaoForm.focus();
+  };
   const selectModalidade = document.getElementById("catalogoModalidade");
   const campoModalidadeNova = document.getElementById("catalogoNovaModalidadeField");
   const inputModalidadeNova = document.getElementById("catalogoNovaModalidade");
   const status = document.getElementById("statusCatalogoAgendamentos");
+
+  botaoForm.addEventListener("click", () => {
+    modalForm.classList.remove("hidden");
+    botaoForm.setAttribute("aria-expanded", "true");
+    requestAnimationFrame(() => selectModalidade.focus());
+  });
+  document.getElementById("fecharModalCatalogoAgendamentos").addEventListener("click", () => {
+    fecharModalForm();
+  });
+  registrarFechamentoForaFormulario(
+    modalForm.querySelector("[data-fechar-catalogo-overlay]"),
+    fecharModalForm
+  );
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !modalForm.classList.contains("hidden")) {
+      fecharModalForm();
+    }
+  });
 
   status.textContent = "Carregando listas sincronizadas...";
   try {
@@ -8771,11 +10364,11 @@ async function configurarCatalogoAgendamentos() {
     renderizarListaCatalogoAgendamentos();
     renderizarTiposAgendamento();
     renderizarTecnicasAgendamento();
-    status.textContent = "Listas sincronizadas com o Supabase.";
+    status.textContent = "Procedimentos Cadastrados.";
   } catch (error) {
     status.textContent = `Não foi possível carregar as listas sincronizadas: ${error.message}`;
     form.querySelector('button[type="submit"]').disabled = true;
-    console.error("Erro ao carregar listas do agendamento:", error);
+    console.error("Erro ao carregar listas do Agendamento:", error);
     return;
   }
 
@@ -8829,6 +10422,7 @@ async function configurarCatalogoAgendamentos() {
       campoModalidadeNova.classList.add("hidden");
       campoModalidadeNova.style.display = "";
       inputModalidadeNova.required = false;
+      fecharModalForm();
       status.textContent = "Modalidade, tipo, técnica e valor salvos no Supabase.";
     } catch (error) {
       catalogoAgendamentos = JSON.parse(catalogoAnterior);
@@ -8839,11 +10433,24 @@ async function configurarCatalogoAgendamentos() {
       renderizarTiposAgendamento();
       renderizarTecnicasAgendamento();
       status.textContent = `Não foi possível salvar a lista: ${error.message}`;
-      console.error("Erro ao salvar listas do agendamento:", error);
+      console.error("Erro ao salvar listas do Agendamento:", error);
     }
   });
 
   document.getElementById("listaCatalogoAgendamentos").addEventListener("click", async event => {
+    const toggle = event.target.closest("[data-toggle-procedimentos]");
+    if (toggle) {
+      const modalidade = catalogoAgendamentos[Number(toggle.dataset.toggleProcedimentos)];
+      if (!modalidade) return;
+      if (gruposCatalogoAgendamentosExpandidos.has(modalidade.nome)) {
+        gruposCatalogoAgendamentosExpandidos.delete(modalidade.nome);
+      } else {
+        gruposCatalogoAgendamentosExpandidos.add(modalidade.nome);
+      }
+      renderizarListaCatalogoAgendamentos();
+      return;
+    }
+
     const botao = event.target.closest("[data-remover-procedimento]");
     if (!botao) return;
     const [modalidadeNome, tipoNome, procedimentoNome] = botao.dataset.removerProcedimento.split("|").map(decodeURIComponent);
@@ -8870,6 +10477,12 @@ async function configurarCatalogoAgendamentos() {
   });
 
   document.getElementById("listaCatalogoModalidades").addEventListener("click", async event => {
+    if (event.target.closest("[data-toggle-modalidades]")) {
+      listaModalidadesExpandida = !listaModalidadesExpandida;
+      renderizarListaCatalogoModalidades();
+      return;
+    }
+
     const botao = event.target.closest("[data-remover-modalidade]");
     if (!botao) return;
     const modalidadeNome = decodeURIComponent(botao.dataset.removerModalidade);
@@ -10178,11 +11791,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- MODAL DE AGENDAMENTO ---
 
   // 🔹 Fechar modal de agendamento
-  document.getElementById("fecharModalAgendamento").addEventListener("click", () => {
+  const fecharModalAgendamento = () => {
     modalAgendamentoContent.classList.remove("scale-100", "opacity-100");
     modalAgendamentoContent.classList.add("scale-95", "opacity-0");
     setTimeout(() => modalAgendamento.classList.add("hidden"), 250);
-  });
+  };
+  document.getElementById("fecharModalAgendamento").addEventListener("click", fecharModalAgendamento);
+  registrarFechamentoForaFormulario(modalAgendamento.firstElementChild, fecharModalAgendamento);
 
   document.getElementById("btnPresencaAgendamento").addEventListener("click", async () => {
     const cliente = document.getElementById("agendamentoCliente")?.value || eventoEmEdicao?.clienteOriginal || "";
@@ -10598,6 +12213,10 @@ document.addEventListener("DOMContentLoaded", () => {
     modalAnamneseContent.classList.add("scale-95", "opacity-0");
     setTimeout(() => modalAnamnese.classList.add("hidden"), 250);
   });
+  registrarFechamentoForaFormulario(
+    modalAnamnese.querySelector(".absolute.inset-0"),
+    () => document.getElementById("fecharModalAnamnese").click()
+  );
 
   // Salvar Anamnese
   document.getElementById("formAnamnese").addEventListener("submit", async (e) => {
