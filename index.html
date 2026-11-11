@@ -1066,28 +1066,82 @@
     line-height: 1.4;
   }
 
+  .notification-list-item p {
+    white-space: pre-line;
+  }
+
   .notification-list-item time {
     color: #929090;
     font-size: 0.65rem;
   }
 
-  .notification-controls {
+  .notification-heading {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.8rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
   }
 
-  .notification-controls button {
-    min-height: 2.4rem;
-    padding: 0.5rem 0.75rem;
+  .notification-heading-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .notification-heading-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .notification-icon-button {
+    position: relative;
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    place-items: center;
     border: 1px solid rgba(244, 191, 174, 0.35);
     border-radius: 0.5rem;
+    background: transparent;
     color: #f4bfae;
+    cursor: pointer;
   }
 
-  .notification-controls button:disabled {
+  .notification-icon-button:hover,
+  .notification-icon-button:focus-visible {
+    background: rgba(244, 191, 174, 0.1);
+    outline-color: #f4bfae;
+  }
+
+  .notification-icon-button:disabled {
     opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .notification-bell-toggle[data-enabled="true"] {
+    color: #9fe0a2;
+    border-color: rgba(159, 224, 162, 0.65);
+  }
+
+  .notification-toggle-state {
+    position: absolute;
+    right: -0.3rem;
+    bottom: -0.3rem;
+    display: grid;
+    width: 1.1rem;
+    height: 1.1rem;
+    place-items: center;
+    border: 1px solid #252525;
+    border-radius: 50%;
+    background: #d76570;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .notification-bell-toggle[data-enabled="true"] .notification-toggle-state {
+    background: #4a9b5b;
   }
 
   .notification-status,
@@ -7069,17 +7123,23 @@ button:active:not(:disabled) {
 
 <dialog id="notificationsDialog" class="site-dialog" aria-labelledby="notificationsDialogTitle">
   <div class="site-dialog-content">
-    <div class="app-form-heading">
-      <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-bell"></i></span>
-      <div>
+    <div class="app-form-heading notification-heading">
+      <div class="notification-heading-copy">
         <h2 id="notificationsDialogTitle" class="site-dialog-title">Notificações do Studio</h2>
-        <p class="site-dialog-message">Avisos compartilhados com os dispositivos que ativarem as notificações.</p>
+        <p class="site-dialog-message">Avisos compartilhados com os dispositivos inscritos.</p>
       </div>
-    </div>
-    <div class="notification-controls">
-      <button id="studioPushToggle" type="button">Ativar avisos neste dispositivo</button>
-      <button id="studioNotificationsRefresh" type="button">Atualizar</button>
-      <button id="closeNotificationsDialog" type="button">Fechar</button>
+      <div class="notification-heading-actions">
+        <button id="studioPushToggle" class="notification-icon-button notification-bell-toggle" type="button"
+          data-enabled="false" aria-label="Ativar notificações neste dispositivo" aria-pressed="false"
+          title="Ativar notificações neste dispositivo">
+          <i class="fas fa-bell" aria-hidden="true"></i>
+          <span class="notification-toggle-state" aria-hidden="true">×</span>
+        </button>
+        <button id="studioNotificationsRefresh" class="notification-icon-button" type="button"
+          aria-label="Atualizar notificações" title="Atualizar notificações">
+          <i class="fas fa-rotate-right" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
     <p id="studioNotificationsStatus" class="notification-status" role="status" aria-live="polite"></p>
     <ul id="studioNotificationsList" class="notification-list"></ul>
@@ -12458,6 +12518,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const list = document.getElementById("studioNotificationsList");
   const status = document.getElementById("studioNotificationsStatus");
   const pushToggle = document.getElementById("studioPushToggle");
+  const pushToggleState = pushToggle.querySelector(".notification-toggle-state");
   const readStorageKey = "studio-notification-read-ids";
   const appUrl = "https://victorferrazsep-cmd.github.io/studio1/index.html";
   const serviceWorkerUrl = new URL("sw.js", document.baseURI);
@@ -12564,16 +12625,25 @@ document.addEventListener("DOMContentLoaded", () => {
   async function refreshPushToggle() {
     const unsupported = pushSupportMessage();
     if (unsupported) {
+      pushToggle.dataset.enabled = "false";
+      pushToggle.setAttribute("aria-pressed", "false");
+      pushToggle.setAttribute("aria-label", `Notificações indisponíveis: ${unsupported}`);
+      pushToggle.title = `Notificações indisponíveis: ${unsupported}`;
+      pushToggleState.textContent = "×";
       pushToggle.disabled = true;
-      pushToggle.textContent = "Avisos indisponíveis";
       return;
     }
     const registration = await getPushRegistration();
     const subscription = await registration?.pushManager.getSubscription();
     pushToggle.disabled = false;
-    pushToggle.textContent = subscription
-      ? "Desativar avisos neste dispositivo"
-      : "Ativar avisos neste dispositivo";
+    pushToggle.dataset.enabled = String(Boolean(subscription));
+    pushToggle.setAttribute("aria-pressed", String(Boolean(subscription)));
+    pushToggle.setAttribute(
+      "aria-label",
+      subscription ? "Desativar notificações neste dispositivo" : "Ativar notificações neste dispositivo",
+    );
+    pushToggle.title = pushToggle.getAttribute("aria-label");
+    pushToggleState.textContent = subscription ? "✓" : "×";
   }
 
   async function togglePush() {
@@ -12647,7 +12717,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".page-notification-icon").forEach(button => {
     button.addEventListener("click", () => void openNotificationCenter());
   });
-  document.getElementById("closeNotificationsDialog").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", event => {
+    if (event.target === dialog) dialog.close();
+  });
   document.getElementById("studioNotificationsRefresh").addEventListener("click", () => {
     status.textContent = "Atualizando avisos...";
     void loadNotifications()
