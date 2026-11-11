@@ -1792,6 +1792,35 @@ button {
   touch-action: manipulation;
 }
 
+.header-notification-icon {
+  position: fixed;
+  z-index: 20;
+  top: 3rem;
+  right: 2.5rem;
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--rose);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.header-notification-icon:hover,
+.header-notification-icon:focus-visible {
+  transform: none;
+  color: #ffd2c2;
+}
+
+.page-title-row,
+#relatoriosPage .reports-header {
+  padding-right: 3rem;
+}
+
 button:hover:not(:disabled) {
   transform: translateY(-1px);
 }
@@ -3288,6 +3317,13 @@ button:active:not(:disabled) {
     left: 1.25rem;
   }
 
+  .header-notification-icon {
+    top: calc(1.25rem + env(safe-area-inset-top, 0px));
+    right: calc(1.75rem + env(safe-area-inset-right, 0px));
+    height: 2rem;
+    min-height: 2rem;
+  }
+
   #clientesPage > .flex.justify-between.mb-5.items-center,
   #agendaPage > .flex.justify-between.mb-5.items-center,
   #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
@@ -3445,6 +3481,7 @@ button:active:not(:disabled) {
 
   #relatoriosPage .reports-header {
     align-items: stretch;
+    justify-content: center;
   }
 
   .reports-controls {
@@ -3491,8 +3528,16 @@ button:active:not(:disabled) {
 
 @media (min-width: 641px) and (max-width: 1280px) {
   main.flex-1 {
+    padding-top: 1.25rem;
     padding-right: 1.25rem;
     padding-left: 1.25rem;
+  }
+
+  .header-notification-icon {
+    top: 1.375rem;
+    right: 2.125rem;
+    height: 2.75rem;
+    min-height: 2.75rem;
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
@@ -3585,10 +3630,6 @@ button:active:not(:disabled) {
 
   #configuracoesPage form > button {
     flex: 0 1 auto;
-  }
-
-  #formLoginAgenda input {
-    width: 100%;
   }
 
   .reports-kpi-grid {
@@ -4295,8 +4336,7 @@ button:active:not(:disabled) {
 
   #configuracoesPage form > label,
   #configuracoesPage form > button,
-  #formLoginAgenda > label,
-  #formLoginAgenda > button {
+  #googleCalendarAuthActions > button {
     width: 100%;
     max-width: 100%;
   }
@@ -4425,6 +4465,9 @@ button:active:not(:disabled) {
 <!-- Botão de menu -->
 <button id="menuBtn" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false" class="fixed top-5 left-5 p-2 rounded-md shadow-md z-50">
   <span style="color: var(--rose);" class="text-2xl">☰</span>
+</button>
+<button class="header-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+  <i class="far fa-bell" aria-hidden="true"></i>
 </button>
 
 <!-- Conteúdo principal -->
@@ -4578,7 +4621,7 @@ button:active:not(:disabled) {
 
     <!-- CLIENTES -->
   <div id="clientesPage" class="page hidden">
-    <div class="flex justify-between mb-5 items-center">
+    <div class="page-title-row flex justify-between mb-5 items-center">
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-users" aria-hidden="true"></i></span>
           <span class="page-heading-copy">
@@ -4716,7 +4759,7 @@ button:active:not(:disabled) {
 
   <!-- AGENDA -->
   <div id="agendaPage" class="page hidden">
-    <div class="flex justify-between mb-5 items-center">
+    <div class="page-title-row flex justify-between mb-5 items-center">
       <h2 class="page-heading">
         <span class="page-heading-icon"><i class="fas fa-calendar-days" aria-hidden="true"></i></span>
         <span class="page-heading-copy">
@@ -5032,7 +5075,7 @@ button:active:not(:disabled) {
     </div>
 
     <div id="configuracoesPage" class="page hidden">
-      <div class="flex justify-between mb-5 items-center">
+      <div class="page-title-row flex justify-between mb-5 items-center">
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-gear" aria-hidden="true"></i></span>
           <span class="page-heading-copy">
@@ -5080,24 +5123,18 @@ button:active:not(:disabled) {
             </p>
           </div>
         </div>
-        <form id="formLoginAgenda" class="flex flex-wrap items-end gap-3">
-          <label id="loginAgendaEmailField" class="flex flex-col gap-1 text-sm">E-mail
-            <input id="loginAgendaEmail" type="email" autocomplete="username" required
-              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-          </label>
-          <label id="loginAgendaSenhaField" class="flex flex-col gap-1 text-sm">Senha
-            <input id="loginAgendaSenha" type="password" autocomplete="current-password" required
-              class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300">
-          </label>
-          <button id="btnEntrarAgenda" type="submit" class="btn-primary px-4 py-2 rounded-md font-semibold">Entrar</button>
+        <div id="googleCalendarAuthActions" class="flex flex-wrap items-end gap-3">
+          <button id="btnEntrarAgenda" type="button" class="btn-primary px-4 py-2 rounded-md font-semibold">
+            <i class="fab fa-google mr-2" aria-hidden="true"></i>Entrar com Google
+          </button>
           <button id="btnSairAgenda" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Sair</button>
           <button id="btnConectarGoogleCalendar" type="button" class="hidden btn-primary px-4 py-2 rounded-md font-semibold">Conectar Google Agenda</button>
-        </form>
+        </div>
       </section>
     </div>
 
     <section id="mensagensAutoPage" class="page hidden">
-      <div class="flex justify-between mb-5 items-center">
+      <div class="page-title-row flex justify-between mb-5 items-center">
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-comment-dots" aria-hidden="true"></i></span>
           <span class="page-heading-copy">
@@ -5173,7 +5210,7 @@ button:active:not(:disabled) {
 
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
-<div class="flex justify-between mb-5 items-center">
+<div class="page-title-row flex justify-between mb-5 items-center">
   <h2 class="page-heading">
     <span class="page-heading-icon"><i class="fas fa-wallet" aria-hidden="true"></i></span>
     <span class="page-heading-copy">
@@ -9896,7 +9933,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const SUPABASE_ANAMNESE_URL = "supabase://anamnese";
   const btnConectarGoogleCalendar = document.getElementById("btnConectarGoogleCalendar");
   const googleCalendarStatus = document.getElementById("googleCalendarStatus");
-  const formLoginAgenda = document.getElementById("formLoginAgenda");
   const btnSairAgenda = document.getElementById("btnSairAgenda");
   const btnEntrarAgenda = document.getElementById("btnEntrarAgenda");
   let sessaoAgendaInicializada = false;
@@ -9913,8 +9949,6 @@ document.addEventListener("DOMContentLoaded", () => {
       canalRealtimeBloqueiosAgenda = null;
     }
     const conectadoAoSite = Boolean(session);
-    document.getElementById("loginAgendaEmailField").classList.toggle("hidden", conectadoAoSite);
-    document.getElementById("loginAgendaSenhaField").classList.toggle("hidden", conectadoAoSite);
     btnEntrarAgenda.classList.toggle("hidden", conectadoAoSite);
     btnSairAgenda.classList.toggle("hidden", !conectadoAoSite);
     btnConectarGoogleCalendar.classList.toggle("hidden", !conectadoAoSite);
@@ -9980,21 +10014,20 @@ document.addEventListener("DOMContentLoaded", () => {
     agendaCalendar?.render();
   }
 
-  formLoginAgenda.addEventListener("submit", async event => {
-    event.preventDefault();
+  btnEntrarAgenda.addEventListener("click", async () => {
     btnEntrarAgenda.disabled = true;
-    googleCalendarStatus.textContent = "Entrando...";
+    googleCalendarStatus.textContent = "Redirecionando para o login do Google...";
     try {
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: document.getElementById("loginAgendaEmail").value.trim(),
-        password: document.getElementById("loginAgendaSenha").value
+      const { error } = await supabaseClient.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}${window.location.pathname}`,
+          queryParams: { prompt: "select_account" }
+        }
       });
       if (error) throw error;
-      await atualizarSessaoAgenda(data.session);
-      document.getElementById("loginAgendaSenha").value = "";
     } catch (error) {
-      googleCalendarStatus.textContent = `Não foi possível entrar: ${error.message}`;
-    } finally {
+      googleCalendarStatus.textContent = `Não foi possível iniciar o login com Google: ${error.message}`;
       btnEntrarAgenda.disabled = false;
     }
   });
