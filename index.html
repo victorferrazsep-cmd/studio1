@@ -583,6 +583,45 @@
   .hidden {
     display: none !important;
   }
+
+  .page-title-row,
+  .reports-header {
+    position: relative;
+    padding-right: 3rem;
+  }
+
+  #homePage > .text-center.mb-8 {
+    position: relative;
+  }
+
+  .page-notification-icon {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: 0;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    min-height: 2rem;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--rose);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transform: translateY(-50%);
+  }
+
+  .page-notification-icon:hover,
+  .page-notification-icon:focus-visible {
+    transform: translateY(-50%);
+    color: #ffd2c2;
+  }
+
+  #homePage > .text-center.mb-8 .page-notification-icon {
+    top: 0.25rem;
+  }
   
   /* 🔹 Classe para esconder a sidebar fora da tela */
   .sidebar-hidden {
@@ -1790,35 +1829,6 @@ button {
   padding: 0;
   cursor: pointer;
   touch-action: manipulation;
-}
-
-.header-notification-icon {
-  position: fixed;
-  z-index: 20;
-  top: 3rem;
-  right: 2.5rem;
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  min-height: 2rem;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--rose);
-  font-size: 1.15rem;
-  cursor: pointer;
-}
-
-.header-notification-icon:hover,
-.header-notification-icon:focus-visible {
-  transform: none;
-  color: #ffd2c2;
-}
-
-.page-title-row,
-#relatoriosPage .reports-header {
-  padding-right: 3rem;
 }
 
 button:hover:not(:disabled) {
@@ -3317,11 +3327,8 @@ button:active:not(:disabled) {
     left: 1.25rem;
   }
 
-  .header-notification-icon {
-    top: calc(1.25rem + env(safe-area-inset-top, 0px));
-    right: calc(1.75rem + env(safe-area-inset-right, 0px));
-    height: 2rem;
-    min-height: 2rem;
+  #homePage > .text-center.mb-8 .page-notification-icon {
+    top: calc(0.5rem + env(safe-area-inset-top, 0px));
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
@@ -3533,11 +3540,8 @@ button:active:not(:disabled) {
     padding-left: 1.25rem;
   }
 
-  .header-notification-icon {
-    top: 1.375rem;
-    right: 2.125rem;
-    height: 2.75rem;
-    min-height: 2.75rem;
+  #homePage > .text-center.mb-8 .page-notification-icon {
+    top: 1.5rem;
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
@@ -4466,9 +4470,6 @@ button:active:not(:disabled) {
 <button id="menuBtn" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false" class="fixed top-5 left-5 p-2 rounded-md shadow-md z-50">
   <span style="color: var(--rose);" class="text-2xl">☰</span>
 </button>
-<button class="header-notification-icon" type="button" aria-label="Notificações" title="Notificações">
-  <i class="far fa-bell" aria-hidden="true"></i>
-</button>
 
 <!-- Conteúdo principal -->
 <main class="flex-1 p-10 overflow-y-auto ml-0">
@@ -4476,6 +4477,9 @@ button:active:not(:disabled) {
   <!-- HOME -->
   <div id="homePage" class="page">
     <div class="text-center mb-8">
+      <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+        <i class="far fa-bell" aria-hidden="true"></i>
+      </button>
       <img src="Assets/logo.png" alt="Logo Studio Sa Lopes" class="mx-auto mb-4" style="width:320px;" onerror="this.onerror=null;">
     </div>
 
@@ -4622,7 +4626,10 @@ button:active:not(:disabled) {
     <!-- CLIENTES -->
   <div id="clientesPage" class="page hidden">
     <div class="page-title-row flex justify-between mb-5 items-center">
-        <h2 class="page-heading">
+        <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+          <i class="far fa-bell" aria-hidden="true"></i>
+        </button>
+          <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-users" aria-hidden="true"></i></span>
           <span class="page-heading-copy">
             <span class="page-heading-title">Clientes</span>
@@ -4760,6 +4767,9 @@ button:active:not(:disabled) {
   <!-- AGENDA -->
   <div id="agendaPage" class="page hidden">
     <div class="page-title-row flex justify-between mb-5 items-center">
+      <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+        <i class="far fa-bell" aria-hidden="true"></i>
+      </button>
       <h2 class="page-heading">
         <span class="page-heading-icon"><i class="fas fa-calendar-days" aria-hidden="true"></i></span>
         <span class="page-heading-copy">
@@ -5076,6 +5086,9 @@ button:active:not(:disabled) {
 
     <div id="configuracoesPage" class="page hidden">
       <div class="page-title-row flex justify-between mb-5 items-center">
+        <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+          <i class="far fa-bell" aria-hidden="true"></i>
+        </button>
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-gear" aria-hidden="true"></i></span>
           <span class="page-heading-copy">
@@ -5135,6 +5148,9 @@ button:active:not(:disabled) {
 
     <section id="mensagensAutoPage" class="page hidden">
       <div class="page-title-row flex justify-between mb-5 items-center">
+        <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+          <i class="far fa-bell" aria-hidden="true"></i>
+        </button>
         <h2 class="page-heading">
           <span class="page-heading-icon"><i class="fas fa-comment-dots" aria-hidden="true"></i></span>
           <span class="page-heading-copy">
@@ -5211,6 +5227,9 @@ button:active:not(:disabled) {
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
 <div class="page-title-row flex justify-between mb-5 items-center">
+  <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+    <i class="far fa-bell" aria-hidden="true"></i>
+  </button>
   <h2 class="page-heading">
     <span class="page-heading-icon"><i class="fas fa-wallet" aria-hidden="true"></i></span>
     <span class="page-heading-copy">
@@ -5338,6 +5357,9 @@ button:active:not(:disabled) {
 
   <section id="relatoriosPage" class="page hidden">
     <header class="reports-header">
+      <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+        <i class="far fa-bell" aria-hidden="true"></i>
+      </button>
       <h2 class="page-heading">
         <span class="page-heading-icon"><i class="fas fa-chart-pie" aria-hidden="true"></i></span>
         <span class="page-heading-copy">
