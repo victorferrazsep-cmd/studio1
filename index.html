@@ -13,7 +13,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Tailwind CSS -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -45,6 +45,18 @@
 
   function tecnicaAgendamento(evento) {
     return evento?.Tecnica || evento?.Procedimento || "";
+  }
+  function formatarDescricaoPresenca(descricao, data) {
+    const partes = /^Presença:\s*(.*?)\s+-\s*(.*)$/i.exec(String(descricao || ""));
+    if (!partes) return descricao;
+
+    const nomes = partes[1].trim().split(/\s+/).filter(Boolean);
+    const nomeCliente = nomes.length > 1
+      ? `${nomes[0]} ${nomes[nomes.length - 1]}`
+      : nomes[0] || "";
+    const dataIso = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(data || ""));
+    const dataFormatada = dataIso ? ` ${dataIso[3]}/${dataIso[2]}` : "";
+    return `Presença${dataFormatada} - ${nomeCliente} - ${partes[2]}`;
   }
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const supabaseDataClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -1255,7 +1267,7 @@
 .cliente-atendimento-value {
   color: #c6ead2;
   font-weight: 500;
-  text-align: right;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -1991,11 +2003,13 @@ button:active:not(:disabled) {
 }
 
 .finance-report-value {
-  flex: 0 0 auto;
-  min-width: 6.5ch;
+  box-sizing: border-box;
+  flex: 0 0 11ch;
+  width: 11ch;
+  min-width: 11ch;
   color: #d7d0cf;
   font-size: inherit;
-  text-align: right;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -2015,6 +2029,11 @@ button:active:not(:disabled) {
 
 .finance-report-row-type .finance-report-label-text {
   font-size: inherit !important;
+  font-weight: 700;
+}
+
+.finance-report-row-type .finance-report-label button {
+  color: var(--rose);
   font-weight: 700;
 }
 
@@ -2043,6 +2062,10 @@ button:active:not(:disabled) {
   font-size: inherit !important;
 }
 
+.finance-report-row-family .finance-report-label button {
+  color: #c9c0be;
+}
+
 .finance-report-row-family {
   padding-left: 1.35rem;
 }
@@ -2066,7 +2089,7 @@ button:active:not(:disabled) {
   color: #bfb6b4;
 }
 
-.finance-report-row-name .finance-report-label button {
+.finance-report-label button {
   width: auto;
   min-width: 0;
   height: auto;
@@ -2078,32 +2101,53 @@ button:active:not(:disabled) {
   text-align: left;
 }
 
-.finance-report-row-name .finance-report-label button:hover,
-.finance-report-row-name .finance-report-label button[aria-expanded="true"] {
+.finance-report-label button:hover,
+.finance-report-label button[aria-expanded="true"] {
   color: var(--rose);
 }
 
+.finance-report-chevron {
+  margin-left: 0.35rem;
+  font-size: 0.65em;
+  transition: transform 0.15s ease;
+}
+
+.finance-report-label button[aria-expanded="true"] .finance-report-chevron {
+  transform: rotate(180deg);
+}
+
+.finance-report-hidden-count {
+  flex: 0 0 auto;
+  color: #aaa;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
 .finance-report-occurrences {
-  margin: 0.1rem 0 0.25rem 1rem;
-  padding-left: 0.65rem;
-  border-left: 1px solid rgba(244, 191, 174, 0.25);
+  margin: 0.1rem 0 0.25rem calc(2rem + 0.22rem + 0.35rem);
   color: #aaa;
   font-size: 0.78rem;
 }
 
 .finance-report-occurrence {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   padding: 0.15rem 0;
 }
 
 .finance-report-occurrence span:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
   overflow-wrap: anywhere;
 }
 
 .finance-report-occurrence span:last-child {
-  flex: 0 0 auto;
+  box-sizing: border-box;
+  flex: 0 0 11ch;
+  width: 11ch;
+  min-width: 11ch;
+  text-align: left;
   white-space: nowrap;
 }
 
@@ -2131,6 +2175,8 @@ button:active:not(:disabled) {
 }
 
 .finance-report-row-total:last-child {
+  min-height: 2rem;
+  align-items: center;
   margin-top: 0.08rem !important;
   padding-top: 0.22rem;
   border-top: 1px solid rgba(244, 191, 174, 0.12);
@@ -2531,6 +2577,88 @@ button:active:not(:disabled) {
   user-select: none;
 }
 
+.home-carousel-share {
+  position: absolute;
+  z-index: 3;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  color: #fff;
+  cursor: pointer;
+  mix-blend-mode: difference;
+}
+
+.home-carousel-share:hover,
+.home-carousel-share:focus-visible {
+  color: #fff;
+}
+
+.home-carousel-share i {
+  font-size: 1.35rem;
+}
+
+.home-share-dialog {
+  width: min(28rem, calc(100vw - 2rem));
+  max-height: min(85vh, 42rem);
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 191, 174, 0.25);
+  border-radius: 1rem;
+  background: #242020;
+  color: #f3eeee;
+}
+
+.home-share-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.home-share-dialog h3 {
+  margin: 0 0 0.4rem;
+  color: var(--rose);
+  font-weight: 700;
+}
+
+.home-share-dialog p {
+  margin: 0 0 1rem;
+  color: #c9c0be;
+  font-size: 0.85rem;
+}
+
+.home-share-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.home-share-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(244, 191, 174, 0.15);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.home-share-options input {
+  accent-color: var(--rose);
+}
+
+.home-share-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.home-share-status {
+  min-height: 1.2em;
+  margin-top: 0.75rem !important;
+  color: #f4bfae !important;
+}
+
 .home-carousel.is-dragging {
   cursor: grabbing;
 }
@@ -2718,15 +2846,79 @@ button:active:not(:disabled) {
   margin: 0 0 1.25rem;
 }
 
-.reports-header h2 {
-  margin: -2.7rem 0 0 2.25rem;
-  color: var(--rose);
-  font-size: 1.5rem;
-  font-weight: 700;
+.page-heading {
+  display: flex;
+  min-width: 0;
+  align-items: stretch;
+  gap: 0.7rem;
+  margin: 0;
+  color: #f8f2f0;
+  font-family: "DM Sans", "Inter", sans-serif;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.15;
 }
 
-.page > .flex.justify-between.mb-5.items-center h2 {
-  margin-left: 2.25rem;
+.page-heading-icon {
+  display: grid;
+  width: 1.55rem;
+  height: auto;
+  flex: 0 0 1.55rem;
+  align-self: stretch;
+  place-items: center;
+  color: var(--rose);
+  font-size: 1.15rem;
+  filter: drop-shadow(0 0 0.35rem rgba(244, 191, 174, 0.35));
+}
+
+.page-heading-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0;
+}
+
+.page-heading-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.05;
+}
+
+.page-heading-subtitle {
+  color: #b6aaa7;
+  font-family: "Inter", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.1;
+  white-space: normal;
+}
+
+.page-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  margin: -0.75rem 0 1.25rem;
+}
+
+#relatoriosPage .reports-header {
+  margin-bottom: 0.75rem;
+}
+
+#relatoriosPage .page-actions-row {
+  margin-top: 0;
+}
+
+.page > .flex.justify-between.mb-5.items-center .page-heading {
+  margin: 0;
+}
+
+#relatoriosPage .reports-header {
+  align-items: center;
+}
+
+#relatoriosPage .reports-header .page-heading {
+  flex: 0 1 auto;
 }
 
 .reports-card-heading p {
@@ -3087,7 +3279,7 @@ button:active:not(:disabled) {
   }
 
   #homePage {
-    padding-top: 3rem;
+    padding-top: 1rem;
   }
 
   #menuBtn {
@@ -3104,7 +3296,7 @@ button:active:not(:disabled) {
   #relatoriosPage .reports-header {
     box-sizing: border-box;
     min-height: 3rem;
-    padding-left: 4rem;
+    padding-left: 3.5rem;
   }
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
@@ -3117,8 +3309,8 @@ button:active:not(:disabled) {
 
   #relatoriosPage .reports-header h2 {
     display: flex;
-    align-items: center;
-    min-height: 3rem;
+    align-items: stretch;
+    min-height: 0;
   }
 
   #clientesPage #btnAdicionarCliente,
@@ -3140,8 +3332,23 @@ button:active:not(:disabled) {
   #mensagensAutoPage > .flex.justify-between.mb-5.items-center h2 {
     min-width: 0;
     margin: 0;
-    font-size: clamp(0.95rem, 4vw, 1.2rem);
-    white-space: nowrap;
+    white-space: normal;
+  }
+
+  .page-heading {
+    gap: 0.55rem;
+    font-size: 0.94rem;
+  }
+
+  .page-heading-icon {
+    width: 1.35rem;
+    height: auto;
+    flex-basis: 1.35rem;
+    font-size: 1rem;
+  }
+
+  .page-heading-subtitle {
+    font-size: 0.62rem;
   }
 
   .home-finance-summary > .home-section-heading {
@@ -3279,6 +3486,28 @@ button:active:not(:disabled) {
 
   #calendarAgenda .fc-button {
     font-size: 0.65rem !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1280px) {
+  main.flex-1 {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  #clientesPage > .flex.justify-between.mb-5.items-center,
+  #agendaPage > .flex.justify-between.mb-5.items-center,
+  #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
+  #configuracoesPage > .flex.justify-between.mb-5.items-center,
+  #financeiro2Page > .flex.justify-between.mb-5.items-center,
+  #relatoriosPage .reports-header {
+    box-sizing: border-box;
+    min-height: 3rem;
+    padding-left: 3rem;
+  }
+
+  .page-heading {
+    font-size: 1rem;
   }
 }
 
@@ -4205,7 +4434,6 @@ button:active:not(:disabled) {
   <div id="homePage" class="page">
     <div class="text-center mb-8">
       <img src="Assets/logo.png" alt="Logo Studio Sa Lopes" class="mx-auto mb-4" style="width:320px;" onerror="this.onerror=null;">
-      <h2 class="text-3xl font-bold text-rose-300" style="display:none;">Gestão Studio Sa Lopes</h2>
     </div>
 
 <div class="grid gap-4 mb-5 home-metric-grid">
@@ -4257,7 +4485,28 @@ button:active:not(:disabled) {
     <div id="homeCarousel" class="home-carousel" role="group" aria-label="Carrossel de imagens do Studio Sa Lopes">
       <img id="homeCarouselImage" src="Assets/Carrossel/1.png" alt="Imagem 1 de 4 do Studio Sa Lopes" class="home-feature-image" draggable="false">
       <img id="homeCarouselNextImage" src="Assets/Carrossel/1.png" alt="" class="home-feature-image is-inactive" aria-hidden="true" draggable="false">
+      <button id="homeCarouselShare" class="home-carousel-share" type="button" aria-label="Compartilhar imagens do carrossel" aria-haspopup="dialog">
+        <i class="fas fa-share-nodes" aria-hidden="true"></i>
+      </button>
     </div>
+    <dialog id="homeShareDialog" class="home-share-dialog" aria-labelledby="homeShareTitle">
+      <form id="homeShareForm">
+        <h3 id="homeShareTitle">Compartilhar no WhatsApp</h3>
+        <p>Selecione uma ou mais imagens. Na próxima tela, escolha o WhatsApp para enviar.</p>
+        <div class="home-share-options">
+          <label><input id="homeShareAll" type="checkbox"> Todas as imagens</label>
+          <label><input type="checkbox" name="homeShareImage" value="1.png"> Imagem 1</label>
+          <label><input type="checkbox" name="homeShareImage" value="2.png"> Imagem 2</label>
+          <label><input type="checkbox" name="homeShareImage" value="3.png"> Imagem 3</label>
+          <label><input type="checkbox" name="homeShareImage" value="4.png"> Imagem 4</label>
+        </div>
+        <div class="home-share-actions">
+          <button id="homeShareCancel" class="btn-primary px-4 py-2 rounded-md" type="button">Cancelar</button>
+          <button id="homeShareSubmit" class="btn-primary px-4 py-2 rounded-md" type="submit">Escolher WhatsApp</button>
+        </div>
+        <p id="homeShareStatus" class="home-share-status" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
   </div>
 
   <div class="card rounded-xl shadow p-5 upcoming-card">
@@ -4330,7 +4579,13 @@ button:active:not(:disabled) {
     <!-- CLIENTES -->
   <div id="clientesPage" class="page hidden">
     <div class="flex justify-between mb-5 items-center">
-      <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Clientes ✨</h2>
+        <h2 class="page-heading">
+          <span class="page-heading-icon"><i class="fas fa-users" aria-hidden="true"></i></span>
+          <span class="page-heading-copy">
+            <span class="page-heading-title">Clientes</span>
+            <span class="page-heading-subtitle">Gerencie seus clientes</span>
+          </span>
+        </h2>
       <div class="cliente-search-field">
         <button type="button" class="cliente-search-toggle" aria-label="Abrir pesquisa" aria-expanded="false" aria-controls="buscaCliente">
           <i class="fas fa-search" aria-hidden="true"></i>
@@ -4462,7 +4717,13 @@ button:active:not(:disabled) {
   <!-- AGENDA -->
   <div id="agendaPage" class="page hidden">
     <div class="flex justify-between mb-5 items-center">
-      <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Agenda ✨</h2>
+      <h2 class="page-heading">
+        <span class="page-heading-icon"><i class="fas fa-calendar-days" aria-hidden="true"></i></span>
+        <span class="page-heading-copy">
+          <span class="page-heading-title">Agenda</span>
+          <span class="page-heading-subtitle">Próximos atendimentos</span>
+        </span>
+      </h2>
       <div class="flex gap-3 mr-4 h-10"></div>
     </div>
 
@@ -4772,7 +5033,13 @@ button:active:not(:disabled) {
 
     <div id="configuracoesPage" class="page hidden">
       <div class="flex justify-between mb-5 items-center">
-        <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Configurações ✨</h2>
+        <h2 class="page-heading">
+          <span class="page-heading-icon"><i class="fas fa-gear" aria-hidden="true"></i></span>
+          <span class="page-heading-copy">
+            <span class="page-heading-title">Configurações</span>
+            <span class="page-heading-subtitle">Preferências do Studio</span>
+          </span>
+        </h2>
         <div class="flex gap-3 mr-4 h-10"></div>
       </div>
       <section class="card rounded-xl shadow p-5 mt-6 mb-5" aria-labelledby="catalogoAgendamentosTitle">
@@ -4831,7 +5098,15 @@ button:active:not(:disabled) {
 
     <section id="mensagensAutoPage" class="page hidden">
       <div class="flex justify-between mb-5 items-center">
-        <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Mensagens Auto</h2>
+        <h2 class="page-heading">
+          <span class="page-heading-icon"><i class="fas fa-comment-dots" aria-hidden="true"></i></span>
+          <span class="page-heading-copy">
+            <span class="page-heading-title">Mensagens Auto</span>
+            <span class="page-heading-subtitle">Mensagens para seus clientes</span>
+          </span>
+        </h2>
+      </div>
+      <div class="page-actions-row">
         <button id="btnNovaMensagemAuto" type="button" class="btn-primary px-4 py-2 rounded-md mr-4">
           <i class="fas fa-plus mr-1" aria-hidden="true"></i>Nova mensagem
         </button>
@@ -4899,11 +5174,17 @@ button:active:not(:disabled) {
     <!-- FINANCEIRO 2 --> 
     <div id="financeiro2Page" class="page hidden">
 <div class="flex justify-between mb-5 items-center">
-  <h2 class="text-2xl font-bold text-rose-300 ml-6 -mt-8">Financeiro ✨</h2>
-  <div class="flex gap-3 mr-4 financeiro-header-actions">
+  <h2 class="page-heading">
+    <span class="page-heading-icon"><i class="fas fa-wallet" aria-hidden="true"></i></span>
+    <span class="page-heading-copy">
+      <span class="page-heading-title">Financeiro</span>
+      <span class="page-heading-subtitle">Controle financeiro do Studio</span>
+    </span>
+  </h2>
+  </div>
+<div class="page-actions-row financeiro-header-actions">
     <button id="btnAdicionarOcorrencia" class="btn-primary px-3 py-1.5 text-sm rounded-md">+ Ocorrência</button>
     <button id="btnLoadRelatorio" class="btn-primary px-4 py-2 rounded-md">Relatório</button>
-  </div>
 </div>
 <div class="card rounded-xl shadow p-5 flex flex-col justify-center mb-5 home-finance-summary" id="financeiroResumo">
   <div class="home-section-heading mb-4">
@@ -5020,8 +5301,16 @@ button:active:not(:disabled) {
 
   <section id="relatoriosPage" class="page hidden">
     <header class="reports-header">
-      <h2>Relatórios ✨</h2>
-      <div class="reports-controls mr-4">
+      <h2 class="page-heading">
+        <span class="page-heading-icon"><i class="fas fa-chart-pie" aria-hidden="true"></i></span>
+        <span class="page-heading-copy">
+          <span class="page-heading-title">Relatórios</span>
+          <span class="page-heading-subtitle">Acompanhe os resultados do Studio</span>
+        </span>
+      </h2>
+    </header>
+    <div class="page-actions-row">
+      <div class="reports-controls">
         <div class="reports-period-toggle" role="group" aria-label="Período dos relatórios">
           <button type="button" data-report-mode="month" aria-pressed="true">M</button>
           <button type="button" data-report-mode="week" aria-pressed="false">S</button>
@@ -5030,7 +5319,7 @@ button:active:not(:disabled) {
         <span id="reportsPeriodLabel" class="reports-period-label">Carregando...</span>
         <button type="button" id="reportsNext" class="reports-nav-button" aria-label="Próximo período">›</button>
       </div>
-    </header>
+    </div>
     <p id="reportsStatus" class="reports-status" role="status">Carregando relatórios...</p>
 
     <div id="reportsContent" class="hidden">
@@ -6016,7 +6305,6 @@ function agruparDados(dados) {
 }
 
 function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
-  // Helper to create a row with category left and value right with dotted leader
   function createRow(label, value, options = {}) {
     const row = document.createElement("div");
     row.className = `finance-report-row finance-report-row-${options.level || "detail"}`;
@@ -6025,7 +6313,6 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
     row.style.alignItems = "center";
     row.style.marginBottom = options.marginBottom || "2px";
 
-    // Label container flex
     const labelContainer = document.createElement("div");
     labelContainer.className = "finance-report-label";
     labelContainer.style.display = "flex";
@@ -6049,28 +6336,25 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
       icon.setAttribute("aria-hidden", "true");
     }
 
-    // Dots filler that expands horizontally between label and value
     const dotsSpan = document.createElement("span");
     dotsSpan.className = "finance-report-dots";
     dotsSpan.style.flexGrow = "1";
     dotsSpan.style.borderBottom = "1px dotted #cccccc";
     dotsSpan.style.margin = "0 6px";
 
-    // Value container fixed width on right
     const valueSpan = document.createElement("span");
     valueSpan.className = "finance-report-value";
     valueSpan.textContent = value;
     valueSpan.style.fontWeight = options.bold ? "bold" : "normal";
     valueSpan.style.whiteSpace = "nowrap";
-    valueSpan.style.minWidth = "7ch";
-    valueSpan.style.textAlign = "right";
+    valueSpan.style.textAlign = "left";
 
     if (options.onClick) {
       const botao = document.createElement("button");
       botao.className = "finance-report-name-toggle";
       botao.type = "button";
       botao.textContent = label;
-      botao.setAttribute("aria-expanded", "false");
+      botao.setAttribute("aria-expanded", String(Boolean(options.expanded)));
       botao.style.font = "inherit";
       botao.style.fontWeight = options.bold ? "bold" : "normal";
       botao.style.fontStyle = options.italic ? "italic" : "normal";
@@ -6082,9 +6366,21 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
       botao.style.background = "transparent";
       botao.style.cursor = "pointer";
       botao.style.textAlign = "left";
+      const chevron = document.createElement("i");
+      chevron.className = "fas fa-chevron-down finance-report-chevron";
+      chevron.setAttribute("aria-hidden", "true");
+      botao.appendChild(chevron);
       botao.addEventListener("click", options.onClick);
       if (icon) labelContainer.appendChild(icon);
       labelContainer.appendChild(botao);
+      if (options.hiddenCount !== undefined) {
+        const hiddenCount = document.createElement("span");
+        hiddenCount.className = "finance-report-hidden-count";
+        hiddenCount.textContent = `(${options.hiddenCount})`;
+        hiddenCount.hidden = Boolean(options.expanded);
+        hiddenCount.setAttribute("aria-label", `${options.hiddenCount} itens ocultos`);
+        labelContainer.appendChild(hiddenCount);
+      }
     } else {
       if (icon) labelContainer.appendChild(icon);
       labelContainer.appendChild(labelSpan);
@@ -6101,34 +6397,50 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
   const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
   resumoDetalhadoDiv.innerHTML = ""; // Limpa conteúdo
 
-  // Iterate over Tipo groups, then Familias, then Nomes, adding subtotal and total lines with separators
   let grandTotal = 0;
   for (const tipoKey in dadosAgrupados) {
     const tipoTotal = formataValor(dadosAgrupados[tipoKey].total);
-    // Add a separator line for Tipo groups except first
     if (resumoDetalhadoDiv.childElementCount > 0) {
       const hr = document.createElement("hr");
       hr.className = "finance-report-divider";
       resumoDetalhadoDiv.appendChild(hr);
     }
-    resumoDetalhadoDiv.appendChild(createRow(tipoKey, tipoTotal, {
+    const grupoTipo = document.createElement("div");
+    const itensTipo = document.createElement("div");
+    const linhaTipo = createRow(tipoKey, tipoTotal, {
       bold: true,
       marginBottom: "6px",
       fontSize: "0.78rem",
       level: "type",
       tone: tipoKey === "Despesas" ? "expense" : "income",
-      icon: tipoKey === "Despesas" ? "fas fa-wallet" : "fas fa-coins"
-    }));
+      icon: tipoKey === "Despesas" ? "fas fa-wallet" : "fas fa-coins",
+      expanded: true,
+      onClick: event => {
+        itensTipo.hidden = !itensTipo.hidden;
+        event.currentTarget.setAttribute("aria-expanded", String(!itensTipo.hidden));
+      }
+    });
+    grupoTipo.append(linhaTipo, itensTipo);
+    resumoDetalhadoDiv.appendChild(grupoTipo);
 
     const familias = dadosAgrupados[tipoKey].familias;
     for (const famKey in familias) {
       const famTotal = formataValor(familias[famKey].total);
-      resumoDetalhadoDiv.appendChild(createRow(famKey, famTotal, {
+      const grupoFamilia = document.createElement("div");
+      const itensFamilia = document.createElement("div");
+      const linhaFamilia = createRow(famKey, famTotal, {
         fontSize: "0.82rem",
         marginBottom: "4px",
         level: "family",
-        tone: tipoKey === "Despesas" ? "expense" : "income"
-      }));
+        tone: tipoKey === "Despesas" ? "expense" : "income",
+        expanded: true,
+        onClick: event => {
+          itensFamilia.hidden = !itensFamilia.hidden;
+          event.currentTarget.setAttribute("aria-expanded", String(!itensFamilia.hidden));
+        }
+      });
+      grupoFamilia.append(linhaFamilia, itensFamilia);
+      itensTipo.appendChild(grupoFamilia);
 
       const nomes = familias[famKey].nomes;
       for (const nomeKey in nomes) {
@@ -6147,7 +6459,10 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
           detalhe.className = "finance-report-occurrence";
 
           const descricao = document.createElement("span");
-          descricao.textContent = ocorrencia.Descricao || "Sem descrição";
+          descricao.textContent = formatarDescricaoPresenca(
+            ocorrencia.Descricao || "Sem descrição",
+            ocorrencia.DtRegistro
+          );
           const valor = document.createElement("span");
           valor.textContent = formataValor(parseValorBR(ocorrencia.Valor));
           detalhe.append(descricao, valor);
@@ -6159,18 +6474,21 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
           marginBottom: "2px",
           level: "name",
           tone: tipoKey === "Despesas" ? "expense" : "income",
+          hiddenCount: ocorrencias.length,
           onClick: event => {
             detalhes.hidden = !detalhes.hidden;
             event.currentTarget.setAttribute("aria-expanded", String(!detalhes.hidden));
+            const hiddenCount = event.currentTarget.closest(".finance-report-row")
+              .querySelector(".finance-report-hidden-count");
+            if (hiddenCount) hiddenCount.hidden = !detalhes.hidden;
           }
         });
-        resumoDetalhadoDiv.append(linhaNome, detalhes);
+        itensFamilia.append(linhaNome, detalhes);
       }
 
-      // Add Familia subtotal separator line with background
       const famSubtotalDivider = document.createElement("div");
       famSubtotalDivider.className = "finance-report-family-divider";
-      resumoDetalhadoDiv.appendChild(famSubtotalDivider);
+      itensFamilia.appendChild(famSubtotalDivider);
     }
 
     grandTotal += tipoKey === "Despesas"
@@ -6178,24 +6496,10 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
       : dadosAgrupados[tipoKey].total;
   }
 
-  const totalDespesas = dadosAgrupados["Despesas"]?.total || 0;
-  const totalGanhos = dadosAgrupados["Ganhos"]?.total || 0;
   const totaisContainer = document.createElement("div");
   totaisContainer.className = "finance-report-totals";
 
-  totaisContainer.appendChild(createRow("TOTAL DESPESAS", formataValor(totalDespesas), {
-    bold: true,
-    fontSize: "0.78rem",
-    level: "total",
-    tone: "expense"
-  }));
-  totaisContainer.appendChild(createRow("TOTAL GANHOS", formataValor(totalGanhos), {
-    bold: true,
-    fontSize: "0.78rem",
-    level: "total",
-    tone: "income"
-  }));
-  totaisContainer.appendChild(createRow("TOTAL GERAL DAS LINHAS", formataValor(grandTotal), {
+  totaisContainer.appendChild(createRow("TOTAL GERAL", formataValor(grandTotal), {
     bold: true,
     fontSize: "0.78rem",
     marginBottom: "0",
@@ -6270,7 +6574,9 @@ function renderizarTabelaRelatorio(dadosFiltrados) {
       valor = `${mes}/${ano.slice(2)}`;
     }
 
-    td.textContent = valor || "—";
+    td.textContent = key === "Descricao"
+      ? formatarDescricaoPresenca(valor || "—")
+      : valor || "—";
     td.style.textAlign = "center";
     td.style.padding = "4px 6px";
     tr.appendChild(td);
@@ -6367,7 +6673,7 @@ table.appendChild(tbody);
     const linhasTotais = [
       ["TOTAL DESPESAS", totais.despesas],
       ["TOTAL GANHOS", totais.ganhos],
-      ["TOTAL GERAL DAS LINHAS", totais.geral]
+      ["TOTAL GERAL", totais.geral]
     ];
 
     linhasTotais.forEach(([rotulo, total]) => {
@@ -7776,10 +8082,91 @@ function configurarCarrosselHome() {
   if (!carrossel || !imagemAtual || !proximaImagem) return;
 
   const imagens = ["1.png", "2.png", "3.png", "4.png"];
+  const botaoCompartilhar = document.getElementById("homeCarouselShare");
+  const dialogoCompartilhar = document.getElementById("homeShareDialog");
+  const formularioCompartilhar = document.getElementById("homeShareForm");
+  const selecionarTodas = document.getElementById("homeShareAll");
+  const statusCompartilhar = document.getElementById("homeShareStatus");
+  const botaoEnviar = document.getElementById("homeShareSubmit");
+  const opcoesCompartilhar = [...document.querySelectorAll('input[name="homeShareImage"]')];
   let indiceAtual = 0;
   let temporizador;
   let transicionando = false;
   let inicioArraste;
+
+  botaoCompartilhar?.addEventListener("click", () => {
+    if (!dialogoCompartilhar?.showModal) {
+      alert("Este navegador não permite abrir a seleção de imagens.");
+      return;
+    }
+    selecionarTodas.checked = false;
+    opcoesCompartilhar.forEach((opcao, indice) => {
+      opcao.checked = indice === indiceAtual;
+    });
+    statusCompartilhar.textContent = "";
+    dialogoCompartilhar.showModal();
+  });
+
+  document.getElementById("homeShareCancel")?.addEventListener("click", () => {
+    dialogoCompartilhar?.close();
+  });
+
+  selecionarTodas?.addEventListener("change", () => {
+    opcoesCompartilhar.forEach(opcao => {
+      opcao.checked = selecionarTodas.checked;
+    });
+  });
+
+  opcoesCompartilhar.forEach(opcao => {
+    opcao.addEventListener("change", () => {
+      selecionarTodas.checked = opcoesCompartilhar.every(item => item.checked);
+    });
+  });
+
+  formularioCompartilhar?.addEventListener("submit", async event => {
+    event.preventDefault();
+    const selecionadas = opcoesCompartilhar.filter(opcao => opcao.checked);
+    if (!selecionadas.length) {
+      statusCompartilhar.textContent = "Selecione ao menos uma imagem.";
+      return;
+    }
+    if (!navigator.share || !navigator.canShare) {
+      statusCompartilhar.textContent = "O compartilhamento de imagens não é compatível com este navegador ou dispositivo.";
+      return;
+    }
+
+    botaoEnviar.disabled = true;
+    statusCompartilhar.textContent = "Preparando imagens...";
+    try {
+      const arquivos = await Promise.all(selecionadas.map(async opcao => {
+        const resposta = await fetch(`Assets/Carrossel/${opcao.value}`);
+        if (!resposta.ok) {
+          throw new Error(`Não foi possível carregar a imagem ${opcao.value}.`);
+        }
+        return new File([await resposta.blob()], opcao.value, { type: "image/png" });
+      }));
+      const dadosCompartilhamento = {
+        files: arquivos,
+        title: "Imagens do Studio Sa Lopes",
+        text: "Imagens do Studio Sa Lopes"
+      };
+      if (!navigator.canShare(dadosCompartilhamento)) {
+        statusCompartilhar.textContent = "Este dispositivo não permite compartilhar arquivos de imagem.";
+        return;
+      }
+
+      await navigator.share(dadosCompartilhamento);
+      dialogoCompartilhar.close();
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+      console.error("Não foi possível compartilhar as imagens:", error);
+      statusCompartilhar.textContent = error instanceof Error
+        ? error.message
+        : "Não foi possível preparar as imagens para compartilhamento.";
+    } finally {
+      botaoEnviar.disabled = false;
+    }
+  });
 
   function mostrarImagem(indice, direcao) {
     if (transicionando) return;
