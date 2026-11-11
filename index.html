@@ -39,6 +39,8 @@
   const SUPABASE_URL = "https://jsxurjbragxnutqvadyl.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_0m5jb1WEkjJcMk-WxfRd-w_M0mRmo8T";
   const APP_AUTH_REDIRECT_URL = "https://victorferrazsep-cmd.github.io/studio1/index.html";
+  const STUDIO_PUSH_PUBLIC_KEY = "BJ2y2VFABTdzp84aU3KStqFMWi0yyKV9a2ySTWVg8l8nurQ-A24nZQ_-m5Epzdv--XW5N54EFwG06tl7df00VME";
+  const returnedFromGoogleLogin = new URLSearchParams(window.location.hash.slice(1)).has("access_token");
 
   if (SUPABASE_URL.includes('COLE_AQUI') || SUPABASE_ANON_KEY.includes('COLE_AQUI')) {
     console.warn('Configure SUPABASE_URL e SUPABASE_ANON_KEY no index.html.');
@@ -907,6 +909,35 @@
     color: var(--rose);
     transition: transform 0.3s ease;
   }
+
+  .oauth-return-notice {
+    position: fixed;
+    z-index: 10000;
+    top: max(1rem, env(safe-area-inset-top));
+    left: 50%;
+    width: min(34rem, calc(100% - 2rem));
+    padding: 1rem 1.1rem;
+    transform: translateX(-50%);
+    border: 1px solid rgba(244, 191, 174, 0.45);
+    border-radius: 0.8rem;
+    background: #292929;
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+    color: #f3f3f3;
+  }
+
+  .oauth-return-notice strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #f4bfae;
+  }
+
+  .oauth-return-notice button {
+    margin-top: 0.65rem;
+    color: #f4bfae;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
 .card {
   display: flex;
   flex-direction: column;
@@ -990,6 +1021,83 @@
     display: block;
     width: 1.15rem;
     height: 1.15rem;
+  }
+
+  .page-notification-icon[data-unread="true"]::after {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.05rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1px solid #252525;
+    border-radius: 50%;
+    background: #f07b81;
+    content: "";
+  }
+
+  .notification-list {
+    display: grid;
+    max-height: min(55vh, 26rem);
+    gap: 0.55rem;
+    overflow-y: auto;
+    margin: 0.85rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .notification-list-item {
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.6rem;
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .notification-list-item strong {
+    color: #f4bfae;
+    font-size: 0.82rem;
+  }
+
+  .notification-list-item p,
+  .notification-list-item time {
+    display: block;
+    margin-top: 0.25rem;
+    color: #c5c0c0;
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+
+  .notification-list-item time {
+    color: #929090;
+    font-size: 0.65rem;
+  }
+
+  .notification-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+  }
+
+  .notification-controls button {
+    min-height: 2.4rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(244, 191, 174, 0.35);
+    border-radius: 0.5rem;
+    color: #f4bfae;
+  }
+
+  .notification-controls button:disabled {
+    opacity: 0.6;
+  }
+
+  .notification-status,
+  .notification-empty {
+    margin-top: 0.65rem;
+    color: #aaa6a8;
+    font-size: 0.75rem;
+  }
+
+  .page-notification-icon svg {
     fill: #000;
     stroke: var(--rose);
     stroke-width: 1.6;
@@ -5879,6 +5987,11 @@ button:active:not(:disabled) {
 </style>
 </head>
 <body class="flex h-screen">
+<aside id="oauthReturnNotice" class="oauth-return-notice hidden" role="status" aria-live="polite">
+  <strong>Login concluído</strong>
+  <span>Volte para a janela do app que ficou aberta. Você pode fechar esta página do navegador.</span>
+  <button id="dismissOAuthReturnNotice" type="button">Entendi</button>
+</aside>
 
 <!-- Sidebar -->
 <aside id="sidebar" class="sidebar w-64 p-5 pt-8 flex flex-col fixed inset-y-0 left-0 z-40 sidebar-hidden" aria-hidden="true" inert>
@@ -6953,6 +7066,25 @@ button:active:not(:disabled) {
       </article>
     </div>
   </section>
+
+<dialog id="notificationsDialog" class="site-dialog" aria-labelledby="notificationsDialogTitle">
+  <div class="site-dialog-content">
+    <div class="app-form-heading">
+      <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-bell"></i></span>
+      <div>
+        <h2 id="notificationsDialogTitle" class="site-dialog-title">Notificações do Studio</h2>
+        <p class="site-dialog-message">Avisos compartilhados com os dispositivos que ativarem as notificações.</p>
+      </div>
+    </div>
+    <div class="notification-controls">
+      <button id="studioPushToggle" type="button">Ativar avisos neste dispositivo</button>
+      <button id="studioNotificationsRefresh" type="button">Atualizar</button>
+      <button id="closeNotificationsDialog" type="button">Fechar</button>
+    </div>
+    <p id="studioNotificationsStatus" class="notification-status" role="status" aria-live="polite"></p>
+    <ul id="studioNotificationsList" class="notification-list"></ul>
+  </div>
+</dialog>
 
 <dialog id="siteDialog" class="site-dialog" aria-labelledby="siteDialogTitle" aria-describedby="siteDialogMessage">
   <div class="site-dialog-content">
@@ -11800,8 +11932,19 @@ document.addEventListener("DOMContentLoaded", () => {
     await atualizarSessaoAgenda(null);
   });
 
+  const showOAuthReturnNotice = session => {
+    if (!returnedFromGoogleLogin || !session) return;
+    if (window.matchMedia("(display-mode: standalone)").matches || navigator.standalone) return;
+    document.getElementById("oauthReturnNotice").classList.remove("hidden");
+  };
+
   supabaseClient.auth.onAuthStateChange((_event, session) => {
+    showOAuthReturnNotice(session);
     window.setTimeout(() => atualizarSessaoAgenda(session), 0);
+  });
+
+  document.getElementById("dismissOAuthReturnNotice").addEventListener("click", () => {
+    document.getElementById("oauthReturnNotice").classList.add("hidden");
   });
 
   supabaseClient.auth.getSession().then(({ data, error }) => {
@@ -11809,6 +11952,7 @@ document.addEventListener("DOMContentLoaded", () => {
       googleCalendarStatus.textContent = `Não foi possível recuperar a sessão: ${error.message}`;
       return;
     }
+    showOAuthReturnNotice(data.session);
     void atualizarSessaoAgenda(data.session);
   });
 
@@ -12307,6 +12451,237 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+</script>
+<script>
+(() => {
+  const dialog = document.getElementById("notificationsDialog");
+  const list = document.getElementById("studioNotificationsList");
+  const status = document.getElementById("studioNotificationsStatus");
+  const pushToggle = document.getElementById("studioPushToggle");
+  const readStorageKey = "studio-notification-read-ids";
+  const appUrl = "https://victorferrazsep-cmd.github.io/studio1/index.html";
+  const serviceWorkerUrl = new URL("sw.js", document.baseURI);
+  const serviceWorkerScope = new URL("./", document.baseURI).pathname;
+  let notifications = [];
+
+  function base64UrlToBytes(value) {
+    const padding = "=".repeat((4 - value.length % 4) % 4);
+    const base64 = (value + padding).replace(/-/g, "+").replace(/_/g, "/");
+    return Uint8Array.from(atob(base64), character => character.charCodeAt(0));
+  }
+
+  function getReadIds() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(readStorageKey) || "[]");
+      return new Set(Array.isArray(saved) ? saved.filter(id => typeof id === "string") : []);
+    } catch (error) {
+      console.error("Could not read notification status from local storage.", error);
+      return new Set();
+    }
+  }
+
+  function setReadIds(ids) {
+    try {
+      localStorage.setItem(readStorageKey, JSON.stringify([...ids].slice(-500)));
+    } catch (error) {
+      console.error("Could not save notification status to local storage.", error);
+      status.textContent = "Não foi possível salvar quais avisos já foram lidos neste dispositivo.";
+    }
+  }
+
+  function updateNotificationBadges() {
+    const readIds = getReadIds();
+    const hasUnread = notifications.some(notification => !readIds.has(notification.id));
+    document.querySelectorAll(".page-notification-icon").forEach(button => {
+      if (hasUnread) button.dataset.unread = "true";
+      else delete button.dataset.unread;
+    });
+  }
+
+  function renderNotifications() {
+    list.replaceChildren();
+    if (!notifications.length) {
+      const empty = document.createElement("li");
+      empty.className = "notification-empty";
+      empty.textContent = "Nenhum aviso recebido ainda.";
+      list.appendChild(empty);
+      updateNotificationBadges();
+      return;
+    }
+
+    const readIds = getReadIds();
+    notifications.forEach(notification => {
+      const item = document.createElement("li");
+      item.className = "notification-list-item";
+      item.dataset.unread = String(!readIds.has(notification.id));
+
+      const title = document.createElement("strong");
+      title.textContent = notification.title;
+      const body = document.createElement("p");
+      body.textContent = notification.body;
+      const date = document.createElement("time");
+      date.dateTime = notification.created_at;
+      date.textContent = new Date(notification.created_at).toLocaleString("pt-BR");
+      item.append(title, body, date);
+      list.appendChild(item);
+    });
+    updateNotificationBadges();
+  }
+
+  async function loadNotifications() {
+    const { data, error } = await supabaseDataClient
+      .from("studio_notifications")
+      .select("id,event_type,title,body,url,created_at")
+      .order("created_at", { ascending: false })
+      .limit(50);
+    if (error) throw error;
+    notifications = data || [];
+    renderNotifications();
+  }
+
+  async function getPushRegistration() {
+    return await navigator.serviceWorker.getRegistration(serviceWorkerScope);
+  }
+
+  function pushSupportMessage() {
+    if (!window.isSecureContext) return "As notificações exigem que o app seja aberto por HTTPS.";
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isInstalled = navigator.standalone === true ||
+      window.matchMedia("(display-mode: standalone)").matches;
+    if (isIOS && !isInstalled) {
+      return "No iPhone ou iPad, adicione o app à Tela de Início e abra-o pelo ícone antes de ativar os avisos.";
+    }
+    if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
+      return "Este navegador não oferece notificações push. Instale o app pelo Chrome atualizado e tente novamente.";
+    }
+    if (STUDIO_PUSH_PUBLIC_KEY === "CONFIGURE_STUDIO_PUSH_VAPID_PUBLIC_KEY") {
+      return "As notificações ainda precisam ser configuradas no servidor. A chave VAPID pública não foi adicionada.";
+    }
+    return "";
+  }
+
+  async function refreshPushToggle() {
+    const unsupported = pushSupportMessage();
+    if (unsupported) {
+      pushToggle.disabled = true;
+      pushToggle.textContent = "Avisos indisponíveis";
+      return;
+    }
+    const registration = await getPushRegistration();
+    const subscription = await registration?.pushManager.getSubscription();
+    pushToggle.disabled = false;
+    pushToggle.textContent = subscription
+      ? "Desativar avisos neste dispositivo"
+      : "Ativar avisos neste dispositivo";
+  }
+
+  async function togglePush() {
+    pushToggle.disabled = true;
+    try {
+      const unsupported = pushSupportMessage();
+      if (unsupported) throw new Error(unsupported);
+
+      const registration = await navigator.serviceWorker.register(serviceWorkerUrl, {
+        scope: serviceWorkerScope,
+      });
+      await navigator.serviceWorker.ready;
+      const existing = await registration.pushManager.getSubscription();
+      if (existing) {
+        const unsubscribed = await existing.unsubscribe();
+        if (!unsubscribed) throw new Error("O navegador não conseguiu desativar os avisos deste dispositivo.");
+        status.textContent = "Avisos desativados neste dispositivo.";
+      } else {
+        const permission = Notification.permission === "granted"
+          ? "granted"
+          : await Notification.requestPermission();
+        if (permission !== "granted") {
+          throw new Error(permission === "denied"
+            ? "As notificações estão bloqueadas nas configurações do navegador."
+            : "Permita as notificações para ativá-las neste dispositivo.");
+        }
+
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: base64UrlToBytes(STUDIO_PUSH_PUBLIC_KEY),
+        });
+        const { error } = await supabaseDataClient
+          .from("studio_push_subscriptions")
+          .insert({
+            endpoint: subscription.endpoint,
+            subscription: subscription.toJSON(),
+          });
+        if (error && error.code !== "23505") {
+          await subscription.unsubscribe();
+          throw error;
+        }
+        status.textContent = "Avisos ativados neste dispositivo.";
+      }
+    } catch (error) {
+      console.error("Could not configure studio push notifications.", error);
+      status.textContent = `Não foi possível configurar os avisos: ${error.message}`;
+    } finally {
+      await refreshPushToggle().catch(error => {
+        console.error("Could not refresh notification controls.", error);
+        pushToggle.disabled = true;
+      });
+    }
+  }
+
+  async function openNotificationCenter() {
+    if (!dialog.open) dialog.showModal();
+    status.textContent = "Carregando avisos...";
+    try {
+      await Promise.all([loadNotifications(), refreshPushToggle()]);
+      const readIds = getReadIds();
+      notifications.forEach(notification => readIds.add(notification.id));
+      setReadIds(readIds);
+      renderNotifications();
+      if (!status.textContent.startsWith("Não foi possível")) status.textContent = "";
+    } catch (error) {
+      console.error("Could not load studio notifications.", error);
+      status.textContent = `Não foi possível carregar os avisos: ${error.message}`;
+    }
+  }
+
+  document.querySelectorAll(".page-notification-icon").forEach(button => {
+    button.addEventListener("click", () => void openNotificationCenter());
+  });
+  document.getElementById("closeNotificationsDialog").addEventListener("click", () => dialog.close());
+  document.getElementById("studioNotificationsRefresh").addEventListener("click", () => {
+    status.textContent = "Atualizando avisos...";
+    void loadNotifications()
+      .then(() => { status.textContent = ""; })
+      .catch(error => {
+        console.error("Could not refresh studio notifications.", error);
+        status.textContent = `Não foi possível atualizar os avisos: ${error.message}`;
+      });
+  });
+  pushToggle.addEventListener("click", () => void togglePush());
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.addEventListener("message", event => {
+      if (event.data?.type === "studio-push-received") {
+        void loadNotifications().catch(error => {
+          console.error("Could not refresh notifications after a push.", error);
+        });
+      }
+    });
+  }
+
+  window.addEventListener("focus", () => {
+    void loadNotifications().catch(error => console.error("Could not refresh studio notifications.", error));
+  });
+  window.setInterval(() => {
+    if (document.visibilityState === "visible") {
+      void loadNotifications().catch(error => console.error("Could not refresh studio notifications.", error));
+    }
+  }, 60_000);
+
+  void loadNotifications().catch(error => {
+    console.error("Studio notification feed is not available yet.", error);
+  });
+})();
 </script>
 </body>
 </html>
