@@ -12523,6 +12523,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const appUrl = "https://victorferrazsep-cmd.github.io/studio1/index.html";
   const serviceWorkerUrl = new URL("sw.js", document.baseURI);
   const serviceWorkerScope = new URL("./", document.baseURI).pathname;
+  const notificationTypeIcons = {
+    appointment_reminder: "📅",
+    appointment_created: "✍️",
+    appointment_deleted: "✍️",
+    client_no_future_appointments: "📣",
+    attendance_missing: "✅",
+  };
   let notifications = [];
 
   function base64UrlToBytes(value) {
@@ -12577,7 +12584,8 @@ document.addEventListener("DOMContentLoaded", () => {
       item.dataset.unread = String(!readIds.has(notification.id));
 
       const title = document.createElement("strong");
-      title.textContent = notification.title;
+      const icon = notificationTypeIcons[notification.event_type] || "";
+      title.textContent = icon ? `${icon} ${notification.title}` : notification.title;
       const body = document.createElement("p");
       body.textContent = notification.body;
       const date = document.createElement("time");
