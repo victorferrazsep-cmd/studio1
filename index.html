@@ -4381,9 +4381,14 @@ button:active:not(:disabled) {
   #homePage > .home-brand-header {
     justify-content: center;
     min-height: 10rem;
-    margin: -1rem -0.75rem 1rem;
+    width: 100vw;
+    margin-top: calc(-1rem - max(0.75rem, env(safe-area-inset-top, 0px)));
+    margin-right: 0;
+    margin-bottom: 1rem;
+    margin-left: calc(-1 * max(0.75rem, env(safe-area-inset-left, 0px)));
     padding: 1.25rem 0.5rem 0.75rem;
-    background-size: 100% 100%, 100% 100%, auto 24rem;
+    background-size: 100% 100%, 100% 100%, cover;
+    background-position: center, center, right 55%;
   }
 
   #homePage > .home-brand-header img {
