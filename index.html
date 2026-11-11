@@ -2149,6 +2149,7 @@ main {
   min-width: 0;
   padding-top: 2rem;
   padding-bottom: 3rem;
+  scrollbar-gutter: stable;
 }
 
 .sidebar {
@@ -2924,22 +2925,6 @@ button:active:not(:disabled) {
   width: min(20rem, 100%);
   height: auto;
   margin: 0;
-}
-
-.app-foliage-footer {
-  position: relative;
-  isolation: isolate;
-  min-height: 2.5rem;
-  margin-top: 1.5rem;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.app-foliage-footer::before {
-  position: absolute;
-  inset: 0;
-  background: url("Assets/folhas-neon-rosa-transparente.png") right 68% / auto 42rem no-repeat;
-  content: "";
 }
 
 .home-section-heading {
@@ -6914,8 +6899,6 @@ button:active:not(:disabled) {
       </article>
     </div>
   </section>
-
-  <footer class="app-foliage-footer" aria-hidden="true"></footer>
 
 <dialog id="siteDialog" class="site-dialog" aria-labelledby="siteDialogTitle" aria-describedby="siteDialogMessage">
   <div class="site-dialog-content">
