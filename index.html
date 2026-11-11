@@ -5100,7 +5100,7 @@ button:active:not(:disabled) {
       </div>
       <section class="card rounded-xl shadow p-5 mt-6 mb-5" aria-labelledby="catalogoAgendamentosTitle">
         <h3 id="catalogoAgendamentosTitle" class="text-lg font-semibold mb-1">Listas do agendamento</h3>
-        <p class="text-sm text-gray-400 mb-4">Cadastre modalidade, tipo, técnica e valor padrão. Essas configurações ficam salvas somente neste navegador.</p>
+        <p class="text-sm text-gray-400 mb-4">Cadastre modalidade, tipo, técnica e valor padrão. As listas ficam sincronizadas entre dispositivos pelo Supabase.</p>
         <form id="formCatalogoAgendamentos" class="flex flex-wrap items-end gap-3">
           <label class="flex flex-col gap-1 text-sm">Modalidade
             <select id="catalogoModalidade" class="p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300" required></select>
@@ -8467,6 +8467,7 @@ let bloqueiosAgendaCarregados = false;
 let canalRealtimeBloqueiosAgenda = null;
 const CHAVE_BLOQUEIOS_AGENDA = "studio-agenda-bloqueios-local";
 const CHAVE_CATALOGO_AGENDAMENTOS = "studio-catalogo-agendamentos";
+const CHAVE_CATALOGO_AGENDAMENTOS_IMPORTADO = "studio-catalogo-agendamentos-supabase-importado";
 const MODALIDADES_INICIAIS_AGENDAMENTO = [
   {
     nome: "Extensão de Cílios",
@@ -8486,19 +8487,7 @@ const MODALIDADES_INICIAIS_AGENDAMENTO = [
 ];
 let catalogoAgendamentos = [];
 
-function carregarCatalogoAgendamentos() {
-  const dadosSalvos = localStorage.getItem(CHAVE_CATALOGO_AGENDAMENTOS);
-  if (dadosSalvos === null) {
-    catalogoAgendamentos = MODALIDADES_INICIAIS_AGENDAMENTO.map(modalidade => ({
-      nome: modalidade.nome,
-      tipos: [...modalidade.tipos],
-      procedimentos: modalidade.procedimentos.map(procedimento => ({ ...procedimento }))
-    }));
-    salvarCatalogoAgendamentos();
-    return;
-  }
-
-  const catalogo = JSON.parse(dadosSalvos);
+function validarCatalogoAgendamentos(catalogo) {
   if (!Array.isArray(catalogo) || catalogo.some(modalidade =>
     !modalidade || typeof modalidade.nome !== "string" || !Array.isArray(modalidade.procedimentos) ||
     (modalidade.tipos !== undefined &&
@@ -8511,29 +8500,99 @@ function carregarCatalogoAgendamentos() {
   )) {
     throw new Error("As listas salvas de técnicas estão em formato inválido.");
   }
-  let migrado = false;
-  catalogo.forEach(modalidade => {
-    if (!Array.isArray(modalidade.tipos)) {
-      modalidade.tipos = ["Aplicação", "Manutenção"];
-      migrado = true;
-    }
+
+  const normalizado = catalogo.map(modalidade => ({
+    nome: modalidade.nome,
+    tipos: Array.isArray(modalidade.tipos) ? [...modalidade.tipos] : ["Aplicação", "Manutenção"],
+    procedimentos: modalidade.procedimentos.map(procedimento => ({
+      ...procedimento,
+      tipo: procedimento.tipo || (modalidade.tipos?.[0] || "Aplicação")
+    }))
+  }));
+  normalizado.forEach(modalidade => {
     modalidade.procedimentos.forEach(procedimento => {
-      if (!procedimento.tipo) {
-        procedimento.tipo = modalidade.tipos[0] || "Aplicação";
-        migrado = true;
-      }
       if (!modalidade.tipos.includes(procedimento.tipo)) {
         modalidade.tipos.push(procedimento.tipo);
-        migrado = true;
       }
     });
   });
-  catalogoAgendamentos = catalogo;
-  if (migrado) salvarCatalogoAgendamentos();
+  return normalizado;
 }
 
-function salvarCatalogoAgendamentos() {
-  localStorage.setItem(CHAVE_CATALOGO_AGENDAMENTOS, JSON.stringify(catalogoAgendamentos));
+function mesclarCatalogosAgendamentos(principal, importado) {
+  const mesclado = validarCatalogoAgendamentos(principal);
+  validarCatalogoAgendamentos(importado).forEach(modalidadeImportada => {
+    let modalidade = mesclado.find(item =>
+      item.nome.toLocaleLowerCase("pt-BR") === modalidadeImportada.nome.toLocaleLowerCase("pt-BR")
+    );
+    if (!modalidade) {
+      mesclado.push(modalidadeImportada);
+      return;
+    }
+
+    modalidadeImportada.tipos.forEach(tipo => {
+      if (!modalidade.tipos.some(item => item.toLocaleLowerCase("pt-BR") === tipo.toLocaleLowerCase("pt-BR"))) {
+        modalidade.tipos.push(tipo);
+      }
+    });
+    modalidadeImportada.procedimentos.forEach(procedimento => {
+      const existe = modalidade.procedimentos.some(item =>
+        item.tipo.toLocaleLowerCase("pt-BR") === procedimento.tipo.toLocaleLowerCase("pt-BR") &&
+        item.nome.toLocaleLowerCase("pt-BR") === procedimento.nome.toLocaleLowerCase("pt-BR")
+      );
+      if (!existe) modalidade.procedimentos.push(procedimento);
+    });
+  });
+  return mesclado;
+}
+
+async function carregarCatalogoAgendamentos() {
+  const importado = localStorage.getItem(CHAVE_CATALOGO_AGENDAMENTOS_IMPORTADO) === "true";
+  const dadosLocais = !importado ? localStorage.getItem(CHAVE_CATALOGO_AGENDAMENTOS) : null;
+  const catalogoLocal = dadosLocais === null
+    ? null
+    : validarCatalogoAgendamentos(JSON.parse(dadosLocais));
+  const { data, error } = await supabaseDataClient
+    .from("studio_catalogo_agendamentos")
+    .select("catalogo")
+    .eq("id", "principal")
+    .maybeSingle();
+  if (error) throw error;
+
+  if (!data) {
+    const padrao = MODALIDADES_INICIAIS_AGENDAMENTO.map(modalidade => ({
+      nome: modalidade.nome,
+      tipos: [...modalidade.tipos],
+      procedimentos: modalidade.procedimentos.map(procedimento => ({ ...procedimento }))
+    }));
+    catalogoAgendamentos = mesclarCatalogosAgendamentos(padrao, catalogoLocal || []);
+    await salvarCatalogoAgendamentos();
+    return;
+  }
+
+  const catalogoRemoto = validarCatalogoAgendamentos(data.catalogo);
+  catalogoAgendamentos = catalogoLocal
+    ? mesclarCatalogosAgendamentos(catalogoRemoto, catalogoLocal)
+    : catalogoRemoto;
+  if (catalogoLocal && JSON.stringify(catalogoAgendamentos) !== JSON.stringify(catalogoRemoto)) {
+    await salvarCatalogoAgendamentos();
+  } else {
+    localStorage.setItem(CHAVE_CATALOGO_AGENDAMENTOS_IMPORTADO, "true");
+    localStorage.removeItem(CHAVE_CATALOGO_AGENDAMENTOS);
+  }
+}
+
+async function salvarCatalogoAgendamentos() {
+  const { error } = await supabaseDataClient
+    .from("studio_catalogo_agendamentos")
+    .upsert({
+      id: "principal",
+      catalogo: catalogoAgendamentos,
+      updated_at: new Date().toISOString()
+    });
+  if (error) throw error;
+  localStorage.setItem(CHAVE_CATALOGO_AGENDAMENTOS_IMPORTADO, "true");
+  localStorage.removeItem(CHAVE_CATALOGO_AGENDAMENTOS);
 }
 
 function valorNumericoValido(valor) {
@@ -8696,23 +8755,28 @@ function renderizarListaCatalogoModalidades() {
     : '<p class="py-2 text-sm text-gray-400">Nenhuma modalidade cadastrada.</p>';
 }
 
-function configurarCatalogoAgendamentos() {
+async function configurarCatalogoAgendamentos() {
   const form = document.getElementById("formCatalogoAgendamentos");
   const selectModalidade = document.getElementById("catalogoModalidade");
   const campoModalidadeNova = document.getElementById("catalogoNovaModalidadeField");
   const inputModalidadeNova = document.getElementById("catalogoNovaModalidade");
   const status = document.getElementById("statusCatalogoAgendamentos");
 
+  status.textContent = "Carregando listas sincronizadas...";
   try {
-    carregarCatalogoAgendamentos();
+    await carregarCatalogoAgendamentos();
     renderizarModalidadesAgendamento();
     atualizarOpcoesModalidadeCatalogo();
     renderizarListaCatalogoModalidades();
     renderizarListaCatalogoAgendamentos();
+    renderizarTiposAgendamento();
+    renderizarTecnicasAgendamento();
+    status.textContent = "Listas sincronizadas com o Supabase.";
   } catch (error) {
-    status.textContent = `Não foi possível carregar as listas: ${error.message}`;
+    status.textContent = `Não foi possível carregar as listas sincronizadas: ${error.message}`;
     form.querySelector('button[type="submit"]').disabled = true;
     console.error("Erro ao carregar listas do agendamento:", error);
+    return;
   }
 
   selectModalidade.addEventListener("change", () => {
@@ -8722,7 +8786,7 @@ function configurarCatalogoAgendamentos() {
     inputModalidadeNova.required = nova;
   });
 
-  form.addEventListener("submit", event => {
+  form.addEventListener("submit", async event => {
     event.preventDefault();
     const modalidadeNome = selectModalidade.value === "__nova"
       ? inputModalidadeNova.value.trim()
@@ -8754,7 +8818,7 @@ function configurarCatalogoAgendamentos() {
     }
 
     try {
-      salvarCatalogoAgendamentos();
+      await salvarCatalogoAgendamentos();
       renderizarModalidadesAgendamento();
       atualizarOpcoesModalidadeCatalogo(modalidadeNome);
       renderizarListaCatalogoModalidades();
@@ -8765,7 +8829,7 @@ function configurarCatalogoAgendamentos() {
       campoModalidadeNova.classList.add("hidden");
       campoModalidadeNova.style.display = "";
       inputModalidadeNova.required = false;
-      status.textContent = "Modalidade, tipo, técnica e valor salvos neste navegador.";
+      status.textContent = "Modalidade, tipo, técnica e valor salvos no Supabase.";
     } catch (error) {
       catalogoAgendamentos = JSON.parse(catalogoAnterior);
       renderizarModalidadesAgendamento();
@@ -8779,7 +8843,7 @@ function configurarCatalogoAgendamentos() {
     }
   });
 
-  document.getElementById("listaCatalogoAgendamentos").addEventListener("click", event => {
+  document.getElementById("listaCatalogoAgendamentos").addEventListener("click", async event => {
     const botao = event.target.closest("[data-remover-procedimento]");
     if (!botao) return;
     const [modalidadeNome, tipoNome, procedimentoNome] = botao.dataset.removerProcedimento.split("|").map(decodeURIComponent);
@@ -8791,7 +8855,7 @@ function configurarCatalogoAgendamentos() {
     if (indice < 0) return;
     const [removido] = modalidade.procedimentos.splice(indice, 1);
     try {
-      salvarCatalogoAgendamentos();
+      await salvarCatalogoAgendamentos();
       renderizarTiposAgendamento();
       renderizarTecnicasAgendamento();
       renderizarListaCatalogoAgendamentos();
@@ -8815,7 +8879,7 @@ function configurarCatalogoAgendamentos() {
 
     const [removida] = catalogoAgendamentos.splice(indice, 1);
     try {
-      salvarCatalogoAgendamentos();
+      await salvarCatalogoAgendamentos();
       renderizarModalidadesAgendamento();
       atualizarOpcoesModalidadeCatalogo();
       renderizarTiposAgendamento();
