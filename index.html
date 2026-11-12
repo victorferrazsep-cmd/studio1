@@ -6089,7 +6089,7 @@ button:active:not(:disabled) {
   display: inline-flex;
   min-height: 2rem;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 0.45rem;
   padding: 0.25rem 0.55rem;
   border: 1px solid rgba(244, 191, 174, 0.26);
@@ -6261,6 +6261,177 @@ button:active:not(:disabled) {
 
   #modalAgendamentoContent .agendamento-permuta-flag {
     padding-inline: 0.4rem;
+  }
+}
+
+#formAnamnese .anamnese-client-grid,
+#formAnamnese .anamnese-assessment-grid,
+#formAnamnese .anamnese-technique-grid {
+  display: grid;
+  min-width: 0;
+  gap: 0.7rem;
+}
+
+#formAnamnese .anamnese-client-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  font-size: 0.82rem;
+}
+
+#formAnamnese .anamnese-client-grid > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#formAnamnese .anamnese-assessment-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#formAnamnese .anamnese-assessment-card {
+  display: flex;
+  min-width: 0;
+  min-height: 7rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.8rem 0.55rem;
+  border: 1px solid rgba(244, 191, 174, 0.14);
+  border-radius: 0.75rem;
+  background: rgba(48, 48, 48, 0.62);
+  text-align: center;
+}
+
+#formAnamnese .anamnese-assessment-card > span {
+  color: #e8e4e3;
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+#formAnamnese .anamnese-assessment-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+}
+
+#formAnamnese .anamnese-switch {
+  display: inline-flex;
+  width: 3.5rem;
+  height: 1.9rem;
+  align-items: center;
+  padding: 0.16rem;
+  border: 2px solid #6b6d6c;
+  border-radius: 999px;
+  background: #f7f7f7;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+#formAnamnese .anamnese-switch-track {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#formAnamnese .anamnese-switch-thumb {
+  display: block;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: #686a69;
+  transform: translateX(1.55rem);
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+#formAnamnese .anamnese-switch[aria-checked="true"] {
+  border-color: #078f4b;
+  background: #078f4b;
+}
+
+#formAnamnese .anamnese-switch[aria-checked="true"] .anamnese-switch-thumb {
+  background: #fff;
+}
+
+#formAnamnese .anamnese-switch:focus-visible,
+#formAnamnese .anamnese-choice-option input:focus-visible + span {
+  outline: 2px solid #f4bfae;
+  outline-offset: 3px;
+}
+
+#formAnamnese .anamnese-choice-group {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+#formAnamnese .anamnese-choice-option {
+  position: relative;
+  min-height: 2rem;
+  cursor: pointer;
+}
+
+#formAnamnese .anamnese-choice-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+#formAnamnese .anamnese-choice-option span {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #555;
+  border-radius: 0.55rem;
+  background: #292929;
+  color: #c9c4c5;
+  font-size: 0.66rem;
+}
+
+#formAnamnese .anamnese-choice-option input:checked + span {
+  border-color: rgba(244, 191, 174, 0.55);
+  background: rgba(244, 191, 174, 0.16);
+  color: #ffe4da;
+}
+
+#formAnamnese .anamnese-assessment-extra,
+#formAnamnese .anamnese-assessment-observation {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+#formAnamnese .anamnese-assessment-extra label,
+#formAnamnese .anamnese-assessment-observation label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #d7d1d1;
+  font-size: 0.72rem;
+}
+
+#formAnamnese .anamnese-technique-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+#formAnamnese .anamnese-technique-grid > div {
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  #formAnamnese .anamnese-assessment-grid,
+  #formAnamnese .anamnese-technique-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  #formAnamnese .anamnese-assessment-grid,
+  #formAnamnese .anamnese-technique-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -6860,7 +7031,7 @@ button:active:not(:disabled) {
           <!-- BLOCO 1: Dados da Cliente -->
           <fieldset class="border border-gray-600 p-3 rounded-lg">
             <legend class="px-2 font-semibold text-rose-300">Dados da Cliente</legend>
-            <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="anamnese-client-grid">
               <input type="hidden" id="anamneseData" name="Data">
               <div><strong class="text-gray-400">Nome:</strong> <span id="anamneseNome"></span></div>
               <div><strong class="text-gray-400">CPF:</strong> <span id="anamneseCpf"></span></div>
@@ -6872,36 +7043,86 @@ button:active:not(:disabled) {
           <!-- BLOCO 2: Avaliação -->
           <fieldset class="border border-gray-600 p-3 rounded-lg">
             <legend class="px-2 font-semibold text-rose-300">Avaliação</legend>
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span>1ª Vez que aplica os cílios?</span>
-                <div class="flex gap-4"><label><input type="radio" name="Prim_Vez" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Prim_Vez" value="Não" class="mr-1">Não</label></div>
+            <div class="anamnese-assessment-grid">
+              <div class="anamnese-assessment-card">
+                <span id="perguntaPrimVez">1ª vez que aplica os cílios?</span>
+                <div class="anamnese-assessment-control">
+                  <div hidden>
+                    <input type="radio" name="Prim_Vez" value="Sim">
+                    <input type="radio" name="Prim_Vez" value="Não" checked>
+                  </div>
+                  <button type="button" class="anamnese-switch" role="switch" aria-checked="false" aria-labelledby="perguntaPrimVez" data-anamnese-toggle="Prim_Vez">
+                    <span class="anamnese-switch-track"><span class="anamnese-switch-thumb"></span></span>
+                  </button>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <span>Está de Rímel?</span>
-                <div class="flex gap-4"><label><input type="radio" name="Rimel" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Rimel" value="Não" class="mr-1">Não</label></div>
+              <div class="anamnese-assessment-card">
+                <span id="perguntaRimel">Está de rímel?</span>
+                <div class="anamnese-assessment-control">
+                  <div hidden>
+                    <input type="radio" name="Rimel" value="Sim">
+                    <input type="radio" name="Rimel" value="Não" checked>
+                  </div>
+                  <button type="button" class="anamnese-switch" role="switch" aria-checked="false" aria-labelledby="perguntaRimel" data-anamnese-toggle="Rimel">
+                    <span class="anamnese-switch-track"><span class="anamnese-switch-thumb"></span></span>
+                  </button>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <span>Possui Alergia?</span>
-                <div class="flex gap-4"><label><input type="radio" name="Alergia" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Alergia" value="Não" class="mr-1">Não</label></div>
+              <div class="anamnese-assessment-card">
+                <span id="perguntaAlergia">Possui alergia?</span>
+                <div class="anamnese-assessment-control">
+                  <div hidden>
+                    <input type="radio" name="Alergia" value="Sim">
+                    <input type="radio" name="Alergia" value="Não" checked>
+                  </div>
+                  <button type="button" class="anamnese-switch" role="switch" aria-checked="false" aria-labelledby="perguntaAlergia" data-anamnese-toggle="Alergia">
+                    <span class="anamnese-switch-track"><span class="anamnese-switch-thumb"></span></span>
+                  </button>
+                </div>
               </div>
-              <div id="campoAlergiaQuais" class="hidden"><input type="text" name="Alergia_Quais" placeholder="Quais alergias?" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300"></div>
-              <div class="flex items-center justify-between">
-                <span>Está gestante?</span>
-                <div class="flex gap-4"><label><input type="radio" name="Gestante" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Gestante" value="Não" class="mr-1">Não</label></div>
+              <div id="campoAlergiaQuais" class="anamnese-assessment-extra hidden">
+                <label for="anamneseAlergiaQuais">Quais alergias?</label>
+                <input type="text" id="anamneseAlergiaQuais" name="Alergia_Quais" placeholder="Descreva as alergias">
               </div>
-              <div class="flex items-center justify-between">
-                <span>Dorme de lado?</span>
-                <div class="flex gap-4"><label><input type="radio" name="Dorme" value="Direito" class="mr-1">Direito</label><label><input type="radio" name="Dorme" value="Esquerdo" class="mr-1">Esquerdo</label><label><input type="radio" name="Dorme" value="Não" class="mr-1">Não</label></div>
+              <div class="anamnese-assessment-card">
+                <span id="perguntaGestante">Está gestante?</span>
+                <div class="anamnese-assessment-control">
+                  <div hidden>
+                    <input type="radio" name="Gestante" value="Sim">
+                    <input type="radio" name="Gestante" value="Não" checked>
+                  </div>
+                  <button type="button" class="anamnese-switch" role="switch" aria-checked="false" aria-labelledby="perguntaGestante" data-anamnese-toggle="Gestante">
+                    <span class="anamnese-switch-track"><span class="anamnese-switch-thumb"></span></span>
+                  </button>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <span>Algum problema ocular?</span>
-                <div class="flex gap-4"><label><input type="radio" name="Doenca" value="Sim" class="mr-1">Sim</label><label><input type="radio" name="Doenca" value="Não" class="mr-1">Não</label></div>
+              <div class="anamnese-assessment-card">
+                <span id="perguntaDorme">Dorme de lado?</span>
+                <div class="anamnese-choice-group" role="radiogroup" aria-labelledby="perguntaDorme">
+                  <label class="anamnese-choice-option"><input type="radio" name="Dorme" value="Direito"><span>Direito</span></label>
+                  <label class="anamnese-choice-option"><input type="radio" name="Dorme" value="Esquerdo"><span>Esquerdo</span></label>
+                  <label class="anamnese-choice-option"><input type="radio" name="Dorme" value="Não"><span>Não</span></label>
+                </div>
               </div>
-              <div id="campoDoencaQuais" class="hidden"><input type="text" name="Doenca_Quais" placeholder="Quais problemas?" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300"></div>
-              <div>
-                <label class="block mb-1">Existe algum problema que julgue necessário informar?</label>
-                <textarea name="Obs" rows="2" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-300"></textarea>
+              <div class="anamnese-assessment-card">
+                <span id="perguntaDoenca">Algum problema ocular?</span>
+                <div class="anamnese-assessment-control">
+                  <div hidden>
+                    <input type="radio" name="Doenca" value="Sim">
+                    <input type="radio" name="Doenca" value="Não" checked>
+                  </div>
+                  <button type="button" class="anamnese-switch" role="switch" aria-checked="false" aria-labelledby="perguntaDoenca" data-anamnese-toggle="Doenca">
+                    <span class="anamnese-switch-track"><span class="anamnese-switch-thumb"></span></span>
+                  </button>
+                </div>
+              </div>
+              <div id="campoDoencaQuais" class="anamnese-assessment-extra hidden">
+                <label for="anamneseDoencaQuais">Quais problemas oculares?</label>
+                <input type="text" id="anamneseDoencaQuais" name="Doenca_Quais" placeholder="Descreva os problemas oculares">
+              </div>
+              <div class="anamnese-assessment-observation">
+                <label for="anamneseObs">Existe algum problema que julgue necessário informar?</label>
+                <textarea id="anamneseObs" name="Obs" rows="2"></textarea>
               </div>
             </div>
           </fieldset>
@@ -6920,7 +7141,7 @@ button:active:not(:disabled) {
           <!-- BLOCO 4: Técnica Realizada -->
           <fieldset class="border border-gray-600 p-3 rounded-lg">
             <legend class="px-2 font-semibold text-rose-300">Técnica Realizada</legend>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="anamnese-technique-grid">
               <div><label class="block mb-1 font-semibold">Modalidade</label><input type="text" id="anamneseModalidade" name="Modalidade" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400" readonly></div>
               <div><label class="block mb-1 font-semibold">Técnica</label><input type="text" id="anamneseTecnica" name="Tecnica" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
               <div><label class="block mb-1 font-semibold">Mapping</label><input type="text" name="Mapping" class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-gray-400"></div>
@@ -13022,8 +13243,34 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- MODAL DE ANAMNESE ---
   const modalAnamnese = document.getElementById("modalAnamnese");
   const modalAnamneseContent = document.getElementById("modalAnamneseContent");
+  const formAnamnese = document.getElementById("formAnamnese");
+  const botoesAvaliacaoAnamnese = [...formAnamnese.querySelectorAll("[data-anamnese-toggle]")];
   const canvas = document.getElementById("signature-pad");
   const signaturePad = new SignaturePad(canvas);
+
+  function atualizarBotaoAvaliacaoAnamnese(botao) {
+    const nomeCampo = botao.dataset.anamneseToggle;
+    const selecionado = formAnamnese.querySelector(`input[type="radio"][name="${nomeCampo}"]:checked`);
+    const ativo = selecionado?.value === "Sim";
+    botao.setAttribute("aria-checked", String(ativo));
+    botao.title = ativo ? "Sim" : "Não";
+  }
+
+  botoesAvaliacaoAnamnese.forEach(botao => {
+    const nomeCampo = botao.dataset.anamneseToggle;
+    const radios = [...formAnamnese.querySelectorAll(`input[type="radio"][name="${nomeCampo}"]`)];
+    botao.addEventListener("click", () => {
+      const valorAtual = radios.find(radio => radio.checked)?.value;
+      const novoValor = valorAtual === "Sim" ? "Não" : "Sim";
+      const radioSelecionado = radios.find(radio => radio.value === novoValor);
+      if (!radioSelecionado) throw new Error(`Opção "${novoValor}" não encontrada em ${nomeCampo}.`);
+      radioSelecionado.checked = true;
+      radioSelecionado.dispatchEvent(new Event("change", { bubbles: true }));
+      atualizarBotaoAvaliacaoAnamnese(botao);
+    });
+    radios.forEach(radio => radio.addEventListener("change", () => atualizarBotaoAvaliacaoAnamnese(botao)));
+    atualizarBotaoAvaliacaoAnamnese(botao);
+  });
 
   function ajustarCanvasAssinatura() {
     const rect = canvas.getBoundingClientRect();
@@ -13039,7 +13286,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.abrirModalAnamnese = async (dadosAgendamento) => {
-    document.getElementById("formAnamnese").reset();
+    formAnamnese.reset();
+    botoesAvaliacaoAnamnese.forEach(atualizarBotaoAvaliacaoAnamnese);
+    document.getElementById("campoAlergiaQuais").classList.add("hidden");
+    document.getElementById("campoDoencaQuais").classList.add("hidden");
 
     // Busca dados completos do cliente
     const clienteCompleto = clientesData.find(c => c.Nome === dadosAgendamento.Cliente);
@@ -13095,7 +13345,7 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // Salvar Anamnese
-  document.getElementById("formAnamnese").addEventListener("submit", async (e) => {
+  formAnamnese.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (signaturePad.isEmpty()) return alert("Por favor, preencha a assinatura.");
 
