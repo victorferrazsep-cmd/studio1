@@ -10175,6 +10175,13 @@ document.addEventListener("DOMContentLoaded", function() {
       .toLocaleLowerCase("pt-BR");
   }
 
+  function definirRotuloBotaoWhatsApp(link, texto) {
+    const icone = document.createElement("i");
+    icone.className = "fab fa-whatsapp";
+    icone.setAttribute("aria-hidden", "true");
+    link.replaceChildren(icone, document.createTextNode(` ${texto}`));
+  }
+
   function atualizarLinkWhatsApp() {
     const cliente = autoWhatsAppClient.selectedOptions[0];
     const telefone = cliente?.dataset.telefone;
@@ -10206,8 +10213,11 @@ document.addEventListener("DOMContentLoaded", function() {
     autoWhatsAppSecondMessageTitle.textContent = mensagens[1]?.titulo || "Segunda mensagem";
     autoWhatsAppSecondMessageGroup.classList.toggle("hidden", mensagens.length < 2);
     autoWhatsAppSendSecond.classList.toggle("hidden", mensagens.length < 2);
-    autoWhatsAppSend.innerHTML = `<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir ${mensagens.length > 1 ? "mensagem 1" : "WhatsApp"}`;
-    autoWhatsAppSendSecond.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir mensagem 2';
+    definirRotuloBotaoWhatsApp(
+      autoWhatsAppSend,
+      mensagens[0]?.textoBotao || (mensagens.length > 1 ? "Abrir mensagem 1" : "Abrir WhatsApp")
+    );
+    definirRotuloBotaoWhatsApp(autoWhatsAppSendSecond, mensagens[1]?.textoBotao || "Abrir mensagem 2");
     autoWhatsAppStatus.textContent = "Buscando clientes com telefone cadastrado...";
     atualizarLinkWhatsApp();
 
@@ -10271,8 +10281,8 @@ document.addEventListener("DOMContentLoaded", function() {
     autoWhatsAppSecondMessageTitle.textContent = "Segunda mensagem";
     autoWhatsAppSecondMessageGroup.classList.add("hidden");
     autoWhatsAppSendSecond.classList.add("hidden");
-    autoWhatsAppSend.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir WhatsApp';
-    autoWhatsAppSendSecond.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir mensagem 2';
+    definirRotuloBotaoWhatsApp(autoWhatsAppSend, "Abrir WhatsApp");
+    definirRotuloBotaoWhatsApp(autoWhatsAppSendSecond, "Abrir mensagem 2");
     autoWhatsAppStatus.textContent = "";
     atualizarLinkWhatsApp();
     if (autoWhatsAppTrigger?.isConnected && !autoWhatsAppTrigger.hidden) autoWhatsAppTrigger.focus();
@@ -12821,16 +12831,15 @@ document.addEventListener("DOMContentLoaded", () => {
       return { data, horarios };
     });
 
-    return [15, 20].map((prazo, indice) => {
-      const diasDoPrazo = opcoes.slice(indice * 2, indice * 2 + 2);
-      const linhas = diasDoPrazo.map(opcao => {
-        const horarios = opcao.horarios.length
-          ? opcao.horarios.join(", ")
-          : "sem horários livres";
-        return `${formatarDataRetorno(opcao.data)}: ${horarios}`;
-      });
-      return `Opções para cerca de ${prazo} dias:\n${linhas.join("\n")}`;
-    }).join("\n\n");
+    return opcoes.map(opcao =>
+      opcao.horarios.length ? formatarDataRetorno(opcao.data) : ""
+    );
+  }
+
+  function preencherDatasRetorno(mensagem, datas) {
+    return mensagem.replace(/\[Data\s*([1-4])\]/gi, (_placeholder, numero) =>
+      datas[Number(numero) - 1] || "a combinar"
+    );
   }
 
   async function buscarMensagensFinalizacao() {
@@ -12866,7 +12875,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnFinalizarAtendimento.disabled = true;
     try {
       const dataAtendimento = document.getElementById("agendamentoData").value || eventoEmEdicao.dataOriginal;
-      const [mensagens, opcoesRetorno] = await Promise.all([
+      const [mensagens, datasRetorno] = await Promise.all([
         buscarMensagensFinalizacao(),
         buscarOpcoesRetorno(dataAtendimento)
       ]);
@@ -12940,7 +12949,9 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("btnFinalizarAtendimento").classList.add("hidden");
       fecharModalAgendamento();
 
-      mensagens[1].mensagem = `${mensagens[1].mensagem.trim()}\n\nHorários disponíveis para seu retorno:\n${opcoesRetorno}`;
+      mensagens[0].textoBotao = "Enviar Avaliação";
+      mensagens[1].textoBotao = "Enviar Retorno";
+      mensagens[1].mensagem = preencherDatasRetorno(mensagens[1].mensagem, datasRetorno);
       if (erroGoogle) {
         alert(`O atendimento foi finalizado na agenda do Studio, mas o Google Agenda não sincronizou: ${erroGoogle}`);
       }
