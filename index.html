@@ -6316,16 +6316,25 @@ button:active:not(:disabled) {
 }
 
 #formAnamnese .anamnese-switch {
+  box-sizing: border-box;
   display: inline-flex;
   width: 3.3rem;
   height: 1.6rem;
+  min-width: 3.3rem;
+  min-height: 1.6rem;
+  flex: 0 0 3.3rem;
   align-items: center;
   padding: 0.1rem;
   border: 2px solid #6b6d6c;
   border-radius: 999px;
   background: #f7f7f7;
   cursor: pointer;
+  line-height: 1;
   transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+#formAnamnese .anamnese-switch:hover {
+  transform: none;
 }
 
 #formAnamnese .anamnese-switch-track {
@@ -6405,6 +6414,12 @@ button:active:not(:disabled) {
   min-width: 0;
 }
 
+#formAnamnese .anamnese-assessment-observation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
 #formAnamnese .anamnese-assessment-extra label,
 #formAnamnese .anamnese-assessment-observation label {
   display: block;
@@ -6434,6 +6449,22 @@ button:active:not(:disabled) {
 
 #formAnamnese .anamnese-technique-grid input {
   margin-top: 0;
+}
+
+#modalAnamneseContent #formAnamnese .anamnese-assessment-observation label {
+  min-height: 0;
+  margin: 0 0 0.1rem;
+  align-items: initial;
+  line-height: 1.25;
+}
+
+#modalAnamneseContent #formAnamnese #anamneseObs {
+  width: 100%;
+  height: 2.3rem;
+  min-height: 2.3rem;
+  margin: 0;
+  resize: vertical;
+  line-height: 1.25;
 }
 
 @media (max-width: 640px) {
