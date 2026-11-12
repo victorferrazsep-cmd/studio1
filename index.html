@@ -75,7 +75,9 @@
     financeiro: 'studio_financeiro',
     cadastros: 'studio_cadastros',
     agenda: 'studio_agenda',
-    anamnese: 'studio_anamnese'
+    anamnese: 'studio_anamnese',
+    estoqueprodutos: 'studio_estoque_produtos',
+    estoquemovimentos: 'studio_estoque_movimentos'
   };
 
   function tabelaStudio(url) {
@@ -6647,6 +6649,480 @@ button:active:not(:disabled) {
   }
 }
 
+#insumosPage .stock-actions {
+  gap: 0.65rem;
+}
+
+#insumosPage .stock-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+#insumosPage .stock-status {
+  min-height: 20px;
+  margin: 0 0 10px;
+  color: #ffaaa2;
+  font-size: 13px;
+}
+
+#insumosPage .stock-status:empty {
+  display: none;
+}
+
+.stock-dialog .stock-status {
+  margin: 10px 0 0;
+  color: #ffaaa2;
+  font-size: 13px;
+}
+
+.stock-dialog .stock-status:empty {
+  display: none;
+}
+
+#insumosPage .stock-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+#insumosPage .stock-summary-card {
+  display: flex;
+  min-height: 88px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 16px 18px;
+}
+
+#insumosPage .stock-summary-card span {
+  color: #b6aaa7;
+  font-size: 13px;
+}
+
+#insumosPage .stock-summary-card strong {
+  color: #fff7f4;
+  font-size: 22px;
+}
+
+#insumosPage .stock-panel {
+  margin-bottom: 16px;
+  padding: 18px;
+}
+
+#insumosPage .stock-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+#insumosPage .stock-panel-heading h3 {
+  margin: 0;
+  color: #fff7f4;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+#insumosPage .stock-panel-heading p {
+  margin: 4px 0 0;
+  color: #aaa6a8;
+  font-size: 12px;
+}
+
+#insumosPage .stock-search-label {
+  display: flex;
+  min-width: 220px;
+  flex-direction: column;
+  gap: 4px;
+  color: #d7d1d1;
+  font-size: 12px;
+}
+
+#insumosPage .stock-search-label input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.4rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #424242;
+  border-radius: 0.62rem;
+  background: #303030;
+  color: #f3eeee;
+  font: inherit;
+}
+
+.stock-dialog input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+.stock-dialog select,
+.stock-dialog textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.3rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #424242;
+  border-radius: 0.62rem;
+  background: #303030;
+  color: #f3eeee !important;
+  font-family: inherit;
+  font-size: 0.78rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.stock-dialog textarea {
+  min-height: 4.75rem;
+  resize: vertical;
+}
+
+.stock-dialog input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+.stock-dialog select:focus,
+.stock-dialog textarea:focus {
+  border-color: var(--rose) !important;
+  outline: 0;
+  background: #383838;
+  box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.12);
+}
+
+.stock-dialog input::placeholder,
+.stock-dialog textarea::placeholder {
+  color: #85858d;
+  opacity: 1;
+  font-size: 0.72rem;
+}
+
+#insumosPage .stock-table-wrap {
+  overflow-x: auto;
+}
+
+#insumosPage .stock-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+#insumosPage .stock-table th,
+#insumosPage .stock-table td {
+  padding: 11px 9px;
+  border-bottom: 1px solid #424242;
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+#insumosPage .stock-table th {
+  color: #aaa6a8;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#insumosPage .stock-table td {
+  color: #e6dddd;
+}
+
+#insumosPage .stock-product-name {
+  color: #fff7f4;
+  font-weight: 700;
+}
+
+#insumosPage .stock-product-meta {
+  margin-top: 3px;
+  color: #aaa6a8;
+  font-size: 11px;
+}
+
+#insumosPage .stock-low-badge {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(244, 191, 174, 0.16);
+  color: #ffd2c2;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+#insumosPage .stock-row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+#insumosPage .stock-row-actions button {
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: var(--rose);
+  color: #171313;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#insumosPage .stock-row-actions button:hover {
+  background: #ffd2c2;
+}
+
+#insumosPage .stock-row-actions button:focus-visible,
+#insumosPage .stock-actions button:focus-visible,
+.stock-dialog button:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+}
+
+.stock-modal {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.stock-modal.hidden {
+  display: none;
+}
+
+.stock-dialog {
+  box-sizing: border-box;
+  width: min(100%, 36rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem;
+  border: 1px solid rgba(244, 191, 174, 0.18);
+  border-radius: 1rem;
+  background: linear-gradient(155deg, #292929 0%, #202020 100%);
+  color: var(--texto);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+}
+
+.stock-dialog-header {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.stock-dialog-header .stock-dialog-heading {
+  margin: 0;
+  padding-right: 2rem;
+}
+
+.stock-dialog-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #bdb8b8;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stock-dialog-close:hover {
+  color: var(--rose);
+}
+
+.stock-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem 0.9rem;
+}
+
+.stock-form-field {
+  min-width: 0;
+}
+
+.stock-form-field > label {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #d7d1d1;
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+}
+
+.stock-form-field.full {
+  grid-column: 1 / -1;
+}
+
+.stock-form-grid > .stock-form-help,
+.stock-form-grid > .stock-status,
+.stock-form-grid > .stock-dialog-footer {
+  grid-column: 1 / -1;
+}
+
+.stock-form-help {
+  margin: 0.65rem 0 0;
+  color: #aaa6a8;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.stock-dialog-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stock-dialog-footer button {
+  width: 100%;
+  min-height: 2rem;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: #bdb8b8;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stock-dialog-footer button:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.stock-dialog-footer button:not([type="submit"]) {
+  justify-self: center;
+  width: auto;
+  min-height: 2rem;
+  padding: 0.35rem 0.75rem;
+  background: transparent;
+  color: #aaa6a8;
+  font-size: 0.75rem;
+}
+
+.stock-dialog-footer button:not([type="submit"]):hover {
+  background: transparent;
+  color: #fff7f4;
+}
+
+.stock-dialog-footer button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid rgba(255, 232, 224, 0.35);
+  border-radius: 0.68rem;
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c;
+  font-size: 0.85rem;
+  box-shadow: 0 8px 20px rgba(244, 191, 174, 0.16) !important;
+}
+
+.stock-dialog-footer button[type="submit"]:hover {
+  filter: brightness(1.05);
+  color: #241d1c;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 700px) {
+  #insumosPage .stock-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  #insumosPage .stock-summary-card {
+    min-height: 72px;
+  }
+
+  #insumosPage .stock-panel {
+    padding: 13px;
+  }
+
+  #insumosPage .stock-panel-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  #insumosPage .stock-search-label {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .stock-dialog {
+    padding: 0.9rem;
+  }
+
+  .stock-form-grid {
+    gap: 0.6rem;
+  }
+
+  .stock-dialog-footer {
+    margin-top: 0.15rem;
+    padding-top: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #insumosPage .stock-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .stock-modal {
+    padding: max(0.75rem, env(safe-area-inset-top, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px))
+      max(0.75rem, env(safe-area-inset-bottom, 0px))
+      max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  .stock-dialog {
+    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    padding: 1rem;
+  }
+
+  .stock-form-grid {
+    gap: 0.65rem;
+  }
+
+  .stock-form-field > label {
+    font-size: 0.64rem;
+  }
+
+  .stock-dialog input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+  .stock-dialog select,
+  .stock-dialog textarea {
+    min-height: 2.15rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 14px;
+  }
+
+  .stock-dialog-footer {
+    margin-top: 0.25rem;
+    padding-top: 0.65rem;
+  }
+
+  #insumosPage .stock-actions button {
+    height: 2rem;
+    min-height: 2rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .stock-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 </style>
 </head>
 <body class="flex h-screen">
@@ -6665,6 +7141,7 @@ button:active:not(:disabled) {
     <a href="#" data-page="agenda"><i class="fas fa-calendar-days" aria-hidden="true"></i><span>Agenda</span></a>
     <a href="#" data-page="mensagensAuto"><i class="fas fa-comment-dots" aria-hidden="true"></i><span>Mensagens Auto</span></a>
     <a href="#" data-page="financeiro2"><i class="fas fa-wallet" aria-hidden="true"></i><span>Financeiro</span></a>
+    <a href="#" data-page="insumos"><i class="fas fa-boxes-stacked" aria-hidden="true"></i><span>Insumos / Estoque</span></a>
     <a href="#" data-page="relatorios"><i class="fas fa-chart-pie" aria-hidden="true"></i><span>Relatórios</span></a>
     <a href="#" data-page="configuracoes"><i class="fas fa-gear" aria-hidden="true"></i><span>Configurações</span></a>
   </nav>
@@ -7711,6 +8188,194 @@ button:active:not(:disabled) {
       </div>
   </div>
 
+  <section id="insumosPage" class="page hidden">
+    <div class="page-title-row flex justify-between mb-5 items-center">
+      <h2 class="page-heading">
+        <span class="page-heading-icon"><i class="fas fa-boxes-stacked" aria-hidden="true"></i></span>
+        <span class="page-heading-copy">
+          <span class="page-heading-title">Insumos / Estoque</span>
+          <span class="page-heading-subtitle">Produtos, compras e movimentações de estoque</span>
+        </span>
+      </h2>
+    </div>
+
+    <div class="page-actions-row stock-actions">
+      <button id="stockAddProduct" type="button" class="btn-primary px-4 py-2 rounded-md">+ Cadastrar produto</button>
+      <button id="stockAddMovement" type="button" class="btn-primary px-4 py-2 rounded-md" disabled>+ Entrada / saída</button>
+    </div>
+    <p id="stockStatus" class="stock-status" role="status" aria-live="polite"></p>
+
+    <div class="stock-summary-grid">
+      <article class="card stock-summary-card">
+        <span>Produtos ativos</span>
+        <strong id="stockTotalProducts">0</strong>
+      </article>
+      <article class="card stock-summary-card">
+        <span>Estoque baixo</span>
+        <strong id="stockLowProducts">0</strong>
+      </article>
+      <article class="card stock-summary-card">
+        <span>Valor estimado em estoque</span>
+        <strong id="stockTotalValue">R$ 0,00</strong>
+      </article>
+    </div>
+
+    <section class="card stock-panel">
+      <div class="stock-panel-heading">
+        <div>
+          <h3>Produtos</h3>
+          <p>O alerta indica produtos no limite do estoque mínimo.</p>
+        </div>
+        <label class="stock-search-label" for="stockProductSearch">Buscar produto
+          <input id="stockProductSearch" type="search" placeholder="Nome ou categoria">
+        </label>
+      </div>
+      <div class="stock-table-wrap">
+        <table class="stock-table">
+          <thead>
+            <tr><th>Produto</th><th>Estoque atual</th><th>Mínimo</th><th>Custo unitário</th><th>Valor em estoque</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="stockProductsList">
+            <tr><td colspan="6">Carregando produtos...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card stock-panel">
+      <div class="stock-panel-heading">
+        <div>
+          <h3>Movimentações recentes</h3>
+          <p>Entradas, compras, consumo, perdas e ajustes.</p>
+        </div>
+      </div>
+      <div class="stock-table-wrap">
+        <table class="stock-table">
+          <thead>
+            <tr><th>Data</th><th>Produto</th><th>Movimentação</th><th>Quantidade</th><th>Valor total</th><th>Fornecedor / observação</th></tr>
+          </thead>
+          <tbody id="stockMovementsList">
+            <tr><td colspan="6">Carregando movimentações...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <div id="stockProductModal" class="stock-modal hidden" role="dialog" aria-modal="true" aria-labelledby="stockProductTitle">
+    <div class="stock-dialog">
+      <div class="stock-dialog-header">
+        <div class="cliente-form-heading stock-dialog-heading">
+          <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-boxes-stacked"></i></span>
+          <div>
+            <h2 id="stockProductTitle">Cadastrar produto</h2>
+            <p>Informe os dados para acompanhar este item no estoque.</p>
+          </div>
+        </div>
+        <button type="button" class="stock-dialog-close" data-stock-close="stockProductModal" aria-label="Fechar">&times;</button>
+      </div>
+      <form id="stockProductForm" class="cliente-form-grid stock-form-grid">
+        <input id="stockProductId" type="hidden">
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockProductName">NOME DO PRODUTO</label>
+            <input id="stockProductName" type="text" required maxlength="120">
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockProductCategory">CATEGORIA</label>
+            <input id="stockProductCategory" type="text" required maxlength="80" placeholder="Ex.: cílios, higiene">
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockProductUnit">UNIDADE</label>
+            <input id="stockProductUnit" type="text" required maxlength="30" placeholder="Ex.: unidade, caixa, ml">
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockProductCost">CUSTO UNITÁRIO ATUAL (R$)</label>
+            <input id="stockProductCost" type="number" min="0" step="0.01" value="0" required>
+        </div>
+        <div id="stockInitialGroup" class="cliente-form-field stock-form-field">
+          <label for="stockProductInitial">SALDO INICIAL</label>
+            <input id="stockProductInitial" type="number" min="0" step="0.001" value="0">
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockProductMinimum">ESTOQUE MÍNIMO</label>
+            <input id="stockProductMinimum" type="number" min="0" step="0.001" value="0" required>
+        </div>
+        <div class="cliente-form-field stock-form-field full">
+          <label for="stockProductSupplier">FORNECEDOR</label>
+            <input id="stockProductSupplier" type="text" maxlength="120">
+        </div>
+        <div class="cliente-form-field stock-form-field full">
+          <label for="stockProductNotes">OBSERVAÇÕES</label>
+            <textarea id="stockProductNotes" maxlength="1000"></textarea>
+        </div>
+        <p id="stockInitialHelp" class="stock-form-help">O saldo inicial é um ajuste de abertura e não cria despesa no Financeiro. Compras devem ser lançadas em Entrada / saída.</p>
+        <p id="stockProductFormStatus" class="stock-status" role="status" aria-live="polite"></p>
+        <div class="stock-dialog-footer">
+          <button type="button" class="stock-dialog-cancel" data-stock-close="stockProductModal">Cancelar</button>
+          <button id="stockProductSubmit" class="btn-primary" type="submit">Salvar produto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="stockMovementModal" class="stock-modal hidden" role="dialog" aria-modal="true" aria-labelledby="stockMovementTitle">
+    <div class="stock-dialog">
+      <div class="stock-dialog-header">
+        <div class="cliente-form-heading stock-dialog-heading">
+          <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-right-left"></i></span>
+          <div>
+            <h2 id="stockMovementTitle">Registrar movimentação</h2>
+            <p>Compras geram uma despesa em Insumos no Financeiro.</p>
+          </div>
+        </div>
+        <button type="button" class="stock-dialog-close" data-stock-close="stockMovementModal" aria-label="Fechar">&times;</button>
+      </div>
+      <form id="stockMovementForm" class="cliente-form-grid stock-form-grid">
+        <div class="cliente-form-field stock-form-field full">
+          <label for="stockMovementProduct">PRODUTO</label>
+            <select id="stockMovementProduct" required></select>
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockMovementDirection">TIPO</label>
+            <select id="stockMovementDirection" required>
+              <option value="Entrada">Entrada</option>
+              <option value="Saída">Saída</option>
+            </select>
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockMovementReason">MOTIVO</label>
+            <select id="stockMovementReason" required></select>
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockMovementQuantity">QUANTIDADE</label>
+            <input id="stockMovementQuantity" type="number" min="0.001" step="0.001" required>
+        </div>
+        <div class="cliente-form-field stock-form-field">
+          <label for="stockMovementDate">DATA</label>
+            <input id="stockMovementDate" type="date" required>
+        </div>
+        <div id="stockMovementCostGroup" class="cliente-form-field stock-form-field">
+          <label for="stockMovementCost">CUSTO UNITÁRIO DA COMPRA (R$)</label>
+            <input id="stockMovementCost" type="number" min="0" step="0.01" value="0">
+        </div>
+        <div id="stockMovementSupplierGroup" class="cliente-form-field stock-form-field full">
+          <label for="stockMovementSupplier">FORNECEDOR</label>
+            <input id="stockMovementSupplier" type="text" maxlength="120">
+        </div>
+        <div class="cliente-form-field stock-form-field full">
+          <label for="stockMovementNotes">OBSERVAÇÕES</label>
+            <textarea id="stockMovementNotes" maxlength="1000"></textarea>
+        </div>
+        <p class="stock-form-help">Consumo, perda e ajuste não geram lançamentos no Financeiro.</p>
+        <p id="stockMovementFormStatus" class="stock-status" role="status" aria-live="polite"></p>
+        <div class="stock-dialog-footer">
+          <button type="button" class="stock-dialog-cancel" data-stock-close="stockMovementModal">Cancelar</button>
+          <button id="stockMovementSubmit" class="btn-primary" type="submit">Registrar movimentação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <section id="relatoriosPage" class="page hidden">
     <header class="reports-header">
       <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
@@ -7955,11 +8620,12 @@ window.alert = mensagem => {
 const financeiroData = {
   'Despesas': {
     'Despesas Fixas': ['Aluguel', 'Água', 'Internet e Telefone', 'Outros'],
-    'Despesas Variáveis': ['Compras de Insumos', 'Combustível'],
+    'Despesas Variáveis': ['Combustível'],
     'Marketing e Divulgação': ['Anúncios Pagos', 'Impressões de Cartões, Panfletos e Brindes', 'Outros'],
     'Infraestrutura e Equipamentos': ['Móveis', 'Acessórios', 'Ferramentas'],
     'Despesas Administrativas': ['Taxas Bancárias e Outras'],
-    'Despesas Extras ou Opcionais': ['Cursos de atualização e especialização', 'Uniformes personalizados', 'Café, água, snacks para o atendimento', 'Presentes em datas comemorativas']
+    'Despesas Extras ou Opcionais': ['Cursos de atualização e especialização', 'Uniformes personalizados', 'Café, água, snacks para o atendimento', 'Presentes em datas comemorativas'],
+    'Insumos': ['Compras de Insumos']
   },
   'Ganhos': {
     'Cílios': ['Aplicação', 'Manutenção'],
@@ -10603,6 +11269,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if(a.dataset.page==="clientes") carregarClientes();
       if(a.dataset.page==="relatorios") carregarRelatorios();
       if(a.dataset.page==="mensagensAuto") carregarMensagensAuto();
+      if(a.dataset.page==="insumos") window.carregarEstoque();
       if (a.dataset.page === "home") {
         if (typeof atualizarResumosHome === 'function') atualizarResumosHome();
         if (typeof atualizarResumoFinanceiroHome === 'function') atualizarResumoFinanceiroHome();
@@ -13623,6 +14290,422 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+</script>
+<script>
+(() => {
+  const productEndpoint = "supabase://estoqueprodutos";
+  const movementEndpoint = "supabase://estoquemovimentos";
+  const productForm = document.getElementById("stockProductForm");
+  const movementForm = document.getElementById("stockMovementForm");
+  const productModal = document.getElementById("stockProductModal");
+  const movementModal = document.getElementById("stockMovementModal");
+  const productList = document.getElementById("stockProductsList");
+  const movementList = document.getElementById("stockMovementsList");
+  const movementProduct = document.getElementById("stockMovementProduct");
+  const movementDirection = document.getElementById("stockMovementDirection");
+  const movementReason = document.getElementById("stockMovementReason");
+  const pageStatus = document.getElementById("stockStatus");
+  let products = [];
+  let movements = [];
+
+  const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+  function numberValue(value) {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : 0;
+  }
+
+  function formatQuantity(value) {
+    return numberValue(value).toLocaleString("pt-BR", { maximumFractionDigits: 3 });
+  }
+
+  function localDateString(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function formatStockDate(value) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value || ""));
+    return match ? `${match[3]}/${match[2]}/${match[1]}` : "—";
+  }
+
+  function stockId() {
+    return globalThis.crypto?.randomUUID?.() || `estoque-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
+
+  async function responseData(response) {
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (error) {
+      console.warn("A resposta do estoque não veio em JSON.", error);
+    }
+    if (!response.ok) {
+      throw new Error(data.error || data.message || `Falha na requisição (${response.status}).`);
+    }
+    return data;
+  }
+
+  function showFormError(statusId, error) {
+    const message = error instanceof Error ? error.message : String(error);
+    const formStatus = document.getElementById(statusId);
+    if (formStatus) formStatus.textContent = message;
+    pageStatus.textContent = message;
+    console.error("Erro no controle de estoque:", error);
+  }
+
+  function activeProducts() {
+    return products.filter(product => String(product.Ativo || "Sim") !== "Não");
+  }
+
+  function productById(id) {
+    return products.find(product => String(product.ID) === String(id));
+  }
+
+  function cell(text, className = "") {
+    const element = document.createElement("td");
+    if (className) element.className = className;
+    element.textContent = text;
+    return element;
+  }
+
+  function renderProducts() {
+    const query = document.getElementById("stockProductSearch").value.trim().toLocaleLowerCase("pt-BR");
+    const visibleProducts = activeProducts()
+      .filter(product => `${product.Nome || ""} ${product.Categoria || ""}`.toLocaleLowerCase("pt-BR").includes(query))
+      .sort((a, b) => String(a.Nome || "").localeCompare(String(b.Nome || ""), "pt-BR"));
+
+    productList.replaceChildren();
+    if (!visibleProducts.length) {
+      const row = document.createElement("tr");
+      row.appendChild(cell(query ? "Nenhum produto encontrado." : "Nenhum produto cadastrado."));
+      row.firstElementChild.colSpan = 6;
+      productList.appendChild(row);
+      return;
+    }
+
+    for (const product of visibleProducts) {
+      const balance = numberValue(product.EstoqueAtual);
+      const minimum = numberValue(product.EstoqueMinimo);
+      const unitCost = numberValue(product.CustoUnitario);
+      const row = document.createElement("tr");
+      const nameCell = document.createElement("td");
+      const name = document.createElement("div");
+      name.className = "stock-product-name";
+      name.textContent = product.Nome || "Produto";
+      nameCell.appendChild(name);
+      const meta = document.createElement("div");
+      meta.className = "stock-product-meta";
+      meta.textContent = product.Categoria || "";
+      nameCell.appendChild(meta);
+
+      const balanceCell = document.createElement("td");
+      balanceCell.textContent = `${formatQuantity(balance)} ${product.Unidade || ""}`.trim();
+      if (minimum > 0 && balance <= minimum) {
+        const badge = document.createElement("span");
+        badge.className = "stock-low-badge";
+        badge.textContent = "Estoque baixo";
+        balanceCell.appendChild(badge);
+      }
+
+      row.append(
+        nameCell,
+        balanceCell,
+        cell(`${formatQuantity(minimum)} ${product.Unidade || ""}`.trim()),
+        cell(currency.format(unitCost)),
+        cell(currency.format(balance * unitCost))
+      );
+
+      const actionsCell = document.createElement("td");
+      const actions = document.createElement("div");
+      actions.className = "stock-row-actions";
+      const editButton = document.createElement("button");
+      editButton.type = "button";
+      editButton.dataset.stockEdit = String(product.ID);
+      editButton.textContent = "Editar";
+      const moveButton = document.createElement("button");
+      moveButton.type = "button";
+      moveButton.dataset.stockMove = String(product.ID);
+      moveButton.textContent = "Movimentar";
+      actions.append(editButton, moveButton);
+      actionsCell.appendChild(actions);
+      row.appendChild(actionsCell);
+      productList.appendChild(row);
+    }
+  }
+
+  function renderMovements() {
+    const sortedMovements = [...movements].sort((a, b) => {
+      const dateOrder = String(b.Data || "").localeCompare(String(a.Data || ""));
+      return dateOrder || String(b._created_at || "").localeCompare(String(a._created_at || ""));
+    }).slice(0, 30);
+
+    movementList.replaceChildren();
+    if (!sortedMovements.length) {
+      const row = document.createElement("tr");
+      const empty = cell("Ainda não há movimentações.");
+      empty.colSpan = 6;
+      row.appendChild(empty);
+      movementList.appendChild(row);
+      return;
+    }
+
+    for (const movement of sortedMovements) {
+      const row = document.createElement("tr");
+      const description = [movement.Motivo, movement.Direcao].filter(Boolean).join(" · ");
+      const note = [movement.Fornecedor, movement.Observacoes].filter(Boolean).join(" · ");
+      row.append(
+        cell(formatStockDate(movement.Data)),
+        cell(movement.ProdutoNome || productById(movement.ProdutoID)?.Nome || "Produto"),
+        cell(description),
+        cell(`${movement.Direcao === "Saída" ? "−" : "+"}${formatQuantity(movement.Quantidade)} ${movement.Unidade || ""}`.trim()),
+        cell(currency.format(numberValue(movement.ValorTotal))),
+        cell(note || "—")
+      );
+      movementList.appendChild(row);
+    }
+  }
+
+  function renderSummary() {
+    const visible = activeProducts();
+    document.getElementById("stockTotalProducts").textContent = String(visible.length);
+    document.getElementById("stockLowProducts").textContent = String(
+      visible.filter(product => {
+        const minimum = numberValue(product.EstoqueMinimo);
+        return minimum > 0 && numberValue(product.EstoqueAtual) <= minimum;
+      }).length
+    );
+    document.getElementById("stockTotalValue").textContent = currency.format(
+      visible.reduce((total, product) => total + numberValue(product.EstoqueAtual) * numberValue(product.CustoUnitario), 0)
+    );
+  }
+
+  function renderStock() {
+    renderSummary();
+    renderProducts();
+    renderMovements();
+    refreshMovementProductOptions();
+  }
+
+  function refreshMovementProductOptions(selectedId = "") {
+    const list = activeProducts().sort((a, b) => String(a.Nome || "").localeCompare(String(b.Nome || ""), "pt-BR"));
+    movementProduct.replaceChildren();
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = list.length ? "Selecione o produto" : "Cadastre um produto primeiro";
+    movementProduct.appendChild(placeholder);
+    for (const product of list) {
+      const option = document.createElement("option");
+      option.value = String(product.ID);
+      option.textContent = `${product.Nome} (${formatQuantity(product.EstoqueAtual)} ${product.Unidade || ""})`.trim();
+      movementProduct.appendChild(option);
+    }
+    movementProduct.value = selectedId ? String(selectedId) : "";
+    document.getElementById("stockAddMovement").disabled = list.length === 0;
+  }
+
+  function updateMovementReasons() {
+    const isEntry = movementDirection.value === "Entrada";
+    const options = isEntry
+      ? [["Compra", "Compra"], ["Ajuste", "Ajuste de entrada"]]
+      : [["Consumo", "Consumo"], ["Perda", "Perda"], ["Ajuste", "Ajuste de saída"]];
+    movementReason.replaceChildren();
+    for (const [value, label] of options) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      movementReason.appendChild(option);
+    }
+    updateMovementCostFields();
+  }
+
+  function updateMovementCostFields() {
+    const isPurchase = movementDirection.value === "Entrada" && movementReason.value === "Compra";
+    document.getElementById("stockMovementCostGroup").classList.toggle("hidden", !isPurchase);
+    document.getElementById("stockMovementSupplierGroup").classList.toggle("hidden", !isPurchase);
+    document.getElementById("stockMovementCost").required = isPurchase;
+    if (isPurchase) {
+      document.getElementById("stockMovementCost").value = productById(movementProduct.value)?.CustoUnitario ?? 0;
+    }
+  }
+
+  function openProductModal(product = null) {
+    productForm.reset();
+    document.getElementById("stockProductFormStatus").textContent = "";
+    pageStatus.textContent = "";
+    const editing = Boolean(product);
+    document.getElementById("stockProductTitle").textContent = editing ? "Editar produto" : "Cadastrar produto";
+    document.getElementById("stockProductSubmit").textContent = editing ? "Salvar alterações" : "Salvar produto";
+    document.getElementById("stockProductId").value = product?.ID || "";
+    document.getElementById("stockProductName").value = product?.Nome || "";
+    document.getElementById("stockProductCategory").value = product?.Categoria || "";
+    document.getElementById("stockProductUnit").value = product?.Unidade || "";
+    document.getElementById("stockProductCost").value = product?.CustoUnitario ?? 0;
+    document.getElementById("stockProductInitial").value = 0;
+    document.getElementById("stockProductMinimum").value = product?.EstoqueMinimo ?? 0;
+    document.getElementById("stockProductSupplier").value = product?.Fornecedor || "";
+    document.getElementById("stockProductNotes").value = product?.Observacoes || "";
+    document.getElementById("stockInitialGroup").classList.toggle("hidden", editing);
+    document.getElementById("stockInitialHelp").classList.toggle("hidden", editing);
+    document.getElementById("stockProductInitial").required = !editing;
+    productModal.classList.remove("hidden");
+    document.getElementById("stockProductName").focus();
+  }
+
+  function openMovementModal(selectedId = "") {
+    movementForm.reset();
+    document.getElementById("stockMovementFormStatus").textContent = "";
+    pageStatus.textContent = "";
+    refreshMovementProductOptions(selectedId);
+    movementDirection.value = "Entrada";
+    updateMovementReasons();
+    document.getElementById("stockMovementDate").value = localDateString();
+    document.getElementById("stockMovementQuantity").value = "";
+    document.getElementById("stockMovementCost").value = productById(movementProduct.value)?.CustoUnitario ?? 0;
+    movementModal.classList.remove("hidden");
+    movementProduct.focus();
+  }
+
+  function closeStockModal(modal) {
+    modal.classList.add("hidden");
+  }
+
+  async function loadStock() {
+    pageStatus.textContent = "";
+    productList.innerHTML = '<tr><td colspan="6">Carregando produtos...</td></tr>';
+    movementList.innerHTML = '<tr><td colspan="6">Carregando movimentações...</td></tr>';
+    try {
+      const [productResponse, movementResponse] = await Promise.all([
+        fetch(productEndpoint),
+        fetch(movementEndpoint)
+      ]);
+      const [productData, movementData] = await Promise.all([
+        responseData(productResponse),
+        responseData(movementResponse)
+      ]);
+      products = Array.isArray(productData) ? productData : [];
+      movements = Array.isArray(movementData) ? movementData : [];
+      renderStock();
+      return true;
+    } catch (error) {
+      showFormError("stockProductFormStatus", error);
+      productList.innerHTML = '<tr><td colspan="6">Não foi possível carregar os produtos.</td></tr>';
+      movementList.innerHTML = '<tr><td colspan="6">Não foi possível carregar as movimentações.</td></tr>';
+      return false;
+    }
+  }
+
+  window.carregarEstoque = loadStock;
+  document.getElementById("stockAddProduct").addEventListener("click", () => openProductModal());
+  document.getElementById("stockAddMovement").addEventListener("click", () => openMovementModal());
+  document.getElementById("stockProductSearch").addEventListener("input", renderProducts);
+  movementDirection.addEventListener("change", updateMovementReasons);
+  movementReason.addEventListener("change", updateMovementCostFields);
+  movementProduct.addEventListener("change", updateMovementCostFields);
+
+  productList.addEventListener("click", event => {
+    const button = event.target.closest("button");
+    if (!button) return;
+    if (button.dataset.stockEdit) {
+      const product = productById(button.dataset.stockEdit);
+      if (product) openProductModal(product);
+    } else if (button.dataset.stockMove) {
+      openMovementModal(button.dataset.stockMove);
+    }
+  });
+
+  document.querySelectorAll("[data-stock-close]").forEach(button => {
+    button.addEventListener("click", () => {
+      const modal = document.getElementById(button.dataset.stockClose);
+      if (modal) closeStockModal(modal);
+    });
+  });
+  [productModal, movementModal].forEach(modal => {
+    modal.addEventListener("click", event => {
+      if (event.target === modal) closeStockModal(modal);
+    });
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      [productModal, movementModal].forEach(modal => {
+        if (!modal.classList.contains("hidden")) closeStockModal(modal);
+      });
+    }
+  });
+
+  productForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const submit = document.getElementById("stockProductSubmit");
+    const editingId = document.getElementById("stockProductId").value;
+    const product = {
+      ID: editingId || stockId(),
+      Nome: document.getElementById("stockProductName").value.trim(),
+      Categoria: document.getElementById("stockProductCategory").value.trim(),
+      Unidade: document.getElementById("stockProductUnit").value.trim(),
+      CustoUnitario: numberValue(document.getElementById("stockProductCost").value),
+      EstoqueMinimo: numberValue(document.getElementById("stockProductMinimum").value),
+      Fornecedor: document.getElementById("stockProductSupplier").value.trim(),
+      Observacoes: document.getElementById("stockProductNotes").value.trim(),
+      DataCadastro: localDateString()
+    };
+    if (!editingId) product.EstoqueAtual = numberValue(document.getElementById("stockProductInitial").value);
+    submit.disabled = true;
+    try {
+      const { error } = editingId
+        ? await supabaseClient.rpc("studio_estoque_atualizar_produto", { p_produto_id: editingId, p_produto: product })
+        : await supabaseClient.rpc("studio_estoque_criar_produto", { p_produto: product });
+      if (error) throw error;
+      closeStockModal(productModal);
+      if (await loadStock()) pageStatus.textContent = editingId ? "Produto atualizado." : "Produto cadastrado.";
+    } catch (error) {
+      showFormError("stockProductFormStatus", error);
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  movementForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const submit = document.getElementById("stockMovementSubmit");
+    const reason = movementReason.value;
+    const movement = {
+      ID: stockId(),
+      Direcao: movementDirection.value,
+      Motivo: reason,
+      Quantidade: numberValue(document.getElementById("stockMovementQuantity").value),
+      Data: document.getElementById("stockMovementDate").value,
+      ValorUnitario: reason === "Compra" ? numberValue(document.getElementById("stockMovementCost").value) : null,
+      Fornecedor: reason === "Compra" ? document.getElementById("stockMovementSupplier").value.trim() : "",
+      Observacoes: document.getElementById("stockMovementNotes").value.trim()
+    };
+    submit.disabled = true;
+    try {
+      const { error } = await supabaseClient.rpc("studio_estoque_registrar_movimento", {
+        p_produto_id: movementProduct.value,
+        p_movimento: movement
+      });
+      if (error) throw error;
+      closeStockModal(movementModal);
+      const refreshed = await loadStock();
+      if (refreshed) pageStatus.textContent = reason === "Compra"
+        ? "Compra registrada; a despesa foi lançada no Financeiro."
+        : "Movimentação registrada.";
+      if (typeof atualizarResumoFinanceiroHome === "function") {
+        try {
+          await atualizarResumoFinanceiroHome();
+        } catch (error) {
+          console.error("Não foi possível atualizar o resumo financeiro após a compra.", error);
+        }
+      }
+    } catch (error) {
+      showFormError("stockMovementFormStatus", error);
+    } finally {
+      submit.disabled = false;
+    }
+  });
+})();
 </script>
 <script>
 (() => {
