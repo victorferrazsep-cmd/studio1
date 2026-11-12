@@ -5902,6 +5902,30 @@ button:active:not(:disabled) {
   background: #f8f5f4;
 }
 
+#formAnamnese .anamnese-signature-box {
+  background: #fff;
+}
+
+#formAnamnese #clear-signature {
+  position: absolute;
+  right: 0.45rem;
+  bottom: 0.35rem;
+  z-index: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: #4b5563;
+  line-height: 1.2;
+}
+
+#formAnamnese #clear-signature:hover {
+  background: #fff;
+  color: #1f2937;
+  transform: none;
+}
+
 #formAnamnese .flex.justify-end.gap-3 {
   margin-top: 0.8rem;
 }
@@ -6414,6 +6438,12 @@ button:active:not(:disabled) {
   min-width: 0;
 }
 
+#formAnamnese .anamnese-assessment-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
 #formAnamnese .anamnese-assessment-observation {
   display: flex;
   flex-direction: column;
@@ -6423,9 +6453,16 @@ button:active:not(:disabled) {
 #formAnamnese .anamnese-assessment-extra label,
 #formAnamnese .anamnese-assessment-observation label {
   display: block;
-  margin-bottom: 0.35rem;
+  min-height: 0;
+  margin: 0;
+  align-items: initial;
   color: #d7d1d1;
   font-size: 0.72rem;
+  line-height: 1.25;
+}
+
+#formAnamnese .anamnese-assessment-extra input {
+  margin: 0;
 }
 
 #formAnamnese .anamnese-technique-grid {
@@ -6475,14 +6512,22 @@ button:active:not(:disabled) {
 }
 
 @media (max-width: 640px) {
-  #formAnamnese .anamnese-assessment-grid,
+  #formAnamnese .anamnese-assessment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
   #formAnamnese .anamnese-technique-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 380px) {
-  #formAnamnese .anamnese-assessment-grid,
+  #formAnamnese .anamnese-assessment-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   #formAnamnese .anamnese-technique-grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -7184,10 +7229,10 @@ button:active:not(:disabled) {
           <fieldset class="border border-gray-600 p-3 rounded-lg">
             <legend class="px-2 font-semibold text-rose-300">Termo de Consentimento</legend>
             <p class="text-xs italic text-gray-400 mb-2">"Autorizo a realização da técnica de alongamento de cílios. Autorizo o registro fotográfico do "antes e depois" para documentação e divulgação da profissional. As declarações acima são verdadeiras, não cabendo ao profissional a responsabilidade por informações omitidas nesta avaliação. Me comprometo a seguir todos os cuidados necessários após a técnica."</p>
-            <div class="relative w-full h-32 bg-gray-200 rounded-md">
+            <div class="anamnese-signature-box relative w-full h-32 rounded-md">
               <canvas id="signature-pad" class="absolute top-0 left-0 w-full h-full" style="touch-action: none;"></canvas>
+              <button type="button" id="clear-signature" class="text-xs mt-1">Limpar Assinatura</button>
             </div>
-            <button type="button" id="clear-signature" class="text-xs text-gray-400 hover:text-white mt-1">Limpar Assinatura</button>
             <input type="hidden" name="Assinatura" id="assinaturaOutput">
           </fieldset>
 
