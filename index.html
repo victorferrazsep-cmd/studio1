@@ -401,7 +401,7 @@
   }
 
   #calendarAgenda .fc-daygrid-day-frame {
-    min-height: 3.7rem;
+    min-height: 3rem;
   }
 
   #calendarAgenda .fc-daygrid-event {
@@ -5032,7 +5032,7 @@ button:active:not(:disabled) {
   }
 
   #calendarAgenda .fc-daygrid-day-frame {
-    min-height: clamp(2.2rem, 8vw, 2.8rem);
+    min-height: clamp(2rem, 7vw, 2.4rem);
   }
 
   #calendarAgenda .agenda-month-event {
@@ -12424,9 +12424,9 @@ async function renderAgendaCalendar() {
   agendaCalendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: "pt-br",
-    height: 600,
+    height: "auto",
     firstDay: 0,
-    dayMaxEvents: true,
+    dayMaxEvents: false,
     fixedWeekCount: false,
     selectable: true,
     headerToolbar: {
