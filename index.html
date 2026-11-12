@@ -371,6 +371,10 @@
   }
 
   #calendarAgenda .agenda-month-event-presente {
+    color: #7f7f7f;
+  }
+
+  #calendarAgenda .agenda-month-event-finalizado {
     color: #4f9a67;
   }
 
@@ -6038,6 +6042,228 @@ button:active:not(:disabled) {
   }
 }
 
+#modalAgendamentoContent,
+#modalAnamneseContent {
+  box-sizing: border-box;
+  border: 1px solid rgba(244, 191, 174, 0.18);
+  border-radius: 1rem;
+  background: linear-gradient(155deg, #292929 0%, #202020 100%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52);
+}
+
+#modalAgendamentoContent {
+  width: min(100%, 42rem);
+  padding: 1.5rem;
+}
+
+#modalAnamneseContent {
+  width: min(100%, 42rem);
+  padding: 1.5rem;
+}
+
+#modalAgendamentoContent .agendamento-modal-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(244, 191, 174, 0.2);
+}
+
+#modalAgendamentoContent .cliente-form-heading,
+#modalAnamneseContent .cliente-form-heading {
+  min-width: 0;
+  margin: 0;
+}
+
+#modalAgendamentoContent .agendamento-modal-controls {
+  display: flex;
+  width: min(100%, 11.5rem);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+#modalAgendamentoContent .agendamento-permuta-flag {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid rgba(244, 191, 174, 0.26);
+  border-radius: 0.6rem;
+  background: rgba(244, 191, 174, 0.08);
+  color: #ffe4da;
+  cursor: pointer;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+#modalAgendamentoContent .agendamento-permuta-flag input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--rose);
+}
+
+#modalAgendamentoContent .agendamento-presenca-button,
+#modalAgendamentoContent .agendamento-finalizar-button {
+  width: 100%;
+  min-height: 2.2rem;
+  border: 1px solid rgba(255, 232, 224, 0.28);
+  border-radius: 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+#modalAgendamentoContent .agendamento-presenca-button {
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c;
+}
+
+#modalAgendamentoContent .agendamento-finalizar-button {
+  background: #383838;
+  color: #ffe4da;
+}
+
+#modalAgendamentoContent .agendamento-presenca-button:hover,
+#modalAgendamentoContent .agendamento-finalizar-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+#modalAgendamentoContent .agendamento-form-row > div > label,
+#modalAnamneseContent #formAnamnese label {
+  color: #d7d1d1;
+  font-size: 0.68rem;
+  letter-spacing: 0.035em;
+}
+
+#modalAgendamentoContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#modalAgendamentoContent select,
+#modalAnamneseContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
+#modalAnamneseContent select,
+#modalAnamneseContent textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.3rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #424242;
+  border-radius: 0.62rem;
+  background: #303030;
+  color: #f3eeee !important;
+  font-size: 0.78rem;
+}
+
+#modalAgendamentoContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#modalAgendamentoContent select:focus,
+#modalAnamneseContent input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]):focus,
+#modalAnamneseContent select:focus,
+#modalAnamneseContent textarea:focus {
+  border-color: var(--rose) !important;
+  background: #383838;
+  box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.12);
+}
+
+#modalAnamneseContent fieldset {
+  border-color: #424242;
+  border-radius: 0.75rem;
+  background: rgba(48, 48, 48, 0.55);
+}
+
+#modalAnamneseContent fieldset legend {
+  color: var(--rose);
+  font-size: 0.8rem;
+}
+
+#modalAnamneseContent textarea {
+  min-height: 4.5rem;
+}
+
+#formAgendamento .agendamento-form-actions,
+#formAnamnese .anamnese-form-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+#formAgendamento #fecharModalAgendamento,
+#formAnamnese #fecharModalAnamnese {
+  justify-self: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: #aaa6a8;
+  font-size: 0.75rem;
+}
+
+#formAgendamento #fecharModalAgendamento:hover,
+#formAnamnese #fecharModalAnamnese:hover {
+  background: transparent;
+  color: #fff7f4;
+}
+
+#formAgendamento #btnExcluirAgendamento {
+  width: 100%;
+  min-height: 2.4rem;
+  border-radius: 0.65rem;
+  font-size: 0.8rem;
+}
+
+#formAgendamento .agendamento-submit-button,
+#formAnamnese .agendamento-submit-button {
+  display: inline-flex;
+  width: 100%;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 232, 224, 0.35);
+  border-radius: 0.68rem;
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c;
+  font-size: 0.85rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(244, 191, 174, 0.16);
+}
+
+#formAgendamento .agendamento-submit-button:hover,
+#formAnamnese .agendamento-submit-button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  #modalAgendamentoContent,
+  #modalAnamneseContent {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  #modalAgendamentoContent .agendamento-modal-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+
+  #modalAgendamentoContent .agendamento-modal-controls {
+    width: 8.5rem;
+  }
+
+  #modalAgendamentoContent .agendamento-permuta-flag {
+    padding-inline: 0.4rem;
+  }
+}
+
 </style>
 </head>
 <body class="flex h-screen">
@@ -6495,21 +6721,28 @@ button:active:not(:disabled) {
        class="card relative rounded-xl shadow-lg p-6 w-full max-w-3xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10
               transform scale-95 opacity-0 transition-all duration-300">
     
-    <div class="app-form-heading">
-      <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-calendar-plus"></i></span>
-      <div><h2>Agendamento</h2><p>Informe os dados para organizar o atendimento.</p></div>
-    </div>
-
     <form id="formAgendamento" class="space-y-4">
-      <div class="flex justify-between items-center gap-3">
-        <label for="agendamentoPermuta" class="inline-flex items-center gap-2 rounded-md border border-rose-300 px-3 py-2 text-sm font-semibold text-rose-200">
+      <div class="agendamento-modal-header">
+        <div class="cliente-form-heading">
+          <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-calendar-plus"></i></span>
+          <div>
+            <h2>Agendamento</h2>
+            <p>Informe os dados para organizar o atendimento.</p>
+          </div>
+        </div>
+        <div class="agendamento-modal-controls">
+          <label for="agendamentoPermuta" class="agendamento-permuta-flag">
           <input id="agendamentoPermuta" name="Permuta" type="checkbox" value="Sim"
             class="accent-rose-300">
-          <span>PERMUTA</span>
-        </label>
-        <button id="btnPresencaAgendamento" type="button" class="hidden px-3 py-2 rounded-md font-semibold text-xs uppercase tracking-wide transition-all" style="background-color: var(--rose); color: #000; box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);">
-          PRESENÇA
-        </button>
+            <span>PERMUTA</span>
+          </label>
+          <button id="btnPresencaAgendamento" type="button" class="agendamento-presenca-button hidden">
+            PRESENÇA
+          </button>
+          <button id="btnFinalizarAtendimento" type="button" class="agendamento-finalizar-button hidden">
+            Finalizar Atendimento
+          </button>
+        </div>
       </div>
       <div class="agendamento-form-row agendamento-cliente-email-row">
         <div>
@@ -6588,20 +6821,12 @@ button:active:not(:disabled) {
         </div>
       </div>
 
-      <div class="flex justify-end gap-3 mt-6">
+      <div class="agendamento-form-actions">
         <button type="button" id="fecharModalAgendamento"
           class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Fechar</button>
         <button type="button" id="btnExcluirAgendamento"
           class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-md hidden">Excluir</button>
-
-
-        <button type="submit"
-          class="px-4 py-2 rounded-md font-semibold transition-all"
-          style="
-            background-color: var(--rose);
-            color: #000;
-            box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);
-          ">
+        <button type="submit" class="agendamento-submit-button">
           <span id="btnSalvarAgendamentoTexto">Agendar</span>
         </button>
       </div>
@@ -6626,8 +6851,8 @@ button:active:not(:disabled) {
 
       <!-- Conteúdo -->
       <div id="modalAnamneseContent" class="card relative rounded-xl shadow-lg p-6 w-full max-w-2xl mx-auto bg-[#2b2b2b]/95 border border-rose-300 z-10 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto">
-        <div class="app-form-heading">
-          <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-clipboard-list"></i></span>
+        <div class="cliente-form-heading">
+          <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-clipboard-list"></i></span>
           <div><h2>Ficha de Anamnese</h2><p>Registre as informações e preferências da cliente.</p></div>
         </div>
         <form id="formAnamnese" class="space-y-4">
@@ -6707,9 +6932,9 @@ button:active:not(:disabled) {
             </div>
           </fieldset>
 
-          <div class="flex justify-end gap-3 mt-6">
+          <div class="anamnese-form-actions">
             <button type="button" id="fecharModalAnamnese" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Fechar</button>
-            <button type="submit" class="px-4 py-2 rounded-md font-semibold transition-all" style="background-color: var(--rose); color: #000; box-shadow: 0 0 10px rgba(244, 191, 174, 0.6);">Salvar Anamnese</button>
+            <button type="submit" class="agendamento-submit-button">Salvar Anamnese</button>
           </div>
         </form>
       </div>
@@ -6887,14 +7112,22 @@ button:active:not(:disabled) {
                 <option value="">Carregando clientes...</option>
               </select>
             </label>
-            <label for="autoWhatsAppBody">Mensagem
+            <label for="autoWhatsAppBody"><span id="autoWhatsAppMessageTitle">Mensagem 1</span>
               <textarea id="autoWhatsAppBody" maxlength="5000" required></textarea>
+            </label>
+            <label id="autoWhatsAppSecondMessageGroup" for="autoWhatsAppBodySecond" class="hidden"><span id="autoWhatsAppSecondMessageTitle">Segunda mensagem</span>
+              <textarea id="autoWhatsAppBodySecond" maxlength="5000"></textarea>
             </label>
             <p class="auto-whatsapp-help">O WhatsApp será aberto com a mensagem preenchida. Revise e toque em enviar no aplicativo.</p>
             <p id="autoWhatsAppStatus" class="auto-whatsapp-status" role="status" aria-live="polite"></p>
-            <a id="autoWhatsAppSend" class="auto-whatsapp-send" target="_blank" rel="noopener noreferrer" aria-disabled="true">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir WhatsApp
-            </a>
+            <div class="flex flex-wrap gap-2">
+              <a id="autoWhatsAppSend" class="auto-whatsapp-send" target="_blank" rel="noopener noreferrer" aria-disabled="true">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir mensagem 1
+              </a>
+              <a id="autoWhatsAppSendSecond" class="auto-whatsapp-send hidden" target="_blank" rel="noopener noreferrer" aria-disabled="true">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir mensagem 2
+              </a>
+            </div>
           </form>
         </div>
       </div>
@@ -9547,9 +9780,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const autoWhatsAppModal = document.getElementById("autoWhatsAppModal");
   const autoWhatsAppClose = document.getElementById("autoWhatsAppClose");
   const autoWhatsAppClient = document.getElementById("autoWhatsAppClient");
+  const autoWhatsAppMessageTitle = document.getElementById("autoWhatsAppMessageTitle");
   const autoWhatsAppBody = document.getElementById("autoWhatsAppBody");
+  const autoWhatsAppSecondMessageGroup = document.getElementById("autoWhatsAppSecondMessageGroup");
+  const autoWhatsAppSecondMessageTitle = document.getElementById("autoWhatsAppSecondMessageTitle");
+  const autoWhatsAppBodySecond = document.getElementById("autoWhatsAppBodySecond");
   const autoWhatsAppStatus = document.getElementById("autoWhatsAppStatus");
   const autoWhatsAppSend = document.getElementById("autoWhatsAppSend");
+  const autoWhatsAppSendSecond = document.getElementById("autoWhatsAppSendSecond");
   const autoMessagesList = document.getElementById("autoMessagesList");
   const autoMessagesStatus = document.getElementById("autoMessagesStatus");
   const autoMessageFormStatus = document.getElementById("autoMessageFormStatus");
@@ -9619,24 +9857,36 @@ document.addEventListener("DOMContentLoaded", function() {
   function atualizarLinkWhatsApp() {
     const cliente = autoWhatsAppClient.selectedOptions[0];
     const telefone = cliente?.dataset.telefone;
-    const texto = autoWhatsAppBody.value.trim();
-    const disponivel = Boolean(telefone && texto);
-
-    autoWhatsAppSend.setAttribute("aria-disabled", String(!disponivel));
-    if (disponivel) {
-      autoWhatsAppSend.href = `https://wa.me/${telefone}?text=${encodeURIComponent(texto)}`;
-    } else {
-      autoWhatsAppSend.removeAttribute("href");
-    }
+    [
+      [autoWhatsAppSend, autoWhatsAppBody],
+      [autoWhatsAppSendSecond, autoWhatsAppBodySecond]
+    ].forEach(([link, body]) => {
+      const texto = body.value.trim();
+      const disponivel = Boolean(telefone && texto);
+      link.setAttribute("aria-disabled", String(!disponivel));
+      if (disponivel) {
+        link.href = `https://wa.me/${telefone}?text=${encodeURIComponent(texto)}`;
+      } else {
+        link.removeAttribute("href");
+      }
+    });
   }
 
   async function abrirModalEnviarMensagemAuto(mensagem, trigger, clienteNome = "") {
+    const mensagens = (Array.isArray(mensagem) ? mensagem : [mensagem]).slice(0, 2);
     const requestId = ++autoWhatsAppRequestId;
     autoWhatsAppTrigger = trigger;
     autoWhatsAppModal.classList.remove("hidden");
     autoWhatsAppClient.disabled = true;
     autoWhatsAppClient.replaceChildren(new Option("Carregando clientes...", ""));
-    autoWhatsAppBody.value = mensagem.mensagem;
+    autoWhatsAppBody.value = mensagens[0]?.mensagem || "";
+    autoWhatsAppBodySecond.value = mensagens[1]?.mensagem || "";
+    autoWhatsAppMessageTitle.textContent = mensagens[0]?.titulo || "Mensagem 1";
+    autoWhatsAppSecondMessageTitle.textContent = mensagens[1]?.titulo || "Segunda mensagem";
+    autoWhatsAppSecondMessageGroup.classList.toggle("hidden", mensagens.length < 2);
+    autoWhatsAppSendSecond.classList.toggle("hidden", mensagens.length < 2);
+    autoWhatsAppSend.innerHTML = `<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir ${mensagens.length > 1 ? "mensagem 1" : "WhatsApp"}`;
+    autoWhatsAppSendSecond.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir mensagem 2';
     autoWhatsAppStatus.textContent = "Buscando clientes com telefone cadastrado...";
     atualizarLinkWhatsApp();
 
@@ -9695,14 +9945,22 @@ document.addEventListener("DOMContentLoaded", function() {
     autoWhatsAppClient.replaceChildren(new Option("Selecione uma cliente", ""));
     autoWhatsAppClient.disabled = true;
     autoWhatsAppBody.value = "";
+    autoWhatsAppBodySecond.value = "";
+    autoWhatsAppMessageTitle.textContent = "Mensagem 1";
+    autoWhatsAppSecondMessageTitle.textContent = "Segunda mensagem";
+    autoWhatsAppSecondMessageGroup.classList.add("hidden");
+    autoWhatsAppSendSecond.classList.add("hidden");
+    autoWhatsAppSend.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir WhatsApp';
+    autoWhatsAppSendSecond.innerHTML = '<i class="fab fa-whatsapp" aria-hidden="true"></i> Abrir mensagem 2';
     autoWhatsAppStatus.textContent = "";
     atualizarLinkWhatsApp();
-    if (autoWhatsAppTrigger?.isConnected) autoWhatsAppTrigger.focus();
+    if (autoWhatsAppTrigger?.isConnected && !autoWhatsAppTrigger.hidden) autoWhatsAppTrigger.focus();
     autoWhatsAppTrigger = null;
   }
 
   autoWhatsAppClient.addEventListener("change", atualizarLinkWhatsApp);
   autoWhatsAppBody.addEventListener("input", atualizarLinkWhatsApp);
+  autoWhatsAppBodySecond.addEventListener("input", atualizarLinkWhatsApp);
   autoWhatsAppClose.addEventListener("click", fecharModalEnviarMensagemAuto);
   registrarFechamentoForaFormulario(autoWhatsAppModal, fecharModalEnviarMensagemAuto);
   document.addEventListener("keydown", event => {
@@ -11101,6 +11359,7 @@ function dadosEventoGoogle(evento) {
     evento.Tipo && `Técnica realizada: ${evento.Tipo}`,
     String(evento.Permuta || "").trim().toLowerCase() === "sim" && "Permuta: Sim",
     evento.Presenca && `Presença: ${String(evento.Presenca).trim() || "Não"}`,
+    evento.AtendimentoFinalizado && `Atendimento finalizado: ${String(evento.AtendimentoFinalizado).trim() || "Não"}`,
     evento.ValorProcedimento !== "" && evento.ValorProcedimento !== undefined &&
       `Valor da técnica: ${Number(evento.ValorProcedimento || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`,
     evento.ValorSinal !== "" && evento.ValorSinal !== undefined &&
@@ -11122,7 +11381,8 @@ function dadosEventoGoogle(evento) {
         ...(evento.Tecnica ? { studioTipo: String(evento.Tecnica) } : {}),
         ...(evento.Tipo ? { studioTecnica: String(evento.Tipo) } : {}),
         studioPermuta: String(evento.Permuta || "").trim().toLowerCase() === "sim" ? "Sim" : "Não",
-        Presenca: String(evento.Presenca || "Não").trim() || "Não"
+        Presenca: String(evento.Presenca || "Não").trim() || "Não",
+        AtendimentoFinalizado: String(evento.AtendimentoFinalizado || "Não").trim() || "Não"
       }
     }
   };
@@ -11173,6 +11433,7 @@ async function carregarEventosGoogleCalendar(fetchInfo, successCallback, failure
           googlePrivateProperties: evento.extendedProperties?.private || {},
           googleDescription: evento.description || "",
           Presenca: presencaEventoGoogle(evento),
+          AtendimentoFinalizado: finalizacaoAtendimentoGoogle(evento),
           Permuta: String(
             evento.extendedProperties?.private?.studioPermuta ||
             evento.description?.split(/\r?\n/).find(linha => /^Permuta:/i.test(linha))?.split(":").slice(1).join(":").trim() ||
@@ -11216,7 +11477,22 @@ function deduplicarAgendamentos(eventos) {
       String(evento.Presenca || "").trim().toLowerCase() === "sim" &&
       String(existente.Presenca || "").trim().toLowerCase() !== "sim"
     ) {
-      unicos.set(chave, { ...existente, Presenca: evento.Presenca });
+      unicos.set(chave, {
+        ...existente,
+        Presenca: evento.Presenca,
+        AtendimentoFinalizado: String(evento.AtendimentoFinalizado || "").trim().toLowerCase() === "sim"
+          ? evento.AtendimentoFinalizado
+          : existente.AtendimentoFinalizado
+      });
+    } else if (
+      String(evento.AtendimentoFinalizado || "").trim().toLowerCase() === "sim" &&
+      String(existente.AtendimentoFinalizado || "").trim().toLowerCase() !== "sim"
+    ) {
+      unicos.set(chave, {
+        ...existente,
+        Presenca: String(existente.Presenca || evento.Presenca || "Não"),
+        AtendimentoFinalizado: evento.AtendimentoFinalizado
+      });
     }
   });
   return [...unicos.values()];
@@ -11229,6 +11505,15 @@ function presencaEventoGoogle(evento) {
     ? linhaPresenca.slice(linhaPresenca.indexOf(":") + 1).trim()
     : evento.extendedProperties?.private?.Presenca;
   return String(presenca || "Não").trim().toLowerCase() === "sim" ? "Sim" : "Não";
+}
+
+function finalizacaoAtendimentoGoogle(evento) {
+  const descricao = String(evento.description || "");
+  const linhaFinalizacao = descricao.split(/\r?\n/).find(linha => /^Atendimento finalizado:/i.test(linha));
+  const finalizado = linhaFinalizacao
+    ? linhaFinalizacao.slice(linhaFinalizacao.indexOf(":") + 1).trim()
+    : evento.extendedProperties?.private?.AtendimentoFinalizado;
+  return String(finalizado || "Não").trim().toLowerCase() === "sim" ? "Sim" : "Não";
 }
 
 function mapearEventoGoogleParaResumo(evento) {
@@ -11267,6 +11552,7 @@ function mapearEventoGoogleParaResumo(evento) {
     ValorDia: valorDescricao("Valor a cobrar no dia"),
     ValorPago: valorDescricao("Valor a cobrar no dia"),
     Presenca: presencaEventoGoogle(evento),
+    AtendimentoFinalizado: finalizacaoAtendimentoGoogle(evento),
     GoogleEventId: evento.id || null,
     GoogleAppointmentId: evento.extendedProperties?.private?.studioAppointmentId || null
   };
@@ -11665,7 +11951,7 @@ async function renderAgendaCalendar() {
         id: `${e.Data}-${e.Hora}-${e.Cliente}`,
         title: `${e.Cliente} - ${tecnicaAgendamento(e)}`,
         start: `${e.Data}T${e.Hora || "00:00"}`,
-        color: e.Presenca === 'Sim' ? '#34a853' : '#7f7f7f',
+        color: e.AtendimentoFinalizado === 'Sim' ? '#34a853' : '#7f7f7f',
         allDay: false,
         extendedProps: {
           id: e.ID ?? e._db_id,
@@ -11679,6 +11965,7 @@ async function renderAgendaCalendar() {
           valorDia: e.ValorDia ?? e.ValorPago,
           cep: e.CEP,
           Presenca: e.Presenca,
+          AtendimentoFinalizado: e.AtendimentoFinalizado,
           Permuta: e.Permuta,
           googleEventId: e.GoogleEventId || null,
           inicioAgendaISO: `${e.Data}T${e.Hora || "00:00"}:00-03:00`
@@ -11733,7 +12020,9 @@ async function renderAgendaCalendar() {
       const nome = document.createElement("span");
       nome.className = "agenda-month-event-name";
       nome.textContent = nomeCliente;
-      if (String(info.event.extendedProps.Presenca || "").trim().toLowerCase() === "sim") {
+      if (String(info.event.extendedProps.AtendimentoFinalizado || "").trim().toLowerCase() === "sim") {
+        conteudo.classList.add("agenda-month-event-finalizado");
+      } else if (String(info.event.extendedProps.Presenca || "").trim().toLowerCase() === "sim") {
         conteudo.classList.add("agenda-month-event-presente");
       }
       conteudo.append(hora, nome);
@@ -11795,6 +12084,7 @@ async function renderAgendaCalendar() {
       document.getElementById("btnSalvarAgendamentoTexto").textContent = "Agendar";
       document.getElementById("btnExcluirAgendamento").classList.add("hidden");
       document.getElementById("btnPresencaAgendamento").classList.add("hidden");
+      document.getElementById("btnFinalizarAtendimento").classList.add("hidden");
       abrirModalAgendamento();
     },
 
@@ -11828,7 +12118,8 @@ eventClick: function(info) {
       valorDia: campoDescricao("Valor a cobrar no dia")
         ? Number(campoDescricao("Valor a cobrar no dia").replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."))
         : "",
-      Presenca: String(campoDescricao("Presença") || campoDescricao("Presenca") || props.Presenca || "Não").trim().toLowerCase() === "sim" ? "Sim" : "Não"
+      Presenca: String(campoDescricao("Presença") || campoDescricao("Presenca") || props.Presenca || "Não").trim().toLowerCase() === "sim" ? "Sim" : "Não",
+      AtendimentoFinalizado: String(campoDescricao("Atendimento finalizado") || props.AtendimentoFinalizado || "Não").trim().toLowerCase() === "sim" ? "Sim" : "Não"
     };
   }
 
@@ -11851,6 +12142,7 @@ eventClick: function(info) {
     googleAppointmentId: props.googleAppointmentId || null,
     googlePrivateProperties: props.googlePrivateProperties || {},
     googleOnlyEvent: somenteGoogle,
+    atendimentoFinalizado: props.AtendimentoFinalizado || "Não",
     event: info.event
   };
 
@@ -11875,7 +12167,13 @@ eventClick: function(info) {
   atualizarValorPermuta();
   atualizarResumoValoresAgendamento();
 
-  document.getElementById("btnPresencaAgendamento").classList.toggle("hidden", !eventoEmEdicao);
+  const temPresenca = String(props.Presenca || "").trim().toLowerCase() === "sim";
+  const atendimentoFinalizado = String(props.AtendimentoFinalizado || "").trim().toLowerCase() === "sim";
+  document.getElementById("btnPresencaAgendamento").classList.toggle("hidden", !eventoEmEdicao || temPresenca);
+  document.getElementById("btnFinalizarAtendimento").classList.toggle(
+    "hidden",
+    !eventoEmEdicao || !temPresenca || atendimentoFinalizado
+  );
 
   document.getElementById("agendamentoData").value = eventoEmEdicao.dataOriginal;
   document.getElementById("agendamentoHora").value = eventoEmEdicao.horaOriginal;
@@ -12120,6 +12418,220 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("fecharModalAgendamento").addEventListener("click", fecharModalAgendamento);
   registrarFechamentoForaFormulario(modalAgendamento.firstElementChild, fecharModalAgendamento);
 
+  function adicionarDiasISO(dataISO, dias) {
+    const [ano, mes, dia] = dataISO.split("-").map(Number);
+    const data = new Date(ano, mes - 1, dia + dias, 12);
+    return [
+      data.getFullYear(),
+      String(data.getMonth() + 1).padStart(2, "0"),
+      String(data.getDate()).padStart(2, "0")
+    ].join("-");
+  }
+
+  function formatarDataRetorno(dataISO) {
+    return new Date(`${dataISO}T12:00:00`).toLocaleDateString("pt-BR");
+  }
+
+  async function buscarOpcoesRetorno(dataAtendimento) {
+    if (!sessaoAgenda || !googleCalendarConnected) {
+      throw new Error("Conecte o Google Agenda antes de consultar horários livres.");
+    }
+    if (!bloqueiosAgendaCarregados) await carregarBloqueiosAgenda();
+    if (!bloqueiosAgendaCarregados) {
+      throw new Error("Não foi possível consultar os dias bloqueados da agenda.");
+    }
+
+    const respostaAgenda = await fetch(SUPABASE_AGENDA_URL);
+    if (!respostaAgenda.ok) {
+      throw new Error(`Não foi possível consultar a Agenda (HTTP ${respostaAgenda.status}).`);
+    }
+    const agendamentos = await respostaAgenda.json();
+    if (!Array.isArray(agendamentos)) throw new Error("A consulta da Agenda retornou dados inválidos.");
+
+    const offsets = [15, 16, 20, 21];
+    const primeiraData = adicionarDiasISO(dataAtendimento, offsets[0]);
+    const ultimaData = adicionarDiasISO(dataAtendimento, offsets[offsets.length - 1] + 1);
+    const query = new URLSearchParams({
+      timeMin: `${primeiraData}T00:00:00-03:00`,
+      timeMax: `${ultimaData}T00:00:00-03:00`,
+      singleEvents: "true",
+      orderBy: "startTime",
+      maxResults: "2500"
+    });
+    const respostaGoogle = await requisitarGoogleCalendar(`events?${query}`);
+    const eventosGoogle = (respostaGoogle.items || []).filter(evento => evento.status !== "cancelled");
+    const dias = offsets.map(offset => adicionarDiasISO(dataAtendimento, offset));
+    const opcoes = dias.map(data => {
+      if (bloqueiosAgenda.has(data)) return { data, horarios: [] };
+      const inicioDia = new Date(`${data}T00:00:00`).getTime();
+      const horarios = [];
+      for (let hora = 9; hora < 19; hora += 1) {
+        const inicio = new Date(`${data}T${String(hora).padStart(2, "0")}:00:00`).getTime();
+        const fim = inicio + 60 * 60 * 1000;
+        const ocupadoPorAgendamento = agendamentos.some(evento => {
+          if (String(evento.Data || "").slice(0, 10) !== data) return false;
+          const horaEvento = String(evento.Hora || "00:00").slice(0, 5);
+          const inicioEvento = new Date(`${data}T${horaEvento}:00`).getTime();
+          return Number.isFinite(inicioEvento) && inicio < inicioEvento + 60 * 60 * 1000 && fim > inicioEvento;
+        });
+        const ocupadoNoGoogle = eventosGoogle.some(evento => {
+          const inicioEvento = evento.start?.dateTime
+            ? new Date(evento.start.dateTime).getTime()
+            : evento.start?.date
+              ? new Date(`${evento.start.date}T00:00:00`).getTime()
+              : NaN;
+          const fimEvento = evento.end?.dateTime
+            ? new Date(evento.end.dateTime).getTime()
+            : evento.start?.dateTime
+              ? inicioEvento + 60 * 60 * 1000
+            : evento.end?.date
+              ? new Date(`${evento.end.date}T00:00:00`).getTime()
+              : evento.start?.date
+                ? inicioEvento + 24 * 60 * 60 * 1000
+                : NaN;
+          return Number.isFinite(inicioEvento) && Number.isFinite(fimEvento) &&
+            inicio < fimEvento && fim > inicioEvento &&
+            inicioEvento < inicioDia + 24 * 60 * 60 * 1000 && fimEvento > inicioDia;
+        });
+        if (!ocupadoPorAgendamento && !ocupadoNoGoogle) {
+          horarios.push(`${hora}h às ${hora + 1}h`);
+        }
+      }
+      return { data, horarios };
+    });
+
+    return [15, 20].map((prazo, indice) => {
+      const diasDoPrazo = opcoes.slice(indice * 2, indice * 2 + 2);
+      const linhas = diasDoPrazo.map(opcao => {
+        const horarios = opcao.horarios.length
+          ? opcao.horarios.join(", ")
+          : "sem horários livres";
+        return `${formatarDataRetorno(opcao.data)}: ${horarios}`;
+      });
+      return `Opções para cerca de ${prazo} dias:\n${linhas.join("\n")}`;
+    }).join("\n\n");
+  }
+
+  async function buscarMensagensFinalizacao() {
+    const titulos = [
+      "Finalização do Atendimento - Avaliação",
+      "Finalização do Atendimento - Agend. Retorno"
+    ];
+    const { data, error } = await supabaseDataClient
+      .from("studio_mensagens_auto")
+      .select("id,titulo,mensagem,created_at")
+      .in("titulo", titulos)
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: false });
+    if (error) throw error;
+    if (!Array.isArray(data)) throw new Error("A lista de mensagens automáticas retornou dados inválidos.");
+    const porTitulo = new Map();
+    data.forEach(mensagem => {
+      if (!porTitulo.has(mensagem.titulo)) porTitulo.set(mensagem.titulo, mensagem);
+    });
+    const faltantes = titulos.filter(titulo => !porTitulo.has(titulo));
+    if (faltantes.length) {
+      throw new Error(`Cadastre as mensagens automáticas: ${faltantes.map(titulo => `"${titulo}"`).join(" e ")}.`);
+    }
+    return titulos.map(titulo => porTitulo.get(titulo));
+  }
+
+  const btnFinalizarAtendimento = document.getElementById("btnFinalizarAtendimento");
+  btnFinalizarAtendimento.addEventListener("click", async () => {
+    if (!eventoEmEdicao || String(eventoEmEdicao.event?.extendedProps?.Presenca || "").toLowerCase() !== "sim") {
+      alert("Registre a presença antes de finalizar o atendimento.");
+      return;
+    }
+    btnFinalizarAtendimento.disabled = true;
+    try {
+      const dataAtendimento = document.getElementById("agendamentoData").value || eventoEmEdicao.dataOriginal;
+      const [mensagens, opcoesRetorno] = await Promise.all([
+        buscarMensagensFinalizacao(),
+        buscarOpcoesRetorno(dataAtendimento)
+      ]);
+      const eventoGoogle = eventoEmEdicao.event?.extendedProps || {};
+      const eventoParaPersistencia = {
+        Cliente: document.getElementById("agendamentoCliente").value,
+        Data: document.getElementById("agendamentoData").value || eventoEmEdicao.dataOriginal,
+        Hora: document.getElementById("agendamentoHora").value || eventoEmEdicao.horaOriginal,
+        Modalidade: document.getElementById("agendamentoModalidade").value,
+        Tecnica: document.getElementById("agendamentoProcedimento").value,
+        Tipo: document.getElementById("agendamentoTipo").value,
+        ValorProcedimento: document.getElementById("agendamentoValorProcedimento").value || "",
+        ValorSinal: document.getElementById("agendamentoValorSinal").value || "0",
+        ValorDia: eventoGoogle.valorDia ?? eventoGoogle.valorPago ?? "",
+        Permuta: document.getElementById("agendamentoPermuta").checked ? "Sim" : "Não",
+        Presenca: "Sim",
+        AtendimentoFinalizado: "Sim",
+        GoogleEventId: eventoEmEdicao.googleEventId || null,
+        GoogleAppointmentId: eventoEmEdicao.googleAppointmentId || null,
+        GooglePrivateProperties: eventoEmEdicao.googlePrivateProperties || {}
+      };
+
+      if (eventoEmEdicao.googleOnlyEvent) {
+        const respostaAgenda = await fetch(SUPABASE_AGENDA_URL);
+        if (!respostaAgenda.ok) throw new Error(`Não foi possível consultar a Agenda (HTTP ${respostaAgenda.status}).`);
+        const agendamentos = await respostaAgenda.json();
+        if (!Array.isArray(agendamentos)) throw new Error("A consulta da Agenda retornou dados inválidos.");
+        eventoParaPersistencia.ID = agendamentos.reduce((maximo, agendamento) => {
+          const id = Number.parseInt(agendamento.ID, 10);
+          return Number.isFinite(id) && id > maximo ? id : maximo;
+        }, 99) + 1;
+        eventoParaPersistencia.GoogleAppointmentId = String(eventoParaPersistencia.ID);
+        const respostaSalvar = await fetch(SUPABASE_AGENDA_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(eventoParaPersistencia)
+        });
+        if (!respostaSalvar.ok) throw new Error(`Não foi possível salvar a finalização na Agenda (HTTP ${respostaSalvar.status}).`);
+        eventoEmEdicao.id = eventoParaPersistencia.ID;
+        eventoEmEdicao.googleAppointmentId = eventoParaPersistencia.GoogleAppointmentId;
+        eventoEmEdicao.googleOnlyEvent = false;
+      } else {
+        eventoParaPersistencia.ID = eventoEmEdicao.id;
+        const respostaSalvar = await fetch(`${SUPABASE_AGENDA_URL}/ID/${eventoEmEdicao.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(eventoParaPersistencia)
+        });
+        if (!respostaSalvar.ok) throw new Error("Não foi possível salvar a finalização na Agenda.");
+      }
+
+      let erroGoogle = "";
+      if (eventoEmEdicao.googleEventId) {
+        try {
+          await requisitarGoogleCalendar(`events/${encodeURIComponent(eventoEmEdicao.googleEventId)}`, {
+            method: "PATCH",
+            body: JSON.stringify(dadosEventoGoogle(eventoParaPersistencia))
+          });
+        } catch (error) {
+          console.error("Atendimento finalizado na Agenda, mas não foi sincronizado com o Google Agenda:", error);
+          erroGoogle = error instanceof Error ? error.message : String(error);
+        }
+      }
+
+      eventoEmEdicao.atendimentoFinalizado = "Sim";
+      eventoEmEdicao.event?.setExtendedProp("id", eventoParaPersistencia.ID);
+      eventoEmEdicao.event?.setExtendedProp("googleAppointmentId", eventoParaPersistencia.GoogleAppointmentId);
+      eventoEmEdicao.event?.setExtendedProp("googleCalendarEvent", false);
+      eventoEmEdicao.event?.setExtendedProp("AtendimentoFinalizado", "Sim");
+      eventoEmEdicao.event?.setProp("color", "#34a853");
+      document.getElementById("btnFinalizarAtendimento").classList.add("hidden");
+      fecharModalAgendamento();
+
+      mensagens[1].mensagem = `${mensagens[1].mensagem.trim()}\n\nHorários disponíveis para seu retorno:\n${opcoesRetorno}`;
+      if (erroGoogle) {
+        alert(`O atendimento foi finalizado na agenda do Studio, mas o Google Agenda não sincronizou: ${erroGoogle}`);
+      }
+      await window.abrirModalEnviarMensagemAuto(mensagens, btnFinalizarAtendimento, eventoParaPersistencia.Cliente);
+    } catch (error) {
+      console.error("Erro ao finalizar atendimento:", error);
+      alert(`Não foi possível finalizar o atendimento. ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      btnFinalizarAtendimento.disabled = false;
+    }
+  });
+
   document.getElementById("btnPresencaAgendamento").addEventListener("click", async () => {
     const cliente = document.getElementById("agendamentoCliente")?.value || eventoEmEdicao?.clienteOriginal || "";
     if (!cliente || !eventoEmEdicao) {
@@ -12162,6 +12674,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ValorSinal: dadosParaAnamnese.ValorSinal,
       Permuta: dadosParaAnamnese.Permuta,
       Presenca: "Sim",
+      AtendimentoFinalizado: eventoEmEdicao.atendimentoFinalizado || "Não",
       ID: eventoEmEdicao?.id ?? eventoEmEdicao?.event.extendedProps?.id ?? null,
       GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? eventoEmEdicao?.event.extendedProps?.googleAppointmentId ?? null,
       GoogleEventId: eventoEmEdicao?.googleEventId ?? eventoEmEdicao?.event.extendedProps?.googleEventId ?? null
@@ -12175,6 +12688,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ValorSinal: dadosParaAnamnese.ValorSinal,
       Permuta: dadosParaAnamnese.Permuta,
       Presenca: "Sim",
+      AtendimentoFinalizado: "Não",
       ID: eventoEmEdicao?.id ?? null,
       GoogleAppointmentId: eventoEmEdicao?.googleAppointmentId ?? null,
       GoogleEventId: eventoEmEdicao?.googleEventId ?? null
@@ -12237,13 +12751,13 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           if (respostaGoogle?.id) {
             eventoEmEdicao.event.setExtendedProp("Presenca", "Sim");
-            eventoEmEdicao.event.setProp("color", "#34a853");
+            eventoEmEdicao.event.setProp("color", "#7f7f7f");
           }
         }
 
         if (eventoEmEdicao.event) {
           eventoEmEdicao.event.setExtendedProp("Presenca", "Sim");
-          eventoEmEdicao.event.setProp("color", "#34a853");
+          eventoEmEdicao.event.setProp("color", "#7f7f7f");
         }
 
         await registrarGanhoPorPresenca(eventoParaPersistencia).catch(async (erroFinanceiro) => {
@@ -12349,6 +12863,9 @@ document.addEventListener("DOMContentLoaded", () => {
     botoesSubmit.forEach(button => { button.disabled = true; });
 
     evento.Presenca = editando ? String(eventoEmEdicao.event.extendedProps.Presenca || "Não") : "Não";
+    evento.AtendimentoFinalizado = editando
+      ? String(eventoEmEdicao.event.extendedProps.AtendimentoFinalizado || "Não")
+      : "Não";
     const presencaAtual = String(evento.Presenca || "").trim().toLowerCase();
     const presencaAnterior = editando
       ? String(eventoEmEdicao.event.extendedProps.Presenca || "").trim().toLowerCase()
