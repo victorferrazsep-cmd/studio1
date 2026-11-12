@@ -254,6 +254,83 @@
     box-shadow: 0 0 0 2px rgba(201, 130, 134, 0.15) !important;
   }
 
+  #calendarAgenda .fc-button-group {
+    display: inline-flex;
+    gap: 0.05rem;
+    padding: 0.1rem;
+    border: 1px solid rgba(201, 130, 134, 0.22);
+    border-radius: 999px;
+    background: #fff8f6;
+  }
+
+  #calendarAgenda .fc-toolbar .fc-button-group > .fc-button {
+    box-sizing: border-box;
+    width: 1.8rem;
+    min-width: 1.8rem;
+    height: 1.4rem;
+    min-height: 1.4rem;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #9f5f62 !important;
+    font-size: 0.55rem !important;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  #calendarAgenda .fc-toolbar .fc-button-group > .fc-prev-button,
+  #calendarAgenda .fc-toolbar .fc-button-group > .fc-next-button {
+    width: 1.4rem;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    min-height: 1.4rem;
+    padding: 0 !important;
+    font-size: 0.55rem !important;
+  }
+
+  #calendarAgenda .fc-toolbar .fc-today-button {
+    box-sizing: border-box;
+    width: 1.8rem;
+    min-width: 1.8rem;
+    height: 1.4rem;
+    min-height: 1.4rem;
+    padding: 0 !important;
+    font-size: 0.55rem !important;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk:nth-child(3) .fc-button-group > .fc-button:hover:not(:disabled) {
+    background: #f4bfae !important;
+    color: #6f4145 !important;
+  }
+
+  #calendarAgenda .fc-button-group > .fc-button.fc-button-active,
+  #calendarAgenda .fc-button-group > .fc-button.fc-button-active:hover {
+    background: #c98286 !important;
+    color: #ffffff !important;
+  }
+
+  #calendarAgenda .fc-button-group > .fc-button:focus-visible {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 0 2px rgba(201, 130, 134, 0.35) !important;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk:first-child > .fc-today-button {
+    border: 1px solid #ead8d4 !important;
+    border-radius: 999px !important;
+    background: #fff8f6 !important;
+    color: #9f5f62 !important;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk:first-child > .fc-today-button:hover:not(:disabled) {
+    border-color: #c98286 !important;
+    background: #f4bfae !important;
+    color: #6f4145 !important;
+  }
+
   #modalAgendamentoContent {
     max-width: 48rem;
     width: calc(100% - 2rem);
@@ -324,7 +401,7 @@
   }
 
   #calendarAgenda .fc-daygrid-day-frame {
-    min-height: 4.68rem;
+    min-height: 3.7rem;
   }
 
   #calendarAgenda .fc-daygrid-event {
@@ -362,6 +439,25 @@
     flex: 0 0 auto;
     font-size: 0.58rem;
     font-weight: 600;
+  }
+
+  #calendarAgenda .agenda-event-checks {
+    flex: 0 0 auto;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: -0.08em;
+  }
+
+  #calendarAgenda .agenda-event-checks-presente {
+    color: #7f7f7f;
+  }
+
+  #calendarAgenda .agenda-event-checks-finalizado {
+    color: #278a46;
+  }
+
+  #calendarAgenda .agenda-month-event .agenda-event-checks {
+    font-size: 0.55rem;
   }
 
   #calendarAgenda .agenda-month-event-name {
@@ -4902,14 +4998,32 @@ button:active:not(:disabled) {
 
   #calendarAgenda .fc-header-toolbar.fc-toolbar {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: stretch;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
     gap: 0.35rem;
   }
 
-  #calendarAgenda .fc-toolbar-chunk {
+  #calendarAgenda .fc-toolbar-chunk:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-start;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2;
     justify-content: center;
-    flex-wrap: wrap;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+  }
+
+  #calendarAgenda .fc-toolbar-chunk {
+    flex-wrap: nowrap;
+    gap: 0.2rem;
   }
 
   #calendarAgenda .fc-toolbar-title {
@@ -4918,7 +5032,7 @@ button:active:not(:disabled) {
   }
 
   #calendarAgenda .fc-daygrid-day-frame {
-    min-height: clamp(2.5rem, 10vw, 3.5rem);
+    min-height: clamp(2.2rem, 8vw, 2.8rem);
   }
 
   #calendarAgenda .agenda-month-event {
@@ -12310,7 +12424,7 @@ async function renderAgendaCalendar() {
   agendaCalendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     locale: "pt-br",
-    height: 700,
+    height: 600,
     firstDay: 0,
     dayMaxEvents: true,
     fixedWeekCount: false,
@@ -12323,13 +12437,29 @@ async function renderAgendaCalendar() {
     buttonText: {
       today: "Hoje",
       month: "Mês",
-      week: "Semana",
+      week: "Sem",
       day: "Dia"
     },
     eventContent: function(info) {
+      const extendedProps = info.event.extendedProps;
+      const atendimentoFinalizado = String(extendedProps.AtendimentoFinalizado || "").trim().toLowerCase() === "sim";
+      const presencaRegistrada = String(extendedProps.Presenca || "").trim().toLowerCase() === "sim";
+      const quantidadeVistos = atendimentoFinalizado ? 2 : presencaRegistrada ? 1 : 0;
+      const criarVistos = () => {
+        if (!quantidadeVistos) return null;
+        const vistos = document.createElement("span");
+        vistos.className = `agenda-event-checks ${
+          atendimentoFinalizado ? "agenda-event-checks-finalizado" : "agenda-event-checks-presente"
+        }`;
+        vistos.textContent = "✓".repeat(quantidadeVistos);
+        return vistos;
+      };
+
       if (info.view.type !== "dayGridMonth") {
         const conteudo = document.createElement("div");
         conteudo.className = "agenda-timegrid-event";
+        const vistos = criarVistos();
+        if (vistos) conteudo.append(vistos);
         if (info.timeText) {
           const hora = document.createElement("span");
           hora.className = "agenda-timegrid-event-time";
@@ -12351,11 +12481,13 @@ async function renderAgendaCalendar() {
       const nome = document.createElement("span");
       nome.className = "agenda-month-event-name";
       nome.textContent = nomeCliente;
-      if (String(info.event.extendedProps.AtendimentoFinalizado || "").trim().toLowerCase() === "sim") {
+      if (atendimentoFinalizado) {
         conteudo.classList.add("agenda-month-event-finalizado");
-      } else if (String(info.event.extendedProps.Presenca || "").trim().toLowerCase() === "sim") {
+      } else if (presencaRegistrada) {
         conteudo.classList.add("agenda-month-event-presente");
       }
+      const vistos = criarVistos();
+      if (vistos) conteudo.append(vistos);
       conteudo.append(hora, nome);
       return { domNodes: [conteudo] };
     },
