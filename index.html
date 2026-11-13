@@ -3124,6 +3124,20 @@ button:active:not(:disabled) {
   justify-self: end;
 }
 
+#homePage .home-metric-content .titulo-card {
+  margin-top: 0.25rem;
+}
+
+#homePage .home-metric-content {
+  grid-template-rows: auto auto auto;
+  align-content: start;
+}
+
+#homePage .home-metric-content > .metric-detail {
+  max-width: 7rem;
+  justify-self: end;
+}
+
 .home-metric-content > .metric-detail {
   grid-row: 3;
   align-self: end;
@@ -3720,6 +3734,10 @@ button:active:not(:disabled) {
   margin: 0;
 }
 
+#insumosPage > .page-title-row {
+  align-items: center;
+}
+
 #relatoriosPage .reports-header {
   align-items: center;
 }
@@ -4125,6 +4143,7 @@ button:active:not(:disabled) {
   #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
   #configuracoesPage > .flex.justify-between.mb-5.items-center,
   #financeiro2Page > .flex.justify-between.mb-5.items-center,
+  #insumosPage > .flex.justify-between.mb-5.items-center,
   #relatoriosPage .reports-header {
     box-sizing: border-box;
     min-height: 3rem;
@@ -4372,6 +4391,7 @@ button:active:not(:disabled) {
   #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
   #configuracoesPage > .flex.justify-between.mb-5.items-center,
   #financeiro2Page > .flex.justify-between.mb-5.items-center,
+  #insumosPage > .flex.justify-between.mb-5.items-center,
   #relatoriosPage .reports-header {
     box-sizing: border-box;
     min-height: 3rem;
@@ -4601,6 +4621,11 @@ button:active:not(:disabled) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  #homePage .home-metric-card {
+    min-height: 7rem;
+    padding-bottom: 0.5rem;
+  }
+
   .upcoming-card .home-section-heading {
     align-items: flex-start;
   }
@@ -4792,6 +4817,31 @@ button:active:not(:disabled) {
 
   .home-finance-table tbody td:first-child {
     font-weight: 600;
+  }
+
+  #insumosPage .stock-table th {
+    padding: 0.3rem 0.1rem;
+    font-size: clamp(0.45rem, 2.8vw, 0.58rem);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  #insumosPage .stock-table td {
+    min-width: 0;
+    padding: 0.35rem 0.1rem;
+    font-size: clamp(0.45rem, 2.8vw, 0.58rem);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  #insumosPage .stock-product-meta {
+    font-size: clamp(0.45rem, 2.8vw, 0.58rem);
+  }
+
+  #insumosPage .stock-product-code,
+  #insumosPage .stock-low-badge,
+  #insumosPage .stock-row-actions button {
+    font-size: clamp(0.45rem, 2.8vw, 0.58rem);
   }
 
   .home-feature-grid {
@@ -5296,6 +5346,14 @@ button:active:not(:disabled) {
   }
 
   .home-finance-table tbody td {
+    font-size: 0.48rem;
+  }
+
+  #insumosPage .stock-table tbody td,
+  #insumosPage .stock-product-meta,
+  #insumosPage .stock-product-code,
+  #insumosPage .stock-low-badge,
+  #insumosPage .stock-row-actions button {
     font-size: 0.48rem;
   }
 
@@ -6653,6 +6711,13 @@ button:active:not(:disabled) {
   gap: 0.65rem;
 }
 
+#insumosPage .stock-actions button {
+  height: 2rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+}
+
 #insumosPage .stock-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.48;
@@ -6680,29 +6745,27 @@ button:active:not(:disabled) {
 }
 
 #insumosPage .stock-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 #insumosPage .stock-summary-card {
-  display: flex;
-  min-height: 88px;
-  flex-direction: column;
-  justify-content: center;
-  gap: 7px;
-  padding: 16px 18px;
+  min-height: 7rem;
+  padding-bottom: 0.5rem;
 }
 
-#insumosPage .stock-summary-card span {
-  color: #b6aaa7;
-  font-size: 13px;
+#insumosPage .stock-summary-card .home-metric-content {
+  grid-template-rows: auto auto auto;
+  align-content: start;
 }
 
-#insumosPage .stock-summary-card strong {
-  color: #fff7f4;
-  font-size: 22px;
+#insumosPage .stock-summary-card .titulo-card {
+  margin-top: 0.25rem;
+}
+
+#insumosPage .stock-currency {
+  font-size: 0.38em;
+  font-weight: 500;
+  vertical-align: baseline;
 }
 
 #insumosPage .stock-panel {
@@ -6768,6 +6831,10 @@ button:active:not(:disabled) {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
 }
 
+#stockProductUnit:invalid {
+  font-size: 0.68rem;
+}
+
 .stock-dialog textarea {
   min-height: 4.75rem;
   resize: vertical;
@@ -6798,19 +6865,23 @@ button:active:not(:disabled) {
   min-width: 680px;
   border-collapse: collapse;
   text-align: left;
+  font-size: 0.78rem;
+}
+
+#insumosPage .stock-movement-table {
+  min-width: 760px;
 }
 
 #insumosPage .stock-table th,
 #insumosPage .stock-table td {
-  padding: 11px 9px;
+  padding: 0.58rem 0.35rem;
   border-bottom: 1px solid #424242;
   vertical-align: middle;
-  font-size: 13px;
 }
 
 #insumosPage .stock-table th {
   color: #aaa6a8;
-  font-size: 11px;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -6824,10 +6895,41 @@ button:active:not(:disabled) {
   font-weight: 700;
 }
 
+#insumosPage .stock-product-code {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(244, 191, 174, 0.16);
+  color: #ffd2c2;
+  font-size: 10px;
+  font-weight: 700;
+}
+
 #insumosPage .stock-product-meta {
   margin-top: 3px;
   color: #aaa6a8;
   font-size: 11px;
+}
+
+#insumosPage .stock-product-critical-row td {
+  border-color: #d7bd4c;
+  background: #fff0a8;
+  color: #342900;
+}
+
+#insumosPage .stock-product-critical-row .stock-product-name {
+  color: #2d2300;
+}
+
+#insumosPage .stock-product-critical-row .stock-product-code,
+#insumosPage .stock-product-critical-row .stock-low-badge {
+  background: rgba(91, 69, 0, 0.12);
+  color: #4b3b00;
+}
+
+#insumosPage .stock-product-critical-row .stock-product-meta {
+  color: #615000;
 }
 
 #insumosPage .stock-low-badge {
@@ -6862,6 +6964,17 @@ button:active:not(:disabled) {
   background: #ffd2c2;
 }
 
+#insumosPage .stock-row-actions button[data-stock-delete-product],
+#insumosPage .stock-row-actions button[data-stock-delete-movement] {
+  background: #5b2525;
+  color: #ffe0e0;
+}
+
+#insumosPage .stock-row-actions button[data-stock-delete-product]:hover,
+#insumosPage .stock-row-actions button[data-stock-delete-movement]:hover {
+  background: #7a3030;
+}
+
 #insumosPage .stock-row-actions button:focus-visible,
 #insumosPage .stock-actions button:focus-visible,
 .stock-dialog button:focus-visible {
@@ -6885,6 +6998,51 @@ button:active:not(:disabled) {
 
 .stock-modal.hidden {
   display: none;
+}
+
+.stock-confirm-dialog {
+  width: min(100%, 28rem);
+}
+
+.stock-confirm-message {
+  margin: 0;
+  color: #e6dddd;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.stock-confirm-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stock-confirm-actions button {
+  min-height: 2.6rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.65rem;
+  background: #303030;
+  color: #ddd5d5;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stock-confirm-actions .stock-confirm-danger {
+  border-color: rgba(255, 232, 224, 0.35);
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c;
+}
+
+.stock-confirm-actions button:disabled {
+  cursor: wait;
+  opacity: 0.58;
 }
 
 .stock-dialog {
@@ -7031,15 +7189,6 @@ button:active:not(:disabled) {
 }
 
 @media (max-width: 700px) {
-  #insumosPage .stock-summary-grid {
-    grid-template-columns: 1fr;
-    gap: 9px;
-  }
-
-  #insumosPage .stock-summary-card {
-    min-height: 72px;
-  }
-
   #insumosPage .stock-panel {
     padding: 13px;
   }
@@ -7109,12 +7258,6 @@ button:active:not(:disabled) {
     padding-top: 0.65rem;
   }
 
-  #insumosPage .stock-actions button {
-    height: 2rem;
-    min-height: 2rem;
-    padding: 0.3rem 0.55rem;
-    font-size: 0.7rem;
-  }
 }
 
 @media (max-width: 360px) {
@@ -7141,7 +7284,7 @@ button:active:not(:disabled) {
     <a href="#" data-page="agenda"><i class="fas fa-calendar-days" aria-hidden="true"></i><span>Agenda</span></a>
     <a href="#" data-page="mensagensAuto"><i class="fas fa-comment-dots" aria-hidden="true"></i><span>Mensagens Auto</span></a>
     <a href="#" data-page="financeiro2"><i class="fas fa-wallet" aria-hidden="true"></i><span>Financeiro</span></a>
-    <a href="#" data-page="insumos"><i class="fas fa-boxes-stacked" aria-hidden="true"></i><span>Insumos / Estoque</span></a>
+    <a href="#" data-page="insumos"><i class="fas fa-boxes-stacked" aria-hidden="true"></i><span>Gestão de Estoque</span></a>
     <a href="#" data-page="relatorios"><i class="fas fa-chart-pie" aria-hidden="true"></i><span>Relatórios</span></a>
     <a href="#" data-page="configuracoes"><i class="fas fa-gear" aria-hidden="true"></i><span>Configurações</span></a>
   </nav>
@@ -8193,30 +8336,38 @@ button:active:not(:disabled) {
       <h2 class="page-heading">
         <span class="page-heading-icon"><i class="fas fa-boxes-stacked" aria-hidden="true"></i></span>
         <span class="page-heading-copy">
-          <span class="page-heading-title">Insumos / Estoque</span>
+          <span class="page-heading-title">Gestão de Estoque</span>
           <span class="page-heading-subtitle">Produtos, compras e movimentações de estoque</span>
         </span>
       </h2>
     </div>
 
     <div class="page-actions-row stock-actions">
-      <button id="stockAddProduct" type="button" class="btn-primary px-4 py-2 rounded-md">+ Cadastrar produto</button>
-      <button id="stockAddMovement" type="button" class="btn-primary px-4 py-2 rounded-md" disabled>+ Entrada / saída</button>
+      <button id="stockAddProduct" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md">+ Cadastrar Produto</button>
+      <button id="stockAddMovement" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" disabled>+ Entrada &amp; Saída</button>
     </div>
     <p id="stockStatus" class="stock-status" role="status" aria-live="polite"></p>
 
-    <div class="stock-summary-grid">
-      <article class="card stock-summary-card">
-        <span>Produtos ativos</span>
-        <strong id="stockTotalProducts">0</strong>
+    <div class="grid gap-4 mb-5 home-metric-grid stock-summary-grid">
+      <article class="card home-metric-card stock-summary-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
+        <div class="home-metric-icon"><i class="fas fa-boxes-stacked" aria-hidden="true"></i></div>
+        <div class="home-metric-content">
+          <div class="font-semibold" style="color:#F8C6AF">
+            <span class="numero-grande"><span id="stockTotalProducts">0</span>/<span id="stockLowProducts">0</span></span>
+            <span class="titulo-card">Cadastros / Estoque Baixo</span>
+          </div>
+          <div class="metric-detail">Produtos Ativos &amp;<br>Estoque próximos de acabar</div>
+        </div>
       </article>
-      <article class="card stock-summary-card">
-        <span>Estoque baixo</span>
-        <strong id="stockLowProducts">0</strong>
-      </article>
-      <article class="card stock-summary-card">
-        <span>Valor estimado em estoque</span>
-        <strong id="stockTotalValue">R$ 0,00</strong>
+      <article class="card home-metric-card stock-summary-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)] text-center text-sm">
+        <div class="home-metric-icon"><i class="fas fa-coins" aria-hidden="true"></i></div>
+        <div class="home-metric-content">
+          <div class="font-semibold" style="color:#F8C6AF">
+            <span class="numero-grande"><span id="stockTotalValueCurrency" class="stock-currency">R$</span> <span id="stockTotalValue">0,00</span></span>
+            <span class="titulo-card">Valor Estoque</span>
+          </div>
+          <div class="metric-detail">R$ Aproximado<br>do estoque</div>
+        </div>
       </article>
     </div>
 
@@ -8224,10 +8375,9 @@ button:active:not(:disabled) {
       <div class="stock-panel-heading">
         <div>
           <h3>Produtos</h3>
-          <p>O alerta indica produtos no limite do estoque mínimo.</p>
         </div>
         <label class="stock-search-label" for="stockProductSearch">Buscar produto
-          <input id="stockProductSearch" type="search" placeholder="Nome ou categoria">
+          <input id="stockProductSearch" type="search" placeholder="Código, nome ou categoria">
         </label>
       </div>
       <div class="stock-table-wrap">
@@ -8246,16 +8396,16 @@ button:active:not(:disabled) {
       <div class="stock-panel-heading">
         <div>
           <h3>Movimentações recentes</h3>
-          <p>Entradas, compras, consumo, perdas e ajustes.</p>
+          <p>Registre compras, ajustes, consumo e perdas; compras também lançam despesa no Financeiro.</p>
         </div>
       </div>
       <div class="stock-table-wrap">
-        <table class="stock-table">
+        <table class="stock-table stock-movement-table">
           <thead>
-            <tr><th>Data</th><th>Produto</th><th>Movimentação</th><th>Quantidade</th><th>Valor total</th><th>Fornecedor / observação</th></tr>
+            <tr><th>Data</th><th>Produto</th><th>Movimentação</th><th>Quantidade</th><th>Valor total</th><th>Fornecedor / observação</th><th>Ações</th></tr>
           </thead>
           <tbody id="stockMovementsList">
-            <tr><td colspan="6">Carregando movimentações...</td></tr>
+            <tr><td colspan="7">Carregando movimentações...</td></tr>
           </tbody>
         </table>
       </div>
@@ -8268,7 +8418,7 @@ button:active:not(:disabled) {
         <div class="cliente-form-heading stock-dialog-heading">
           <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-boxes-stacked"></i></span>
           <div>
-            <h2 id="stockProductTitle">Cadastrar produto</h2>
+            <h2 id="stockProductTitle">Cadastrar Produto</h2>
             <p>Informe os dados para acompanhar este item no estoque.</p>
           </div>
         </div>
@@ -8282,23 +8432,37 @@ button:active:not(:disabled) {
         </div>
         <div class="cliente-form-field stock-form-field">
           <label for="stockProductCategory">CATEGORIA</label>
-            <input id="stockProductCategory" type="text" required maxlength="80" placeholder="Ex.: cílios, higiene">
+          <input id="stockProductCategory" type="text" list="stockProductCategories" required maxlength="80" placeholder="Ex.: cílios, higiene">
+          <datalist id="stockProductCategories"></datalist>
         </div>
         <div class="cliente-form-field stock-form-field">
           <label for="stockProductUnit">UNIDADE</label>
-            <input id="stockProductUnit" type="text" required maxlength="30" placeholder="Ex.: unidade, caixa, ml">
+          <select id="stockProductUnit" required>
+            <option value="" disabled selected>Selecione uma unidade</option>
+            <option value="unidade">Unidade</option>
+            <option value="par">Par</option>
+            <option value="caixa">Caixa</option>
+            <option value="pacote">Pacote</option>
+            <option value="frasco">Frasco</option>
+            <option value="kit">Kit</option>
+            <option value="g">Grama (g)</option>
+            <option value="kg">Quilograma (kg)</option>
+            <option value="ml">Mililitro (ml)</option>
+            <option value="l">Litro (L)</option>
+            <option value="rolo">Rolo</option>
+          </select>
         </div>
         <div class="cliente-form-field stock-form-field">
-          <label for="stockProductCost">CUSTO UNITÁRIO ATUAL (R$)</label>
-            <input id="stockProductCost" type="number" min="0" step="0.01" value="0" required>
+          <label for="stockProductCost">CUSTO PRODUTO (R$)</label>
+          <input id="stockProductCost" type="text" inputmode="decimal" value="0,00" required>
         </div>
         <div id="stockInitialGroup" class="cliente-form-field stock-form-field">
           <label for="stockProductInitial">SALDO INICIAL</label>
-            <input id="stockProductInitial" type="number" min="0" step="0.001" value="0">
+          <input id="stockProductInitial" type="number" min="0" step="1" value="0">
         </div>
         <div class="cliente-form-field stock-form-field">
           <label for="stockProductMinimum">ESTOQUE MÍNIMO</label>
-            <input id="stockProductMinimum" type="number" min="0" step="0.001" value="0" required>
+          <input id="stockProductMinimum" type="number" min="0" step="1" value="0" required>
         </div>
         <div class="cliente-form-field stock-form-field full">
           <label for="stockProductSupplier">FORNECEDOR</label>
@@ -8308,11 +8472,11 @@ button:active:not(:disabled) {
           <label for="stockProductNotes">OBSERVAÇÕES</label>
             <textarea id="stockProductNotes" maxlength="1000"></textarea>
         </div>
-        <p id="stockInitialHelp" class="stock-form-help">O saldo inicial é um ajuste de abertura e não cria despesa no Financeiro. Compras devem ser lançadas em Entrada / saída.</p>
+        <p id="stockInitialHelp" class="stock-form-help">Com saldo inicial e custo total maiores que zero, a despesa é lançada automaticamente no Financeiro. Use Entrada/Saída para registrar reposição, consumo ou perdas; compras futuras também geram despesa.</p>
         <p id="stockProductFormStatus" class="stock-status" role="status" aria-live="polite"></p>
         <div class="stock-dialog-footer">
           <button type="button" class="stock-dialog-cancel" data-stock-close="stockProductModal">Cancelar</button>
-          <button id="stockProductSubmit" class="btn-primary" type="submit">Salvar produto</button>
+          <button id="stockProductSubmit" class="btn-primary" type="submit">Salvar Produto</button>
         </div>
       </form>
     </div>
@@ -8373,6 +8537,27 @@ button:active:not(:disabled) {
           <button id="stockMovementSubmit" class="btn-primary" type="submit">Registrar movimentação</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <div id="stockDeleteConfirmModal" class="stock-modal hidden" role="dialog" aria-modal="true" aria-labelledby="stockDeleteConfirmTitle" aria-describedby="stockDeleteConfirmMessage">
+    <div class="stock-dialog stock-confirm-dialog">
+      <div class="stock-dialog-header">
+        <div class="cliente-form-heading stock-dialog-heading">
+          <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-triangle-exclamation"></i></span>
+          <div>
+            <h2 id="stockDeleteConfirmTitle">Confirmar exclusão</h2>
+            <p>Confira os efeitos antes de continuar.</p>
+          </div>
+        </div>
+        <button id="stockDeleteConfirmClose" type="button" class="stock-dialog-close" data-stock-close="stockDeleteConfirmModal" aria-label="Fechar">&times;</button>
+      </div>
+      <p id="stockDeleteConfirmMessage" class="stock-confirm-message"></p>
+      <p id="stockDeleteConfirmStatus" class="stock-status" role="status" aria-live="polite"></p>
+      <div class="stock-confirm-actions">
+        <button id="stockDeleteCancel" type="button" data-stock-close="stockDeleteConfirmModal">Cancelar</button>
+        <button id="stockDeleteConfirm" type="button" class="stock-confirm-danger">Excluir</button>
+      </div>
     </div>
   </div>
 
@@ -14299,6 +14484,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const movementForm = document.getElementById("stockMovementForm");
   const productModal = document.getElementById("stockProductModal");
   const movementModal = document.getElementById("stockMovementModal");
+  const deleteConfirmModal = document.getElementById("stockDeleteConfirmModal");
+  const deleteConfirmTitle = document.getElementById("stockDeleteConfirmTitle");
+  const deleteConfirmMessage = document.getElementById("stockDeleteConfirmMessage");
+  const deleteConfirmStatus = document.getElementById("stockDeleteConfirmStatus");
+  const deleteConfirmButton = document.getElementById("stockDeleteConfirm");
+  const deleteCancelButton = document.getElementById("stockDeleteCancel");
+  const deleteCloseButton = document.getElementById("stockDeleteConfirmClose");
   const productList = document.getElementById("stockProductsList");
   const movementList = document.getElementById("stockMovementsList");
   const movementProduct = document.getElementById("stockMovementProduct");
@@ -14307,6 +14499,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const pageStatus = document.getElementById("stockStatus");
   let products = [];
   let movements = [];
+  let pendingStockDeletion = null;
+  let stockDeletionInProgress = false;
 
   const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
@@ -14315,8 +14509,43 @@ document.addEventListener("DOMContentLoaded", () => {
     return Number.isFinite(number) ? number : 0;
   }
 
+  function parseProductCost(value) {
+    const raw = String(value).trim().replace(/\s/g, "");
+    if (!raw) return null;
+    const normalized = raw.includes(",")
+      ? raw.replace(/\./g, "").replace(",", ".")
+      : /^\d{1,3}(?:\.\d{3})+$/.test(raw)
+        ? raw.replace(/\./g, "")
+        : raw;
+    if (!/^\d+(?:\.\d{1,2})?$/.test(normalized)) return null;
+    const amount = Number(normalized);
+    return Number.isFinite(amount) ? amount : null;
+  }
+
+  function formatProductCost(value) {
+    return new Intl.NumberFormat("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(numberValue(value));
+  }
+
   function formatQuantity(value) {
     return numberValue(value).toLocaleString("pt-BR", { maximumFractionDigits: 3 });
+  }
+
+  function formatStockQuantity(quantity, unit) {
+    const unitLabel = String(unit || "").trim();
+    const pluralUnit = {
+      unidade: "unidades",
+      par: "pares",
+      caixa: "caixas",
+      pacote: "pacotes",
+      frasco: "frascos",
+      kit: "kits",
+      rolo: "rolos",
+    }[unitLabel.toLocaleLowerCase("pt-BR")];
+    const displayedUnit = numberValue(quantity) === 1 || !pluralUnit ? unitLabel : pluralUnit;
+    return `${formatQuantity(quantity)} ${displayedUnit}`.trim();
   }
 
   function localDateString(date = new Date()) {
@@ -14348,16 +14577,40 @@ document.addEventListener("DOMContentLoaded", () => {
     return data;
   }
 
+  function stockErrorMessage(error) {
+    const errorMessage = error instanceof Error
+      ? error.message
+      : error && typeof error === "object"
+        ? error.message || error.details || error.hint
+        : null;
+    return error?.code === "PGRST202"
+      && String(errorMessage || "").includes("studio_estoque_excluir_")
+      ? "As funções de exclusão ainda não estão instaladas no Supabase. Aplique a migração 20261112231600_studio_stock_deletions_and_initial_expense.sql e recarregue a página."
+      : typeof errorMessage === "string" && errorMessage.trim()
+        ? errorMessage
+        : String(error);
+  }
+
   function showFormError(statusId, error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = stockErrorMessage(error);
     const formStatus = document.getElementById(statusId);
     if (formStatus) formStatus.textContent = message;
     pageStatus.textContent = message;
     console.error("Erro no controle de estoque:", error);
   }
 
+  function showDeleteConfirmationError(error) {
+    deleteConfirmStatus.textContent = stockErrorMessage(error);
+    console.error("Erro no controle de estoque:", error);
+  }
+
   function activeProducts() {
     return products.filter(product => String(product.Ativo || "Sim") !== "Não");
+  }
+
+  function isCriticallyLow(product) {
+    const minimum = numberValue(product.EstoqueMinimo);
+    return minimum > 0 && numberValue(product.EstoqueAtual) <= minimum * 5;
   }
 
   function productById(id) {
@@ -14374,7 +14627,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderProducts() {
     const query = document.getElementById("stockProductSearch").value.trim().toLocaleLowerCase("pt-BR");
     const visibleProducts = activeProducts()
-      .filter(product => `${product.Nome || ""} ${product.Categoria || ""}`.toLocaleLowerCase("pt-BR").includes(query))
+      .filter(product => `${product.Codigo || ""} ${product.Nome || ""} ${product.Categoria || ""}`.toLocaleLowerCase("pt-BR").includes(query))
       .sort((a, b) => String(a.Nome || "").localeCompare(String(b.Nome || ""), "pt-BR"));
 
     productList.replaceChildren();
@@ -14391,19 +14644,24 @@ document.addEventListener("DOMContentLoaded", () => {
       const minimum = numberValue(product.EstoqueMinimo);
       const unitCost = numberValue(product.CustoUnitario);
       const row = document.createElement("tr");
+      if (isCriticallyLow(product)) row.classList.add("stock-product-critical-row");
       const nameCell = document.createElement("td");
       const name = document.createElement("div");
       name.className = "stock-product-name";
       name.textContent = product.Nome || "Produto";
       nameCell.appendChild(name);
+      const code = document.createElement("span");
+      code.className = "stock-product-code";
+      code.textContent = product.Codigo ? `Código ${product.Codigo}` : "Código pendente";
+      nameCell.appendChild(code);
       const meta = document.createElement("div");
       meta.className = "stock-product-meta";
       meta.textContent = product.Categoria || "";
       nameCell.appendChild(meta);
 
       const balanceCell = document.createElement("td");
-      balanceCell.textContent = `${formatQuantity(balance)} ${product.Unidade || ""}`.trim();
-      if (minimum > 0 && balance <= minimum) {
+      balanceCell.textContent = formatStockQuantity(balance, product.Unidade);
+      if (isCriticallyLow(product)) {
         const badge = document.createElement("span");
         badge.className = "stock-low-badge";
         badge.textContent = "Estoque baixo";
@@ -14413,7 +14671,7 @@ document.addEventListener("DOMContentLoaded", () => {
       row.append(
         nameCell,
         balanceCell,
-        cell(`${formatQuantity(minimum)} ${product.Unidade || ""}`.trim()),
+        cell(formatStockQuantity(minimum, product.Unidade)),
         cell(currency.format(unitCost)),
         cell(currency.format(balance * unitCost))
       );
@@ -14428,8 +14686,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const moveButton = document.createElement("button");
       moveButton.type = "button";
       moveButton.dataset.stockMove = String(product.ID);
-      moveButton.textContent = "Movimentar";
-      actions.append(editButton, moveButton);
+      moveButton.textContent = "Entrada/Saída";
+      moveButton.setAttribute("aria-label", `Registrar entrada ou saída de ${product.Nome || "produto"}`);
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.dataset.stockDeleteProduct = String(product.ID);
+      deleteButton.textContent = "Excluir";
+      deleteButton.setAttribute("aria-label", `Excluir ${product.Nome || "produto"} e seu histórico`);
+      actions.append(editButton, moveButton, deleteButton);
       actionsCell.appendChild(actions);
       row.appendChild(actionsCell);
       productList.appendChild(row);
@@ -14446,7 +14710,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!sortedMovements.length) {
       const row = document.createElement("tr");
       const empty = cell("Ainda não há movimentações.");
-      empty.colSpan = 6;
+      empty.colSpan = 7;
       row.appendChild(empty);
       movementList.appendChild(row);
       return;
@@ -14456,14 +14720,27 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
       const description = [movement.Motivo, movement.Direcao].filter(Boolean).join(" · ");
       const note = [movement.Fornecedor, movement.Observacoes].filter(Boolean).join(" · ");
+      const product = productById(movement.ProdutoID);
+      const productCode = product?.Codigo ? `${product.Codigo} · ` : "";
       row.append(
         cell(formatStockDate(movement.Data)),
-        cell(movement.ProdutoNome || productById(movement.ProdutoID)?.Nome || "Produto"),
+        cell(`${productCode}${movement.ProdutoNome || product?.Nome || "Produto"}`),
         cell(description),
-        cell(`${movement.Direcao === "Saída" ? "−" : "+"}${formatQuantity(movement.Quantidade)} ${movement.Unidade || ""}`.trim()),
+        cell(`${movement.Direcao === "Saída" ? "−" : "+"}${formatStockQuantity(movement.Quantidade, movement.Unidade)}`),
         cell(currency.format(numberValue(movement.ValorTotal))),
         cell(note || "—")
       );
+      const actionsCell = document.createElement("td");
+      const actions = document.createElement("div");
+      actions.className = "stock-row-actions";
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.dataset.stockDeleteMovement = String(movement.ID);
+      deleteButton.textContent = "Excluir";
+      deleteButton.setAttribute("aria-label", `Excluir movimentação de ${movement.ProdutoNome || "produto"}`);
+      actions.appendChild(deleteButton);
+      actionsCell.appendChild(actions);
+      row.appendChild(actionsCell);
       movementList.appendChild(row);
     }
   }
@@ -14472,14 +14749,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const visible = activeProducts();
     document.getElementById("stockTotalProducts").textContent = String(visible.length);
     document.getElementById("stockLowProducts").textContent = String(
-      visible.filter(product => {
-        const minimum = numberValue(product.EstoqueMinimo);
-        return minimum > 0 && numberValue(product.EstoqueAtual) <= minimum;
-      }).length
+      visible.filter(isCriticallyLow).length
     );
-    document.getElementById("stockTotalValue").textContent = currency.format(
+    const formattedTotal = currency.formatToParts(
       visible.reduce((total, product) => total + numberValue(product.EstoqueAtual) * numberValue(product.CustoUnitario), 0)
     );
+    document.getElementById("stockTotalValueCurrency").textContent =
+      formattedTotal.find(part => part.type === "currency").value;
+    document.getElementById("stockTotalValue").textContent = formattedTotal
+      .filter(part => part.type !== "currency" && part.type !== "literal")
+      .map(part => part.value)
+      .join("");
   }
 
   function renderStock() {
@@ -14499,7 +14779,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const product of list) {
       const option = document.createElement("option");
       option.value = String(product.ID);
-      option.textContent = `${product.Nome} (${formatQuantity(product.EstoqueAtual)} ${product.Unidade || ""})`.trim();
+      option.textContent = `${product.Codigo ? `${product.Codigo} · ` : ""}${product.Nome} (${formatStockQuantity(product.EstoqueAtual, product.Unidade)})`;
       movementProduct.appendChild(option);
     }
     movementProduct.value = selectedId ? String(selectedId) : "";
@@ -14533,16 +14813,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openProductModal(product = null) {
     productForm.reset();
+    productCostInput.setCustomValidity("");
+    productInitialInput.setCustomValidity("");
     document.getElementById("stockProductFormStatus").textContent = "";
     pageStatus.textContent = "";
     const editing = Boolean(product);
-    document.getElementById("stockProductTitle").textContent = editing ? "Editar produto" : "Cadastrar produto";
-    document.getElementById("stockProductSubmit").textContent = editing ? "Salvar alterações" : "Salvar produto";
+    document.getElementById("stockProductTitle").textContent = editing ? "Editar produto" : "Cadastrar Produto";
+    document.getElementById("stockProductSubmit").textContent = editing ? "Salvar alterações" : "Salvar Produto";
     document.getElementById("stockProductId").value = product?.ID || "";
     document.getElementById("stockProductName").value = product?.Nome || "";
     document.getElementById("stockProductCategory").value = product?.Categoria || "";
-    document.getElementById("stockProductUnit").value = product?.Unidade || "";
-    document.getElementById("stockProductCost").value = product?.CustoUnitario ?? 0;
+    const categorySuggestions = document.getElementById("stockProductCategories");
+    categorySuggestions.replaceChildren();
+    const categories = new Map();
+    for (const item of [...products, ...(product ? [product] : [])]) {
+      const category = String(item.Categoria || "").trim();
+      const normalizedCategory = category.toLocaleLowerCase("pt-BR");
+      if (category && !categories.has(normalizedCategory)) {
+        categories.set(normalizedCategory, category);
+      }
+    }
+    for (const category of [...categories.values()].sort((a, b) => a.localeCompare(b, "pt-BR"))) {
+      const option = document.createElement("option");
+      option.value = category;
+      categorySuggestions.appendChild(option);
+    }
+    const unitSelect = document.getElementById("stockProductUnit");
+    unitSelect.querySelector("[data-legacy-unit]")?.remove();
+    const selectedUnit = String(product?.Unidade || "");
+    if (selectedUnit && !Array.from(unitSelect.options).some(option => option.value === selectedUnit)) {
+      const option = document.createElement("option");
+      option.value = selectedUnit;
+      option.textContent = `${selectedUnit} (atual)`;
+      option.dataset.legacyUnit = "true";
+      unitSelect.appendChild(option);
+    }
+    unitSelect.value = selectedUnit;
+    const currentQuantity = numberValue(product?.EstoqueAtual ?? 0);
+    const currentUnitCost = numberValue(product?.CustoUnitario ?? 0);
+    document.getElementById("stockProductCost").value = formatProductCost(
+      editing ? currentQuantity * currentUnitCost : 0
+    );
     document.getElementById("stockProductInitial").value = 0;
     document.getElementById("stockProductMinimum").value = product?.EstoqueMinimo ?? 0;
     document.getElementById("stockProductSupplier").value = product?.Fornecedor || "";
@@ -14568,14 +14879,25 @@ document.addEventListener("DOMContentLoaded", () => {
     movementProduct.focus();
   }
 
+  function closeDeleteConfirmation(restoreFocus = true) {
+    const invoker = pendingStockDeletion?.invoker;
+    pendingStockDeletion = null;
+    deleteConfirmModal.classList.add("hidden");
+    if (restoreFocus && invoker?.isConnected) invoker.focus();
+  }
+
   function closeStockModal(modal) {
+    if (modal === deleteConfirmModal) {
+      if (!stockDeletionInProgress) closeDeleteConfirmation();
+      return;
+    }
     modal.classList.add("hidden");
   }
 
   async function loadStock() {
     pageStatus.textContent = "";
     productList.innerHTML = '<tr><td colspan="6">Carregando produtos...</td></tr>';
-    movementList.innerHTML = '<tr><td colspan="6">Carregando movimentações...</td></tr>';
+    movementList.innerHTML = '<tr><td colspan="7">Carregando movimentações...</td></tr>';
     try {
       const [productResponse, movementResponse] = await Promise.all([
         fetch(productEndpoint),
@@ -14592,9 +14914,33 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       showFormError("stockProductFormStatus", error);
       productList.innerHTML = '<tr><td colspan="6">Não foi possível carregar os produtos.</td></tr>';
-      movementList.innerHTML = '<tr><td colspan="6">Não foi possível carregar as movimentações.</td></tr>';
+      movementList.innerHTML = '<tr><td colspan="7">Não foi possível carregar as movimentações.</td></tr>';
       return false;
     }
+  }
+
+  async function deleteStockProduct(productId) {
+    const { error } = await supabaseClient.rpc("studio_estoque_excluir_produto", {
+      p_produto_id: String(productId)
+    });
+    if (error) throw error;
+  }
+
+  async function deleteStockMovement(movementId) {
+    const { error } = await supabaseClient.rpc("studio_estoque_excluir_movimento", {
+      p_movimento_id: String(movementId)
+    });
+    if (error) throw error;
+  }
+
+  function openDeleteConfirmation(title, message, action, invoker) {
+    pendingStockDeletion = { action, invoker };
+    deleteConfirmTitle.textContent = title;
+    deleteConfirmMessage.textContent = message;
+    deleteConfirmStatus.textContent = "";
+    pageStatus.textContent = "";
+    deleteConfirmModal.classList.remove("hidden");
+    deleteCancelButton.focus();
   }
 
   window.carregarEstoque = loadStock;
@@ -14604,6 +14950,45 @@ document.addEventListener("DOMContentLoaded", () => {
   movementDirection.addEventListener("change", updateMovementReasons);
   movementReason.addEventListener("change", updateMovementCostFields);
   movementProduct.addEventListener("change", updateMovementCostFields);
+  deleteConfirmButton.addEventListener("click", async () => {
+    const deletion = pendingStockDeletion;
+    if (!deletion || stockDeletionInProgress) return;
+    stockDeletionInProgress = true;
+    deleteConfirmButton.disabled = true;
+    deleteCancelButton.disabled = true;
+    deleteCloseButton.disabled = true;
+    deleteConfirmButton.textContent = "Excluindo...";
+    try {
+      await deletion.action();
+      closeDeleteConfirmation(false);
+      await loadStock();
+    } catch (error) {
+      showDeleteConfirmationError(error);
+    } finally {
+      stockDeletionInProgress = false;
+      deleteConfirmButton.disabled = false;
+      deleteCancelButton.disabled = false;
+      deleteCloseButton.disabled = false;
+      deleteConfirmButton.textContent = "Excluir";
+    }
+  });
+  const productCostInput = document.getElementById("stockProductCost");
+  productCostInput.addEventListener("input", () => productCostInput.setCustomValidity(""));
+  productCostInput.addEventListener("blur", () => {
+    if (productCostInput.value.trim() === "") return;
+    const cost = parseProductCost(productCostInput.value);
+    if (cost === null) {
+      productCostInput.setCustomValidity("Informe um custo válido, usando vírgula para os centavos.");
+      return;
+    }
+    productCostInput.setCustomValidity("");
+    productCostInput.value = formatProductCost(cost);
+  });
+  const productInitialInput = document.getElementById("stockProductInitial");
+  productInitialInput.addEventListener("input", () => {
+    productInitialInput.setCustomValidity("");
+    document.getElementById("stockProductFormStatus").textContent = "";
+  });
 
   productList.addEventListener("click", event => {
     const button = event.target.closest("button");
@@ -14613,7 +14998,37 @@ document.addEventListener("DOMContentLoaded", () => {
       if (product) openProductModal(product);
     } else if (button.dataset.stockMove) {
       openMovementModal(button.dataset.stockMove);
+    } else if (button.dataset.stockDeleteProduct) {
+      const product = productById(button.dataset.stockDeleteProduct);
+      if (!product) return;
+      openDeleteConfirmation(
+        "Confirmar exclusão do produto",
+        `Excluir "${product.Nome || "produto"}"?\n\nTodas as movimentações e despesas vinculadas também serão apagadas. Essa ação não pode ser desfeita.`,
+        () => deleteStockProduct(product.ID),
+        button
+      );
     }
+  });
+
+  movementList.addEventListener("click", event => {
+    const button = event.target.closest("button");
+    if (!button?.dataset.stockDeleteMovement) return;
+    const movement = movements.find(item => String(item.ID) === button.dataset.stockDeleteMovement);
+    if (!movement) return;
+    const productName = movement.ProdutoNome || productById(movement.ProdutoID)?.Nome || "produto";
+    const quantity = formatStockQuantity(movement.Quantidade, movement.Unidade);
+    const balanceEffect = movement.Direcao === "Entrada"
+      ? "O saldo será reduzido."
+      : "A quantidade será devolvida ao estoque.";
+    const financeEffect = ["Compra", "Saldo inicial"].includes(movement.Motivo)
+      ? " Qualquer despesa vinculada no Financeiro também será apagada."
+      : "";
+    openDeleteConfirmation(
+      "Confirmar exclusão da movimentação",
+      `Excluir a movimentação "${movement.Motivo || movement.Direcao}" de ${quantity} de "${productName}"?\n\n${balanceEffect}${financeEffect} Essa ação não pode ser desfeita.`,
+      () => deleteStockMovement(movement.ID),
+      button
+    );
   });
 
   document.querySelectorAll("[data-stock-close]").forEach(button => {
@@ -14627,9 +15042,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.target === modal) closeStockModal(modal);
     });
   });
+  deleteConfirmModal.addEventListener("click", event => {
+    if (event.target === deleteConfirmModal) closeStockModal(deleteConfirmModal);
+  });
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
-      [productModal, movementModal].forEach(modal => {
+      [productModal, movementModal, deleteConfirmModal].forEach(modal => {
         if (!modal.classList.contains("hidden")) closeStockModal(modal);
       });
     }
@@ -14639,12 +15057,43 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     const submit = document.getElementById("stockProductSubmit");
     const editingId = document.getElementById("stockProductId").value;
+    const cost = parseProductCost(productCostInput.value);
+    if (cost === null) {
+      productCostInput.setCustomValidity("Informe um custo válido, usando vírgula para os centavos.");
+      productCostInput.reportValidity();
+      return;
+    }
+    productCostInput.setCustomValidity("");
+    productCostInput.value = formatProductCost(cost);
+    const currentProduct = editingId ? productById(editingId) : null;
+    if (editingId && !currentProduct) {
+      showFormError("stockProductFormStatus", new Error("O produto não foi encontrado no estoque. Atualize a página e tente novamente."));
+      return;
+    }
+    const stockQuantity = editingId
+      ? numberValue(currentProduct.EstoqueAtual)
+      : numberValue(document.getElementById("stockProductInitial").value);
+    if (stockQuantity === 0 && cost > 0) {
+      const status = document.getElementById("stockProductFormStatus");
+      status.textContent = editingId
+        ? "O estoque está zerado. Registre uma entrada antes de informar o custo total."
+        : "Informe um saldo inicial maior que 0 para calcular o custo unitário.";
+      if (!editingId) {
+        const initialInput = document.getElementById("stockProductInitial");
+        initialInput.setCustomValidity("Informe um saldo inicial maior que 0 para calcular o custo unitário.");
+        initialInput.reportValidity();
+      }
+      return;
+    }
+    const unitCost = stockQuantity > 0
+      ? cost / stockQuantity
+      : numberValue(currentProduct?.CustoUnitario ?? 0);
     const product = {
       ID: editingId || stockId(),
       Nome: document.getElementById("stockProductName").value.trim(),
       Categoria: document.getElementById("stockProductCategory").value.trim(),
       Unidade: document.getElementById("stockProductUnit").value.trim(),
-      CustoUnitario: numberValue(document.getElementById("stockProductCost").value),
+      CustoUnitario: unitCost,
       EstoqueMinimo: numberValue(document.getElementById("stockProductMinimum").value),
       Fornecedor: document.getElementById("stockProductSupplier").value.trim(),
       Observacoes: document.getElementById("stockProductNotes").value.trim(),
@@ -14724,6 +15173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     appointment_deleted: "✍️",
     client_no_future_appointments: "📣",
     attendance_missing: "✅",
+    stock_low: "📦",
   };
   let notifications = [];
 
