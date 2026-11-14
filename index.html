@@ -4834,12 +4834,6 @@ button:active:not(:disabled) {
     white-space: nowrap;
   }
 
-  #insumosPage .stock-product-meta {
-    font-size: clamp(0.45rem, 2.8vw, 0.58rem);
-  }
-
-  #insumosPage .stock-product-code,
-  #insumosPage .stock-low-badge,
   #insumosPage .stock-row-actions button {
     font-size: clamp(0.45rem, 2.8vw, 0.58rem);
   }
@@ -5350,9 +5344,6 @@ button:active:not(:disabled) {
   }
 
   #insumosPage .stock-table tbody td,
-  #insumosPage .stock-product-meta,
-  #insumosPage .stock-product-code,
-  #insumosPage .stock-low-badge,
   #insumosPage .stock-row-actions button {
     font-size: 0.48rem;
   }
@@ -6868,8 +6859,65 @@ button:active:not(:disabled) {
   font-size: 0.78rem;
 }
 
-#insumosPage .stock-movement-table {
-  min-width: 760px;
+#insumosPage .stock-products-table {
+  min-width: 780px;
+}
+
+#insumosPage .stock-products-table th:first-child,
+#insumosPage .stock-products-table td:first-child {
+  width: 24%;
+  border-right: 1px solid #424242;
+}
+
+#insumosPage table.stock-movement-table {
+  width: 100% !important;
+  min-width: 0 !important;
+  table-layout: fixed;
+}
+
+#insumosPage table.stock-movement-table th,
+#insumosPage table.stock-movement-table td {
+  padding: 0.15rem 0.15rem;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#insumosPage table.stock-movement-table th:nth-child(1),
+#insumosPage table.stock-movement-table td:nth-child(1) {
+  width: 12%;
+}
+
+#insumosPage table.stock-movement-table th:nth-child(2),
+#insumosPage table.stock-movement-table td:nth-child(2) {
+  width: 22%;
+}
+
+#insumosPage table.stock-movement-table th:nth-child(3),
+#insumosPage table.stock-movement-table td:nth-child(3) {
+  width: 23%;
+}
+
+#insumosPage table.stock-movement-table th:nth-child(4),
+#insumosPage table.stock-movement-table td:nth-child(4) {
+  width: 17%;
+}
+
+#insumosPage table.stock-movement-table th:nth-child(5),
+#insumosPage table.stock-movement-table td:nth-child(5) {
+  width: 15%;
+}
+
+#insumosPage table.stock-movement-table th:nth-child(6),
+#insumosPage table.stock-movement-table td:nth-child(6) {
+  width: 11%;
+}
+
+#insumosPage .stock-movement-observation {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #insumosPage .stock-table th,
@@ -6877,6 +6925,14 @@ button:active:not(:disabled) {
   padding: 0.58rem 0.35rem;
   border-bottom: 1px solid #424242;
   vertical-align: middle;
+}
+
+#insumosPage .stock-products-table th {
+  padding: 0.3rem 0.35rem;
+}
+
+#insumosPage .stock-products-table td {
+  padding: 0.25rem 0.35rem;
 }
 
 #insumosPage .stock-table th {
@@ -6890,69 +6946,109 @@ button:active:not(:disabled) {
   color: #e6dddd;
 }
 
-#insumosPage .stock-product-name {
+#insumosPage .stock-product-name-button {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #fff7f4;
+  font: inherit;
   font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
 }
 
-#insumosPage .stock-product-code {
-  display: inline-block;
-  margin-top: 4px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  background: rgba(244, 191, 174, 0.16);
+#insumosPage .stock-product-name-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+#insumosPage .stock-product-low-flag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.3rem;
+  color: #b48b00;
+  font-size: 0.7rem;
+}
+
+#insumosPage .stock-product-low-flag .fa-arrow-down {
+  color: #b48b00;
+  font-weight: 900;
+}
+
+#insumosPage .stock-product-name-button:hover {
   color: #ffd2c2;
-  font-size: 10px;
-  font-weight: 700;
+  text-decoration: underline;
 }
 
-#insumosPage .stock-product-meta {
-  margin-top: 3px;
+#insumosPage .stock-product-type {
   color: #aaa6a8;
-  font-size: 11px;
+}
+
+#insumosPage .stock-movement-date-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.15rem;
+}
+
+#insumosPage .stock-movement-date-button:hover {
+  color: #ffd2c2;
+  text-decoration-color: currentColor;
+}
+
+#insumosPage #stockProductsList > tr > td {
+  white-space: nowrap;
 }
 
 #insumosPage .stock-product-critical-row td {
-  border-color: #d7bd4c;
-  background: #fff0a8;
-  color: #342900;
+  border-color: rgba(215, 189, 76, 0.35);
+  background: rgba(255, 240, 168, 0.12);
+  color: #fff;
 }
 
-#insumosPage .stock-product-critical-row .stock-product-name {
-  color: #2d2300;
+#insumosPage .stock-product-critical-row .stock-product-name-button {
+  color: #fff7f4;
 }
 
-#insumosPage .stock-product-critical-row .stock-product-code,
-#insumosPage .stock-product-critical-row .stock-low-badge {
-  background: rgba(91, 69, 0, 0.12);
-  color: #4b3b00;
-}
-
-#insumosPage .stock-product-critical-row .stock-product-meta {
-  color: #615000;
-}
-
-#insumosPage .stock-low-badge {
-  display: inline-block;
-  margin-left: 5px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  background: rgba(244, 191, 174, 0.16);
-  color: #ffd2c2;
-  font-size: 10px;
-  font-weight: 700;
+#insumosPage .stock-product-critical-row .stock-product-type {
+  color: #aaa6a8;
 }
 
 #insumosPage .stock-row-actions {
   display: flex;
-  gap: 6px;
+  align-items: center;
+  gap: 2px;
 }
 
 #insumosPage .stock-row-actions button {
-  min-height: 2rem;
-  padding: 0.35rem 0.65rem;
+  display: inline-flex;
+  width: 1.65rem;
+  min-width: 1.65rem;
+  min-height: 1.65rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
   border: 0;
-  border-radius: 0.55rem;
+  border-radius: 0.4rem;
   background: var(--rose);
   color: #171313;
   font-size: 0.72rem;
@@ -6960,26 +7056,309 @@ button:active:not(:disabled) {
   cursor: pointer;
 }
 
+#insumosPage .stock-row-actions button i {
+  font-size: 0.72rem;
+}
+
+#insumosPage .stock-row-actions button[data-stock-direction] {
+  padding: 0.1rem;
+  background: transparent;
+}
+
+#insumosPage .stock-row-actions button[data-stock-direction="Entrada"] {
+  color: #36b36a;
+}
+
+#insumosPage .stock-row-actions button[data-stock-direction="Saída"] {
+  color: #ee5b5b;
+}
+
+#insumosPage .stock-row-actions button[data-stock-direction] svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+#insumosPage .stock-row-actions button[data-stock-direction="Entrada"]:hover {
+  background: rgba(54, 179, 106, 0.12);
+}
+
+#insumosPage .stock-row-actions button[data-stock-direction="Saída"]:hover {
+  background: rgba(238, 91, 91, 0.12);
+}
+
 #insumosPage .stock-row-actions button:hover {
   background: #ffd2c2;
 }
 
-#insumosPage .stock-row-actions button[data-stock-delete-product],
 #insumosPage .stock-row-actions button[data-stock-delete-movement] {
   background: #5b2525;
   color: #ffe0e0;
 }
 
-#insumosPage .stock-row-actions button[data-stock-delete-product]:hover,
 #insumosPage .stock-row-actions button[data-stock-delete-movement]:hover {
   background: #7a3030;
 }
 
+#insumosPage .stock-product-name-button:focus-visible,
 #insumosPage .stock-row-actions button:focus-visible,
 #insumosPage .stock-actions button:focus-visible,
 .stock-dialog button:focus-visible {
   outline: 2px solid var(--rose);
   outline-offset: 3px;
+}
+
+#stockProductDelete {
+  min-height: 1.9rem;
+  border-radius: 0.55rem;
+  background: #5b2525;
+  color: #ffe0e0;
+}
+
+#stockProductDelete:hover {
+  background: #7a3030;
+  color: #fff;
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  #insumosPage .stock-products-table-wrap {
+    overflow-x: hidden;
+  }
+
+  #insumosPage .stock-products-table {
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 0.78rem;
+  }
+
+  #insumosPage .stock-products-table th {
+    padding: 0.3rem 0.1rem;
+    font-size: 0.65rem;
+  }
+
+  #insumosPage .stock-products-table td {
+    padding: 0.18rem 0.1rem;
+    line-height: 1.2;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(1),
+  #insumosPage .stock-products-table td:nth-child(1) {
+    width: 24%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(2),
+  #insumosPage .stock-products-table td:nth-child(2) {
+    width: 11%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(3),
+  #insumosPage .stock-products-table td:nth-child(3) {
+    width: 14%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(4),
+  #insumosPage .stock-products-table td:nth-child(4) {
+    width: 13%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(5),
+  #insumosPage .stock-products-table td:nth-child(5) {
+    width: 12%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(6),
+  #insumosPage .stock-products-table td:nth-child(6) {
+    width: 16%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(7),
+  #insumosPage .stock-products-table td:nth-child(7) {
+    width: 10%;
+  }
+
+  #insumosPage .stock-products-table th:not(:first-child),
+  #insumosPage .stock-products-table td:not(:first-child) {
+    text-align: center;
+  }
+
+  #insumosPage .stock-products-table td:nth-child(1),
+  #insumosPage .stock-products-table td:nth-child(2) {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #insumosPage .stock-products-table .stock-product-name-button {
+    line-height: 1.25;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions button[data-stock-direction] {
+    width: 1.45rem;
+    min-width: 1.45rem;
+    padding: 0.05rem;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions button[data-stock-direction] svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions {
+    justify-content: center;
+    gap: 2px;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions button {
+    width: 1.4rem;
+    min-width: 1.4rem;
+    min-height: 1.4rem;
+    padding: 0.15rem;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions button i {
+    font-size: 0.58rem;
+  }
+
+  #insumosPage table.stock-movement-table th:nth-child(1),
+  #insumosPage table.stock-movement-table td:nth-child(1) {
+    width: 12%;
+  }
+
+  #insumosPage table.stock-movement-table th:nth-child(2),
+  #insumosPage table.stock-movement-table td:nth-child(2) {
+    width: 20%;
+  }
+
+  #insumosPage table.stock-movement-table th:nth-child(3),
+  #insumosPage table.stock-movement-table td:nth-child(3) {
+    width: 22%;
+  }
+
+  #insumosPage table.stock-movement-table th:nth-child(4),
+  #insumosPage table.stock-movement-table td:nth-child(4) {
+    width: 16%;
+  }
+
+  #insumosPage table.stock-movement-table th:nth-child(5),
+  #insumosPage table.stock-movement-table td:nth-child(5) {
+    width: 14%;
+  }
+
+  #insumosPage table.stock-movement-table th:nth-child(6),
+  #insumosPage table.stock-movement-table td:nth-child(6) {
+    width: 16%;
+  }
+
+  #insumosPage table.stock-movement-table td:nth-child(6) {
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+  }
+
+  #insumosPage table.stock-movement-table th,
+  #insumosPage table.stock-movement-table td {
+    padding: 0.18rem 0.1rem;
+    line-height: 1.2;
+  }
+
+  #insumosPage table.stock-movement-table .stock-movement-date-button {
+    display: inline-flex;
+    min-height: 1.4rem;
+    align-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  #insumosPage .stock-products-table {
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 0.68rem;
+  }
+
+  #insumosPage .stock-products-table th,
+  #insumosPage .stock-products-table td {
+    padding: 0.12rem 0.08rem;
+    line-height: 1.15;
+  }
+
+  #insumosPage .stock-products-table th {
+    font-size: 0.55rem;
+    line-height: 1.05;
+    white-space: normal;
+    overflow: hidden;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(1),
+  #insumosPage .stock-products-table td:nth-child(1) {
+    width: 24%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(2),
+  #insumosPage .stock-products-table td:nth-child(2) {
+    width: 12%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(3),
+  #insumosPage .stock-products-table td:nth-child(3) {
+    width: 12%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(4),
+  #insumosPage .stock-products-table td:nth-child(4) {
+    width: 13%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(5),
+  #insumosPage .stock-products-table td:nth-child(5) {
+    width: 12%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(6),
+  #insumosPage .stock-products-table td:nth-child(6) {
+    width: 15%;
+  }
+
+  #insumosPage .stock-products-table th:nth-child(7),
+  #insumosPage .stock-products-table td:nth-child(7) {
+    width: 12%;
+  }
+
+  #insumosPage .stock-products-table th:not(:first-child),
+  #insumosPage .stock-products-table td:not(:first-child) {
+    text-align: center;
+  }
+
+  #insumosPage .stock-products-table td:nth-child(1),
+  #insumosPage .stock-products-table td:nth-child(2),
+  #insumosPage .stock-products-table td:nth-child(3) {
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-overflow: ellipsis;
+  }
+
+  #insumosPage .stock-products-table .stock-product-name-button {
+    line-height: 1.15;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions {
+    justify-content: center;
+    gap: 1px;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions button {
+    width: 1.25rem;
+    min-width: 1.25rem;
+    min-height: 1.25rem;
+    padding: 0.1rem;
+  }
+
+  #insumosPage .stock-products-table .stock-row-actions button[data-stock-direction] svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
 }
 
 .stock-modal {
@@ -8380,13 +8759,21 @@ button:active:not(:disabled) {
           <input id="stockProductSearch" type="search" placeholder="Código, nome ou categoria">
         </label>
       </div>
-      <div class="stock-table-wrap">
-        <table class="stock-table">
+      <div class="stock-table-wrap stock-products-table-wrap">
+        <table class="stock-table stock-products-table">
           <thead>
-            <tr><th>Produto</th><th>Estoque atual</th><th>Mínimo</th><th>Custo unitário</th><th>Valor em estoque</th><th>Ações</th></tr>
+            <tr>
+              <th>PRODUTO</th>
+              <th>TIPO PRODUTO</th>
+              <th>MARCA</th>
+              <th>ESTOQUE<br>ATUAL</th>
+              <th>ESTOQUE<br>MÍNIMO</th>
+              <th>VALOR EM<br>ESTOQUE</th>
+              <th>AÇÕES</th>
+            </tr>
           </thead>
           <tbody id="stockProductsList">
-            <tr><td colspan="6">Carregando produtos...</td></tr>
+            <tr><td colspan="7">Carregando produtos...</td></tr>
           </tbody>
         </table>
       </div>
@@ -8402,10 +8789,10 @@ button:active:not(:disabled) {
       <div class="stock-table-wrap">
         <table class="stock-table stock-movement-table">
           <thead>
-            <tr><th>Data</th><th>Produto</th><th>Movimentação</th><th>Quantidade</th><th>Valor total</th><th>Fornecedor / observação</th><th>Ações</th></tr>
+            <tr><th>Data</th><th>Produto</th><th>Movimentação</th><th>QNTD</th><th>VALOR</th><th>Marca</th></tr>
           </thead>
           <tbody id="stockMovementsList">
-            <tr><td colspan="7">Carregando movimentações...</td></tr>
+            <tr><td colspan="6">Carregando movimentações...</td></tr>
           </tbody>
         </table>
       </div>
@@ -8462,10 +8849,10 @@ button:active:not(:disabled) {
         </div>
         <div class="cliente-form-field stock-form-field">
           <label for="stockProductMinimum">ESTOQUE MÍNIMO</label>
-          <input id="stockProductMinimum" type="number" min="0" step="1" value="0" required>
+          <input id="stockProductMinimum" type="number" min="0" step="0.001" value="0">
         </div>
         <div class="cliente-form-field stock-form-field full">
-          <label for="stockProductSupplier">FORNECEDOR</label>
+          <label for="stockProductSupplier">MARCA</label>
             <input id="stockProductSupplier" type="text" maxlength="120">
         </div>
         <div class="cliente-form-field stock-form-field full">
@@ -8475,6 +8862,7 @@ button:active:not(:disabled) {
         <p id="stockInitialHelp" class="stock-form-help">Com saldo inicial e custo total maiores que zero, a despesa é lançada automaticamente no Financeiro. Use Entrada/Saída para registrar reposição, consumo ou perdas; compras futuras também geram despesa.</p>
         <p id="stockProductFormStatus" class="stock-status" role="status" aria-live="polite"></p>
         <div class="stock-dialog-footer">
+          <button id="stockProductDelete" class="hidden" type="button"><i class="fas fa-trash" aria-hidden="true"></i> Excluir produto</button>
           <button type="button" class="stock-dialog-cancel" data-stock-close="stockProductModal">Cancelar</button>
           <button id="stockProductSubmit" class="btn-primary" type="submit">Salvar Produto</button>
         </div>
@@ -8518,9 +8906,9 @@ button:active:not(:disabled) {
           <label for="stockMovementDate">DATA</label>
             <input id="stockMovementDate" type="date" required>
         </div>
-        <div id="stockMovementCostGroup" class="cliente-form-field stock-form-field">
-          <label for="stockMovementCost">CUSTO UNITÁRIO DA COMPRA (R$)</label>
-            <input id="stockMovementCost" type="number" min="0" step="0.01" value="0">
+        <div id="stockMovementTotalGroup" class="cliente-form-field stock-form-field">
+          <label for="stockMovementTotal">VALOR TOTAL DA COMPRA (R$)</label>
+            <input id="stockMovementTotal" type="text" inputmode="decimal" placeholder="0,00">
         </div>
         <div id="stockMovementSupplierGroup" class="cliente-form-field stock-form-field full">
           <label for="stockMovementSupplier">FORNECEDOR</label>
@@ -14483,6 +14871,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const productForm = document.getElementById("stockProductForm");
   const movementForm = document.getElementById("stockMovementForm");
   const productModal = document.getElementById("stockProductModal");
+  const productDeleteButton = document.getElementById("stockProductDelete");
   const movementModal = document.getElementById("stockMovementModal");
   const deleteConfirmModal = document.getElementById("stockDeleteConfirmModal");
   const deleteConfirmTitle = document.getElementById("stockDeleteConfirmTitle");
@@ -14496,6 +14885,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const movementProduct = document.getElementById("stockMovementProduct");
   const movementDirection = document.getElementById("stockMovementDirection");
   const movementReason = document.getElementById("stockMovementReason");
+  const movementTotalInput = document.getElementById("stockMovementTotal");
   const pageStatus = document.getElementById("stockStatus");
   let products = [];
   let movements = [];
@@ -14535,8 +14925,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function formatStockQuantity(quantity, unit) {
     const unitLabel = String(unit || "").trim();
+    const normalizedUnit = unitLabel.toLocaleLowerCase("pt-BR");
+    if (["un", "unidade", "unidades"].includes(normalizedUnit)) {
+      return `${formatQuantity(quantity)} un`;
+    }
     const pluralUnit = {
-      unidade: "unidades",
       par: "pares",
       caixa: "caixas",
       pacote: "pacotes",
@@ -14557,7 +14950,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function formatStockDate(value) {
     const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(value || ""));
-    return match ? `${match[3]}/${match[2]}/${match[1]}` : "—";
+    return match ? `${match[3]}/${match[2]}/${match[1].slice(2)}` : "—";
+  }
+
+  function formatStockTitle(value) {
+    const lowercaseParticles = new Set(["de", "da", "do"]);
+    return String(value || "")
+      .trim()
+      .replace(/\s+/g, " ")
+      .split(" ")
+      .map(word => {
+        const lowercaseWord = word.toLocaleLowerCase("pt-BR");
+        if (lowercaseParticles.has(lowercaseWord)) return lowercaseWord;
+        const characters = Array.from(lowercaseWord);
+        return `${characters[0]?.toLocaleUpperCase("pt-BR") || ""}${characters.slice(1).join("")}`;
+      })
+      .join(" ");
   }
 
   function stockId() {
@@ -14624,6 +15032,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return element;
   }
 
+  function stockMovementIcon(direction) {
+    const marker = direction === "Entrada"
+      ? '<path d="M4 1v6M1 4h6"/>'
+      : '<path d="M1 4h6"/>';
+    return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22 3.5 17.5v-11L12 2l8.5 4.5v11L12 22Z"/><path d="m3.5 6.5 8.5 5 8.5-5M12 11.5V22"/>${marker}</svg>`;
+  }
+
   function renderProducts() {
     const query = document.getElementById("stockProductSearch").value.trim().toLocaleLowerCase("pt-BR");
     const visibleProducts = activeProducts()
@@ -14634,7 +15049,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!visibleProducts.length) {
       const row = document.createElement("tr");
       row.appendChild(cell(query ? "Nenhum produto encontrado." : "Nenhum produto cadastrado."));
-      row.firstElementChild.colSpan = 6;
+      row.firstElementChild.colSpan = 7;
       productList.appendChild(row);
       return;
     }
@@ -14646,54 +15061,54 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
       if (isCriticallyLow(product)) row.classList.add("stock-product-critical-row");
       const nameCell = document.createElement("td");
-      const name = document.createElement("div");
-      name.className = "stock-product-name";
-      name.textContent = product.Nome || "Produto";
+      const name = document.createElement("button");
+      const displayName = formatStockTitle(product.Nome) || "Produto";
+      name.type = "button";
+      name.className = "stock-product-name-button";
+      name.dataset.stockEdit = String(product.ID);
+      const nameContent = document.createElement("span");
+      nameContent.className = "stock-product-name-content";
+      const nameText = document.createElement("span");
+      nameText.textContent = displayName;
+      nameContent.appendChild(nameText);
+      if (isCriticallyLow(product)) {
+        const lowFlag = document.createElement("span");
+        lowFlag.className = "stock-product-low-flag";
+        lowFlag.title = "Estoque no limite mínimo";
+        lowFlag.setAttribute("aria-label", "Estoque no limite mínimo");
+        lowFlag.innerHTML = '<i class="fas fa-arrow-down" aria-hidden="true"></i>';
+        nameContent.appendChild(lowFlag);
+      }
+      name.appendChild(nameContent);
+      name.title = `Editar ${displayName}`;
+      name.setAttribute("aria-label", `Editar ${displayName}`);
       nameCell.appendChild(name);
-      const code = document.createElement("span");
-      code.className = "stock-product-code";
-      code.textContent = product.Codigo ? `Código ${product.Codigo}` : "Código pendente";
-      nameCell.appendChild(code);
-      const meta = document.createElement("div");
-      meta.className = "stock-product-meta";
-      meta.textContent = product.Categoria || "";
-      nameCell.appendChild(meta);
 
       const balanceCell = document.createElement("td");
       balanceCell.textContent = formatStockQuantity(balance, product.Unidade);
-      if (isCriticallyLow(product)) {
-        const badge = document.createElement("span");
-        badge.className = "stock-low-badge";
-        badge.textContent = "Estoque baixo";
-        balanceCell.appendChild(badge);
-      }
 
       row.append(
         nameCell,
+        cell(formatStockTitle(product.Categoria) || "Sem tipo", "stock-product-type"),
+        cell(formatStockTitle(product.Fornecedor) || "—"),
         balanceCell,
         cell(formatStockQuantity(minimum, product.Unidade)),
-        cell(currency.format(unitCost)),
-        cell(currency.format(balance * unitCost))
+        cell(formatProductCost(balance * unitCost))
       );
 
       const actionsCell = document.createElement("td");
       const actions = document.createElement("div");
       actions.className = "stock-row-actions";
-      const editButton = document.createElement("button");
-      editButton.type = "button";
-      editButton.dataset.stockEdit = String(product.ID);
-      editButton.textContent = "Editar";
-      const moveButton = document.createElement("button");
-      moveButton.type = "button";
-      moveButton.dataset.stockMove = String(product.ID);
-      moveButton.textContent = "Entrada/Saída";
-      moveButton.setAttribute("aria-label", `Registrar entrada ou saída de ${product.Nome || "produto"}`);
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.dataset.stockDeleteProduct = String(product.ID);
-      deleteButton.textContent = "Excluir";
-      deleteButton.setAttribute("aria-label", `Excluir ${product.Nome || "produto"} e seu histórico`);
-      actions.append(editButton, moveButton, deleteButton);
+      for (const direction of ["Entrada", "Saída"]) {
+        const moveButton = document.createElement("button");
+        moveButton.type = "button";
+        moveButton.dataset.stockMove = String(product.ID);
+        moveButton.dataset.stockDirection = direction;
+        moveButton.innerHTML = stockMovementIcon(direction);
+        moveButton.title = `Registrar ${direction.toLocaleLowerCase("pt-BR")} de ${displayName}`;
+        moveButton.setAttribute("aria-label", `Registrar ${direction.toLocaleLowerCase("pt-BR")} de ${displayName}`);
+        actions.appendChild(moveButton);
+      }
       actionsCell.appendChild(actions);
       row.appendChild(actionsCell);
       productList.appendChild(row);
@@ -14710,7 +15125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!sortedMovements.length) {
       const row = document.createElement("tr");
       const empty = cell("Ainda não há movimentações.");
-      empty.colSpan = 7;
+      empty.colSpan = 6;
       row.appendChild(empty);
       movementList.appendChild(row);
       return;
@@ -14719,28 +15134,25 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const movement of sortedMovements) {
       const row = document.createElement("tr");
       const description = [movement.Motivo, movement.Direcao].filter(Boolean).join(" · ");
-      const note = [movement.Fornecedor, movement.Observacoes].filter(Boolean).join(" · ");
       const product = productById(movement.ProdutoID);
-      const productCode = product?.Codigo ? `${product.Codigo} · ` : "";
+      const brand = formatStockTitle(movement.Fornecedor || product?.Fornecedor) || "—";
+      const dateCell = document.createElement("td");
+      const dateButton = document.createElement("button");
+      dateButton.type = "button";
+      dateButton.className = "stock-movement-date-button";
+      dateButton.dataset.stockDeleteMovement = String(movement.ID);
+      dateButton.textContent = formatStockDate(movement.Data);
+      dateButton.title = "Abrir ocorrência";
+      dateButton.setAttribute("aria-label", `Abrir ocorrência de ${formatStockDate(movement.Data)}`);
+      dateCell.appendChild(dateButton);
       row.append(
-        cell(formatStockDate(movement.Data)),
-        cell(`${productCode}${movement.ProdutoNome || product?.Nome || "Produto"}`),
+        dateCell,
+        cell(formatStockTitle(movement.ProdutoNome || product?.Nome) || "Produto"),
         cell(description),
         cell(`${movement.Direcao === "Saída" ? "−" : "+"}${formatStockQuantity(movement.Quantidade, movement.Unidade)}`),
-        cell(currency.format(numberValue(movement.ValorTotal))),
-        cell(note || "—")
+        cell(formatProductCost(movement.ValorTotal)),
+        cell(brand)
       );
-      const actionsCell = document.createElement("td");
-      const actions = document.createElement("div");
-      actions.className = "stock-row-actions";
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.dataset.stockDeleteMovement = String(movement.ID);
-      deleteButton.textContent = "Excluir";
-      deleteButton.setAttribute("aria-label", `Excluir movimentação de ${movement.ProdutoNome || "produto"}`);
-      actions.appendChild(deleteButton);
-      actionsCell.appendChild(actions);
-      row.appendChild(actionsCell);
       movementList.appendChild(row);
     }
   }
@@ -14779,7 +15191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const product of list) {
       const option = document.createElement("option");
       option.value = String(product.ID);
-      option.textContent = `${product.Codigo ? `${product.Codigo} · ` : ""}${product.Nome} (${formatStockQuantity(product.EstoqueAtual, product.Unidade)})`;
+      option.textContent = `${product.Codigo ? `${product.Codigo} · ` : ""}${formatStockTitle(product.Nome)} (${formatStockQuantity(product.EstoqueAtual, product.Unidade)})`;
       movementProduct.appendChild(option);
     }
     movementProduct.value = selectedId ? String(selectedId) : "";
@@ -14803,11 +15215,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateMovementCostFields() {
     const isPurchase = movementDirection.value === "Entrada" && movementReason.value === "Compra";
-    document.getElementById("stockMovementCostGroup").classList.toggle("hidden", !isPurchase);
+    document.getElementById("stockMovementTotalGroup").classList.toggle("hidden", !isPurchase);
     document.getElementById("stockMovementSupplierGroup").classList.toggle("hidden", !isPurchase);
-    document.getElementById("stockMovementCost").required = isPurchase;
-    if (isPurchase) {
-      document.getElementById("stockMovementCost").value = productById(movementProduct.value)?.CustoUnitario ?? 0;
+    movementTotalInput.required = isPurchase;
+    if (!isPurchase) {
+      movementTotalInput.value = "";
+      movementTotalInput.setCustomValidity("");
     }
   }
 
@@ -14821,13 +15234,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("stockProductTitle").textContent = editing ? "Editar produto" : "Cadastrar Produto";
     document.getElementById("stockProductSubmit").textContent = editing ? "Salvar alterações" : "Salvar Produto";
     document.getElementById("stockProductId").value = product?.ID || "";
-    document.getElementById("stockProductName").value = product?.Nome || "";
-    document.getElementById("stockProductCategory").value = product?.Categoria || "";
+    productDeleteButton.classList.toggle("hidden", !editing);
+    productDeleteButton.dataset.stockDeleteProduct = editing ? String(product.ID) : "";
+    document.getElementById("stockProductName").value = formatStockTitle(product?.Nome);
+    document.getElementById("stockProductCategory").value = formatStockTitle(product?.Categoria);
     const categorySuggestions = document.getElementById("stockProductCategories");
     categorySuggestions.replaceChildren();
     const categories = new Map();
     for (const item of [...products, ...(product ? [product] : [])]) {
-      const category = String(item.Categoria || "").trim();
+      const category = formatStockTitle(item.Categoria);
       const normalizedCategory = category.toLocaleLowerCase("pt-BR");
       if (category && !categories.has(normalizedCategory)) {
         categories.set(normalizedCategory, category);
@@ -14855,7 +15270,9 @@ document.addEventListener("DOMContentLoaded", () => {
       editing ? currentQuantity * currentUnitCost : 0
     );
     document.getElementById("stockProductInitial").value = 0;
-    document.getElementById("stockProductMinimum").value = product?.EstoqueMinimo ?? 0;
+    document.getElementById("stockProductMinimum").value = editing
+      ? String(numberValue(product.EstoqueMinimo))
+      : "0";
     document.getElementById("stockProductSupplier").value = product?.Fornecedor || "";
     document.getElementById("stockProductNotes").value = product?.Observacoes || "";
     document.getElementById("stockInitialGroup").classList.toggle("hidden", editing);
@@ -14865,16 +15282,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("stockProductName").focus();
   }
 
-  function openMovementModal(selectedId = "") {
+  function openMovementModal(selectedId = "", direction = "Entrada") {
     movementForm.reset();
+    movementTotalInput.setCustomValidity("");
     document.getElementById("stockMovementFormStatus").textContent = "";
     pageStatus.textContent = "";
     refreshMovementProductOptions(selectedId);
-    movementDirection.value = "Entrada";
+    movementDirection.value = direction;
     updateMovementReasons();
     document.getElementById("stockMovementDate").value = localDateString();
     document.getElementById("stockMovementQuantity").value = "";
-    document.getElementById("stockMovementCost").value = productById(movementProduct.value)?.CustoUnitario ?? 0;
     movementModal.classList.remove("hidden");
     movementProduct.focus();
   }
@@ -14896,8 +15313,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadStock() {
     pageStatus.textContent = "";
-    productList.innerHTML = '<tr><td colspan="6">Carregando produtos...</td></tr>';
-    movementList.innerHTML = '<tr><td colspan="7">Carregando movimentações...</td></tr>';
+    productList.innerHTML = '<tr><td colspan="7">Carregando produtos...</td></tr>';
+    movementList.innerHTML = '<tr><td colspan="6">Carregando movimentações...</td></tr>';
     try {
       const [productResponse, movementResponse] = await Promise.all([
         fetch(productEndpoint),
@@ -14913,7 +15330,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     } catch (error) {
       showFormError("stockProductFormStatus", error);
-      productList.innerHTML = '<tr><td colspan="6">Não foi possível carregar os produtos.</td></tr>';
+      productList.innerHTML = '<tr><td colspan="7">Não foi possível carregar os produtos.</td></tr>';
       movementList.innerHTML = '<tr><td colspan="7">Não foi possível carregar as movimentações.</td></tr>';
       return false;
     }
@@ -14947,6 +15364,22 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("stockAddProduct").addEventListener("click", () => openProductModal());
   document.getElementById("stockAddMovement").addEventListener("click", () => openMovementModal());
   document.getElementById("stockProductSearch").addEventListener("input", renderProducts);
+  productDeleteButton.addEventListener("click", () => {
+    const product = productById(productDeleteButton.dataset.stockDeleteProduct);
+    if (!product) {
+      showFormError("stockProductFormStatus", new Error("O produto não foi encontrado no estoque. Atualize a página e tente novamente."));
+      return;
+    }
+    openDeleteConfirmation(
+      "Confirmar exclusão do produto",
+      `Excluir "${product.Nome || "produto"}"?\n\nTodas as movimentações e despesas vinculadas também serão apagadas. Essa ação não pode ser desfeita.`,
+      async () => {
+        await deleteStockProduct(product.ID);
+        productModal.classList.add("hidden");
+      },
+      productDeleteButton
+    );
+  });
   movementDirection.addEventListener("change", updateMovementReasons);
   movementReason.addEventListener("change", updateMovementCostFields);
   movementProduct.addEventListener("change", updateMovementCostFields);
@@ -14973,6 +15406,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   const productCostInput = document.getElementById("stockProductCost");
+  [document.getElementById("stockProductName"), document.getElementById("stockProductCategory")].forEach(input => {
+    input.addEventListener("blur", () => {
+      input.value = formatStockTitle(input.value);
+    });
+  });
   productCostInput.addEventListener("input", () => productCostInput.setCustomValidity(""));
   productCostInput.addEventListener("blur", () => {
     if (productCostInput.value.trim() === "") return;
@@ -14983,6 +15421,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     productCostInput.setCustomValidity("");
     productCostInput.value = formatProductCost(cost);
+  });
+  movementTotalInput.addEventListener("input", () => {
+    movementTotalInput.setCustomValidity("");
+    document.getElementById("stockMovementFormStatus").textContent = "";
+  });
+  movementTotalInput.addEventListener("blur", () => {
+    if (movementTotalInput.value.trim() === "") return;
+    const total = parseProductCost(movementTotalInput.value);
+    if (total === null) {
+      movementTotalInput.setCustomValidity("Informe um valor total válido, usando vírgula para os centavos.");
+      return;
+    }
+    movementTotalInput.setCustomValidity("");
+    movementTotalInput.value = formatProductCost(total);
   });
   const productInitialInput = document.getElementById("stockProductInitial");
   productInitialInput.addEventListener("input", () => {
@@ -14997,16 +15449,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const product = productById(button.dataset.stockEdit);
       if (product) openProductModal(product);
     } else if (button.dataset.stockMove) {
-      openMovementModal(button.dataset.stockMove);
-    } else if (button.dataset.stockDeleteProduct) {
-      const product = productById(button.dataset.stockDeleteProduct);
-      if (!product) return;
-      openDeleteConfirmation(
-        "Confirmar exclusão do produto",
-        `Excluir "${product.Nome || "produto"}"?\n\nTodas as movimentações e despesas vinculadas também serão apagadas. Essa ação não pode ser desfeita.`,
-        () => deleteStockProduct(product.ID),
-        button
-      );
+      openMovementModal(button.dataset.stockMove, button.dataset.stockDirection || "Entrada");
     }
   });
 
@@ -15024,8 +15467,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ? " Qualquer despesa vinculada no Financeiro também será apagada."
       : "";
     openDeleteConfirmation(
-      "Confirmar exclusão da movimentação",
-      `Excluir a movimentação "${movement.Motivo || movement.Direcao}" de ${quantity} de "${productName}"?\n\n${balanceEffect}${financeEffect} Essa ação não pode ser desfeita.`,
+      "Ocorrência da movimentação",
+      `${formatStockDate(movement.Data)} · ${productName}\n${movement.Motivo || movement.Direcao} · ${quantity}\nMarca: ${movement.Fornecedor || productById(movement.ProdutoID)?.Fornecedor || "—"}\nObservação: ${movement.Observacoes || "—"}\n\n${balanceEffect}${financeEffect}`,
       () => deleteStockMovement(movement.ID),
       button
     );
@@ -15090,8 +15533,8 @@ document.addEventListener("DOMContentLoaded", () => {
       : numberValue(currentProduct?.CustoUnitario ?? 0);
     const product = {
       ID: editingId || stockId(),
-      Nome: document.getElementById("stockProductName").value.trim(),
-      Categoria: document.getElementById("stockProductCategory").value.trim(),
+      Nome: formatStockTitle(document.getElementById("stockProductName").value),
+      Categoria: formatStockTitle(document.getElementById("stockProductCategory").value),
       Unidade: document.getElementById("stockProductUnit").value.trim(),
       CustoUnitario: unitCost,
       EstoqueMinimo: numberValue(document.getElementById("stockProductMinimum").value),
@@ -15107,7 +15550,7 @@ document.addEventListener("DOMContentLoaded", () => {
         : await supabaseClient.rpc("studio_estoque_criar_produto", { p_produto: product });
       if (error) throw error;
       closeStockModal(productModal);
-      if (await loadStock()) pageStatus.textContent = editingId ? "Produto atualizado." : "Produto cadastrado.";
+      await loadStock();
     } catch (error) {
       showFormError("stockProductFormStatus", error);
     } finally {
@@ -15119,13 +15562,30 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     const submit = document.getElementById("stockMovementSubmit");
     const reason = movementReason.value;
+    const quantity = numberValue(document.getElementById("stockMovementQuantity").value);
+    let unitCost = null;
+    if (reason === "Compra") {
+      const total = parseProductCost(movementTotalInput.value);
+      if (total === null) {
+        movementTotalInput.setCustomValidity("Informe um valor total válido, usando vírgula para os centavos.");
+        movementTotalInput.reportValidity();
+        return;
+      }
+      if (quantity <= 0) {
+        showFormError("stockMovementFormStatus", new Error("Informe uma quantidade maior que zero."));
+        return;
+      }
+      movementTotalInput.setCustomValidity("");
+      movementTotalInput.value = formatProductCost(total);
+      unitCost = total / quantity;
+    }
     const movement = {
       ID: stockId(),
       Direcao: movementDirection.value,
       Motivo: reason,
-      Quantidade: numberValue(document.getElementById("stockMovementQuantity").value),
+      Quantidade: quantity,
       Data: document.getElementById("stockMovementDate").value,
-      ValorUnitario: reason === "Compra" ? numberValue(document.getElementById("stockMovementCost").value) : null,
+      ValorUnitario: unitCost,
       Fornecedor: reason === "Compra" ? document.getElementById("stockMovementSupplier").value.trim() : "",
       Observacoes: document.getElementById("stockMovementNotes").value.trim()
     };
@@ -15137,10 +15597,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       if (error) throw error;
       closeStockModal(movementModal);
-      const refreshed = await loadStock();
-      if (refreshed) pageStatus.textContent = reason === "Compra"
-        ? "Compra registrada; a despesa foi lançada no Financeiro."
-        : "Movimentação registrada.";
+      await loadStock();
       if (typeof atualizarResumoFinanceiroHome === "function") {
         try {
           await atualizarResumoFinanceiroHome();
