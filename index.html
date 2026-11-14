@@ -209,7 +209,7 @@
     flex-wrap: wrap;
     gap: 0.65rem;
     margin-bottom: 0.8rem;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
   }
 
   #calendarAgenda .fc-toolbar-chunk {
@@ -680,7 +680,7 @@
 .catalogo-agendamento-item > span {
   min-width: 0;
   color: #e5e7eb;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
@@ -865,7 +865,7 @@
   border-top: 1px solid rgba(244, 191, 174, 0.16);
   background: transparent;
   color: #bdb8b8;
-  font-size: 0.72rem;
+  font-size: 0.82rem;
 }
 
 #formCatalogoAgendamentos > button[type="button"]:hover {
@@ -2693,7 +2693,7 @@ button:active:not(:disabled) {
   gap: 1rem;
   margin: 0;
   color: var(--rose);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
   line-height: 1.3;
 }
@@ -2967,7 +2967,7 @@ button:active:not(:disabled) {
   #financeiro2Page .finance-report-summary .finance-report-label button,
   #financeiro2Page .finance-report-summary .finance-report-value,
   #financeiro2Page .finance-report-summary .finance-report-occurrences {
-    font-size: clamp(0.45rem, 2.8vw, 0.58rem) !important;
+    font-size: clamp(0.62rem, 3vw, 0.75rem) !important;
   }
 
   #financeiro2Page .finance-report-summary {
@@ -4273,11 +4273,11 @@ button:active:not(:disabled) {
 
   #financeiro2Page .finance-report-heading {
     gap: 0.4rem;
-    font-size: 0.82rem;
+    font-size: 0.94rem;
   }
 
   #financeiro2Page .finance-report-period {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     white-space: nowrap;
   }
 
@@ -4554,12 +4554,12 @@ button:active:not(:disabled) {
 
   #clientesPage #btnAdicionarCliente,
   #mensagensAutoPage #btnNovaMensagemAuto {
-    height: 2.25rem;
-    min-height: 2.25rem;
+    height: 2rem;
+    min-height: 2rem;
     margin-left: auto;
     margin-right: 0;
-    padding: 0.45rem 0.75rem;
-    font-size: 0.8rem;
+    padding: 0.3rem 0.55rem;
+    font-size: 0.7rem;
   }
 
   #boxClienteContent {
@@ -4621,7 +4621,8 @@ button:active:not(:disabled) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  #homePage .home-metric-card {
+  #homePage .home-metric-card,
+  #agendaPage .home-metric-card {
     min-height: 7rem;
     padding-bottom: 0.5rem;
   }
@@ -6806,6 +6807,34 @@ button:active:not(:disabled) {
   font: inherit;
 }
 
+#insumosPage .stock-search-control {
+  display: flex;
+  min-width: 220px;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+#insumosPage .stock-search-toggle {
+  display: none;
+  box-sizing: border-box;
+  width: 2rem;
+  min-width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  border: 1px solid #3a3a3a;
+  border-radius: 0.55rem;
+  background: #252525;
+  color: #a3a3a3;
+  cursor: pointer;
+}
+
+#insumosPage .stock-search-toggle:hover,
+#insumosPage .stock-search-control.search-open .stock-search-toggle {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
 .stock-dialog input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"]),
 .stock-dialog select,
 .stock-dialog textarea {
@@ -6993,10 +7022,6 @@ button:active:not(:disabled) {
   text-decoration: underline;
 }
 
-#insumosPage .stock-product-type {
-  color: #aaa6a8;
-}
-
 #insumosPage .stock-movement-date-button {
   padding: 0;
   border: 0;
@@ -7027,10 +7052,6 @@ button:active:not(:disabled) {
 
 #insumosPage .stock-product-critical-row .stock-product-name-button {
   color: #fff7f4;
-}
-
-#insumosPage .stock-product-critical-row .stock-product-type {
-  color: #aaa6a8;
 }
 
 #insumosPage .stock-row-actions {
@@ -7147,32 +7168,27 @@ button:active:not(:disabled) {
 
   #insumosPage .stock-products-table th:nth-child(2),
   #insumosPage .stock-products-table td:nth-child(2) {
-    width: 11%;
+    width: 16%;
   }
 
   #insumosPage .stock-products-table th:nth-child(3),
   #insumosPage .stock-products-table td:nth-child(3) {
-    width: 14%;
+    width: 15%;
   }
 
   #insumosPage .stock-products-table th:nth-child(4),
   #insumosPage .stock-products-table td:nth-child(4) {
-    width: 13%;
+    width: 14%;
   }
 
   #insumosPage .stock-products-table th:nth-child(5),
   #insumosPage .stock-products-table td:nth-child(5) {
-    width: 12%;
+    width: 18%;
   }
 
   #insumosPage .stock-products-table th:nth-child(6),
   #insumosPage .stock-products-table td:nth-child(6) {
-    width: 16%;
-  }
-
-  #insumosPage .stock-products-table th:nth-child(7),
-  #insumosPage .stock-products-table td:nth-child(7) {
-    width: 10%;
+    width: 13%;
   }
 
   #insumosPage .stock-products-table th:not(:first-child),
@@ -7268,6 +7284,10 @@ button:active:not(:disabled) {
 }
 
 @media (max-width: 640px) {
+  #insumosPage table.stock-movement-table th {
+    padding-bottom: 0.42rem;
+  }
+
   #insumosPage .stock-products-table {
     min-width: 0;
     table-layout: fixed;
@@ -7283,6 +7303,7 @@ button:active:not(:disabled) {
   #insumosPage .stock-products-table th {
     font-size: 0.55rem;
     line-height: 1.05;
+    padding-bottom: 0.42rem;
     white-space: normal;
     overflow: hidden;
     overflow-wrap: normal;
@@ -7291,37 +7312,32 @@ button:active:not(:disabled) {
 
   #insumosPage .stock-products-table th:nth-child(1),
   #insumosPage .stock-products-table td:nth-child(1) {
-    width: 24%;
+    width: 22%;
   }
 
   #insumosPage .stock-products-table th:nth-child(2),
   #insumosPage .stock-products-table td:nth-child(2) {
-    width: 12%;
+    width: 20%;
   }
 
   #insumosPage .stock-products-table th:nth-child(3),
   #insumosPage .stock-products-table td:nth-child(3) {
-    width: 12%;
+    width: 16%;
   }
 
   #insumosPage .stock-products-table th:nth-child(4),
   #insumosPage .stock-products-table td:nth-child(4) {
-    width: 13%;
+    width: 14%;
   }
 
   #insumosPage .stock-products-table th:nth-child(5),
   #insumosPage .stock-products-table td:nth-child(5) {
-    width: 12%;
+    width: 14%;
   }
 
   #insumosPage .stock-products-table th:nth-child(6),
   #insumosPage .stock-products-table td:nth-child(6) {
-    width: 15%;
-  }
-
-  #insumosPage .stock-products-table th:nth-child(7),
-  #insumosPage .stock-products-table td:nth-child(7) {
-    width: 12%;
+    width: 14%;
   }
 
   #insumosPage .stock-products-table th:not(:first-child),
@@ -7330,8 +7346,7 @@ button:active:not(:disabled) {
   }
 
   #insumosPage .stock-products-table td:nth-child(1),
-  #insumosPage .stock-products-table td:nth-child(2),
-  #insumosPage .stock-products-table td:nth-child(3) {
+  #insumosPage .stock-products-table td:nth-child(2) {
     white-space: nowrap;
     overflow: hidden;
     overflow-wrap: normal;
@@ -7358,6 +7373,72 @@ button:active:not(:disabled) {
   #insumosPage .stock-products-table .stock-row-actions button[data-stock-direction] svg {
     width: 0.9rem;
     height: 0.9rem;
+  }
+
+  #insumosPage .stock-search-control {
+    min-width: 0;
+    justify-content: flex-end;
+  }
+
+  #insumosPage .stock-search-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #insumosPage .stock-search-control .stock-search-label {
+    display: none;
+    min-width: 0;
+    flex: 1;
+  }
+
+  #insumosPage .stock-search-control.search-open .stock-search-label {
+    display: flex;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  #insumosPage .stock-products-table th:nth-child(1),
+  #insumosPage .stock-products-table td:nth-child(1) {
+    width: 22%;
+  }
+
+  #insumosPage .stock-search-control {
+    min-width: 0;
+    justify-content: flex-end;
+  }
+
+  #insumosPage .stock-search-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #insumosPage .stock-search-control .stock-search-label {
+    display: none;
+    min-width: 0;
+    flex: 1;
+  }
+
+  #insumosPage .stock-search-control.search-open .stock-search-label {
+    display: flex;
+  }
+}
+
+@media (max-width: 1024px) {
+  #insumosPage .stock-panel-heading {
+    position: relative;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  #insumosPage .stock-search-control {
+    position: absolute;
+    top: -0.15rem;
+    right: 0;
+    min-width: 0;
+    margin-left: 0;
   }
 }
 
@@ -7711,7 +7792,7 @@ button:active:not(:disabled) {
     <div class="home-metric-content">
       <div id="agendamentos" class="font-semibold" style="color:#F8C6AF">
         <span class="numero-grande">-/-</span>
-        <span class="titulo-card">Atend./Agend.</span>
+        <span class="titulo-card">Atend / Agendam.</span>
       </div>
       <div class="metric-detail">Presenças & Agendamentos</div>
     </div>
@@ -7810,7 +7891,7 @@ button:active:not(:disabled) {
   </div>
   <div class="home-finance-comparison">
     <div class="home-finance-comparison-heading">
-      <h4>Comparativo por mês</h4>
+      <h4>Comparativo Por Mês</h4>
     </div>
     <div class="home-finance-table-wrap">
       <table class="home-finance-table">
@@ -8028,7 +8109,7 @@ button:active:not(:disabled) {
     <div class="home-metric-content">
       <div id="agendaAgendamentos" class="font-semibold" style="color:#F8C6AF">
         <span class="numero-grande">-/-</span>
-        <span class="titulo-card">Atend./Agend.</span>
+        <span class="titulo-card">Atend / Agendam.</span>
       </div>
       <div class="metric-detail">Presenças & Agendamentos</div>
     </div>
@@ -8071,7 +8152,7 @@ button:active:not(:disabled) {
 <section id="painelBloqueiosAgenda" class="bloqueio-agenda-panel hidden p-4 mb-5" aria-label="Datas bloqueadas">
   <div class="app-form-heading">
     <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-calendar-xmark"></i></span>
-    <div><h2>Bloquear agenda</h2><p>Escolha uma data e, se quiser, informe o motivo.</p></div>
+    <div><h2>Bloquear Agenda</h2><p>Escolha uma data e, se quiser, informe o motivo.</p></div>
   </div>
   <form id="formBloqueioAgenda" class="flex flex-wrap items-end gap-3">
     <div>
@@ -8084,7 +8165,7 @@ button:active:not(:disabled) {
       <input type="text" id="motivoBloqueioAgenda" maxlength="120" placeholder="Trabalho, evento..."
         class="w-full p-2 rounded bg-[#1e1e1e] border border-rose-300 text-rose-200">
     </div>
-    <button type="submit" id="btnAdicionarBloqueioAgenda">Adicionar data</button>
+    <button type="submit" id="btnAdicionarBloqueioAgenda">Adicionar Data</button>
   </form>
   <p id="statusBloqueiosAgenda" class="mt-3 text-sm text-gray-400" role="status"></p>
   <div id="listaBloqueiosAgenda" class="mt-2"></div>
@@ -8402,7 +8483,7 @@ button:active:not(:disabled) {
           </div>
           <button type="button" id="toggleFormCatalogoAgendamentos" class="catalogo-agendamento-form-toggle"
             aria-haspopup="dialog" aria-expanded="false" aria-controls="modalCatalogoAgendamentos">
-            <i class="fas fa-plus" aria-hidden="true"></i><span>Cadastrar</span>
+            <span>Cadastrar</span>
           </button>
         </div>
 
@@ -8487,8 +8568,8 @@ button:active:not(:disabled) {
         </h2>
       </div>
       <div class="page-actions-row">
-        <button id="btnNovaMensagemAuto" type="button" class="btn-primary px-4 py-2 rounded-md mr-4">
-          <i class="fas fa-plus mr-1" aria-hidden="true"></i>Nova mensagem
+        <button id="btnNovaMensagemAuto" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md mr-4">
+          Nova Mensagem
         </button>
       </div>
       <div class="auto-messages-layout">
@@ -8505,7 +8586,7 @@ button:active:not(:disabled) {
           <div class="auto-message-modal-heading">
             <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-comment-dots"></i></span>
             <div class="app-form-title-copy">
-              <h3 id="autoMessageFormTitle">Nova mensagem</h3>
+              <h3 id="autoMessageFormTitle">Nova Mensagem</h3>
               <p>Crie uma mensagem para usar com suas clientes.</p>
             </div>
             <button id="autoMessageClose" type="button" class="auto-message-modal-close" aria-label="Fechar">
@@ -8521,8 +8602,8 @@ button:active:not(:disabled) {
               <textarea id="autoMessageBody" maxlength="5000" required></textarea>
             </label>
             <div class="flex flex-wrap gap-2">
-              <button id="autoMessageSubmit" type="submit" class="btn-primary px-4 py-2 rounded-md">Salvar mensagem</button>
-              <button id="autoMessageCancel" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Cancelar edição</button>
+              <button id="autoMessageSubmit" type="submit" class="btn-primary px-4 py-2 rounded-md">Salvar Mensagem</button>
+              <button id="autoMessageCancel" type="button" class="hidden bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Cancelar Edição</button>
             </div>
           </form>
           <p id="autoMessageFormStatus" class="auto-messages-status" role="status" aria-live="polite"></p>
@@ -8533,7 +8614,7 @@ button:active:not(:disabled) {
           <div class="auto-message-modal-heading">
             <span class="app-form-heading-icon" aria-hidden="true"><i class="fab fa-whatsapp"></i></span>
             <div class="app-form-title-copy">
-              <h3 id="autoWhatsAppTitle">Enviar pelo WhatsApp</h3>
+              <h3 id="autoWhatsAppTitle">Enviar Pelo WhatsApp</h3>
               <p>Revise a mensagem antes de abrir o WhatsApp.</p>
             </div>
             <button id="autoWhatsAppClose" type="button" class="auto-message-modal-close" aria-label="Fechar">
@@ -8587,7 +8668,7 @@ button:active:not(:disabled) {
   </h2>
   </div>
 <div class="page-actions-row financeiro-header-actions">
-    <button id="btnAdicionarOcorrencia" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" aria-haspopup="dialog" aria-expanded="false">+ Ocorrência</button>
+    <button id="btnAdicionarOcorrencia" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" aria-haspopup="dialog" aria-expanded="false">Ocorrência</button>
     <button id="btnLoadRelatorio" class="btn-primary px-4 py-2 rounded-md">Relatório</button>
 </div>
 <div class="card rounded-xl shadow p-5 flex flex-col justify-center mb-5 home-finance-summary" id="financeiroResumo">
@@ -8619,7 +8700,7 @@ button:active:not(:disabled) {
   </div>
   <div class="home-finance-comparison">
     <div class="home-finance-comparison-heading">
-      <h4>Comparativo por mês</h4>
+      <h4>Comparativo Por Mês</h4>
     </div>
     <div class="home-finance-table-wrap">
       <table class="home-finance-table">
@@ -8646,7 +8727,7 @@ button:active:not(:disabled) {
         <div id="boxFinanceiro2Content" class="card relative z-10 w-full max-w-xl rounded-xl shadow p-5">
         <div class="app-form-heading">
           <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-receipt"></i></span>
-          <div><h2 id="tituloFormFinanceiro2">Nova ocorrência</h2><p>Registre uma entrada ou despesa do Studio.</p></div>
+          <div><h2 id="tituloFormFinanceiro2">Nova Ocorrência</h2><p>Registre uma entrada ou despesa do Studio.</p></div>
         </div>
         <form id="formFinanceiro2" class="space-y-4" action="supabase://financeiro" method="post">
           <div>
@@ -8722,8 +8803,8 @@ button:active:not(:disabled) {
     </div>
 
     <div class="page-actions-row stock-actions">
-      <button id="stockAddProduct" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md">+ Cadastrar Produto</button>
-      <button id="stockAddMovement" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" disabled>+ Entrada &amp; Saída</button>
+      <button id="stockAddProduct" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md">Cadastrar Produto</button>
+      <button id="stockAddMovement" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" disabled>Entrada &amp; Saída</button>
     </div>
     <p id="stockStatus" class="stock-status" role="status" aria-live="polite"></p>
 
@@ -8742,10 +8823,10 @@ button:active:not(:disabled) {
         <div class="home-metric-icon"><i class="fas fa-coins" aria-hidden="true"></i></div>
         <div class="home-metric-content">
           <div class="font-semibold" style="color:#F8C6AF">
-            <span class="numero-grande"><span id="stockTotalValueCurrency" class="stock-currency">R$</span> <span id="stockTotalValue">0,00</span></span>
+            <span class="numero-grande"><span id="stockTotalValue">0,00</span></span>
             <span class="titulo-card">Valor Estoque</span>
           </div>
-          <div class="metric-detail">R$ Aproximado<br>do estoque</div>
+          <div class="metric-detail">Valor aproximado<br>do estoque</div>
         </div>
       </article>
     </div>
@@ -8755,16 +8836,20 @@ button:active:not(:disabled) {
         <div>
           <h3>Produtos</h3>
         </div>
-        <label class="stock-search-label" for="stockProductSearch">Buscar produto
+        <div class="stock-search-control">
+          <button id="stockProductSearchToggle" class="cliente-search-toggle stock-search-toggle" type="button" aria-label="Buscar produto" aria-expanded="false">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </button>
+          <label class="stock-search-label" for="stockProductSearch">Buscar produto
           <input id="stockProductSearch" type="search" placeholder="Código, nome ou categoria">
-        </label>
+          </label>
+        </div>
       </div>
       <div class="stock-table-wrap stock-products-table-wrap">
         <table class="stock-table stock-products-table">
           <thead>
             <tr>
               <th>PRODUTO</th>
-              <th>TIPO PRODUTO</th>
               <th>MARCA</th>
               <th>ESTOQUE<br>ATUAL</th>
               <th>ESTOQUE<br>MÍNIMO</th>
@@ -8773,7 +8858,7 @@ button:active:not(:disabled) {
             </tr>
           </thead>
           <tbody id="stockProductsList">
-            <tr><td colspan="7">Carregando produtos...</td></tr>
+            <tr><td colspan="6">Carregando produtos...</td></tr>
           </tbody>
         </table>
       </div>
@@ -8782,7 +8867,7 @@ button:active:not(:disabled) {
     <section class="card stock-panel">
       <div class="stock-panel-heading">
         <div>
-          <h3>Movimentações recentes</h3>
+          <h3>Movimentações Recentes</h3>
           <p>Registre compras, ajustes, consumo e perdas; compras também lançam despesa no Financeiro.</p>
         </div>
       </div>
@@ -8876,7 +8961,7 @@ button:active:not(:disabled) {
         <div class="cliente-form-heading stock-dialog-heading">
           <span class="cliente-form-heading-icon" aria-hidden="true"><i class="fas fa-right-left"></i></span>
           <div>
-            <h2 id="stockMovementTitle">Registrar movimentação</h2>
+            <h2 id="stockMovementTitle">Registrar Movimentação</h2>
             <p>Compras geram uma despesa em Insumos no Financeiro.</p>
           </div>
         </div>
@@ -8922,7 +9007,7 @@ button:active:not(:disabled) {
         <p id="stockMovementFormStatus" class="stock-status" role="status" aria-live="polite"></p>
         <div class="stock-dialog-footer">
           <button type="button" class="stock-dialog-cancel" data-stock-close="stockMovementModal">Cancelar</button>
-          <button id="stockMovementSubmit" class="btn-primary" type="submit">Registrar movimentação</button>
+          <button id="stockMovementSubmit" class="btn-primary" type="submit">Registrar Movimentação</button>
         </div>
       </form>
     </div>
@@ -8992,25 +9077,25 @@ button:active:not(:disabled) {
           <small id="reportAppointmentsDelta"></small>
         </article>
         <article class="reports-card reports-detail-card reports-expense-families-card">
-          <div class="reports-card-heading"><div><h3>Por família</h3><p>Comparação com o período anterior</p></div></div>
+          <div class="reports-card-heading"><div><h3>Por Família</h3><p>Comparação com o período anterior</p></div></div>
           <div id="reportExpenseFamilies" class="reports-comparison-list"></div>
         </article>
       </div>
 
       <div class="reports-chart-grid">
         <article class="reports-card reports-chart-card">
-          <div class="reports-card-heading"><div><h3>Ganhos ao longo do período</h3><p>Valores registrados em Ganhos</p></div></div>
+          <div class="reports-card-heading"><div><h3>Ganhos Ao Longo do Período</h3><p>Valores registrados em Ganhos</p></div></div>
           <div id="reportGainsChart" class="reports-chart" aria-label="Gráfico de ganhos"></div>
         </article>
         <article class="reports-card reports-chart-card">
-          <div class="reports-card-heading"><div><h3>Atendimentos por modalidade</h3><p>Presenças confirmadas, comparadas ao período anterior</p></div></div>
+          <div class="reports-card-heading"><div><h3>Atendimentos Por Modalidade</h3><p>Presenças confirmadas, comparadas ao período anterior</p></div></div>
           <div id="reportAppointmentsChart" class="reports-chart" aria-label="Gráfico de atendimentos"></div>
         </article>
       </div>
 
       <div class="reports-detail-grid">
         <article class="reports-card reports-detail-card">
-          <div class="reports-card-heading"><div><h3>Aplicações e retornos</h3><p>Atendimentos concluídos no período</p></div></div>
+          <div class="reports-card-heading"><div><h3>Aplicações E Retornos</h3><p>Atendimentos concluídos no período</p></div></div>
           <div class="reports-return-stats">
             <div><span>Aplicações</span><strong id="reportApplications">—</strong></div>
             <div><span>Manutenções / retornos</span><strong id="reportReturns">—</strong></div>
@@ -9021,7 +9106,7 @@ button:active:not(:disabled) {
       </div>
 
       <article class="reports-card reports-products-card">
-        <div class="reports-card-heading"><div><h3>Comparativo de preços de produtos</h3><p>Compara Descrição e Valor das ocorrências em Despesas. Sem quantidade informada, compara o último valor lançado por período.</p></div></div>
+        <div class="reports-card-heading"><div><h3>Comparativo de Preços de Produtos</h3><p>Compara Descrição e Valor das ocorrências em Despesas. Sem quantidade informada, compara o último valor lançado por período.</p></div></div>
         <div id="reportProductPrices" class="reports-comparison-list"></div>
       </article>
     </div>
@@ -9174,8 +9259,8 @@ function registrarFechamentoForaFormulario(alvo, fechar) {
       const descartar = await confirmarAcao(
         "Deseja descartar as alterações e fechar este formulário?",
         {
-          titulo: "Descartar alterações",
-          textoCancelar: "Continuar editando",
+          titulo: "Descartar Alterações",
+          textoCancelar: "Continuar Editando",
           textoConfirmar: "Descartar"
         }
       );
@@ -11472,8 +11557,8 @@ document.addEventListener("DOMContentLoaded", function() {
   function definirEdicaoMensagemAuto(mensagem = null) {
     autoMessageForm.reset();
     autoMessageEditingId = mensagem?.id ?? null;
-    autoMessageFormTitle.textContent = mensagem ? "Editar mensagem" : "Nova mensagem";
-    autoMessageSubmit.textContent = mensagem ? "Salvar alterações" : "Salvar mensagem";
+    autoMessageFormTitle.textContent = mensagem ? "Editar Mensagem" : "Nova Mensagem";
+    autoMessageSubmit.textContent = mensagem ? "Salvar Alterações" : "Salvar Mensagem";
     autoMessageCancel.classList.toggle("hidden", !mensagem);
 
     if (mensagem) {
@@ -13372,7 +13457,7 @@ const elAgendamentos = document.getElementById("agendamentos");
 if (elAgendamentos) {
   elAgendamentos.innerHTML = `
     <span class="numero-grande">${totalAtendimentos}/${totalAgendamentos}</span>
-    <span class="titulo-card">Atend./Agend.</span>
+    <span class="titulo-card">Atend / Agendam.</span>
   `;
 }
 
@@ -13436,7 +13521,7 @@ if (elClientesAtivosDelta) {
   const elClientesAtivos = document.getElementById("clientesAtivos");
   const elClientesAtivosDelta = document.getElementById("clientesAtivosDelta");
 
-  if (elAgendamentos) elAgendamentos.textContent = `Atend./Agend. -/-`;
+  if (elAgendamentos) elAgendamentos.textContent = `Atend / Agendam. -/-`;
   if (elCiliosTotal) elCiliosTotal.textContent = `Extensão de Cílios -`;
   if (elCiliosDetalhe) elCiliosDetalhe.textContent = `Aplic.: - | Manut.: -`;
   if (elSobraTotal) elSobraTotal.textContent = `Sobrancelhas -`;
@@ -13559,7 +13644,7 @@ const totalAgendamentos = eventosDoMes.length;
 
 if (elAg) elAg.innerHTML = `
   <span class="numero-grande">${totalAtendimentos}/${totalAgendamentos}</span>
-  <span class="titulo-card">Atend./Agend.</span>
+  <span class="titulo-card">Atend / Agendam.</span>
 `;
 if (elClientesAtivos) elClientesAtivos.innerHTML = `
   <span class="numero-grande">${clientesAtivos.length}</span>
@@ -13598,7 +13683,7 @@ if (elSobraTotal) {
   const fallback = {
     agendaClientesAtivos: "Clientes Ativos -",
     agendaClientesAtivosDelta: "Sem dados do mês anterior",
-    agendaAgendamentos: "Atend./Agend. -/-",
+    agendaAgendamentos: "Atend / Agendam. -/-",
     agendaCiliosTotal: "Extensão de Cílios -",
     agendaCiliosDetalhe: "Aplic.: - | Manut.: -",
     agendaSobraTotal: "Sobrancelhas -",
@@ -15049,7 +15134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!visibleProducts.length) {
       const row = document.createElement("tr");
       row.appendChild(cell(query ? "Nenhum produto encontrado." : "Nenhum produto cadastrado."));
-      row.firstElementChild.colSpan = 7;
+      row.firstElementChild.colSpan = 6;
       productList.appendChild(row);
       return;
     }
@@ -15089,7 +15174,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       row.append(
         nameCell,
-        cell(formatStockTitle(product.Categoria) || "Sem tipo", "stock-product-type"),
         cell(formatStockTitle(product.Fornecedor) || "—"),
         balanceCell,
         cell(formatStockQuantity(minimum, product.Unidade)),
@@ -15166,8 +15250,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const formattedTotal = currency.formatToParts(
       visible.reduce((total, product) => total + numberValue(product.EstoqueAtual) * numberValue(product.CustoUnitario), 0)
     );
-    document.getElementById("stockTotalValueCurrency").textContent =
-      formattedTotal.find(part => part.type === "currency").value;
     document.getElementById("stockTotalValue").textContent = formattedTotal
       .filter(part => part.type !== "currency" && part.type !== "literal")
       .map(part => part.value)
@@ -15232,7 +15314,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pageStatus.textContent = "";
     const editing = Boolean(product);
     document.getElementById("stockProductTitle").textContent = editing ? "Editar produto" : "Cadastrar Produto";
-    document.getElementById("stockProductSubmit").textContent = editing ? "Salvar alterações" : "Salvar Produto";
+    document.getElementById("stockProductSubmit").textContent = editing ? "Salvar Alterações" : "Salvar Produto";
     document.getElementById("stockProductId").value = product?.ID || "";
     productDeleteButton.classList.toggle("hidden", !editing);
     productDeleteButton.dataset.stockDeleteProduct = editing ? String(product.ID) : "";
@@ -15313,7 +15395,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadStock() {
     pageStatus.textContent = "";
-    productList.innerHTML = '<tr><td colspan="7">Carregando produtos...</td></tr>';
+    productList.innerHTML = '<tr><td colspan="6">Carregando produtos...</td></tr>';
     movementList.innerHTML = '<tr><td colspan="6">Carregando movimentações...</td></tr>';
     try {
       const [productResponse, movementResponse] = await Promise.all([
@@ -15330,8 +15412,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     } catch (error) {
       showFormError("stockProductFormStatus", error);
-      productList.innerHTML = '<tr><td colspan="7">Não foi possível carregar os produtos.</td></tr>';
-      movementList.innerHTML = '<tr><td colspan="7">Não foi possível carregar as movimentações.</td></tr>';
+      productList.innerHTML = '<tr><td colspan="6">Não foi possível carregar os produtos.</td></tr>';
+      movementList.innerHTML = '<tr><td colspan="6">Não foi possível carregar as movimentações.</td></tr>';
       return false;
     }
   }
@@ -15364,6 +15446,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("stockAddProduct").addEventListener("click", () => openProductModal());
   document.getElementById("stockAddMovement").addEventListener("click", () => openMovementModal());
   document.getElementById("stockProductSearch").addEventListener("input", renderProducts);
+  const stockSearchControl = document.querySelector(".stock-search-control");
+  const stockSearchToggle = document.getElementById("stockProductSearchToggle");
+  stockSearchToggle.addEventListener("click", () => {
+    const isOpen = stockSearchControl.classList.toggle("search-open");
+    stockSearchToggle.setAttribute("aria-expanded", String(isOpen));
+    if (isOpen) document.getElementById("stockProductSearch").focus();
+  });
   productDeleteButton.addEventListener("click", () => {
     const product = productById(productDeleteButton.dataset.stockDeleteProduct);
     if (!product) {
