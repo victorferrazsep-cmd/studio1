@@ -59,7 +59,10 @@
       : nomes[0] || "";
     const dataIso = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(data || ""));
     const dataFormatada = dataIso ? ` ${dataIso[3]}/${dataIso[2]}` : "";
-    return `Presença${dataFormatada} - ${nomeCliente} - ${partes[2]}`;
+    const detalhe = /^(aplicação|manutenção)$/i.test(partes[2].trim())
+      ? ""
+      : ` - ${partes[2].trim()}`;
+    return `${dataFormatada.trim() ? `${dataFormatada.trim()} - ` : ""}${nomeCliente}${detalhe}`;
   }
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const supabaseDataClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -2188,7 +2191,7 @@
 .auto-message-summary-icon {
   color: #c98286;
   font-size: 0.9rem;
-  text-align: center;
+  text-align: right;
 }
 
 .auto-message-whatsapp {
@@ -2437,7 +2440,7 @@ main {
 .sidebar a i {
   width: 1.2rem;
   flex: 0 0 1.2rem;
-  text-align: center;
+  text-align: right;
 }
 
 .sidebar a:hover {
@@ -2727,7 +2730,7 @@ button:active:not(:disabled) {
   align-items: center;
   gap: 0.4rem;
   margin: 0 !important;
-  padding: 0.22rem 0.35rem;
+  padding: 0.22rem 0.1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.045);
   font-size: inherit;
 }
@@ -2755,15 +2758,16 @@ button:active:not(:disabled) {
   flex: 0 0 11ch;
   width: 11ch;
   min-width: 11ch;
+  margin-right: 0.35rem;
   color: #d7d0cf;
   font-size: inherit;
-  text-align: left;
+  text-align: right !important;
   white-space: nowrap;
 }
 
 .finance-report-row-type {
   margin: 0.12rem 0 0.1rem !important;
-  padding: 0.3rem 0.4rem;
+  padding: 0.3rem 0.1rem;
   border: 1px solid rgba(244, 191, 174, 0.09);
   border-radius: 0.45rem;
   background: linear-gradient(90deg, rgba(244, 191, 174, 0.09), rgba(244, 191, 174, 0.025));
@@ -2815,11 +2819,11 @@ button:active:not(:disabled) {
 }
 
 .finance-report-row-family {
-  padding-left: 1.35rem;
+  padding-left: 0.1rem;
 }
 
 .finance-report-row-name {
-  padding-left: 2rem;
+  padding-left: 0.1rem;
 }
 
 .finance-report-row-family .finance-report-label::before,
@@ -2872,7 +2876,7 @@ button:active:not(:disabled) {
 }
 
 .finance-report-occurrences {
-  margin: 0.1rem 0 0.25rem calc(2rem + 0.22rem + 0.35rem);
+  margin: 0.1rem 0 0.25rem 0.1rem;
   color: #aaa;
   font-size: 0.78rem;
 }
@@ -2882,6 +2886,10 @@ button:active:not(:disabled) {
   align-items: center;
   gap: 1rem;
   padding: 0.15rem 0;
+}
+
+.finance-report-occurrence + .finance-report-occurrence {
+  border-top: 1px solid rgba(255, 255, 255, 0.045);
 }
 
 .finance-report-occurrence span:first-child {
@@ -2895,7 +2903,8 @@ button:active:not(:disabled) {
   flex: 0 0 11ch;
   width: 11ch;
   min-width: 11ch;
-  text-align: left;
+  margin-right: 0.35rem;
+  text-align: right !important;
   white-space: nowrap;
 }
 
@@ -10121,7 +10130,7 @@ function renderizarPainel(totais) {
   const dashboardReceita = document.getElementById("dashboardReceita");
   const dashboardDespesa = document.getElementById("dashboardDespesa");
   const dashboardSaldo = document.getElementById("dashboardSaldo");
-  const formataValor = valor => "R$" + valor.toFixed(2).replace(".", ",");
+  const formataValor = valor => "R$" + valor.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   if (dashboardReceita) dashboardReceita.textContent = formataValor(totais.receita);
   if (dashboardDespesa) dashboardDespesa.textContent = formataValor(totais.despesa);
   if (dashboardSaldo) dashboardSaldo.textContent = formataValor(totais.saldo);
@@ -10238,7 +10247,7 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
     return row;
   }
 
-  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+  const formataValor = v => "R$" + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const resumoDetalhadoDiv = document.getElementById("relatorioResumoDetalhado");
   resumoDetalhadoDiv.innerHTML = ""; // Limpa conteúdo
 
@@ -10357,7 +10366,7 @@ function renderizarResumoDetalhado(dadosAgrupados, registros = []) {
 }
 
 function renderizarTabelaRelatorio(dadosFiltrados) {
-  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+  const formataValor = v => "R$" + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   relatorioContainer.innerHTML = ""; // clear existing table
   if (!dadosFiltrados.length) return;
 
@@ -10565,7 +10574,7 @@ function renderizarResumoDetalhadoHome(dadosAgrupados) {
   // Se o elemento não existir na página (como em páginas que não são Home), não faz nada
   if (!homeResumoDetalhadoDiv) return;
   
-  const formataValor = v => "R$" + v.toFixed(2).replace(".", ",");
+  const formataValor = v => "R$" + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   homeResumoDetalhadoDiv.innerHTML = ""; // Limpa conteúdo
 
   // Helper to create a row with category left and value right with dotted leader
