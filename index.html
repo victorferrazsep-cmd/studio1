@@ -5222,8 +5222,31 @@ button:active:not(:disabled) {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
-    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    max-height: none;
+    overflow-y: visible;
     padding: 1rem;
+  }
+
+  #modalAnamnese > div.w-full.h-full {
+    align-items: flex-start;
+    overscroll-behavior: contain;
+  }
+
+  #formAnamnese .anamnese-form-actions {
+    position: sticky;
+    bottom: calc(-1rem - env(safe-area-inset-bottom, 0px));
+    z-index: 20;
+    width: calc(100% + 2rem);
+    margin: 0.25rem -1rem -1rem;
+    padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid rgba(244, 191, 174, 0.16);
+    background: rgba(43, 43, 43, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  #formAnamnese .anamnese-form-actions button {
+    min-height: 3rem;
   }
 
   #formAnamnese fieldset .flex.items-center.justify-between {
@@ -14905,6 +14928,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mostra o modal
     modalAnamnese.classList.remove("hidden");
     requestAnimationFrame(() => {
+      modalAnamnese.querySelector(":scope > div").scrollTop = 0;
+      modalAnamneseContent.scrollTop = 0;
       ajustarCanvasAssinatura();
       modalAnamneseContent.classList.remove("scale-95", "opacity-0");
       modalAnamneseContent.classList.add("scale-100", "opacity-100");
