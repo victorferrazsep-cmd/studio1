@@ -4154,6 +4154,7 @@ button:active:not(:disabled) {
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
   #agendaPage > .flex.justify-between.mb-5.items-center,
+  #planejamentoPage > .flex.justify-between.mb-5.items-center,
   #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
   #configuracoesPage > .flex.justify-between.mb-5.items-center,
   #financeiro2Page > .flex.justify-between.mb-5.items-center,
@@ -4166,6 +4167,7 @@ button:active:not(:disabled) {
 
   #clientesPage > .flex.justify-between.mb-5.items-center,
   #agendaPage > .flex.justify-between.mb-5.items-center,
+  #planejamentoPage > .flex.justify-between.mb-5.items-center,
   #mensagensAutoPage > .flex.justify-between.mb-5.items-center,
   #configuracoesPage > .flex.justify-between.mb-5.items-center,
   #financeiro2Page > .flex.justify-between.mb-5.items-center {
@@ -7763,6 +7765,953 @@ button:active:not(:disabled) {
   }
 }
 
+/* Planejamento comercial */
+.planning-grid,
+.planning-kpi-grid,
+.planning-prospect-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.planning-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 1.25rem;
+}
+
+.planning-kpi-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.planning-prospect-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#planejamentoPage .planning-period-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+#planejamentoPage .planning-overview-heading {
+  margin-bottom: 1.25rem;
+}
+
+#planejamentoPage .planning-overview-heading > div:first-child {
+  text-align: left;
+}
+
+#planejamentoPage .planejamento-header-actions .planning-period-filters {
+  width: auto;
+  flex-wrap: nowrap;
+}
+
+#planejamentoPage .planejamento-header-actions .home-finance-period-filters button {
+  box-sizing: border-box;
+  display: grid;
+  width: 1.8rem;
+  min-width: 1.8rem;
+  height: 1.4rem;
+  min-height: 1.4rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #b8b8b8;
+  font-size: 0.5rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+#planejamentoPage .planejamento-header-actions .home-finance-period-filters button span {
+  display: block;
+  line-height: 1;
+}
+
+#planejamentoPage .planejamento-header-actions .home-finance-period-filters button[aria-pressed="true"] {
+  border-color: var(--rose);
+  background: var(--rose);
+  color: #1e1e1e;
+  font-weight: 700;
+}
+
+#planejamentoPage .planejamento-header-actions .home-finance-period-filters button:hover {
+  color: var(--rose);
+}
+
+#planejamentoPage .planejamento-header-actions .home-finance-period-filters button[aria-pressed="true"]:hover {
+  color: #1e1e1e;
+}
+
+#planejamentoPage .planning-period-filters label {
+  display: grid;
+  gap: 0.35rem;
+  color: #cfc7c4;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+#planejamentoPage .planning-period-filters input {
+  width: 10rem;
+  height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid rgba(244, 191, 174, 0.35);
+  border-radius: 0.55rem;
+  background: #1e1e1e;
+  color: #f4bfae;
+}
+
+#planejamentoPage .planning-metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1.25rem;
+}
+
+#planejamentoPage .planning-metric-card {
+  min-height: 9.5rem;
+  min-width: 0;
+  gap: 0.35rem;
+  padding: 0.85rem 1rem 1rem;
+  text-align: right;
+}
+
+#planejamentoPage .planning-metric-card .home-metric-content {
+  grid-template-rows: auto minmax(1rem, 1fr) auto;
+  align-content: stretch;
+  align-items: stretch;
+  gap: 0.3rem;
+}
+
+#planejamentoPage .planning-metric-card .titulo-card {
+  margin-top: 0;
+}
+
+#planejamentoPage .planning-metric-card.home-metric-cilios,
+#planejamentoPage .planning-metric-card.home-metric-sobrancelhas {
+  border-color: rgba(244, 191, 174, 0.3);
+  background: linear-gradient(145deg, rgba(244, 191, 174, 0.12), #252525 78%);
+}
+
+#planejamentoPage .planning-metric-card.home-metric-sobrancelhas {
+  border-color: rgba(201, 130, 134, 0.3);
+  background: linear-gradient(145deg, rgba(201, 130, 134, 0.12), #252525 78%);
+}
+
+#planejamentoPage .planning-metric-card .planning-metric-detail {
+  width: 100%;
+  color: #7f7f7f;
+  font-size: 0.66rem;
+  font-style: italic;
+  line-height: 1.35;
+  text-align: right;
+}
+
+#planejamentoPage .planning-metric-card .planning-inline-rate {
+  color: #cfc7c4;
+  font-size: 50%;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#planejamentoPage .planning-metric-card .metric-detail,
+#planejamentoPage .planning-metric-card .planning-metric-detail {
+  max-width: 7rem;
+  justify-self: end;
+}
+
+#planejamentoPage .planning-number-with-rate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 0;
+}
+
+#planejamentoPage .planning-card-progress {
+  width: 100%;
+  height: 0.38rem;
+  margin: 0.2rem 0 0.35rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #171717;
+}
+
+#planejamentoPage .planning-card-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #c98286, #f4bfae);
+}
+
+#planejamentoPage .planning-daily-meta {
+  display: block;
+  color: #cfc7c4;
+  font-size: 0.68rem;
+  font-style: italic;
+  font-weight: 400;
+  text-align: right;
+}
+
+#planejamentoPage #planningAddContact {
+  width: auto;
+  flex: 0 0 auto;
+  min-height: 2rem;
+  margin: 0;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.75rem;
+}
+
+#planejamentoPage .planejamento-header-actions {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+#planejamentoPage > .page-title-row,
+#financeiro2Page > .page-title-row {
+  min-height: 3.25rem;
+  align-items: center;
+}
+
+#planejamentoPage > .page-title-row .page-heading,
+#financeiro2Page > .page-title-row .page-heading {
+  align-items: center;
+}
+
+.planning-period-card,
+.planning-prospect-card,
+.planning-follow-card {
+  border: 1px solid rgba(244, 191, 174, 0.12);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.planning-period-card {
+  padding: 1.1rem;
+}
+
+.planning-period-card h3,
+.planning-follow-card h3 {
+  margin: 0;
+  color: #fff7f4;
+  font-size: 0.95rem;
+}
+
+.planning-period-heading,
+.planning-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.planning-period-values {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+
+.planning-period-values strong {
+  color: #f4bfae;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1;
+}
+
+.planning-period-values span {
+  color: #aaa3a0;
+  font-size: 0.82rem;
+}
+
+.planning-progress {
+  height: 0.45rem;
+  margin-top: 0.9rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #171717;
+}
+
+.planning-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #c98286, #f4bfae);
+}
+
+.planning-kpi-card {
+  min-width: 0;
+  padding: 0.9rem;
+}
+
+.planning-kpi-card span {
+  display: block;
+  color: #aaa3a0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.planning-kpi-card strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: #f4bfae;
+  font-size: 1.45rem;
+}
+
+.planning-kpi-card small {
+  color: #cfc7c4;
+  font-size: 0.72rem;
+}
+
+.planning-prospect-card {
+  padding: 0.85rem;
+}
+
+.planning-prospect-card strong {
+  display: block;
+  margin-top: 0.3rem;
+  color: #fff7f4;
+  font-size: 1.35rem;
+}
+
+.planning-prospect-card.quente { border-left: 3px solid #d76570; }
+.planning-prospect-card.morno { border-left: 3px solid #e7b66b; }
+.planning-prospect-card.frio { border-left: 3px solid #8ba0ad; }
+
+.planning-follow-card {
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.planning-follow-card p {
+  margin: 0.45rem 0 0;
+  color: #aaa3a0;
+  font-size: 0.78rem;
+}
+
+.planning-contact-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.planning-contact-search {
+  min-width: min(18rem, 100%);
+  height: 2.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid rgba(244, 191, 174, 0.28);
+  border-radius: 0.55rem;
+  background: #1e1e1e;
+  color: #f4bfae;
+}
+
+.planning-status {
+  display: inline-flex;
+  margin-top: 0.7rem;
+  padding: 0.28rem 0.48rem;
+  border-radius: 999px;
+  background: rgba(244, 191, 174, 0.12);
+  color: #f4bfae;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.planning-contact-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid rgba(244, 191, 174, 0.12);
+  border-radius: 0.75rem;
+}
+
+.planning-contact-table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.75rem;
+}
+
+.planning-contact-table th,
+.planning-contact-table td {
+  padding: 0.7rem 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  vertical-align: middle;
+}
+
+.planning-contact-table th {
+  background: rgba(255, 255, 255, 0.035);
+  color: #aaa3a0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.planning-contact-table td {
+  color: #d5cfcc;
+}
+
+.planning-contact-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.planning-contact-table tbody tr:hover {
+  background: rgba(244, 191, 174, 0.045);
+}
+
+.planning-contact-table td:first-child {
+  color: #fff7f4;
+  font-weight: 600;
+}
+
+.planning-contact-table .planning-status {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.planning-contact-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.planning-contact-table-actions button,
+.planning-empty-button {
+  border: 1px solid rgba(244, 191, 174, 0.28);
+  border-radius: 0.45rem;
+  background: transparent;
+  color: #f4bfae;
+  padding: 0.42rem 0.55rem;
+  cursor: pointer;
+  font-size: 0.72rem;
+}
+
+.planning-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #aaa3a0;
+  border: 1px dashed rgba(244, 191, 174, 0.18);
+  border-radius: 0.75rem;
+}
+
+#planningContactModal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+#planningContactModal:not(.hidden) {
+  display: flex;
+}
+
+.planning-contact-modal-content {
+  box-sizing: border-box;
+  width: min(100%, 36rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.planning-contact-form {
+  display: grid;
+  gap: 0.7rem 0.85rem;
+  color: #e8e4e3;
+}
+
+.planning-contact-form > * {
+  margin-top: 0;
+}
+
+.planning-contact-modal-content .app-form-heading {
+  margin-bottom: 1.1rem;
+}
+
+.planning-contact-form > label {
+  display: grid;
+  gap: 0.3rem;
+  color: #d7d1d1;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+}
+
+.planning-contact-form input:not([type="checkbox"]):not([type="radio"]),
+.planning-contact-form select,
+.planning-contact-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.3rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid #424242;
+  border-radius: 0.62rem;
+  background: #303030;
+  color: #f3eeee;
+  font-size: 0.78rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.planning-contact-form textarea {
+  min-height: 5rem;
+  resize: vertical;
+}
+
+.planning-contact-form input:not([type="radio"])::placeholder,
+.planning-contact-form textarea::placeholder {
+  color: #85858d;
+  opacity: 1;
+  font-size: 0.72rem;
+}
+
+.planning-contact-form input:not([type="radio"]):focus,
+.planning-contact-form select:focus,
+.planning-contact-form textarea:focus {
+  border-color: var(--rose);
+  background: #383838;
+  box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.12);
+}
+
+#planningContactStatus:disabled {
+  border-color: #5a514e;
+  background: #494240;
+  color: #b7adab;
+  cursor: not-allowed;
+  opacity: 1;
+  box-shadow: none;
+}
+
+#planningContactStatusField.planning-return-status-highlight {
+  color: var(--rose);
+}
+
+#planningContactStatusField.planning-return-status-highlight select {
+  border-color: var(--rose);
+  background: rgba(244, 191, 174, 0.12);
+  box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.16);
+}
+
+.planning-return-status-hint {
+  color: #f4bfae;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.planning-form-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+.planning-form-actions button {
+  min-height: 2.55rem;
+}
+
+.planning-form-actions button[type="submit"] {
+  width: 100%;
+  border: 1px solid rgba(255, 232, 224, 0.35);
+  border-radius: 0.65rem;
+  background: linear-gradient(105deg, #f4bfae, #eaa995);
+  color: #241d1c !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(244, 191, 174, 0.14);
+}
+
+.planning-form-actions button[type="submit"]:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.planning-form-actions #planningCancelContact {
+  min-height: 2rem;
+  padding: 0.3rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: #aaa6a8;
+  font-size: 0.78rem;
+  box-shadow: none;
+}
+
+.planning-form-actions #planningCancelContact:hover {
+  background: transparent;
+  color: #fff7f4;
+}
+
+.planning-form-actions #planningDeleteContact {
+  min-height: 2.45rem;
+  border: 1px solid #424242;
+  border-radius: 0.65rem;
+  background: #303030;
+  color: #e8e4e3;
+  font-size: 0.78rem;
+  box-shadow: none;
+}
+
+.planning-form-actions #planningDeleteContact:hover {
+  border-color: rgba(244, 191, 174, 0.4);
+  background: #3a3a3a;
+  color: #fff7f4;
+}
+
+.planning-contact-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.planning-contact-header .app-form-heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.planning-return-done-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  margin-top: 0.45rem;
+  padding: 0.28rem 0.42rem;
+  border: 1px solid rgba(244, 191, 174, 0.3);
+  border-radius: 999px;
+  background: rgba(244, 191, 174, 0.1);
+  color: #fff7f4;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+#planningReturnDoneField.hidden {
+  display: none;
+}
+
+.planning-return-done-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.planning-return-switch {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 1rem;
+  border: 1px solid rgba(244, 191, 174, 0.24);
+  border-radius: 999px;
+  background: #37302e;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.planning-return-switch::before {
+  position: absolute;
+  top: 0.08rem;
+  left: 0.08rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: #d7d1d1;
+  content: "";
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.planning-return-done-toggle input:checked + .planning-return-switch {
+  border-color: var(--rose);
+  background: var(--rose);
+}
+
+.planning-return-done-toggle input:checked + .planning-return-switch::before {
+  background: #fff7f4;
+  transform: translateX(0.82rem);
+}
+
+.planning-return-done-toggle input:focus-visible + .planning-return-switch {
+  outline: 2px solid var(--rose);
+  outline-offset: 2px;
+}
+
+.planning-classification-field {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.planning-classification-field legend {
+  margin-bottom: 1.1rem;
+  color: #d7d1d1;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+}
+
+.planning-classification-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+.planning-classification-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: #d7d1d1;
+  font-size: 0.84rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.planning-classification-option .planning-return-switch {
+  width: 2.4rem;
+  height: 1.5rem;
+}
+
+.planning-classification-option .planning-return-switch::before {
+  top: 50%;
+  left: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(-50%);
+}
+
+.planning-classification-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.planning-classification-option input:checked + .planning-return-switch {
+  border-color: var(--rose);
+  background: var(--rose);
+}
+
+.planning-classification-option input:checked + .planning-return-switch::before {
+  background: #fff7f4;
+  transform: translate(0.9rem, -50%);
+}
+
+.planning-classification-option input:focus-visible + .planning-return-switch {
+  outline: 2px solid var(--rose);
+  outline-offset: 2px;
+}
+
+.planning-classification-option input:checked ~ span:last-child {
+  color: #fff7f4;
+}
+
+.planning-followup-hint {
+  margin: 0.1rem 0 0;
+  color: #aaa6a8;
+  font-size: 0.72rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.planning-service-status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #e8c5bb;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 640px) {
+  #planningContactModal {
+    align-items: flex-start;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: calc(0.75rem + env(safe-area-inset-top, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px))
+      calc(0.75rem + env(safe-area-inset-bottom, 0px))
+      max(0.75rem, env(safe-area-inset-left, 0px));
+  }
+
+  .planning-contact-modal-content {
+    max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    flex: 0 0 auto;
+    padding: 1rem;
+    margin-block: auto;
+  }
+
+  .planning-classification-field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.1rem;
+  }
+
+  .planning-classification-field legend {
+    margin-bottom: 0;
+    font-size: 0.62rem;
+    letter-spacing: 0;
+  }
+
+  .planning-classification-options {
+    justify-content: center;
+    flex-wrap: nowrap;
+    min-width: 0;
+    gap: 0.8rem;
+  }
+
+  .planning-classification-option {
+    display: flex;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+
+  .planning-classification-option > span:last-child {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .planning-contact-form {
+    gap: 0.6rem;
+  }
+
+  .planning-contact-form input:not([type="checkbox"]):not([type="radio"]),
+  .planning-contact-form select,
+  .planning-contact-form textarea {
+    min-height: 2.2rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .planning-contact-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .planning-contact-form > .planning-classification-field {
+    grid-column: 1 / -1;
+  }
+
+  .planning-contact-form > label[for="planningContactNotes"],
+  .planning-form-actions,
+  .planning-service-status {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .planning-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .planning-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  #planejamentoPage .planning-metric-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1280px) {
+  #planejamentoPage > .page-title-row {
+    box-sizing: border-box;
+    min-height: 3rem;
+    padding-left: 3.5rem;
+  }
+  #planejamentoPage .planning-metric-card {
+    min-height: 7rem;
+    padding: 0.85rem 0.75rem 0.5rem;
+  }
+}
+
+@media (max-width: 1280px) {
+  #planejamentoPage .planning-number-with-rate {
+    align-items: flex-start;
+    gap: 0.12em;
+  }
+
+  #planejamentoPage .planning-number-with-rate > span:last-child {
+    font-size: inherit;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  #planejamentoPage .planning-inline-rate {
+    padding-top: 0.12em;
+  }
+
+  #planejamentoPage .planning-daily-meta {
+    margin-top: auto;
+    color: #7f7f7f;
+    font-size: 0.66rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 640px) {
+  .planning-kpi-grid,
+  .planning-prospect-grid,
+  .planning-contact-form {
+    grid-template-columns: 1fr;
+  }
+  #planejamentoPage .planning-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #planejamentoPage .planning-metric-card {
+    min-height: 7.5rem;
+    gap: 0.35rem;
+    padding: 0.7rem;
+  }
+  #planejamentoPage .planning-period-filters,
+  #planejamentoPage .planning-period-filters label,
+  #planejamentoPage .planning-period-filters input {
+    width: 100%;
+  }
+  #planejamentoPage .planning-overview-heading {
+    align-items: flex-start;
+  }
+  #planejamentoPage .planning-overview-actions {
+    flex-wrap: nowrap;
+  }
+  .planning-period-card {
+    padding: 0.9rem;
+  }
+}
+
 </style>
 </head>
 <body class="flex h-screen">
@@ -7777,6 +8726,7 @@ button:active:not(:disabled) {
   <h1 class="text-2x1 font-semibold mb-8 text-center">Menu</h1>
   <nav class="flex flex-col space-y-2">
     <a href="#" class="active" data-page="home"><i class="fas fa-house" aria-hidden="true"></i><span>Home</span></a>
+    <a href="#" data-page="planejamento"><i class="fas fa-bullseye" aria-hidden="true"></i><span>Planejamento</span></a>
     <a href="#" data-page="clientes"><i class="fas fa-users" aria-hidden="true"></i><span>Clientes</span></a>
     <a href="#" data-page="agenda"><i class="fas fa-calendar-days" aria-hidden="true"></i><span>Agenda</span></a>
     <a href="#" data-page="mensagensAuto"><i class="fas fa-comment-dots" aria-hidden="true"></i><span>Mensagens Auto</span></a>
@@ -7952,7 +8902,208 @@ button:active:not(:disabled) {
 
 </div>
 
-    <!-- CLIENTES -->
+  <!-- PLANEJAMENTO -->
+  <div id="planejamentoPage" class="page hidden">
+    <div class="page-title-row flex justify-between mb-5 items-center">
+      <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="bell-black-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-pink-outline" d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path class="bell-black-outline" d="M10 21h4" fill="none" />
+          <path class="bell-pink-outline" d="M10 21h4" fill="none" />
+        </svg>
+      </button>
+      <h2 class="page-heading">
+        <span class="page-heading-icon"><i class="fas fa-bullseye" aria-hidden="true"></i></span>
+        <span class="page-heading-copy">
+          <span class="page-heading-title">Planejamento</span>
+          <span class="page-heading-subtitle">Metas, contatos e conversões</span>
+        </span>
+      </h2>
+    </div>
+
+    <div class="page-actions-row planejamento-header-actions">
+      <div class="planning-period-filters">
+        <div class="home-finance-period-filters" role="group" aria-label="Período do planejamento">
+          <button type="button" data-planning-period="month" aria-label="Mês" aria-pressed="true"><span>MÊS</span></button>
+          <button type="button" data-planning-period="quarter" aria-label="Trimestre" aria-pressed="false"><span>TRI</span></button>
+          <button type="button" data-planning-period="semester" aria-label="Semestre" aria-pressed="false"><span>SEM</span></button>
+          <button type="button" data-planning-period="year" aria-label="Ano" aria-pressed="false"><span>ANO</span></button>
+        </div>
+      </div>
+      <button id="planningAddContact" type="button" class="btn-primary px-3 py-1.5 text-sm rounded-md" aria-haspopup="dialog" aria-expanded="false">Novo Contato</button>
+    </div>
+
+    <div class="grid gap-4 mb-5 home-metric-grid planning-metric-grid" aria-label="Metas principais">
+      <article class="card home-metric-card planning-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)]">
+        <div class="home-metric-icon"><i class="fas fa-phone"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande"><span id="planningMonthlyContacts">0</span><span id="planningMonthlyContactsGoal">/550</span></span>
+            <span class="titulo-card">Contatos no Período</span>
+          </div>
+          <div class="planning-metric-detail">
+            <div class="planning-card-progress"><span id="planningContactsProgress" style="width:0%"></span></div>
+            <span class="planning-daily-meta">Meta do período: 25</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card home-metric-card planning-metric-card px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)]">
+        <div class="home-metric-icon"><i class="fas fa-calendar-day"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande"><span id="planningTodayContacts">0</span><span>/25</span></span>
+            <span class="titulo-card">Contatos Hoje</span>
+          </div>
+          <div class="planning-metric-detail">
+            <div class="planning-card-progress"><span id="planningTodayProgress" style="width:0%"></span></div>
+            <span class="planning-daily-meta">Meta diária: 25</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card home-metric-card planning-metric-card home-metric-cilios px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)]">
+        <div class="home-metric-icon"><i class="fas fa-comments"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande planning-number-with-rate"><span class="planning-inline-rate"><span id="planningResponseRate">0</span>%</span><span id="planningRespondents">0</span></span>
+            <span class="titulo-card">Respondentes</span>
+          </div>
+          <div class="planning-metric-detail">
+            <span id="planningRespondentsDelta" class="metric-detail">— Novos respondentes</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card home-metric-card planning-metric-card home-metric-sobrancelhas px-4 py-4 rounded-xl shadow-[0_0_8px_rgba(0,0,0,0.15)]">
+        <div class="home-metric-icon"><i class="fas fa-calendar-check"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande planning-number-with-rate"><span class="planning-inline-rate"><span id="planningConversionRate">0</span>%</span><span id="planningAppointments">0</span></span>
+            <span class="titulo-card">Agendamentos</span>
+          </div>
+          <div class="planning-metric-detail">
+            <span id="planningAppointmentsDelta" class="metric-detail">— Novos agendamentos</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="planning-prospect-grid mb-5" aria-label="Classificação dos prospects">
+      <article class="planning-prospect-card quente">
+        <span>Prospects quentes</span>
+        <strong id="planningHotProspects">0</strong>
+      </article>
+      <article class="planning-prospect-card morno">
+        <span>Prospects mornos</span>
+        <strong id="planningWarmProspects">0</strong>
+      </article>
+      <article class="planning-prospect-card frio">
+        <span>Prospects frios</span>
+        <strong id="planningColdProspects">0</strong>
+      </article>
+    </section>
+
+    <section class="planning-follow-card">
+      <div class="planning-card-heading">
+        <h3>Minha carteira</h3>
+        <span id="planningDueCount" class="planning-status">0 retornos vencidos</span>
+      </div>
+      <p>Contatos ordenados pelos próximos retornos e classificados por prioridade.</p>
+    </section>
+
+    <section class="card rounded-xl shadow p-5">
+      <div class="planning-contact-toolbar">
+        <input id="planningContactSearch" class="planning-contact-search" type="search" placeholder="Pesquisar contato..." aria-label="Pesquisar contato">
+      </div>
+      <div id="planningContactsList" class="planning-contact-list"></div>
+    </section>
+
+    <div id="planningContactModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="planningContactModalTitle">
+      <button type="button" class="absolute inset-0 border-0 bg-black bg-opacity-70 backdrop-filter" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);" data-planning-contact-overlay aria-label="Fechar formulário de contato"></button>
+      <div class="planning-contact-modal-content card relative z-10 w-full max-w-xl rounded-xl shadow p-5">
+        <div class="planning-contact-header">
+          <div class="app-form-heading">
+            <span class="app-form-heading-icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
+            <div>
+              <h2 id="planningContactModalTitle">Cadastrar Contato</h2>
+              <p>Organize o acompanhamento e o próximo retorno.</p>
+            </div>
+          </div>
+          <label id="planningReturnDoneField" class="planning-return-done-toggle hidden" for="planningContactReturnDone">
+            <input id="planningContactReturnDone" type="checkbox">
+            <span class="planning-return-switch" aria-hidden="true"></span>
+            <span>Retorno Realizado</span>
+          </label>
+        </div>
+        <form id="planningContactForm" class="planning-contact-form">
+          <input type="hidden" id="planningContactId">
+          <label for="planningContactName">Nome do Cliente
+            <input id="planningContactName" type="text" maxlength="120" required>
+          </label>
+          <label for="planningContactPhone">Telefone/Insta
+            <input id="planningContactPhone" type="text" maxlength="60" placeholder="Telefone ou @Instagram" required>
+          </label>
+          <label for="planningContactDate">Primeiro Contato
+            <input id="planningContactDate" type="date" required>
+          </label>
+          <label for="planningContactService">Serviço de Interesse
+            <select id="planningContactService">
+              <option value="">Carregando procedimentos...</option>
+            </select>
+          </label>
+          <p id="planningServiceCatalogStatus" class="planning-service-status hidden" role="status" aria-live="polite"></p>
+          <label for="planningContactOrigin">Origem
+            <select id="planningContactOrigin">
+              <option value="Instagram">Instagram</option>
+              <option value="Indicação">Indicação</option>
+              <option value="WhatsApp">WhatsApp</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Outra">Outra</option>
+            </select>
+          </label>
+          <label id="planningContactStatusField" for="planningContactStatus">Status Atual
+            <span id="planningReturnStatusHint" class="planning-return-status-hint" role="status" aria-live="polite" hidden></span>
+            <select id="planningContactStatus" required>
+              <option value="Novo contato">Novo Contato</option>
+            </select>
+          </label>
+          <fieldset class="planning-classification-field">
+            <legend>Classificação</legend>
+            <div class="planning-classification-options" role="radiogroup" aria-label="Classificação do prospect">
+              <label class="planning-classification-option">
+                <input type="radio" name="planningContactClassification" value="Quente">
+                <span class="planning-return-switch" aria-hidden="true"></span>
+                <span>Quente</span>
+              </label>
+              <label class="planning-classification-option">
+                <input type="radio" name="planningContactClassification" value="Morno">
+                <span class="planning-return-switch" aria-hidden="true"></span>
+                <span>Morno</span>
+              </label>
+              <label class="planning-classification-option">
+                <input type="radio" name="planningContactClassification" value="Frio">
+                <span class="planning-return-switch" aria-hidden="true"></span>
+                <span>Frio</span>
+              </label>
+            </div>
+          </fieldset>
+          <label for="planningContactNotes">Observações
+            <textarea id="planningContactNotes" maxlength="1000"></textarea>
+            <p id="planningFollowupHint" class="planning-followup-hint" hidden></p>
+          </label>
+          <div class="planning-form-actions">
+            <button id="planningDeleteContact" type="button" class="bg-gray-600 text-white px-4 py-2 rounded-md hidden">Excluir</button>
+            <button id="planningCancelContact" type="button" class="px-3 py-1.5 text-sm rounded-md">Fechar</button>
+            <button type="submit" class="btn-primary px-4 py-2 rounded-md">Salvar Contato</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENTES -->
   <div id="clientesPage" class="page hidden">
     <div class="page-title-row flex justify-between mb-5 items-center">
         <button class="page-notification-icon" type="button" aria-label="Notificações" title="Notificações">
@@ -9286,11 +10437,12 @@ function montarMensagemConfirmacaoAgendamento(template, evento) {
   return mensagem;
 }
 
-function registrarFechamentoForaFormulario(alvo, fechar) {
+function registrarFechamentoForaFormulario(alvo, fechar, validarFechamento = () => true) {
   let aguardandoConfirmacao = false;
   alvo.addEventListener("click", async event => {
     if (event.target !== alvo || aguardandoConfirmacao) return;
     event.preventDefault();
+    if (!validarFechamento()) return;
     aguardandoConfirmacao = true;
     try {
       const descartar = await confirmarAcao(
@@ -12739,9 +13891,13 @@ async function configurarCatalogoAgendamentos() {
     renderizarTiposAgendamento();
     renderizarTecnicasAgendamento();
     status.textContent = "Procedimentos Cadastrados.";
+    document.dispatchEvent(new Event("studio-catalogo-agendamentos-atualizado"));
   } catch (error) {
     status.textContent = `Não foi possível carregar as listas sincronizadas: ${error.message}`;
     form.querySelector('button[type="submit"]').disabled = true;
+    document.dispatchEvent(new CustomEvent("studio-catalogo-agendamentos-erro", {
+      detail: error.message
+    }));
     console.error("Erro ao carregar listas do Agendamento:", error);
     return;
   }
@@ -12798,6 +13954,7 @@ async function configurarCatalogoAgendamentos() {
       inputModalidadeNova.required = false;
       fecharModalForm();
       status.textContent = "Modalidade, tipo, técnica e valor salvos no Supabase.";
+      document.dispatchEvent(new Event("studio-catalogo-agendamentos-atualizado"));
     } catch (error) {
       catalogoAgendamentos = JSON.parse(catalogoAnterior);
       renderizarModalidadesAgendamento();
@@ -12841,6 +13998,7 @@ async function configurarCatalogoAgendamentos() {
       renderizarTecnicasAgendamento();
       renderizarListaCatalogoAgendamentos();
       status.textContent = "Técnica removida das novas opções de agendamento.";
+      document.dispatchEvent(new Event("studio-catalogo-agendamentos-atualizado"));
     } catch (error) {
       modalidade.procedimentos.splice(indice, 0, removido);
       renderizarTiposAgendamento();
@@ -12874,6 +14032,7 @@ async function configurarCatalogoAgendamentos() {
       renderizarListaCatalogoModalidades();
       renderizarListaCatalogoAgendamentos();
       status.textContent = `Modalidade "${modalidadeNome}" removida das novas opções de agendamento.`;
+      document.dispatchEvent(new Event("studio-catalogo-agendamentos-atualizado"));
     } catch (error) {
       catalogoAgendamentos.splice(indice, 0, removida);
       renderizarModalidadesAgendamento();
@@ -15991,6 +17150,567 @@ document.addEventListener("DOMContentLoaded", () => {
   void loadNotifications().catch(error => {
     console.error("Studio notification feed is not available yet.", error);
   });
+})();
+</script>
+<script>
+(() => {
+  const storageKey = "studio-planning-contacts";
+  const modal = document.getElementById("planningContactModal");
+  const form = document.getElementById("planningContactForm");
+  const searchInput = document.getElementById("planningContactSearch");
+  const serviceSelect = document.getElementById("planningContactService");
+  const statusSelect = document.getElementById("planningContactStatus");
+  const statusField = document.getElementById("planningContactStatusField");
+  const returnStatusHint = document.getElementById("planningReturnStatusHint");
+  const serviceCatalogStatus = document.getElementById("planningServiceCatalogStatus");
+  const followupHint = document.getElementById("planningFollowupHint");
+  const firstContactInput = document.getElementById("planningContactDate");
+  const returnDoneInput = document.getElementById("planningContactReturnDone");
+  let planningPeriod = "month";
+  let contacts = [];
+  let serviceCatalogState = "loading";
+  let editingContact = null;
+  let returnRecordedThisEdit = false;
+  let statusAtEditStart = "";
+
+  const followupDays = {
+    Quente: 2,
+    Morno: 10,
+    Frio: 30
+  };
+  const editableStatuses = [
+    "Prospect quente",
+    "Prospect morno",
+    "Prospect frio",
+    "Agendado",
+    "Sem Interesse/Não respondeu"
+  ];
+  const editableStatusLabels = {
+    "Prospect quente": "Prospect Quente",
+    "Prospect morno": "Prospect Morno",
+    "Prospect frio": "Prospect Frio",
+    Agendado: "Agendado",
+    "Sem Interesse/Não respondeu": "Sem Interesse/Não Respondeu"
+  };
+  const statusClassifications = {
+    "Prospect quente": "Quente",
+    "Prospect morno": "Morno",
+    "Prospect frio": "Frio"
+  };
+
+  function toIsoDate(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function renderServiceOptions(selectedValue = serviceSelect.value) {
+    const services = catalogoAgendamentos.flatMap(modality =>
+      modality.procedimentos.map(procedure => {
+        const label = [modality.nome, procedure.tipo, procedure.nome].filter(Boolean).join(" · ");
+        return { label, value: label, type: procedure.tipo };
+      }).filter(procedure => String(procedure.type || "").trim().toLowerCase() !== "manutenção")
+    );
+    const placeholder = serviceCatalogState === "loading"
+      ? "Carregando procedimentos..."
+      : serviceCatalogState === "error"
+        ? "Catálogo indisponível"
+        : services.length ? "Selecione o Serviço" : "Nenhum procedimento cadastrado";
+    serviceSelect.replaceChildren(new Option(placeholder, ""));
+    services.forEach(service => serviceSelect.add(new Option(service.label, service.value)));
+
+    if (selectedValue && !/·\s*manutenção\s*·/i.test(selectedValue) &&
+      !services.some(service => service.value === selectedValue)) {
+      serviceSelect.add(new Option(selectedValue, selectedValue));
+    }
+    serviceSelect.value = selectedValue || "";
+    serviceSelect.disabled = serviceCatalogState !== "ready";
+    serviceCatalogStatus.classList.toggle("hidden", serviceCatalogState !== "error");
+  }
+
+  function calculateNextReturn(classification, interactionDate) {
+    const days = followupDays[classification];
+    if (!days || !interactionDate) return "";
+    const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(interactionDate);
+    if (!parts) return "";
+    const date = new Date(Number(parts[1]), Number(parts[2]) - 1, Number(parts[3]));
+    date.setDate(date.getDate() + days);
+    return toIsoDate(date);
+  }
+
+  function lastInteractionForForm() {
+    if (!editingContact) return firstContactInput.value || "";
+    if (returnRecordedThisEdit && returnDoneInput.checked) return toIsoDate();
+    return editingContact.lastInteraction || editingContact.firstContactDate || "";
+  }
+
+  function returnStatusNeedsUpdate() {
+    return returnRecordedThisEdit && returnDoneInput.checked && statusSelect.value === statusAtEditStart;
+  }
+
+  function updateReturnStatusPrompt() {
+    const returnDone = returnDoneInput.checked;
+    const needsUpdate = returnStatusNeedsUpdate();
+    statusField.classList.toggle("planning-return-status-highlight", returnDone);
+    returnStatusHint.hidden = !returnRecordedThisEdit || !returnDone;
+    if (!returnStatusHint.hidden) {
+      returnStatusHint.textContent = needsUpdate
+        ? "Altere o Status Atual para registrar o retorno."
+        : "Status Atual atualizado para este retorno.";
+    }
+  }
+
+  function ensureReturnStatusChanged() {
+    updateReturnStatusPrompt();
+    if (!returnStatusNeedsUpdate()) return true;
+    statusSelect.focus();
+    void mostrarAviso("Altere o Status Atual antes de sair com Retorno Realizado marcado.");
+    return false;
+  }
+
+  function editableStatus(savedStatus) {
+    if (editableStatuses.includes(savedStatus)) return savedStatus;
+    if (["Agendado", "Concluído", "Concluído com Sucesso"].includes(savedStatus)) return "Agendado";
+    if (["Sem interesse / Perdido", "Encerrado sem Sucesso", "Sem Interesse/Não respondeu"].includes(savedStatus)) {
+      return "Sem Interesse/Não respondeu";
+    }
+    return "";
+  }
+
+  function savedStatus(actionStatus) {
+    if (actionStatus === "Agendado") return "Concluído com Sucesso";
+    if (actionStatus === "Sem Interesse/Não respondeu") return "Encerrado sem Sucesso";
+    return actionStatus;
+  }
+
+  function setStatusOptions(contact) {
+    statusSelect.replaceChildren();
+    if (!contact) {
+      statusSelect.add(new Option("Novo Contato", "Novo contato"));
+      statusSelect.value = "Novo contato";
+      statusSelect.disabled = true;
+      return;
+    }
+
+    statusSelect.disabled = false;
+    statusSelect.add(new Option("Selecione o Status", ""));
+    editableStatuses.forEach(status => statusSelect.add(new Option(editableStatusLabels[status], status)));
+    statusSelect.value = editableStatus(contact.status);
+  }
+
+  function setClassification(classification) {
+    form.querySelectorAll('input[name="planningContactClassification"]').forEach(radio => {
+      radio.checked = radio.value === classification;
+    });
+  }
+
+  function updateClassificationFromStatus() {
+    const classification = statusClassifications[statusSelect.value];
+    if (classification) setClassification(classification);
+    else if (statusSelect.value === "Agendado" || statusSelect.value === "Sem Interesse/Não respondeu") {
+      setClassification("");
+    }
+    updateFollowupHint();
+    updateReturnStatusPrompt();
+  }
+
+  function updateFollowupHint() {
+    const classification = form.querySelector('input[name="planningContactClassification"]:checked')?.value || "";
+    const days = followupDays[classification];
+    const nextReturn = calculateNextReturn(classification, lastInteractionForForm());
+    if (!days) {
+      followupHint.textContent = "";
+      followupHint.hidden = true;
+      return;
+    }
+
+    const dateText = nextReturn ? ` · ${nextReturn.split("-").reverse().join("/")}` : "";
+    followupHint.textContent = `Retomar em ${days} dias${dateText}.`;
+    followupHint.hidden = false;
+  }
+
+  function readContacts() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      contacts = Array.isArray(saved) ? saved : [];
+    } catch (error) {
+      console.error("Não foi possível carregar os contatos de planejamento.", error);
+      contacts = [];
+    }
+  }
+
+  function saveContacts() {
+    localStorage.setItem(storageKey, JSON.stringify(contacts));
+  }
+
+  function percent(value, goal) {
+    if (!goal) return 0;
+    return Math.min(100, Math.round((value / goal) * 100));
+  }
+
+  function periodMonths() {
+    return { month: 1, quarter: 3, semester: 6, year: 12 }[planningPeriod] || 1;
+  }
+
+  function periodContacts() {
+    const now = new Date();
+    const months = periodMonths();
+    const start = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    const startIso = toIsoDate(start);
+    const endIso = toIsoDate(end);
+    return contacts.filter(contact =>
+      contact.firstContactDate >= startIso && contact.firstContactDate <= endIso
+    );
+  }
+
+  function previousPeriodContacts() {
+    const now = new Date();
+    const months = periodMonths();
+    const start = new Date(now.getFullYear(), now.getMonth() - (months * 2 - 1), 1);
+    const end = new Date(now.getFullYear(), now.getMonth() - months + 1, 0);
+    const startIso = toIsoDate(start);
+    const endIso = toIsoDate(end);
+    return contacts.filter(contact =>
+      contact.firstContactDate >= startIso && contact.firstContactDate <= endIso
+    );
+  }
+
+  function deltaText(currentValue, previousValue) {
+    if (!previousValue) {
+      return currentValue ? "↑ 100% Novos" : "— Novos";
+    }
+    const change = Math.round(((currentValue - previousValue) / previousValue) * 100);
+    if (!change) return "— 0% Novos";
+    return `${change > 0 ? "↑" : "↓"} ${Math.abs(change)}% Novos`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function isRespondent(contact) {
+    return ![
+      "Novo contato",
+      "Aguardando resposta",
+      "Sem interesse / Perdido",
+      "Encerrado sem Sucesso",
+      "Sem Interesse/Não respondeu"
+    ].includes(contact.status);
+  }
+
+  function isProspect(contact) {
+    if (["Concluído", "Concluído com Sucesso", "Sem interesse / Perdido", "Encerrado sem Sucesso"].includes(contact.status)) {
+      return false;
+    }
+    return ["Prospect quente", "Prospect morno", "Prospect frio"].includes(contact.status)
+      || ["Quente", "Morno", "Frio"].includes(contact.classification);
+  }
+
+  function openModal(contact = null) {
+    editingContact = contact;
+    returnRecordedThisEdit = false;
+    form.reset();
+    document.getElementById("planningContactId").value = contact?.id || "";
+    document.getElementById("planningContactName").value = contact?.name || "";
+    document.getElementById("planningContactPhone").value = contact?.phone || "";
+    firstContactInput.value = contact?.firstContactDate || toIsoDate();
+    renderServiceOptions(contact?.service || "");
+    document.getElementById("planningContactOrigin").value = contact?.origin || "Instagram";
+    setStatusOptions(contact);
+    statusAtEditStart = contact ? statusSelect.value : "";
+    const actionStatus = contact ? editableStatus(contact.status) : "";
+    setClassification(contact ? statusClassifications[actionStatus] || (
+      actionStatus === "Agendado" || actionStatus === "Sem Interesse/Não respondeu"
+        ? ""
+        : contact?.classification || ""
+    ) : "");
+    document.getElementById("planningContactNotes").value = contact?.notes || "";
+    returnDoneInput.checked = Boolean(contact?.returnDone);
+    updateFollowupHint();
+    updateReturnStatusPrompt();
+    document.getElementById("planningDeleteContact").classList.toggle("hidden", !contact);
+    document.getElementById("planningReturnDoneField").classList.toggle("hidden", !contact);
+    document.getElementById("planningAddContact").setAttribute("aria-expanded", "true");
+    modal.classList.remove("hidden");
+    document.getElementById("planningContactName").focus();
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    document.getElementById("planningAddContact").setAttribute("aria-expanded", "false");
+    editingContact = null;
+    returnRecordedThisEdit = false;
+    statusAtEditStart = "";
+  }
+
+  function requestCloseModal() {
+    if (!ensureReturnStatusChanged()) return;
+    closeModal();
+  }
+
+  function render() {
+    const monthly = periodContacts();
+    const contactGoal = 550 * periodMonths();
+    const today = toIsoDate();
+    const todayContacts = contacts.filter(contact => contact.firstContactDate === today).length;
+    const respondents = monthly.filter(isRespondent).length;
+    const appointments = monthly.filter(contact =>
+      ["Agendado", "Concluído", "Concluído com Sucesso"].includes(contact.status)
+    ).length;
+    const previousMonthly = previousPeriodContacts();
+    const previousRespondents = previousMonthly.filter(isRespondent).length;
+    const previousAppointments = previousMonthly.filter(contact =>
+      ["Agendado", "Concluído", "Concluído com Sucesso"].includes(contact.status)
+    ).length;
+    const prospects = monthly.filter(isProspect);
+    const hot = prospects.filter(contact => contact.classification === "Quente" || contact.status === "Prospect quente").length;
+    const warm = prospects.filter(contact => contact.classification === "Morno" || contact.status === "Prospect morno").length;
+    const cold = prospects.filter(contact => contact.classification === "Frio" || contact.status === "Prospect frio").length;
+
+    document.getElementById("planningMonthlyContacts").textContent = monthly.length;
+    document.getElementById("planningMonthlyContactsGoal").textContent = `/${contactGoal}`;
+    document.getElementById("planningContactsProgress").style.width = `${percent(monthly.length, contactGoal)}%`;
+    document.getElementById("planningTodayContacts").textContent = todayContacts;
+    document.getElementById("planningTodayProgress").style.width = `${percent(todayContacts, 25)}%`;
+
+    document.getElementById("planningRespondents").textContent = respondents;
+    document.getElementById("planningResponseRate").textContent = monthly.length ? Math.round((respondents / monthly.length) * 100) : 0;
+    document.getElementById("planningAppointments").textContent = appointments;
+    document.getElementById("planningConversionRate").textContent = respondents ? Math.round((appointments / respondents) * 100) : 0;
+    document.getElementById("planningRespondentsDelta").textContent =
+      `${deltaText(respondents, previousRespondents)} respondentes`;
+    document.getElementById("planningAppointmentsDelta").textContent =
+      `${deltaText(appointments, previousAppointments)} agendamentos`;
+    document.getElementById("planningHotProspects").textContent = hot;
+    document.getElementById("planningWarmProspects").textContent = warm;
+    document.getElementById("planningColdProspects").textContent = cold;
+
+    const todayDate = new Date(`${today}T00:00:00`);
+    const due = contacts.filter(contact => {
+      if (!contact.nextReturn || [
+        "Concluído",
+        "Concluído com Sucesso",
+        "Sem interesse / Perdido",
+        "Encerrado sem Sucesso"
+      ].includes(contact.status)) return false;
+      return new Date(`${contact.nextReturn}T00:00:00`) <= todayDate;
+    }).length;
+    document.getElementById("planningDueCount").textContent = `${due} retorno${due === 1 ? "" : "s"} vencido${due === 1 ? "" : "s"}`;
+
+    renderContacts();
+  }
+
+  function renderContacts() {
+    const list = document.getElementById("planningContactsList");
+    const query = searchInput.value.trim().toLowerCase();
+    const sorted = contacts
+      .filter(contact => {
+        if (!query) return true;
+        return [
+          contact.name,
+          contact.phone,
+          contact.firstContactDate,
+          contact.service,
+          contact.origin,
+          contact.status,
+          contact.classification,
+          contact.returnDone ? "Realizado" : "Não realizado",
+          contact.nextReturn
+        ]
+          .some(value => String(value || "").toLowerCase().includes(query));
+      })
+      .sort((a, b) => {
+        const aReturn = a.nextReturn || "9999-12-31";
+        const bReturn = b.nextReturn || "9999-12-31";
+        return aReturn.localeCompare(bReturn);
+      });
+    const formatDate = value => {
+      const date = String(value || "");
+      return /^\d{4}-\d{2}-\d{2}$/.test(date)
+        ? date.split("-").reverse().join("/")
+        : "—";
+    };
+
+    list.innerHTML = "";
+    if (!sorted.length) {
+      list.innerHTML = '<div class="planning-empty"><p>Nenhum contato cadastrado.</p><button type="button" class="planning-empty-button" id="planningEmptyAdd">Cadastrar primeiro contato</button></div>';
+      document.getElementById("planningEmptyAdd").addEventListener("click", () => openModal());
+      return;
+    }
+
+    const rows = sorted.map(contact => {
+      const contactValue = String(contact.phone || "");
+      const contactDigits = contactValue.replace(/\D/g, "");
+      const hasWhatsAppPhone = !/[a-z@]/i.test(contactValue) && contactDigits.length >= 10 && contactDigits.length <= 15;
+      return `<tr>
+        <td>${escapeHtml(contact.name || "—")}</td>
+        <td>${escapeHtml(contactValue || "—")}</td>
+        <td>${escapeHtml(formatDate(contact.firstContactDate))}</td>
+        <td>${escapeHtml(contact.service || "—")}</td>
+        <td>${escapeHtml(contact.origin || "—")}</td>
+        <td><span class="planning-status">${escapeHtml(contact.status || "—")}</span></td>
+        <td>${contact.classification
+          ? `<span class="planning-status">${escapeHtml(contact.classification)}</span>`
+          : "—"}</td>
+        <td>${contact.returnDone ? "Realizado" : "Não realizado"}</td>
+        <td>${escapeHtml(formatDate(contact.nextReturn))}</td>
+        <td>
+          <div class="planning-contact-table-actions">
+            <button type="button" data-planning-edit="${escapeHtml(contact.id)}" aria-label="Editar contato">Editar</button>
+            ${hasWhatsAppPhone ? `<button type="button" data-planning-whatsapp="${escapeHtml(contact.id)}" aria-label="Abrir conversa no WhatsApp">WhatsApp</button>` : ""}
+          </div>
+        </td>
+      </tr>`;
+    }).join("");
+
+    list.innerHTML = `
+      <div class="planning-contact-table-wrap" role="region" aria-label="Lista de contatos" tabindex="0">
+        <table class="planning-contact-table" aria-label="Lista de contatos">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Tel/Instagram</th>
+              <th scope="col">Primeiro Contato</th>
+              <th scope="col">Serviço de Interesse</th>
+              <th scope="col">Origem</th>
+              <th scope="col">Status</th>
+              <th scope="col">Classificação</th>
+              <th scope="col">Retorno</th>
+              <th scope="col">Data de Retorno</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+
+    list.querySelectorAll("[data-planning-edit]").forEach(button => {
+      button.addEventListener("click", () => {
+        const contact = contacts.find(item => item.id === button.dataset.planningEdit);
+        if (contact) openModal(contact);
+      });
+    });
+    list.querySelectorAll("[data-planning-whatsapp]").forEach(button => {
+      button.addEventListener("click", () => {
+        const contact = contacts.find(item => item.id === button.dataset.planningWhatsapp);
+        if (!contact) return;
+        const phone = String(contact.phone).replace(/\D/g, "");
+        if (phone) window.open(`https://wa.me/${phone}`, "_blank", "noopener,noreferrer");
+      });
+    });
+  }
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    if (!ensureReturnStatusChanged()) return;
+    const id = document.getElementById("planningContactId").value;
+    const record = {
+      id: id || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      name: document.getElementById("planningContactName").value.trim(),
+      phone: document.getElementById("planningContactPhone").value.trim(),
+      firstContactDate: firstContactInput.value,
+      service: serviceSelect.value,
+      origin: document.getElementById("planningContactOrigin").value,
+      status: editingContact ? savedStatus(statusSelect.value) : "Novo contato",
+      classification: form.querySelector('input[name="planningContactClassification"]:checked')?.value || "",
+      notes: document.getElementById("planningContactNotes").value.trim(),
+      returnDone: document.getElementById("planningContactReturnDone").checked
+    };
+    const existingContact = contacts.find(contact => contact.id === id);
+    record.lastInteraction = returnRecordedThisEdit && record.returnDone
+      ? toIsoDate()
+      : existingContact
+        ? existingContact.lastInteraction || existingContact.firstContactDate || ""
+        : record.firstContactDate || "";
+    const terminalStatus = ["Concluído com Sucesso", "Encerrado sem Sucesso"].includes(record.status);
+    record.nextReturn = terminalStatus
+      ? ""
+      : record.classification
+        ? calculateNextReturn(record.classification, record.lastInteraction)
+        : existingContact?.classification
+          ? ""
+          : existingContact?.nextReturn || "";
+    if (!record.name || !record.phone || !record.firstContactDate) return;
+    const existing = contacts.findIndex(contact => contact.id === id);
+    if (existing >= 0) contacts[existing] = record;
+    else contacts.push(record);
+    saveContacts();
+    closeModal();
+    render();
+  });
+
+  document.getElementById("planningAddContact").addEventListener("click", () => openModal());
+  document.getElementById("planningCancelContact").addEventListener("click", requestCloseModal);
+  form.querySelectorAll('input[name="planningContactClassification"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      if (editingContact) {
+        const status = Object.entries(statusClassifications)
+          .find(([, classification]) => classification === radio.value)?.[0];
+        if (status) statusSelect.value = status;
+      }
+      updateFollowupHint();
+      updateReturnStatusPrompt();
+    });
+  });
+  statusSelect.addEventListener("change", updateClassificationFromStatus);
+  firstContactInput.addEventListener("input", updateFollowupHint);
+  firstContactInput.addEventListener("change", updateFollowupHint);
+  returnDoneInput.addEventListener("change", () => {
+    if (returnDoneInput.checked) returnRecordedThisEdit = true;
+    updateFollowupHint();
+    updateReturnStatusPrompt();
+  });
+  document.addEventListener("studio-catalogo-agendamentos-atualizado", () => {
+    serviceCatalogState = "ready";
+    serviceCatalogStatus.textContent = "";
+    renderServiceOptions();
+  });
+  document.addEventListener("studio-catalogo-agendamentos-erro", event => {
+    serviceCatalogState = "error";
+    serviceCatalogStatus.textContent = `Não foi possível carregar os procedimentos: ${event.detail}`;
+    renderServiceOptions();
+  });
+  document.getElementById("planningDeleteContact").addEventListener("click", () => {
+    const id = document.getElementById("planningContactId").value;
+    if (!id || !window.confirm("Excluir este contato do planejamento?")) return;
+    contacts = contacts.filter(contact => contact.id !== id);
+    saveContacts();
+    closeModal();
+    render();
+  });
+  searchInput.addEventListener("input", renderContacts);
+  document.querySelectorAll("[data-planning-period]").forEach(button => {
+    button.addEventListener("click", () => {
+      planningPeriod = button.dataset.planningPeriod || "month";
+      document.querySelectorAll("[data-planning-period]").forEach(option => {
+        option.setAttribute("aria-pressed", String(option.dataset.planningPeriod === planningPeriod));
+      });
+      render();
+    });
+  });
+  registrarFechamentoForaFormulario(
+    modal.querySelector("[data-planning-contact-overlay]"),
+    closeModal,
+    ensureReturnStatusChanged
+  );
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !modal.classList.contains("hidden") &&
+      !document.getElementById("siteDialog").open) requestCloseModal();
+  });
+
+  document.querySelectorAll(".sidebar a[data-page='planejamento']").forEach(link => {
+    link.addEventListener("click", render);
+  });
+
+  readContacts();
+  render();
 })();
 </script>
 </body>
