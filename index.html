@@ -1541,6 +1541,24 @@
   overflow-wrap: anywhere;
 }
 
+.cliente-aniversario-grupo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.08rem;
+  white-space: nowrap;
+}
+
+.cliente-aniversario {
+  font-size: 0.96rem;
+  line-height: 1.25;
+}
+
+.cliente-aniversario-data {
+  color: #bdbdbd;
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
 .cliente-data,
 .cliente-meta {
   display: flex;
@@ -3272,6 +3290,32 @@ button:active:not(:disabled) {
   text-align: center;
   white-space: nowrap;
   text-transform: uppercase;
+}
+
+.home-finance-summary .home-finance-period-filters button[data-home-finance-period="current"],
+#relatoriosPage .reports-period-filters button[data-report-period="current"] {
+  width: 2.45rem;
+  min-width: 2.45rem;
+}
+
+.period-month-select {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  flex: 0 0 auto;
+  height: 1.4rem;
+  min-height: 1.4rem;
+  padding: 0 0.35rem;
+  border: 1px solid rgba(244, 191, 174, 0.28);
+  border-radius: 0.55rem;
+  background: #303030;
+  color: #f3eeee;
+  font-size: 0.62rem;
+  line-height: 1;
+}
+
+.period-month-select[hidden] {
+  display: none;
 }
 
 .home-finance-summary .home-finance-period-filters button span {
@@ -7786,6 +7830,202 @@ button:active:not(:disabled) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.planning-timeline {
+  margin-bottom: 1.25rem;
+  padding: 1rem;
+}
+
+.planning-timeline-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.planning-timeline-heading h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin: 0;
+  color: #fff7f4;
+  font-size: 0.95rem;
+}
+
+.planning-timeline-heading h3 span {
+  color: #f4bfae;
+  font-size: inherit;
+  white-space: nowrap;
+}
+
+.planning-timeline-heading span {
+  color: #aaa6a8;
+  font-size: 0.72rem;
+}
+
+.planning-timeline-list {
+  display: grid;
+  grid-template-columns: repeat(var(--planning-timeline-days, 30), minmax(0, 1fr));
+  gap: 0.12rem;
+  overflow: hidden;
+  padding-bottom: 0.35rem;
+}
+
+.planning-timeline-day {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  color: #aaa6a8;
+  font-size: clamp(0.48rem, 1vw, 0.68rem);
+}
+
+.planning-timeline-count {
+  min-height: 1.35rem;
+  color: #f4bfae;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.planning-timeline-track {
+  width: 100%;
+  height: 0.3rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #424242;
+}
+
+.planning-timeline-progress {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #eaa995, #f4bfae);
+}
+
+.planning-settings-heading h3,
+.planning-settings-heading p {
+  margin: 0;
+}
+
+.planning-settings-heading p {
+  margin-top: 0.25rem;
+  color: #aaa6a8;
+  font-size: 0.74rem;
+}
+
+#configuracoesPage .planning-settings-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.planning-settings-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #d7d1d1;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+#configuracoesPage .planning-settings-form button {
+  grid-column: 1 / -1;
+  justify-self: end;
+}
+
+.planning-settings-form input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #424242;
+  border-radius: 0.62rem;
+  background: #303030;
+  color: #f3eeee;
+}
+
+#planningWorkingDays:disabled {
+  border-color: #5a514e;
+  background: #494240;
+  color: #b7adab;
+  cursor: not-allowed;
+  opacity: 1;
+  box-shadow: none;
+}
+
+.planning-settings-status {
+  min-height: 1.1rem;
+  margin: 0.6rem 0 0;
+  color: #f4bfae;
+  font-size: 0.72rem;
+}
+
+.planning-days-mode {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.planning-days-mode legend {
+  margin-bottom: 0.45rem;
+  color: #d7d1d1;
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.planning-days-mode label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 3.15rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #424242;
+  border-radius: 0.62rem;
+  background: #303030;
+  cursor: pointer;
+}
+
+.planning-days-mode input {
+  width: 1rem;
+  min-height: 1rem;
+  accent-color: #c98286;
+}
+
+.planning-days-mode-copy {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.planning-days-mode-copy strong {
+  color: #f3eeee;
+  font-size: 0.72rem;
+}
+
+.planning-days-mode-copy span {
+  color: #aaa6a8;
+  font-size: 0.66rem;
+}
+
+@media (max-width: 640px) {
+  .planning-settings-form {
+    grid-template-columns: 1fr;
+  }
+
+  .planning-days-mode {
+    grid-template-columns: 1fr;
+  }
+
+  .planning-settings-form button {
+    width: 100%;
+  }
+}
+
 #planejamentoPage .planning-period-filters {
   display: flex;
   align-items: center;
@@ -7826,6 +8066,11 @@ button:active:not(:disabled) {
   white-space: nowrap;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+#planejamentoPage .planejamento-header-actions .home-finance-period-filters button[data-planning-period="current"] {
+  width: 2.45rem;
+  min-width: 2.45rem;
 }
 
 #planejamentoPage .planejamento-header-actions .home-finance-period-filters button span {
@@ -7957,6 +8202,18 @@ button:active:not(:disabled) {
   text-align: right;
 }
 
+#planejamentoPage .planning-daily-meta > span {
+  display: block;
+}
+
+#planningClockPercent.planning-clock-up {
+  color: #69c98b;
+}
+
+#planningClockPercent.planning-clock-down {
+  color: #f17d86;
+}
+
 #planejamentoPage #planningAddContact {
   width: auto;
   flex: 0 0 auto;
@@ -8068,21 +8325,45 @@ button:active:not(:disabled) {
 }
 
 .planning-prospect-card {
-  padding: 0.85rem;
+  min-height: 7.5rem;
+  padding: 0.85rem 1rem 1rem;
+  border-color: #eaded9;
+  background: #fff8f6;
+  color: #5f5552;
 }
 
-.planning-prospect-card strong {
-  display: block;
-  margin-top: 0.3rem;
-  color: #fff7f4;
+.planning-prospect-card .titulo-card {
+  color: #9f5f62;
+  font-weight: 700;
+}
+
+.planning-prospect-card .numero-grande {
+  color: #6f6663;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.planning-prospect-card .home-metric-icon {
+  width: 2.8rem;
+  height: 2.5rem;
+  top: 0.85rem;
+  color: #1e1e1e;
   font-size: 1.35rem;
+  opacity: 1;
 }
 
-.planning-prospect-card.quente { border-left: 3px solid #d76570; }
-.planning-prospect-card.morno { border-left: 3px solid #e7b66b; }
-.planning-prospect-card.frio { border-left: 3px solid #8ba0ad; }
+.planning-prospect-card.quente,
+.planning-prospect-card.morno,
+.planning-prospect-card.frio {
+  border-left: 3px solid #c98286;
+}
 
 .planning-follow-card {
+  box-sizing: border-box;
+  width: 100%;
   padding: 1rem;
   margin-bottom: 1.25rem;
 }
@@ -8093,23 +8374,197 @@ button:active:not(:disabled) {
   font-size: 0.78rem;
 }
 
-.planning-contact-toolbar {
+.planning-portfolio-list {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.planning-portfolio-section {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.planning-portfolio-toggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 2.5rem;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(244, 191, 174, 0.22);
+  border-radius: 0.45rem;
+  background: rgba(244, 191, 174, 0.09);
+  color: #f4bfae;
+  text-align: left;
+  cursor: pointer;
+}
+
+.planning-portfolio-toggle:hover,
+.planning-portfolio-toggle[aria-expanded="true"] {
+  border-color: rgba(244, 191, 174, 0.48);
+  background: rgba(244, 191, 174, 0.15);
+}
+
+.planning-portfolio-toggle > span:first-child {
+  font-size: 70%;
+}
+
+.planning-portfolio-toggle-count {
+  margin-left: auto;
+  color: #aaa5a4;
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+.planning-portfolio-toggle-count[hidden] {
+  display: none;
+}
+
+.planning-portfolio-chevron {
+  color: #aaa5a4;
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.planning-portfolio-toggle[aria-expanded="true"] .planning-portfolio-chevron {
+  transform: rotate(90deg);
+}
+
+.planning-portfolio-section-list[hidden] {
+  display: none;
+}
+
+.planning-portfolio-section-list {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.35rem 0.35rem 0.5rem;
+}
+
+.planning-portfolio-contact {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.9rem;
+  width: 100%;
+  min-height: 2.55rem;
+  box-sizing: border-box;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(244, 191, 174, 0.16);
+  border-radius: 0.65rem;
+  background: rgba(0, 0, 0, 0.15);
+  color: #f3eeee;
+  text-align: left;
+  cursor: pointer;
+}
+
+.planning-portfolio-contact:hover {
+  border-color: rgba(244, 191, 174, 0.42);
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.planning-portfolio-contact:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.planning-portfolio-contact-copy {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.planning-portfolio-contact-copy strong {
+  flex: 0 1 auto;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planning-portfolio-contact-copy small {
+  flex: 1 1 auto;
+  overflow: hidden;
+  color: #aaa3a0;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.planning-portfolio-return {
+  flex: 0 0 auto;
+  color: #cfc7c4;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.planning-portfolio-return.is-overdue {
+  color: #f17d86;
+}
+
+.planning-portfolio-return.is-today {
+  color: #f4bfae;
+}
+
+.planning-portfolio-empty {
+  margin: 0;
+  color: #aaa3a0;
+  font-size: 0.76rem;
+}
+
+.planning-contact-sync-status {
+  margin: 0 0 0.75rem;
+  color: #f4bfae;
+  font-size: 0.78rem;
+}
+
+.planning-contact-sync-status[data-error="true"] {
+  color: #f87171;
 }
 
 .planning-contact-search {
-  min-width: min(18rem, 100%);
-  height: 2.5rem;
-  padding: 0.5rem 0.65rem;
-  border: 1px solid rgba(244, 191, 174, 0.28);
+  box-sizing: border-box;
+  width: 0;
+  min-width: 0;
+  height: 2rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
   border-radius: 0.55rem;
-  background: #1e1e1e;
-  color: #f4bfae;
+  background: #252525;
+  color: #fff;
+  font-size: 0.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: width 0.2s ease, opacity 0.2s ease, padding 0.2s ease, border-color 0.2s ease;
+}
+
+.planning-contact-search-field.is-open {
+  flex-direction: row-reverse;
+}
+
+.planning-contact-search-field.is-open .planning-contact-search {
+  width: clamp(8rem, 20vw, 12rem);
+  min-height: 2rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #3a3a3a;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.planning-contact-search:focus {
+  border-color: var(--rose);
 }
 
 .planning-status {
@@ -8123,63 +8578,202 @@ button:active:not(:disabled) {
   font-weight: 700;
 }
 
-.planning-contact-table-wrap {
-  max-width: 100%;
-  overflow-x: auto;
-  border: 1px solid rgba(244, 191, 174, 0.12);
-  border-radius: 0.75rem;
+.planning-contact-section {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1.25rem;
+}
+
+.planning-contact-comparison {
+  margin-top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .planning-contact-table {
   width: 100%;
-  min-width: 1080px;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 0.75rem;
+  table-layout: fixed;
 }
 
-.planning-contact-table th,
-.planning-contact-table td {
-  padding: 0.7rem 0.65rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+#planejamentoPage .planning-contact-table th:nth-child(1) { width: 5%; }
+#planejamentoPage .planning-contact-table th:nth-child(2) { width: 25%; }
+#planejamentoPage .planning-contact-table th:nth-child(3) { width: 34%; }
+#planejamentoPage .planning-contact-table th:nth-child(4) { width: 18%; }
+#planejamentoPage .planning-contact-table th:nth-child(5) { width: 18%; }
+
+#planejamentoPage .planning-contact-table th,
+#planejamentoPage .planning-contact-table td {
+  padding: 0.58rem 0.35rem;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+#planejamentoPage .planning-contact-table td {
+  color: #d5cfcc;
+  font-size: 0.75rem;
   vertical-align: middle;
 }
 
-.planning-contact-table th {
-  background: rgba(255, 255, 255, 0.035);
-  color: #aaa3a0;
-  font-size: 0.66rem;
+#planejamentoPage .planning-contact-table td:nth-child(2) {
+  color: #fff;
   font-weight: 600;
-  text-transform: uppercase;
+}
+
+#planejamentoPage .planning-contact-table td.planning-contact-info-cell {
+  text-align: left;
+}
+
+#planejamentoPage .planning-contact-table td.planning-contact-signal-cell {
+  padding-inline: 0.1rem;
+  text-align: center;
+}
+
+#planejamentoPage .planning-contact-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0.8rem;
+}
+
+#planejamentoPage .planning-contact-person-line {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.4rem;
+}
+
+.planning-contact-signal {
+  display: inline-block;
+  width: 0.58rem;
+  height: 0.58rem;
+  flex: 0 0 auto;
+  font-style: normal;
+  border-radius: 50%;
+  background: #777;
+  box-shadow: 0 0 0.35rem currentColor;
+}
+
+.planning-contact-signal.is-unclassified {
+  visibility: hidden;
+  box-shadow: none;
+}
+
+.planning-contact-signal.is-new {
+  background: #8b8582;
+  color: #8b8582;
+}
+
+.planning-contact-signal.is-hot {
+  background: #32c875;
+  color: #32c875;
+}
+
+.planning-contact-signal.is-warm {
+  background: #f0c541;
+  color: #f0c541;
+}
+
+.planning-contact-signal.is-cold {
+  background: #f15b64;
+  color: #f15b64;
+}
+
+.planning-contact-signal.is-completed,
+.planning-contact-signal.is-closed {
+  width: auto;
+  height: auto;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.78rem;
+}
+
+.planning-contact-signal.is-completed {
+  color: #32c875;
+}
+
+.planning-contact-signal.is-closed {
+  color: #f15b64;
+}
+
+#planejamentoPage .planning-contact-person {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.planning-contact-table td {
-  color: #d5cfcc;
+#planejamentoPage .planning-contact-identity {
+  display: grid;
+  min-width: 0;
+  gap: 0.12rem;
+  text-align: left;
 }
 
-.planning-contact-table tbody tr:last-child td {
-  border-bottom: 0;
+#planejamentoPage .planning-contact-table td .planning-contact-phone {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  margin: 0;
+  color: #aaa3a0;
+  font-size: 0.62rem;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
 }
 
-.planning-contact-table tbody tr:hover {
-  background: rgba(244, 191, 174, 0.045);
+#planejamentoPage .planning-contact-row {
+  cursor: pointer;
 }
 
-.planning-contact-table td:first-child {
-  color: #fff7f4;
-  font-weight: 600;
+#planejamentoPage .planning-contact-row[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
-.planning-contact-table .planning-status {
+#planejamentoPage .planning-contact-row:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: -2px;
+}
+
+#planejamentoPage .planning-contact-table td small {
+  display: block;
+  margin-top: 0.15rem;
+  color: #aaa3a0;
+  font-size: 0.62rem;
+  font-weight: 400;
+}
+
+#planejamentoPage .planning-contact-table .planning-status {
   margin: 0;
   white-space: nowrap;
+  font-size: 0.58rem;
+  padding: 0.2rem 0.35rem;
+}
+
+#planejamentoPage .planning-contact-table .planning-contact-service {
+  font-size: 0.58rem;
+}
+
+#planejamentoPage .planning-contact-table .planning-contact-date {
+  font-size: 0.58rem;
 }
 
 .planning-contact-table-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  gap: 0.2rem;
+  margin-top: 0.3rem;
 }
 
 .planning-contact-table-actions button,
@@ -8188,9 +8782,22 @@ button:active:not(:disabled) {
   border-radius: 0.45rem;
   background: transparent;
   color: #f4bfae;
-  padding: 0.42rem 0.55rem;
   cursor: pointer;
+}
+
+.planning-contact-table-actions button {
+  padding: 0.25rem 0.4rem;
+  font-size: 0.58rem;
+}
+
+.planning-empty-button {
+  padding: 0.42rem 0.55rem;
   font-size: 0.72rem;
+}
+
+.planning-contact-table-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .planning-empty {
@@ -8280,7 +8887,8 @@ button:active:not(:disabled) {
   box-shadow: 0 0 0 3px rgba(244, 191, 174, 0.12);
 }
 
-#planningContactStatus:disabled {
+#planningContactStatus:disabled,
+#planningContactService:disabled {
   border-color: #5a514e;
   background: #494240;
   color: #b7adab;
@@ -8456,6 +9064,10 @@ button:active:not(:disabled) {
   border: 0;
 }
 
+.planning-classification-field[hidden] {
+  display: none !important;
+}
+
 .planning-classification-field legend {
   margin-bottom: 1.1rem;
   color: #d7d1d1;
@@ -8548,6 +9160,29 @@ button:active:not(:disabled) {
 }
 
 @media (max-width: 640px) {
+  .planning-contact-comparison {
+    padding: 0;
+  }
+
+  #planejamentoPage .planning-contact-table th {
+    padding: 0.3rem 0.1rem;
+    font-size: clamp(0.45rem, 2.8vw, 0.58rem);
+  }
+
+  #planejamentoPage .planning-contact-table td {
+    padding: 0.35rem 0.1rem;
+    font-size: clamp(0.53rem, 3.2vw, 0.68rem);
+  }
+
+  #planejamentoPage .planning-contact-table td small {
+    font-size: clamp(0.48rem, 2.7vw, 0.62rem);
+  }
+
+  .planning-contact-table-actions button {
+    padding: 0.2rem 0.25rem;
+    font-size: 0.52rem;
+  }
+
   #planningContactModal {
     align-items: flex-start;
     overflow-y: auto;
@@ -8613,6 +9248,45 @@ button:active:not(:disabled) {
   }
 }
 
+@media (min-width: 641px) and (max-width: 1280px) {
+  #planejamentoPage .planning-contact-table th:nth-child(2) {
+    width: 23%;
+  }
+
+  #planejamentoPage .planning-contact-table th:nth-child(3) {
+    width: 29%;
+  }
+
+  #planejamentoPage .planning-contact-table th:nth-child(4) {
+    width: 27%;
+  }
+
+  #planejamentoPage .planning-contact-table th:nth-child(5) {
+    width: 16%;
+  }
+
+  #planejamentoPage .planning-contact-identity {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  #planejamentoPage .planning-contact-table td:nth-child(4) small {
+    display: inline-block;
+    margin: 0 0 0 0.25rem;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  #planejamentoPage .planning-contact-table td:nth-child(4) {
+    white-space: nowrap;
+  }
+
+  #planejamentoPage .planning-contact-table td .planning-contact-phone {
+    flex: 0 1 auto;
+  }
+}
+
 @media (min-width: 641px) and (max-width: 900px) {
   .planning-contact-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -8654,6 +9328,10 @@ button:active:not(:disabled) {
     min-height: 7rem;
     padding: 0.85rem 0.75rem 0.5rem;
   }
+  #planejamentoPage .planning-prospect-card {
+    min-height: 6.25rem;
+    padding: 0.6rem 0.5rem;
+  }
 }
 
 @media (max-width: 1280px) {
@@ -8684,17 +9362,35 @@ button:active:not(:disabled) {
 
 @media (max-width: 640px) {
   .planning-kpi-grid,
-  .planning-prospect-grid,
   .planning-contact-form {
     grid-template-columns: 1fr;
+  }
+  .planning-prospect-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+  .planning-prospect-card .titulo-card {
+    font-size: clamp(0.55rem, 2.4vw, 0.68rem);
+  }
+  .planning-prospect-card .numero-grande {
+    font-size: clamp(1.65rem, 8vw, 2.2rem);
+  }
+  .planning-prospect-card .home-metric-icon {
+    top: 0.7rem;
+    height: clamp(1.65rem, 8vw, 2.2rem);
   }
   #planejamentoPage .planning-metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
   #planejamentoPage .planning-metric-card {
     min-height: 7.5rem;
     gap: 0.35rem;
     padding: 0.7rem;
+  }
+  #planejamentoPage .planning-prospect-card {
+    min-height: 6.25rem;
+    padding: 0.6rem 0.5rem;
   }
   #planejamentoPage .planning-period-filters,
   #planejamentoPage .planning-period-filters label,
@@ -8709,6 +9405,15 @@ button:active:not(:disabled) {
   }
   .planning-period-card {
     padding: 0.9rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .planning-prospect-card .numero-grande {
+    font-size: clamp(1.7rem, 3vw, 2.1rem);
+  }
+  .planning-prospect-card .home-metric-icon {
+    height: clamp(1.7rem, 3vw, 2.1rem);
   }
 }
 
@@ -8856,8 +9561,10 @@ button:active:not(:disabled) {
       <h3>Resumo Financeiro</h3>
     </div>
     <div class="home-finance-period-filters" role="group" aria-label="Período do resumo financeiro">
-      <button type="button" data-home-finance-period="month" aria-label="Mês" aria-pressed="false"><span>MÊS</span></button>
-      <button type="button" data-home-finance-period="quarter" aria-label="Trimestre" aria-pressed="true"><span>TRI</span></button>
+      <button type="button" data-home-finance-period="current" aria-label="Mês atual" aria-pressed="true"><span>ATUAL</span></button>
+      <button type="button" data-home-finance-period="month" aria-label="Escolher mês" aria-pressed="false"><span>MÊS</span></button>
+      <select class="period-month-select" aria-label="Selecionar mês do resumo financeiro" hidden></select>
+      <button type="button" data-home-finance-period="quarter" aria-label="Trimestre" aria-pressed="false"><span>TRI</span></button>
       <button type="button" data-home-finance-period="semester" aria-label="Semestre" aria-pressed="false"><span>SEM</span></button>
       <button type="button" data-home-finance-period="year" aria-label="Ano" aria-pressed="false"><span>ANO</span></button>
     </div>
@@ -8925,7 +9632,9 @@ button:active:not(:disabled) {
     <div class="page-actions-row planejamento-header-actions">
       <div class="planning-period-filters">
         <div class="home-finance-period-filters" role="group" aria-label="Período do planejamento">
-          <button type="button" data-planning-period="month" aria-label="Mês" aria-pressed="true"><span>MÊS</span></button>
+          <button type="button" data-planning-period="current" aria-label="Mês atual" aria-pressed="true"><span>ATUAL</span></button>
+          <button type="button" data-planning-period="month" aria-label="Escolher mês" aria-pressed="false"><span>MÊS</span></button>
+          <select class="period-month-select" aria-label="Selecionar mês do planejamento" hidden></select>
           <button type="button" data-planning-period="quarter" aria-label="Trimestre" aria-pressed="false"><span>TRI</span></button>
           <button type="button" data-planning-period="semester" aria-label="Semestre" aria-pressed="false"><span>SEM</span></button>
           <button type="button" data-planning-period="year" aria-label="Ano" aria-pressed="false"><span>ANO</span></button>
@@ -8939,12 +9648,15 @@ button:active:not(:disabled) {
         <div class="home-metric-icon"><i class="fas fa-phone"></i></div>
         <div class="home-metric-content">
           <div>
-            <span class="numero-grande"><span id="planningMonthlyContacts">0</span><span id="planningMonthlyContactsGoal">/550</span></span>
+            <span class="numero-grande"><span id="planningMonthlyContacts">0%</span></span>
             <span class="titulo-card">Contatos no Período</span>
           </div>
           <div class="planning-metric-detail">
             <div class="planning-card-progress"><span id="planningContactsProgress" style="width:0%"></span></div>
-            <span class="planning-daily-meta">Meta do período: 25</span>
+            <span class="planning-daily-meta">
+              <span>Total: <span id="planningPeriodContactCount">0</span> / 🕒 <span id="planningClockPercent">0%</span></span>
+              <span>Meta Mensal: <span id="planningPeriodContactGoal">750</span></span>
+            </span>
           </div>
         </div>
       </article>
@@ -8953,12 +9665,13 @@ button:active:not(:disabled) {
         <div class="home-metric-icon"><i class="fas fa-calendar-day"></i></div>
         <div class="home-metric-content">
           <div>
-            <span class="numero-grande"><span id="planningTodayContacts">0</span><span>/25</span></span>
+            <span class="numero-grande"><span id="planningTodayContacts">0</span><span id="planningTodayContactsGoal">/25</span></span>
             <span class="titulo-card">Contatos Hoje</span>
           </div>
           <div class="planning-metric-detail">
             <div class="planning-card-progress"><span id="planningTodayProgress" style="width:0%"></span></div>
-            <span class="planning-daily-meta">Meta diária: 25</span>
+            <span id="planningDaysInContact" class="planning-daily-meta">Dias Contato: 0/30</span>
+            <span id="planningDailyMeta" class="planning-daily-meta">Meta Diária: 25</span>
           </div>
         </div>
       </article>
@@ -8990,34 +9703,66 @@ button:active:not(:disabled) {
       </article>
     </div>
 
+    <section class="card planning-timeline" aria-labelledby="planningTimelineTitle">
+      <div class="planning-timeline-heading">
+        <h3 id="planningTimelineTitle">Quantidade de Contatos: <span id="planningTimelineTotal">0/750</span></h3>
+        <span id="planningTimelineMonth"></span>
+      </div>
+      <div id="planningTimelineList" class="planning-timeline-list" role="list" aria-label="Contatos por dia"></div>
+    </section>
+
     <section class="planning-prospect-grid mb-5" aria-label="Classificação dos prospects">
-      <article class="planning-prospect-card quente">
-        <span>Prospects quentes</span>
-        <strong id="planningHotProspects">0</strong>
+      <article class="card home-metric-card planning-metric-card planning-prospect-card quente">
+        <div class="home-metric-icon"><i class="fas fa-fire" aria-hidden="true"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande"><span id="planningHotProspects">0</span></span>
+            <span class="titulo-card">Prospects Quentes</span>
+          </div>
+        </div>
       </article>
-      <article class="planning-prospect-card morno">
-        <span>Prospects mornos</span>
-        <strong id="planningWarmProspects">0</strong>
+      <article class="card home-metric-card planning-metric-card planning-prospect-card morno">
+        <div class="home-metric-icon"><i class="fas fa-temperature-half" aria-hidden="true"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande"><span id="planningWarmProspects">0</span></span>
+            <span class="titulo-card">Prospects Mornos</span>
+          </div>
+        </div>
       </article>
-      <article class="planning-prospect-card frio">
-        <span>Prospects frios</span>
-        <strong id="planningColdProspects">0</strong>
+      <article class="card home-metric-card planning-metric-card planning-prospect-card frio">
+        <div class="home-metric-icon"><i class="fas fa-snowflake" aria-hidden="true"></i></div>
+        <div class="home-metric-content">
+          <div>
+            <span class="numero-grande"><span id="planningColdProspects">0</span></span>
+            <span class="titulo-card">Prospects Frios</span>
+          </div>
+        </div>
       </article>
     </section>
 
     <section class="planning-follow-card">
       <div class="planning-card-heading">
-        <h3>Minha carteira</h3>
+        <h3>Minha Carteira</h3>
         <span id="planningDueCount" class="planning-status">0 retornos vencidos</span>
       </div>
-      <p>Contatos ordenados pelos próximos retornos e classificados por prioridade.</p>
+      <div id="planningPortfolioList" class="planning-portfolio-list" aria-live="polite"></div>
     </section>
 
-    <section class="card rounded-xl shadow p-5">
-      <div class="planning-contact-toolbar">
-        <input id="planningContactSearch" class="planning-contact-search" type="search" placeholder="Pesquisar contato..." aria-label="Pesquisar contato">
+    <section class="planning-contact-section">
+      <div class="home-finance-comparison planning-contact-comparison">
+        <div class="home-finance-comparison-heading">
+          <h4>Lista de Contatos</h4>
+          <div class="cliente-search-field planning-contact-search-field">
+            <button type="button" id="planningContactSearchToggle" class="cliente-search-toggle" aria-label="Abrir pesquisa" aria-expanded="false" aria-controls="planningContactSearch">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </button>
+            <input id="planningContactSearch" class="planning-contact-search" type="search" aria-label="Pesquisar contato" placeholder="Pesquisar contato..." aria-hidden="true" tabindex="-1" autocomplete="off">
+          </div>
+        </div>
+        <p id="planningContactsSyncStatus" class="planning-contact-sync-status" role="status" aria-live="polite" hidden></p>
+        <div id="planningContactsList" class="planning-contact-list"></div>
       </div>
-      <div id="planningContactsList" class="planning-contact-list"></div>
     </section>
 
     <div id="planningContactModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="planningContactModalTitle">
@@ -9034,7 +9779,7 @@ button:active:not(:disabled) {
           <label id="planningReturnDoneField" class="planning-return-done-toggle hidden" for="planningContactReturnDone">
             <input id="planningContactReturnDone" type="checkbox">
             <span class="planning-return-switch" aria-hidden="true"></span>
-            <span>Retorno Realizado</span>
+            <span>Retorno OK</span>
           </label>
         </div>
         <form id="planningContactForm" class="planning-contact-form">
@@ -9050,7 +9795,7 @@ button:active:not(:disabled) {
           </label>
           <label for="planningContactService">Serviço de Interesse
             <select id="planningContactService">
-              <option value="">Carregando procedimentos...</option>
+              <option value="-">-</option>
             </select>
           </label>
           <p id="planningServiceCatalogStatus" class="planning-service-status hidden" role="status" aria-live="polite"></p>
@@ -9069,7 +9814,7 @@ button:active:not(:disabled) {
               <option value="Novo contato">Novo Contato</option>
             </select>
           </label>
-          <fieldset class="planning-classification-field">
+          <fieldset class="planning-classification-field" hidden>
             <legend>Classificação</legend>
             <div class="planning-classification-options" role="radiogroup" aria-label="Classificação do prospect">
               <label class="planning-classification-option">
@@ -9680,6 +10425,49 @@ button:active:not(:disabled) {
         <div id="listaCatalogoAgendamentos" class="mt-2"></div>
       </section>
 
+      <section class="card rounded-xl shadow p-5 mb-5" aria-labelledby="planningSettingsTitle">
+        <div class="planning-settings-heading">
+          <div>
+            <h3 id="planningSettingsTitle">Planejamento</h3>
+            <p>Configure a meta de contatos por período.</p>
+          </div>
+        </div>
+        <form id="planningSettingsForm" class="planning-settings-form">
+          <fieldset class="planning-days-mode">
+            <legend>Tipo de dias por mês</legend>
+            <label>
+              <input type="radio" name="planningDaysMode" value="corridos">
+              <span class="planning-days-mode-copy">
+                <strong>Dias corridos</strong>
+                <span id="planningCalendarDaysValue">30 dias</span>
+              </span>
+            </label>
+            <label>
+              <input type="radio" name="planningDaysMode" value="uteis">
+              <span class="planning-days-mode-copy">
+                <strong>Dias úteis</strong>
+                <span id="planningWeekDaysValue">0 dias úteis</span>
+              </span>
+            </label>
+            <label>
+              <input type="radio" name="planningDaysMode" value="ajustavel">
+              <span class="planning-days-mode-copy">
+                <strong>Ajustável</strong>
+                <span id="planningAdjustableDaysValue">30 dias</span>
+              </span>
+            </label>
+          </fieldset>
+          <label for="planningWorkingDays">Dias por mês
+            <input id="planningWorkingDays" type="number" min="1" max="31" step="1" value="30" required>
+          </label>
+          <label for="planningDailyContacts">Contatos por dia
+            <input id="planningDailyContacts" type="number" min="1" max="1000" step="1" value="25" required>
+          </label>
+          <button type="submit" class="btn-primary rounded-md font-semibold">Salvar Planejamento</button>
+        </form>
+        <p id="planningSettingsStatus" class="planning-settings-status" role="status" aria-live="polite"></p>
+      </section>
+
       <div id="modalCatalogoAgendamentos" class="hidden" role="dialog" aria-modal="true"
         aria-labelledby="tituloModalCatalogoAgendamentos" aria-describedby="descricaoModalCatalogoAgendamentos">
         <button type="button" class="absolute inset-0 border-0 bg-transparent" data-fechar-catalogo-overlay
@@ -9736,6 +10524,149 @@ button:active:not(:disabled) {
         </div>
       </section>
     </div>
+
+    <script>
+    (() => {
+      const storageKey = "studio-planning-settings";
+      const form = document.getElementById("planningSettingsForm");
+      const workingDaysInput = document.getElementById("planningWorkingDays");
+      const dailyContactsInput = document.getElementById("planningDailyContacts");
+      const dayModeInputs = form.querySelectorAll('input[name="planningDaysMode"]');
+      const status = document.getElementById("planningSettingsStatus");
+      const table = "studio_planejamento_configuracoes";
+
+      function calendarDaysInCurrentMonth() {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      }
+
+      function weekdaysInCurrentMonth() {
+        const now = new Date();
+        let count = 0;
+        for (let day = 1; day <= calendarDaysInCurrentMonth(); day++) {
+          const weekday = new Date(now.getFullYear(), now.getMonth(), day).getDay();
+          if (weekday !== 0 && weekday !== 6) count++;
+        }
+        return count;
+      }
+
+      function selectedDayMode() {
+        return form.querySelector('input[name="planningDaysMode"]:checked')?.value || "ajustavel";
+      }
+
+      function updateDayModeUi(workingDays) {
+        const mode = selectedDayMode();
+        const isAdjustable = mode === "ajustavel";
+        workingDaysInput.disabled = !isAdjustable;
+        workingDaysInput.required = isAdjustable;
+        document.getElementById("planningCalendarDaysValue").textContent =
+          `${calendarDaysInCurrentMonth()} dias`;
+        document.getElementById("planningWeekDaysValue").textContent =
+          `${weekdaysInCurrentMonth()} dias úteis`;
+        document.getElementById("planningAdjustableDaysValue").textContent =
+          `${workingDays} dias`;
+      }
+
+      function loadPlanningSettings() {
+        const defaults = { workingDays: 30, dailyContacts: 25, dayMode: "ajustavel" };
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+          return {
+            workingDays: Number(saved?.workingDays) || Number(saved?.daysPerMonth) || defaults.workingDays,
+            dailyContacts: Number(saved?.dailyContacts) || defaults.dailyContacts,
+            dayMode: ["corridos", "uteis", "ajustavel"].includes(saved?.dayMode)
+              ? saved.dayMode
+              : defaults.dayMode
+          };
+        } catch {
+          return defaults;
+        }
+      }
+
+      const settings = loadPlanningSettings();
+      workingDaysInput.value = settings.workingDays;
+      dailyContactsInput.value = settings.dailyContacts;
+      (Array.from(dayModeInputs).find(input => input.value === settings.dayMode) || dayModeInputs[2]).checked = true;
+      updateDayModeUi(settings.workingDays);
+      dayModeInputs.forEach(input => input.addEventListener("change", () => updateDayModeUi(workingDaysInput.value)));
+      workingDaysInput.addEventListener("input", () => {
+        document.getElementById("planningAdjustableDaysValue").textContent =
+          `${Math.max(1, Math.min(31, Number(workingDaysInput.value) || 1))} dias`;
+      });
+
+      async function loadPlanningSettingsFromSupabase() {
+        status.textContent = "Sincronizando configuração...";
+        const { data, error } = await supabaseClient
+          .from(table)
+          .select("dias_por_mes,contatos_por_dia,modo_dias")
+          .eq("id", "principal")
+          .maybeSingle();
+        if (error) throw error;
+        if (!data) return;
+
+        const savedMode = loadPlanningSettings().dayMode;
+        const synced = {
+          workingDays: Number(data.dias_por_mes) || 30,
+          dailyContacts: Number(data.contatos_por_dia) || 25,
+          dayMode: ["corridos", "uteis", "ajustavel"].includes(data.modo_dias)
+            ? data.modo_dias
+            : savedMode
+        };
+        localStorage.setItem(storageKey, JSON.stringify(synced));
+        workingDaysInput.value = synced.workingDays;
+        dailyContactsInput.value = synced.dailyContacts;
+        (Array.from(dayModeInputs).find(input => input.value === synced.dayMode) || dayModeInputs[2]).checked = true;
+        updateDayModeUi(synced.workingDays);
+        document.dispatchEvent(new CustomEvent("studio-planning-settings-atualizado", {
+          detail: synced
+        }));
+        status.textContent = "";
+      }
+
+      void loadPlanningSettingsFromSupabase().catch(error => {
+        console.error("Could not load planning settings.", error);
+        status.textContent = "Não foi possível sincronizar a configuração. Usando a configuração deste dispositivo.";
+      });
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        const nextSettings = {
+          workingDays: Math.max(1, Math.min(31, Number(workingDaysInput.value))),
+          dailyContacts: Math.max(1, Math.min(1000, Number(dailyContactsInput.value))),
+          dayMode: selectedDayMode()
+        };
+        workingDaysInput.value = nextSettings.workingDays;
+        dailyContactsInput.value = nextSettings.dailyContacts;
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        status.textContent = "Salvando configuração...";
+
+        try {
+          const { error } = await supabaseClient
+            .from(table)
+            .upsert({
+              id: "principal",
+              dias_por_mes: nextSettings.workingDays,
+              contatos_por_dia: nextSettings.dailyContacts,
+              modo_dias: nextSettings.dayMode,
+              updated_at: new Date().toISOString()
+            }, { onConflict: "id" });
+          if (error) throw error;
+
+          localStorage.setItem(storageKey, JSON.stringify(nextSettings));
+          status.textContent = "Configuração do Planejamento salva.";
+          document.dispatchEvent(new CustomEvent("studio-planning-settings-atualizado", {
+            detail: nextSettings
+          }));
+        } catch (error) {
+          console.error("Could not save planning settings.", error);
+          status.textContent = `Não foi possível salvar no Supabase: ${error.message}`;
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    })();
+    </script>
 
     <section id="mensagensAutoPage" class="page hidden">
       <div class="page-title-row flex justify-between mb-5 items-center">
@@ -9866,8 +10797,10 @@ button:active:not(:disabled) {
       <h3>Resumo Financeiro</h3>
     </div>
     <div class="home-finance-period-filters" role="group" aria-label="Período do resumo financeiro">
-      <button type="button" data-home-finance-period="month" aria-label="Mês" aria-pressed="false"><span>MÊS</span></button>
-      <button type="button" data-home-finance-period="quarter" aria-label="Trimestre" aria-pressed="true"><span>TRI</span></button>
+      <button type="button" data-home-finance-period="current" aria-label="Mês atual" aria-pressed="true"><span>ATUAL</span></button>
+      <button type="button" data-home-finance-period="month" aria-label="Escolher mês" aria-pressed="false"><span>MÊS</span></button>
+      <select class="period-month-select" aria-label="Selecionar mês do resumo financeiro" hidden></select>
+      <button type="button" data-home-finance-period="quarter" aria-label="Trimestre" aria-pressed="false"><span>TRI</span></button>
       <button type="button" data-home-finance-period="semester" aria-label="Semestre" aria-pressed="false"><span>SEM</span></button>
       <button type="button" data-home-finance-period="year" aria-label="Ano" aria-pressed="false"><span>ANO</span></button>
     </div>
@@ -10242,8 +11175,10 @@ button:active:not(:disabled) {
     </header>
     <div class="page-actions-row reports-period-row">
       <div class="home-finance-period-filters reports-period-filters" role="group" aria-label="Período dos relatórios">
-        <button type="button" data-report-period="month" aria-label="Mês" aria-pressed="false"><span>MÊS</span></button>
-        <button type="button" data-report-period="quarter" aria-label="Trimestre" aria-pressed="true"><span>TRI</span></button>
+        <button type="button" data-report-period="current" aria-label="Mês atual" aria-pressed="true"><span>ATUAL</span></button>
+        <button type="button" data-report-period="month" aria-label="Escolher mês" aria-pressed="false"><span>MÊS</span></button>
+        <select class="period-month-select" aria-label="Selecionar mês dos relatórios" hidden></select>
+        <button type="button" data-report-period="quarter" aria-label="Trimestre" aria-pressed="false"><span>TRI</span></button>
         <button type="button" data-report-period="semester" aria-label="Semestre" aria-pressed="false"><span>SEM</span></button>
         <button type="button" data-report-period="year" aria-label="Ano" aria-pressed="false"><span>ANO</span></button>
       </div>
@@ -10843,9 +11778,63 @@ function atualizarRelatorioFinanceiroPeriodo() {
   renderizarTabelaRelatorio(dadosFiltrados);
 }
 
-let reportMode = "quarter";
+let reportMode = "current";
 let reportAnchor = new Date();
 let reportData = { finance: [], clients: [], appointments: [] };
+
+function periodMonthKey(date = new Date()) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+}
+
+function periodMonthDate(key) {
+  const match = /^(\d{4})-(\d{2})$/.exec(key || "");
+  return match
+    ? new Date(Number(match[1]), Number(match[2]) - 1, 1)
+    : new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+}
+
+function periodMonthLabel(key) {
+  const date = periodMonthDate(key);
+  const month = date.toLocaleDateString("pt-BR", { month: "short" })
+    .replace(/\./g, "")
+    .toLocaleUpperCase("pt-BR");
+  return `${month} ${String(date.getFullYear()).slice(-2)}`;
+}
+
+function initializePeriodMonthSelects(buttonSelector, selectedMonth, onSelect) {
+  const groups = new Set(
+    [...document.querySelectorAll(buttonSelector)].map(button => button.parentElement)
+  );
+  const now = new Date();
+  const start = new Date(2026, 0, 1);
+  groups.forEach(group => {
+    const select = group.querySelector(".period-month-select");
+    if (!select) return;
+    for (const date = new Date(start); date <= now; date.setMonth(date.getMonth() + 1)) {
+      const key = periodMonthKey(date);
+      select.add(new Option(periodMonthLabel(key), key));
+    }
+    select.value = selectedMonth;
+    select.addEventListener("change", () => onSelect(select.value));
+  });
+}
+
+function syncPeriodFilterControls(buttonSelector, mode, selectedMonth) {
+  const groups = new Set(
+    [...document.querySelectorAll(buttonSelector)].map(button => button.parentElement)
+  );
+  document.querySelectorAll(buttonSelector).forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.homeFinancePeriod === mode
+      || button.dataset.reportPeriod === mode
+      || button.dataset.planningPeriod === mode));
+  });
+  groups.forEach(group => {
+    const select = group.querySelector(".period-month-select");
+    if (!select) return;
+    select.value = selectedMonth;
+    select.hidden = mode !== "month";
+  });
+}
 
 function reportDate(value) {
   if (!value) return null;
@@ -11196,11 +12185,12 @@ function renderizarRelatorios() {
   const previousVisits = reportAppointmentCounts(previousPeriod);
   setReportMetric("reportAppointments", "reportAppointmentsDelta", currentVisits.appointments.length, previousVisits.appointments.length, value => String(value));
 
-  const currentBuckets = reportDayBuckets(currentPeriod, reportMode);
-  const previousBuckets = reportDayBuckets(previousPeriod, reportMode);
+  const chartMode = reportMode === "current" ? "month" : reportMode;
+  const currentBuckets = reportDayBuckets(currentPeriod, chartMode);
+  const previousBuckets = reportDayBuckets(previousPeriod, chartMode);
   renderReportLineChart("reportGainsChart", currentBuckets.labels, [
-    { label: "Período selecionado", color: "#f4bfae", values: reportFinanceTrend(currentPeriod, reportMode, "Ganhos") },
-    { label: "Período anterior", color: "#909090", values: reportFinanceTrend(previousPeriod, reportMode, "Ganhos").slice(0, currentBuckets.labels.length) }
+    { label: "Período selecionado", color: "#f4bfae", values: reportFinanceTrend(currentPeriod, chartMode, "Ganhos") },
+    { label: "Período anterior", color: "#909090", values: reportFinanceTrend(previousPeriod, chartMode, "Ganhos").slice(0, currentBuckets.labels.length) }
   ], true);
   renderReportLineChart("reportAppointmentsChart", ["Cílios", "Sobrancelhas"], [
     { label: "Período selecionado", color: "#f4bfae", values: [currentVisits.cilios, currentVisits.sobrancelhas] },
@@ -11273,15 +12263,24 @@ async function carregarRelatorios() {
   }
 }
 
+let reportSelectedMonth = periodMonthKey();
+initializePeriodMonthSelects("[data-report-period]", reportSelectedMonth, month => {
+  reportSelectedMonth = month;
+  reportMode = "month";
+  reportAnchor = periodMonthDate(month);
+  syncPeriodFilterControls("[data-report-period]", reportMode, reportSelectedMonth);
+  renderizarRelatorios();
+});
 document.querySelectorAll("[data-report-period]").forEach(button => {
   button.addEventListener("click", () => {
-    reportMode = button.dataset.reportPeriod || "quarter";
-    document.querySelectorAll("[data-report-period]").forEach(option => {
-      option.setAttribute("aria-pressed", String(option.dataset.reportPeriod === reportMode));
-    });
+    reportMode = button.dataset.reportPeriod || "current";
+    reportAnchor = reportMode === "month" ? periodMonthDate(reportSelectedMonth) : new Date();
+    if (reportMode === "current") reportSelectedMonth = periodMonthKey();
+    syncPeriodFilterControls("[data-report-period]", reportMode, reportSelectedMonth);
     renderizarRelatorios();
   });
 });
+syncPeriodFilterControls("[data-report-period]", reportMode, reportSelectedMonth);
 
 function parseValorBR(str) {
   if (!str) return 0;
@@ -11859,11 +12858,14 @@ function renderizarResumoDetalhadoHome(dadosAgrupados) {
 }
 
 let homeFinanceiroRegistros = null;
-let homeFinanceiroPeriodo = "quarter";
+let homeFinanceiroPeriodo = "current";
+let homeFinanceiroMes = periodMonthKey();
 
 function obterMesesResumoFinanceiro() {
   const hoje = new Date();
-  const mesAtual = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+  const mesAtual = homeFinanceiroPeriodo === "month"
+    ? periodMonthDate(homeFinanceiroMes)
+    : new Date(hoje.getFullYear(), hoje.getMonth(), 1);
   const mesInicio = new Date(mesAtual);
   if (homeFinanceiroPeriodo === "quarter") mesInicio.setMonth(mesInicio.getMonth() - 2);
   else if (homeFinanceiroPeriodo === "semester") mesInicio.setMonth(mesInicio.getMonth() - 5);
@@ -11879,8 +12881,9 @@ function obterMesesResumoFinanceiro() {
 }
 
 function rotuloPeriodoResumoFinanceiro() {
+  if (homeFinanceiroPeriodo === "month") return periodMonthLabel(homeFinanceiroMes);
   return {
-    month: "Mês atual",
+    current: "Mês atual",
     quarter: "Últimos 3 meses",
     semester: "Últimos 6 meses",
     year: "Este ano"
@@ -11978,16 +12981,23 @@ function renderizarResumoFinanceiroHome() {
   }
 }
 
+initializePeriodMonthSelects("[data-home-finance-period]", homeFinanceiroMes, month => {
+  homeFinanceiroMes = month;
+  homeFinanceiroPeriodo = "month";
+  syncPeriodFilterControls("[data-home-finance-period]", homeFinanceiroPeriodo, homeFinanceiroMes);
+  renderizarResumoFinanceiroHome();
+  if (Array.isArray(window.financeiroRelatorioData)) atualizarRelatorioFinanceiroPeriodo();
+});
 document.querySelectorAll("[data-home-finance-period]").forEach(button => {
   button.addEventListener("click", () => {
     homeFinanceiroPeriodo = button.dataset.homeFinancePeriod;
-    document.querySelectorAll("[data-home-finance-period]").forEach(filtro => {
-      filtro.setAttribute("aria-pressed", String(filtro.dataset.homeFinancePeriod === homeFinanceiroPeriodo));
-    });
+    if (homeFinanceiroPeriodo === "current") homeFinanceiroMes = periodMonthKey();
+    syncPeriodFilterControls("[data-home-finance-period]", homeFinanceiroPeriodo, homeFinanceiroMes);
     renderizarResumoFinanceiroHome();
     if (Array.isArray(window.financeiroRelatorioData)) atualizarRelatorioFinanceiroPeriodo();
   });
 });
+syncPeriodFilterControls("[data-home-finance-period]", homeFinanceiroPeriodo, homeFinanceiroMes);
 
 async function atualizarResumoFinanceiroHome() {
   try {
@@ -12179,7 +13189,7 @@ async function editarCliente(nome) {
 
 // --- 🔹 Função para formatar data e calcular idade ---
 function formatarDataEIdade(dataStr, apenasData = false) {
-  if (!dataStr) return "";
+  if (!dataStr || dataNascimentoEhPlaceholder(dataStr)) return "";
   const data = new Date(dataStr);
   if (isNaN(data)) return dataStr;
 
@@ -12197,8 +13207,13 @@ function formatarDataEIdade(dataStr, apenasData = false) {
   return `${idade} anos`;
 }
 
+function dataNascimentoEhPlaceholder(dataStr) {
+  const valor = String(dataStr || "").trim();
+  return /^11\/11\/1111$/.test(valor) || /^1111-11-11(?:$|T)/.test(valor);
+}
+
 function formatarDataNascimento(dataStr) {
-  if (!dataStr) return "";
+  if (!dataStr || dataNascimentoEhPlaceholder(dataStr)) return "";
   const valor = String(dataStr).trim();
   const dataBrasileira = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(valor);
   if (dataBrasileira) return valor;
@@ -12238,9 +13253,31 @@ function formatarTelefoneCliente(telefone) {
   return telefone || "-";
 }
 
+function fazAniversarioNesteMes(dataNascimento) {
+  if (!dataNascimento || dataNascimentoEhPlaceholder(dataNascimento)) return false;
+
+  const valor = String(dataNascimento).trim();
+  let mes = null;
+
+  const dataBrasileira = /^(\d{2})\/(\d{2})\/(?:\d{4})$/.exec(valor);
+  if (dataBrasileira) mes = Number(dataBrasileira[2]) - 1;
+
+  const dataIso = /^(\d{4})-(\d{2})-(\d{2})/.exec(valor);
+  if (dataIso) mes = Number(dataIso[2]) - 1;
+
+  if (mes === null) {
+    const data = new Date(valor);
+    if (!Number.isNaN(data.getTime())) mes = data.getMonth();
+  }
+
+  return mes !== null && mes === new Date().getMonth();
+}
+
 // 🔹 Função auxiliar para criar o card de um cliente
 function criarCardCliente(cli) {
   const isAtivo = (cli.status || "").toLowerCase() === "ativo";
+  const aniversarianteDoMes = isAtivo && fazAniversarioNesteMes(cli.dn);
+  const dataNascimento = formatarDataNascimento(cli.dn);
   const idData = `data-${cli.nome.replace(/\s+/g, "-")}`;
   const nomesCliente = String(cli.nome || "").trim().split(/\s+/).filter(Boolean);
   const nomeExibicao = nomesCliente.length >= 4
@@ -12263,6 +13300,7 @@ function criarCardCliente(cli) {
         <div class="cliente-summary-info">
           <h2 class="cliente-name">${nomeExibicao.toUpperCase()}</h2>
           <button type="button" class="cliente-status-button" data-cliente-status aria-label="Alternar status do cliente"></button>
+          ${aniversarianteDoMes ? `<span class="cliente-aniversario-grupo"><span class="cliente-aniversario" aria-label="Aniversariante do mês">🎂</span><span class="cliente-aniversario-data">${dataNascimento.split("/").slice(0, 2).join("/")}</span></span>` : ""}
         </div>
         <div class="cliente-proximo" data-has-upcoming="false">
           <span class="cliente-proximo-label">Próximo Agendamento:</span>
@@ -12281,7 +13319,7 @@ function criarCardCliente(cli) {
           </div>
           <div class="cliente-meta">
             <span>${formatarDataEIdade(cli.dn)}</span>
-            <span>DN ${formatarDataNascimento(cli.dn)}</span>
+            ${dataNascimento ? `<span>DN ${dataNascimento}</span>` : ""}
           </div>
         </div>
         <div class="cliente-actions">
@@ -12542,8 +13580,12 @@ async function carregarClientes() {
 document.getElementById("formCliente").addEventListener("submit", async (e) => {
   e.preventDefault();
   const dataNascimentoTexto = campoDataNascimento.value.trim();
-  const dataNascimentoISO = dataNascimentoTexto ? dataNascimentoParaISO(dataNascimentoTexto) : "";
-  if (dataNascimentoTexto && !dataNascimentoISO) {
+  const dataNascimentoEhFicticia = dataNascimentoEhPlaceholder(dataNascimentoTexto);
+  const dataNascimentoISO = dataNascimentoTexto && !dataNascimentoEhFicticia
+    ? dataNascimentoParaISO(dataNascimentoTexto)
+    : "";
+  if (dataNascimentoEhFicticia) campoDataNascimento.value = "";
+  if (dataNascimentoTexto && !dataNascimentoISO && !dataNascimentoEhFicticia) {
     await mostrarAviso("Informe uma data de nascimento válida no formato dd/mm/aaaa.");
     campoDataNascimento.focus();
     return;
@@ -16918,6 +17960,8 @@ document.addEventListener("DOMContentLoaded", () => {
     client_no_future_appointments: "📣",
     attendance_missing: "✅",
     stock_low: "📦",
+    planning_return_summary: "📌",
+    planning_clock_progress: "⏱️",
   };
   let notifications = [];
 
@@ -17155,9 +18199,14 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
 (() => {
   const storageKey = "studio-planning-contacts";
+  const contactsTable = "studio_planejamento_contatos";
   const modal = document.getElementById("planningContactModal");
   const form = document.getElementById("planningContactForm");
   const searchInput = document.getElementById("planningContactSearch");
+  const searchField = searchInput.closest(".planning-contact-search-field");
+  const searchToggle = document.getElementById("planningContactSearchToggle");
+  const syncStatus = document.getElementById("planningContactsSyncStatus");
+  const addContactButton = document.getElementById("planningAddContact");
   const serviceSelect = document.getElementById("planningContactService");
   const statusSelect = document.getElementById("planningContactStatus");
   const statusField = document.getElementById("planningContactStatusField");
@@ -17166,12 +18215,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const followupHint = document.getElementById("planningFollowupHint");
   const firstContactInput = document.getElementById("planningContactDate");
   const returnDoneInput = document.getElementById("planningContactReturnDone");
-  let planningPeriod = "month";
+  let planningPeriod = "current";
+  let planningSelectedMonth = periodMonthKey();
   let contacts = [];
+  let expandedPortfolioSections = new Set();
   let serviceCatalogState = "loading";
   let editingContact = null;
   let returnRecordedThisEdit = false;
   let statusAtEditStart = "";
+  let contactsReady = false;
+  let contactsLoadPromise = null;
+  let planningSettings = { workingDays: 30, dailyContacts: 25, dayMode: "ajustavel" };
 
   const followupDays = {
     Quente: 2,
@@ -17197,6 +18251,41 @@ document.addEventListener("DOMContentLoaded", () => {
     "Prospect morno": "Morno",
     "Prospect frio": "Frio"
   };
+  const contactListStatusLabels = {
+    "prospect quente": "Pendente",
+    "prospect morno": "Pendente",
+    "prospect frio": "Pendente",
+    agendado: "Concluído",
+    concluído: "Concluído",
+    "concluído com sucesso": "Concluído",
+    "sem interesse/não respondeu": "Encerrado",
+    "sem interesse": "Encerrado",
+    "sem interesse / perdido": "Encerrado",
+    "encerrado sem sucesso": "Encerrado",
+    "novo contato": "Novo Contato"
+  };
+  const contactListClassifications = {
+    "prospect quente": "Quente",
+    "prospect morno": "Morno",
+    "prospect frio": "Frio"
+  };
+
+  function readPlanningSettings() {
+    try {
+      const saved = JSON.parse(localStorage.getItem("studio-planning-settings") || "null");
+      planningSettings = {
+        workingDays: Number(saved?.workingDays) || 30,
+        dailyContacts: Number(saved?.dailyContacts) || 25,
+        dayMode: ["corridos", "uteis", "ajustavel"].includes(saved?.dayMode)
+          ? saved.dayMode
+          : "ajustavel"
+      };
+    } catch {
+      planningSettings = { workingDays: 30, dailyContacts: 25, dayMode: "ajustavel" };
+    }
+  }
+
+  readPlanningSettings();
 
   function toIsoDate(date = new Date()) {
     const year = date.getFullYear();
@@ -17212,6 +18301,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return { label, value: label, type: procedure.tipo };
       }).filter(procedure => String(procedure.type || "").trim().toLowerCase() !== "manutenção")
     );
+
+    if (!editingContact) {
+      serviceSelect.replaceChildren(new Option("-", "-"));
+      serviceSelect.value = "-";
+      serviceSelect.disabled = true;
+      serviceCatalogStatus.classList.add("hidden");
+      return;
+    }
+
     const placeholder = serviceCatalogState === "loading"
       ? "Carregando procedimentos..."
       : serviceCatalogState === "error"
@@ -17252,6 +18350,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateReturnStatusPrompt() {
     const returnDone = returnDoneInput.checked;
     const needsUpdate = returnStatusNeedsUpdate();
+    statusSelect.disabled = !editingContact || !returnDone;
     statusField.classList.toggle("planning-return-status-highlight", returnDone);
     returnStatusHint.hidden = !returnRecordedThisEdit || !returnDone;
     if (!returnStatusHint.hidden) {
@@ -17265,7 +18364,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateReturnStatusPrompt();
     if (!returnStatusNeedsUpdate()) return true;
     statusSelect.focus();
-    void mostrarAviso("Altere o Status Atual antes de sair com Retorno Realizado marcado.");
+    void mostrarAviso("Altere o Status Atual antes de sair com Retorno OK marcado.");
     return false;
   }
 
@@ -17330,47 +18429,261 @@ document.addEventListener("DOMContentLoaded", () => {
     followupHint.hidden = false;
   }
 
-  function readContacts() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
-      contacts = Array.isArray(saved) ? saved : [];
-    } catch (error) {
-      console.error("Não foi possível carregar os contatos de planejamento.", error);
-      contacts = [];
+  function readLegacyContacts() {
+    const savedValue = localStorage.getItem(storageKey);
+    if (savedValue === null) return [];
+    const saved = JSON.parse(savedValue);
+    if (!Array.isArray(saved)) {
+      throw new Error("Os contatos locais do planejamento têm um formato inválido.");
     }
+    if (saved.some(contact =>
+      !contact ||
+      typeof contact !== "object" ||
+      Array.isArray(contact) ||
+      typeof contact.id !== "string" ||
+      !contact.id.trim()
+    )) {
+      throw new Error("Há um contato local sem identificador válido; os dados locais foram preservados.");
+    }
+    return saved;
   }
 
-  function saveContacts() {
-    localStorage.setItem(storageKey, JSON.stringify(contacts));
+  function setSyncStatus(message, isError = false) {
+    syncStatus.textContent = isError ? message : "";
+    syncStatus.hidden = !isError;
+    syncStatus.dataset.error = String(isError);
+  }
+
+  function setPlanningContactSearchOpen(isOpen) {
+    searchField.classList.toggle("is-open", isOpen);
+    searchToggle.setAttribute("aria-expanded", String(isOpen));
+    searchToggle.setAttribute("aria-label", isOpen ? "Fechar pesquisa" : "Abrir pesquisa");
+    searchInput.setAttribute("aria-hidden", String(!isOpen));
+    searchInput.tabIndex = isOpen ? 0 : -1;
+
+    if (isOpen) requestAnimationFrame(() => searchInput.focus());
+    else searchInput.blur();
+  }
+
+  function loadContacts() {
+    if (contactsLoadPromise) return contactsLoadPromise;
+    contactsReady = false;
+    addContactButton.disabled = true;
+    setSyncStatus("Sincronizando contatos...");
+
+    contactsLoadPromise = (async () => {
+      try {
+        const legacyContacts = readLegacyContacts();
+        const { data: rows, error: loadError } = await supabaseClient
+          .from(contactsTable)
+          .select("id,data")
+          .order("created_at", { ascending: true });
+        if (loadError) throw loadError;
+
+        const existingIds = new Set((rows || []).map(row => String(row.id)));
+        const pendingContacts = legacyContacts.filter(contact => !existingIds.has(contact.id));
+        if (pendingContacts.length) {
+          const { error: migrationError } = await supabaseClient
+            .from(contactsTable)
+            .upsert(
+              pendingContacts.map(contact => ({
+                id: contact.id,
+                data: contact
+              })),
+              { onConflict: "id", ignoreDuplicates: true }
+            );
+          if (migrationError) throw migrationError;
+        }
+
+        const { data: savedRows, error: savedLoadError } = await supabaseClient
+          .from(contactsTable)
+          .select("id,data")
+          .order("created_at", { ascending: true });
+        if (savedLoadError) throw savedLoadError;
+
+        contacts = (savedRows || []).map(row => ({ ...row.data, id: String(row.id) }));
+        const savedIds = new Set(contacts.map(contact => contact.id));
+        if (legacyContacts.every(contact => savedIds.has(contact.id))) {
+          localStorage.removeItem(storageKey);
+        }
+
+        contactsReady = true;
+        addContactButton.disabled = false;
+        setSyncStatus(pendingContacts.length
+          ? `${pendingContacts.length} contato(s) local(is) transferido(s) para o planejamento compartilhado.`
+          : "Contatos sincronizados entre dispositivos.");
+        render();
+      } catch (error) {
+        console.error("Não foi possível sincronizar os contatos do planejamento.", error);
+        setSyncStatus(`Não foi possível sincronizar os contatos: ${error.message}`, true);
+      }
+    })().finally(() => {
+      contactsLoadPromise = null;
+    });
+    return contactsLoadPromise;
   }
 
   function percent(value, goal) {
     if (!goal) return 0;
-    return Math.min(100, Math.round((value / goal) * 100));
+    return Math.min(100, (value / goal) * 100);
+  }
+
+  function calendarDaysInCurrentMonth() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  }
+
+  function weekdaysInMonth(monthDate = new Date()) {
+    let count = 0;
+    const lastDay = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+    for (let day = 1; day <= lastDay; day++) {
+      const weekday = new Date(monthDate.getFullYear(), monthDate.getMonth(), day).getDay();
+      if (weekday !== 0 && weekday !== 6) count++;
+    }
+    return count;
+  }
+
+  function elapsedWeekdaysInMonth(monthDate = new Date()) {
+    let count = 0;
+    for (let day = 1; day <= monthDate.getDate(); day++) {
+      const weekday = new Date(monthDate.getFullYear(), monthDate.getMonth(), day).getDay();
+      if (weekday !== 0 && weekday !== 6) count++;
+    }
+    return count;
+  }
+
+  function effectiveWorkingDays() {
+    if (planningSettings.dayMode === "corridos") return calendarDaysInCurrentMonth();
+    if (planningSettings.dayMode === "uteis") return weekdaysInMonth();
+    return Math.max(1, planningSettings.workingDays);
+  }
+
+  function effectiveDaysInRange(start, end) {
+    if (end < start) return 0;
+    if (planningSettings.dayMode === "ajustavel") {
+      const monthCount = (end.getFullYear() - start.getFullYear()) * 12
+        + end.getMonth() - start.getMonth() + 1;
+      const workingDays = Math.max(1, planningSettings.workingDays);
+      const lastDayOfMonth = new Date(end.getFullYear(), end.getMonth() + 1, 0).getDate();
+      const finalMonthDays = end.getDate() === lastDayOfMonth
+        ? workingDays
+        : Math.min(workingDays, end.getDate());
+      return (monthCount - 1) * workingDays + finalMonthDays;
+    }
+
+    let count = 0;
+    const date = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    while (date <= end) {
+      const weekday = date.getDay();
+      if (planningSettings.dayMode === "corridos" || (weekday !== 0 && weekday !== 6)) count++;
+      date.setDate(date.getDate() + 1);
+    }
+    return count;
+  }
+
+  function periodDayCounts() {
+    const { start, end } = periodDateRange();
+    const today = new Date();
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const totalDays = effectiveDaysInRange(start, end);
+    if (todayStart < start) return { elapsedDays: 0, totalDays };
+    if (todayStart > end) return { elapsedDays: totalDays, totalDays };
+
+    const elapsedDays = effectiveDaysInRange(start, todayStart);
+    return { elapsedDays, totalDays };
+  }
+
+  function planningClockPercent() {
+    const { elapsedDays, totalDays } = periodDayCounts();
+    const totalGoal = totalDays * planningSettings.dailyContacts;
+    const expectedGoal = elapsedDays * planningSettings.dailyContacts;
+    return totalGoal ? Math.min(100, Math.round((expectedGoal / totalGoal) * 100)) : 0;
   }
 
   function periodMonths() {
-    return { month: 1, quarter: 3, semester: 6, year: 12 }[planningPeriod] || 1;
+    return { current: 1, month: 1, quarter: 3, semester: 6, year: 12 }[planningPeriod] || 1;
+  }
+
+  function periodDateRange() {
+    const now = new Date();
+    const months = periodMonths();
+    const anchor = planningPeriod === "month"
+      ? periodMonthDate(planningSelectedMonth)
+      : new Date(now.getFullYear(), now.getMonth(), 1);
+    const start = planningPeriod === "year"
+      ? new Date(anchor.getFullYear(), 0, 1)
+      : new Date(anchor.getFullYear(), anchor.getMonth() - (months - 1), 1);
+    const end = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 0);
+    return {
+      start,
+      end,
+      startIso: toIsoDate(start),
+      endIso: toIsoDate(end)
+    };
+  }
+
+  function renderPlanningTimeline() {
+    const timelineList = document.getElementById("planningTimelineList");
+    const timelineMonth = document.getElementById("planningTimelineMonth");
+    const timelineTotal = document.getElementById("planningTimelineTotal");
+    const dayCount = effectiveWorkingDays();
+    const { start, end, startIso, endIso } = periodDateRange();
+    const formatMonth = date => date.toLocaleDateString("pt-BR", { month: "short", year: "numeric" });
+
+    timelineList.style.setProperty("--planning-timeline-days", String(dayCount));
+    timelineList.style.gridTemplateColumns = `repeat(${dayCount}, minmax(0, 1fr))`;
+    timelineMonth.textContent = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()
+      ? formatMonth(end)
+      : `${formatMonth(start)} – ${formatMonth(end)}`;
+
+    const counts = Array(dayCount).fill(0);
+    contacts.forEach(contact => {
+      const dateParts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(contact.firstContactDate || "");
+      if (!dateParts) return;
+      const day = Number(dateParts[3]);
+      if (contact.firstContactDate >= startIso && contact.firstContactDate <= endIso) {
+        let slot = day - 1;
+        if (planningSettings.dayMode === "uteis") {
+          slot = 0;
+          for (let currentDay = 1; currentDay <= day; currentDay++) {
+            const weekday = new Date(Number(dateParts[1]), Number(dateParts[2]) - 1, currentDay).getDay();
+            if (weekday !== 0 && weekday !== 6) slot++;
+          }
+          slot -= 1;
+        }
+        if (slot >= 0 && slot < dayCount) counts[slot] += 1;
+      }
+    });
+
+    const total = contacts.filter(contact =>
+      contact.firstContactDate >= startIso && contact.firstContactDate <= endIso
+    ).length;
+    const goal = periodDayCounts().totalDays * planningSettings.dailyContacts;
+    timelineTotal.textContent = `${total}/${goal}`;
+    timelineList.innerHTML = counts.map((count, index) => `
+      <div class="planning-timeline-day" role="listitem">
+        <span class="planning-timeline-count">${count}</span>
+        <span class="planning-timeline-track" aria-hidden="true">
+          <span class="planning-timeline-progress" style="width:${percent(count, planningSettings.dailyContacts)}%"></span>
+        </span>
+        <span>${index + 1}</span>
+      </div>
+    `).join("");
   }
 
   function periodContacts() {
-    const now = new Date();
-    const months = periodMonths();
-    const start = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1);
-    const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    const startIso = toIsoDate(start);
-    const endIso = toIsoDate(end);
+    const { startIso, endIso } = periodDateRange();
     return contacts.filter(contact =>
       contact.firstContactDate >= startIso && contact.firstContactDate <= endIso
     );
   }
 
   function previousPeriodContacts() {
-    const now = new Date();
     const months = periodMonths();
-    const start = new Date(now.getFullYear(), now.getMonth() - (months * 2 - 1), 1);
-    const end = new Date(now.getFullYear(), now.getMonth() - months + 1, 0);
-    const startIso = toIsoDate(start);
+    const { start } = periodDateRange();
+    const end = new Date(start.getFullYear(), start.getMonth(), 0);
+    const previousStart = new Date(end.getFullYear(), end.getMonth() - months + 1, 1);
+    const startIso = toIsoDate(previousStart);
     const endIso = toIsoDate(end);
     return contacts.filter(contact =>
       contact.firstContactDate >= startIso && contact.firstContactDate <= endIso
@@ -17457,7 +18770,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function render() {
     const monthly = periodContacts();
-    const contactGoal = 550 * periodMonths();
+    const periodDays = periodDayCounts();
+    const contactGoal = periodDays.totalDays * planningSettings.dailyContacts;
+    const clockPercent = planningClockPercent();
+    const contactDaysGoal = periodDays.totalDays;
+    const contactDays = new Set(
+      monthly.map(contact => contact.firstContactDate).filter(date => /^\d{4}-\d{2}-\d{2}$/.test(date || ""))
+    ).size;
     const today = toIsoDate();
     const todayContacts = contacts.filter(contact => contact.firstContactDate === today).length;
     const respondents = monthly.filter(isRespondent).length;
@@ -17474,11 +18793,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const warm = prospects.filter(contact => contact.classification === "Morno" || contact.status === "Prospect morno").length;
     const cold = prospects.filter(contact => contact.classification === "Frio" || contact.status === "Prospect frio").length;
 
-    document.getElementById("planningMonthlyContacts").textContent = monthly.length;
-    document.getElementById("planningMonthlyContactsGoal").textContent = `/${contactGoal}`;
+    document.getElementById("planningMonthlyContacts").textContent =
+      `${percent(monthly.length, contactGoal).toFixed(1)}%`;
+    document.getElementById("planningPeriodContactCount").textContent = String(monthly.length);
+    document.getElementById("planningPeriodContactGoal").textContent = String(contactGoal);
+    const clockElement = document.getElementById("planningClockPercent");
+    const contactPercent = percent(monthly.length, contactGoal);
+    const isClockUp = contactPercent >= clockPercent;
+    clockElement.textContent = `${clockPercent}%`;
+    clockElement.classList.toggle("planning-clock-up", isClockUp);
+    clockElement.classList.toggle("planning-clock-down", !isClockUp);
+    clockElement.style.setProperty("color", isClockUp ? "#69c98b" : "#f17d86", "important");
     document.getElementById("planningContactsProgress").style.width = `${percent(monthly.length, contactGoal)}%`;
     document.getElementById("planningTodayContacts").textContent = todayContacts;
-    document.getElementById("planningTodayProgress").style.width = `${percent(todayContacts, 25)}%`;
+    document.getElementById("planningTodayContactsGoal").textContent = `/${planningSettings.dailyContacts}`;
+    document.getElementById("planningDaysInContact").textContent =
+      `Dias Contato: ${contactDays}/${contactDaysGoal}`;
+    document.getElementById("planningDailyMeta").textContent = `Meta Diária: ${planningSettings.dailyContacts}`;
+    document.getElementById("planningTodayProgress").style.width = `${percent(todayContacts, planningSettings.dailyContacts)}%`;
+    renderPlanningTimeline();
 
     document.getElementById("planningRespondents").textContent = respondents;
     document.getElementById("planningResponseRate").textContent = monthly.length ? Math.round((respondents / monthly.length) * 100) : 0;
@@ -17504,7 +18837,107 @@ document.addEventListener("DOMContentLoaded", () => {
     }).length;
     document.getElementById("planningDueCount").textContent = `${due} retorno${due === 1 ? "" : "s"} vencido${due === 1 ? "" : "s"}`;
 
+    renderPortfolio();
     renderContacts();
+  }
+
+  function renderPortfolio() {
+    const list = document.getElementById("planningPortfolioList");
+    const today = toIsoDate();
+    const closedStatuses = [
+      "Concluído",
+      "Concluído com Sucesso",
+      "Sem interesse / Perdido",
+      "Encerrado sem Sucesso"
+    ];
+    const priority = { Quente: 0, Morno: 1, Frio: 2 };
+    const followups = contacts
+      .filter(contact =>
+        /^\d{4}-\d{2}-\d{2}$/.test(String(contact.nextReturn || "")) &&
+        !closedStatuses.includes(contact.status)
+      )
+      .sort((a, b) =>
+        a.nextReturn.localeCompare(b.nextReturn) ||
+        (priority[a.classification] ?? 3) - (priority[b.classification] ?? 3)
+      );
+    const sections = [
+      {
+        key: "overdue",
+        title: "Retornos Vencidos",
+        empty: "Nenhum retorno vencido.",
+        contacts: followups.filter(contact => contact.nextReturn < today)
+      },
+      {
+        key: "today",
+        title: "Retornos Hoje",
+        empty: "Nenhum retorno para hoje.",
+        contacts: followups.filter(contact => contact.nextReturn === today)
+      },
+      {
+        key: "upcoming",
+        title: "Próximos Retornos",
+        empty: "Nenhum próximo retorno.",
+        contacts: followups.filter(contact => contact.nextReturn > today)
+      }
+    ];
+
+    list.innerHTML = sections.map(section => {
+      const expanded = expandedPortfolioSections.has(section.key);
+      const rows = section.contacts.length
+        ? section.contacts.map(contact => {
+            const returnClass = section.key === "overdue"
+              ? "is-overdue"
+              : section.key === "today"
+                ? "is-today"
+                : "";
+            const returnLabel = section.key === "overdue"
+              ? "Vencido"
+              : section.key === "today"
+                ? "Hoje"
+                : "Próx. Retorno";
+            const returnDateParts = String(contact.nextReturn || "").split("-");
+            const returnDate = returnDateParts.length === 3
+              ? `${returnDateParts[2].slice(-2)}/${returnDateParts[1].slice(-2)}/${returnDateParts[0].slice(-2)}`
+              : "";
+            const details = [contact.classification, contact.status].filter(Boolean).join(" · ");
+            return `<button type="button" class="planning-portfolio-contact" data-planning-portfolio-edit="${escapeHtml(contact.id)}" ${contactsReady ? "" : "disabled"}>
+              <span class="planning-portfolio-contact-copy">
+                <strong>${escapeHtml(contact.name || "Contato sem nome")}</strong>
+                <small>· ${escapeHtml(details || "Classificação não informada")}</small>
+              </span>
+              <span class="planning-portfolio-return ${returnClass}">
+                ${returnLabel} · ${returnDate}
+              </span>
+            </button>`;
+          }).join("")
+        : `<p class="planning-portfolio-empty">${section.empty}</p>`;
+      return `<section class="planning-portfolio-section">
+        <button type="button" class="planning-portfolio-toggle" data-toggle-portfolio="${section.key}"
+          aria-expanded="${expanded}" aria-controls="planningPortfolio${section.key}">
+          <span>${section.title}</span>
+          <span class="planning-portfolio-toggle-count"${expanded ? " hidden" : ""}>${section.contacts.length}</span>
+          <i class="fas fa-chevron-right planning-portfolio-chevron" aria-hidden="true"></i>
+        </button>
+        <div id="planningPortfolio${section.key}" class="planning-portfolio-section-list"${expanded ? "" : " hidden"}>
+          ${rows}
+        </div>
+      </section>`;
+    }).join("");
+
+    list.querySelectorAll("[data-toggle-portfolio]").forEach(button => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.togglePortfolio;
+        if (expandedPortfolioSections.has(key)) expandedPortfolioSections.delete(key);
+        else expandedPortfolioSections.add(key);
+        renderPortfolio();
+      });
+    });
+    list.querySelectorAll("[data-planning-portfolio-edit]").forEach(button => {
+      button.addEventListener("click", () => {
+        const contact = contacts.find(item => item.id === button.dataset.planningPortfolioEdit);
+        if (contact) openModal(contact);
+      });
+    });
   }
 
   function renderContacts() {
@@ -17533,15 +18966,25 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     const formatDate = value => {
       const date = String(value || "");
-      return /^\d{4}-\d{2}-\d{2}$/.test(date)
-        ? date.split("-").reverse().join("/")
-        : "—";
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return "—";
+      const [year, month, day] = date.split("-");
+      return `${day}/${month}/${year.slice(-2)}`;
     };
 
     list.innerHTML = "";
     if (!sorted.length) {
-      list.innerHTML = '<div class="planning-empty"><p>Nenhum contato cadastrado.</p><button type="button" class="planning-empty-button" id="planningEmptyAdd">Cadastrar primeiro contato</button></div>';
-      document.getElementById("planningEmptyAdd").addEventListener("click", () => openModal());
+      list.innerHTML = `
+        <div class="planning-empty">
+          <p>Nenhum contato cadastrado.</p>
+          <button type="button" class="planning-empty-button" id="planningEmptyAdd" ${contactsReady ? "" : "disabled"}>Cadastrar contato</button>
+        </div>`;
+      document.getElementById("planningEmptyAdd").addEventListener("click", () => {
+        if (!contactsReady) {
+          setSyncStatus("Aguarde a sincronização dos contatos antes de cadastrar.");
+          return;
+        }
+        openModal();
+      });
       return;
     }
 
@@ -17549,21 +18992,64 @@ document.addEventListener("DOMContentLoaded", () => {
       const contactValue = String(contact.phone || "");
       const contactDigits = contactValue.replace(/\D/g, "");
       const hasWhatsAppPhone = !/[a-z@]/i.test(contactValue) && contactDigits.length >= 10 && contactDigits.length <= 15;
-      return `<tr>
-        <td>${escapeHtml(contact.name || "—")}</td>
-        <td>${escapeHtml(contactValue || "—")}</td>
-        <td>${escapeHtml(formatDate(contact.firstContactDate))}</td>
-        <td>${escapeHtml(contact.service || "—")}</td>
-        <td>${escapeHtml(contact.origin || "—")}</td>
-        <td><span class="planning-status">${escapeHtml(contact.status || "—")}</span></td>
-        <td>${contact.classification
-          ? `<span class="planning-status">${escapeHtml(contact.classification)}</span>`
-          : "—"}</td>
-        <td>${contact.returnDone ? "Realizado" : "Não realizado"}</td>
-        <td>${escapeHtml(formatDate(contact.nextReturn))}</td>
+      const serviceLabel = String(contact.service || "—").replaceAll("Extensão", "Ext.");
+      const statusKey = String(contact.status || "Novo contato").trim().toLowerCase();
+      const classification = contactListClassifications[statusKey] || contact.classification || "";
+      const isCompleted = ["agendado", "concluído", "concluído com sucesso"].includes(statusKey);
+      const isClosed = [
+        "sem interesse/não respondeu",
+        "sem interesse",
+        "sem interesse / perdido",
+        "encerrado sem sucesso"
+      ].includes(statusKey);
+      const signalClass = isCompleted
+        ? "is-completed"
+        : isClosed
+          ? "is-closed"
+          : statusKey === "novo contato"
+            ? "is-new"
+            : classification === "Quente"
+              ? "is-hot"
+              : classification === "Morno"
+                ? "is-warm"
+                : classification === "Frio"
+                  ? "is-cold"
+                  : "is-unclassified";
+      const signalIcon = isCompleted ? "fas fa-flag" : isClosed ? "fas fa-times" : "";
+      const signalLabel = isCompleted
+        ? "Concluído"
+        : isClosed
+          ? "Encerrado"
+          : statusKey === "novo contato"
+            ? "Novo Contato"
+            : classification
+              ? `Pendente: Prospect ${classification.toLowerCase()}`
+              : "";
+      const status = contactListStatusLabels[statusKey] || contact.status || "—";
+      return `<tr class="planning-contact-row" data-planning-edit="${escapeHtml(contact.id)}" tabindex="${contactsReady ? "0" : "-1"}" aria-disabled="${!contactsReady}">
+        <td class="planning-contact-signal-cell">
+          ${signalLabel
+            ? `<i class="planning-contact-signal ${signalClass} ${signalIcon}" role="img" aria-label="${escapeHtml(signalLabel)}"></i>`
+            : `<span class="planning-contact-signal ${signalClass}" aria-hidden="true"></span>`}
+        </td>
+        <td class="planning-contact-info-cell">
+          <span class="planning-contact-name">
+            <span class="planning-contact-identity">
+              <span class="planning-contact-person-line">
+                <span class="planning-contact-person">${escapeHtml(contact.name || "—")}</span>
+              </span>
+              <small class="planning-contact-phone">${escapeHtml(contactValue || "—")}</small>
+            </span>
+          </span>
+        </td>
+        <td><span class="planning-contact-service">${escapeHtml(serviceLabel)}</span></td>
         <td>
+          <span class="planning-status">${escapeHtml(status)}</span>
+          <small>${contact.returnDone ? "Retorno OK" : "Sem Retorno"}</small>
+        </td>
+        <td>
+          <span class="planning-contact-date">${escapeHtml(formatDate(contact.nextReturn))}</span>
           <div class="planning-contact-table-actions">
-            <button type="button" data-planning-edit="${escapeHtml(contact.id)}" aria-label="Editar contato">Editar</button>
             ${hasWhatsAppPhone ? `<button type="button" data-planning-whatsapp="${escapeHtml(contact.id)}" aria-label="Abrir conversa no WhatsApp">WhatsApp</button>` : ""}
           </div>
         </td>
@@ -17571,30 +19057,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }).join("");
 
     list.innerHTML = `
-      <div class="planning-contact-table-wrap" role="region" aria-label="Lista de contatos" tabindex="0">
-        <table class="planning-contact-table" aria-label="Lista de contatos">
+      <div class="home-finance-table-wrap" role="region" aria-label="Lista de contatos" tabindex="0">
+        <table class="home-finance-table planning-contact-table" aria-label="Lista de contatos">
           <thead>
             <tr>
-              <th scope="col">Nome</th>
-              <th scope="col">Tel/Instagram</th>
-              <th scope="col">Primeiro Contato</th>
-              <th scope="col">Serviço de Interesse</th>
-              <th scope="col">Origem</th>
+              <th scope="col" aria-label="Classificação"></th>
+              <th scope="col">CONTATO</th>
+              <th scope="col">Serviço</th>
               <th scope="col">Status</th>
-              <th scope="col">Classificação</th>
-              <th scope="col">Retorno</th>
-              <th scope="col">Data de Retorno</th>
-              <th scope="col">Ações</th>
+              <th scope="col">RETORNO</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
       </div>`;
 
-    list.querySelectorAll("[data-planning-edit]").forEach(button => {
-      button.addEventListener("click", () => {
-        const contact = contacts.find(item => item.id === button.dataset.planningEdit);
+    list.querySelectorAll(".planning-contact-row").forEach(row => {
+      const editContact = () => {
+        if (!contactsReady) return;
+        const contact = contacts.find(item => item.id === row.dataset.planningEdit);
         if (contact) openModal(contact);
+      };
+      row.addEventListener("click", event => {
+        if (!event.target.closest("button")) editContact();
+      });
+      row.addEventListener("keydown", event => {
+        if ((event.key === "Enter" || event.key === " ") && !event.target.closest("button")) {
+          event.preventDefault();
+          editContact();
+        }
       });
     });
     list.querySelectorAll("[data-planning-whatsapp]").forEach(button => {
@@ -17607,8 +19098,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  form.addEventListener("submit", event => {
+  form.addEventListener("submit", async event => {
     event.preventDefault();
+    if (!contactsReady) {
+      setSyncStatus("Aguarde a sincronização dos contatos antes de salvar.", true);
+      return;
+    }
     if (!ensureReturnStatusChanged()) return;
     const id = document.getElementById("planningContactId").value;
     const record = {
@@ -17638,15 +19133,37 @@ document.addEventListener("DOMContentLoaded", () => {
           ? ""
           : existingContact?.nextReturn || "";
     if (!record.name || !record.phone || !record.firstContactDate) return;
-    const existing = contacts.findIndex(contact => contact.id === id);
-    if (existing >= 0) contacts[existing] = record;
-    else contacts.push(record);
-    saveContacts();
-    closeModal();
-    render();
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    try {
+      const { error } = await supabaseClient
+        .from(contactsTable)
+        .upsert({
+          id: record.id,
+          data: record
+        }, { onConflict: "id" });
+      if (error) throw error;
+      const existing = contacts.findIndex(contact => contact.id === record.id);
+      if (existing >= 0) contacts[existing] = record;
+      else contacts.push(record);
+      setSyncStatus("Contato salvo e sincronizado.");
+      closeModal();
+      render();
+    } catch (error) {
+      console.error("Não foi possível salvar o contato do planejamento.", error);
+      setSyncStatus(`Não foi possível salvar o contato: ${error.message}`, true);
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 
-  document.getElementById("planningAddContact").addEventListener("click", () => openModal());
+  addContactButton.addEventListener("click", () => {
+    if (!contactsReady) {
+      setSyncStatus("Aguarde a sincronização dos contatos antes de cadastrar.");
+      return;
+    }
+    openModal();
+  });
   document.getElementById("planningCancelContact").addEventListener("click", requestCloseModal);
   form.querySelectorAll('input[name="planningContactClassification"]').forEach(radio => {
     radio.addEventListener("change", () => {
@@ -17663,6 +19180,11 @@ document.addEventListener("DOMContentLoaded", () => {
   firstContactInput.addEventListener("input", updateFollowupHint);
   firstContactInput.addEventListener("change", updateFollowupHint);
   returnDoneInput.addEventListener("change", () => {
+    if (!returnDoneInput.checked && editingContact) {
+      statusSelect.value = statusAtEditStart;
+      updateClassificationFromStatus();
+      return;
+    }
     if (returnDoneInput.checked) returnRecordedThisEdit = true;
     updateFollowupHint();
     updateReturnStatusPrompt();
@@ -17677,24 +19199,61 @@ document.addEventListener("DOMContentLoaded", () => {
     serviceCatalogStatus.textContent = `Não foi possível carregar os procedimentos: ${event.detail}`;
     renderServiceOptions();
   });
-  document.getElementById("planningDeleteContact").addEventListener("click", () => {
-    const id = document.getElementById("planningContactId").value;
-    if (!id || !window.confirm("Excluir este contato do planejamento?")) return;
-    contacts = contacts.filter(contact => contact.id !== id);
-    saveContacts();
-    closeModal();
+  document.addEventListener("studio-planning-settings-atualizado", event => {
+    planningSettings = {
+      workingDays: Number(event.detail?.workingDays) || 30,
+      dailyContacts: Number(event.detail?.dailyContacts) || 25,
+      dayMode: ["corridos", "uteis", "ajustavel"].includes(event.detail?.dayMode)
+        ? event.detail.dayMode
+        : "ajustavel"
+    };
     render();
   });
+  document.getElementById("planningDeleteContact").addEventListener("click", async () => {
+    const id = document.getElementById("planningContactId").value;
+    if (!id || !window.confirm("Excluir este contato do planejamento?")) return;
+    if (!contactsReady) {
+      setSyncStatus("Aguarde a sincronização dos contatos antes de excluir.", true);
+      return;
+    }
+    try {
+      const { error } = await supabaseClient
+        .from(contactsTable)
+        .delete()
+        .eq("id", id);
+      if (error) throw error;
+      contacts = contacts.filter(contact => contact.id !== id);
+      setSyncStatus("Contato excluído.");
+      closeModal();
+      render();
+    } catch (error) {
+      console.error("Não foi possível excluir o contato do planejamento.", error);
+      setSyncStatus(`Não foi possível excluir o contato: ${error.message}`, true);
+    }
+  });
   searchInput.addEventListener("input", renderContacts);
+  searchToggle.addEventListener("click", () => {
+    setPlanningContactSearchOpen(!searchField.classList.contains("is-open"));
+  });
+  searchInput.addEventListener("keydown", event => {
+    if (event.key === "Escape") setPlanningContactSearchOpen(false);
+  });
+  setPlanningContactSearchOpen(false);
+  initializePeriodMonthSelects("[data-planning-period]", planningSelectedMonth, month => {
+    planningSelectedMonth = month;
+    planningPeriod = "month";
+    syncPeriodFilterControls("[data-planning-period]", planningPeriod, planningSelectedMonth);
+    render();
+  });
   document.querySelectorAll("[data-planning-period]").forEach(button => {
     button.addEventListener("click", () => {
-      planningPeriod = button.dataset.planningPeriod || "month";
-      document.querySelectorAll("[data-planning-period]").forEach(option => {
-        option.setAttribute("aria-pressed", String(option.dataset.planningPeriod === planningPeriod));
-      });
+      planningPeriod = button.dataset.planningPeriod || "current";
+      if (planningPeriod === "current") planningSelectedMonth = periodMonthKey();
+      syncPeriodFilterControls("[data-planning-period]", planningPeriod, planningSelectedMonth);
       render();
     });
   });
+  syncPeriodFilterControls("[data-planning-period]", planningPeriod, planningSelectedMonth);
   registrarFechamentoForaFormulario(
     modal.querySelector("[data-planning-contact-overlay]"),
     closeModal,
@@ -17706,11 +19265,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.querySelectorAll(".sidebar a[data-page='planejamento']").forEach(link => {
-    link.addEventListener("click", render);
+    link.addEventListener("click", () => {
+      render();
+      void loadContacts();
+    });
   });
 
-  readContacts();
+  window.addEventListener("focus", () => void loadContacts());
+
   render();
+  void loadContacts();
 })();
 </script>
 </body>
