@@ -8211,7 +8211,7 @@ button:active:not(:disabled) {
 }
 
 #planningClockPercent.planning-clock-down {
-  color: #f17d86;
+  color: #fff;
 }
 
 #planejamentoPage #planningAddContact {
@@ -8599,8 +8599,8 @@ button:active:not(:disabled) {
   table-layout: fixed;
 }
 
-#planejamentoPage .planning-contact-table th:nth-child(1) { width: 5%; }
-#planejamentoPage .planning-contact-table th:nth-child(2) { width: 25%; }
+#planejamentoPage .planning-contact-table th:nth-child(1) { width: 10%; }
+#planejamentoPage .planning-contact-table th:nth-child(2) { width: 20%; }
 #planejamentoPage .planning-contact-table th:nth-child(3) { width: 34%; }
 #planejamentoPage .planning-contact-table th:nth-child(4) { width: 18%; }
 #planejamentoPage .planning-contact-table th:nth-child(5) { width: 18%; }
@@ -8639,7 +8639,6 @@ button:active:not(:disabled) {
   justify-content: flex-start;
   width: 100%;
   box-sizing: border-box;
-  padding-left: 0.8rem;
 }
 
 #planejamentoPage .planning-contact-person-line {
@@ -8656,49 +8655,65 @@ button:active:not(:disabled) {
   flex: 0 0 auto;
   font-style: normal;
   border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.72);
   background: #777;
   box-shadow: 0 0 0.35rem currentColor;
 }
 
 .planning-contact-signal.is-unclassified {
-  visibility: hidden;
-  box-shadow: none;
+  background: #fff;
+  color: #fff;
+  box-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.45);
 }
 
 .planning-contact-signal.is-new {
-  background: #8b8582;
-  color: #8b8582;
+  background: #fff;
+  color: #fff;
+  box-shadow: 0 0 0.35rem rgba(255, 255, 255, 0.45);
 }
 
 .planning-contact-signal.is-hot {
-  background: #32c875;
-  color: #32c875;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  font-size: 0.82rem;
 }
 
 .planning-contact-signal.is-warm {
-  background: #f0c541;
-  color: #f0c541;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  font-size: 0.82rem;
 }
 
 .planning-contact-signal.is-cold {
-  background: #f15b64;
-  color: #f15b64;
+  width: auto;
+  height: auto;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  font-size: 0.82rem;
 }
 
 .planning-contact-signal.is-completed,
 .planning-contact-signal.is-closed {
-  width: auto;
-  height: auto;
-  background: transparent;
-  box-shadow: none;
-  font-size: 0.78rem;
+  border: 0;
 }
 
 .planning-contact-signal.is-completed {
+  background: #32c875;
   color: #32c875;
 }
 
 .planning-contact-signal.is-closed {
+  background: #f15b64;
   color: #f15b64;
 }
 
@@ -9250,7 +9265,7 @@ button:active:not(:disabled) {
 
 @media (min-width: 641px) and (max-width: 1280px) {
   #planejamentoPage .planning-contact-table th:nth-child(2) {
-    width: 23%;
+    width: 18%;
   }
 
   #planejamentoPage .planning-contact-table th:nth-child(3) {
@@ -18708,6 +18723,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
+  function isPlanningContactClosed(contact) {
+    return [
+      "Concluído",
+      "Concluído com Sucesso",
+      "Sem Interesse/Não respondeu",
+      "Sem interesse",
+      "Sem interesse / Perdido",
+      "Encerrado sem Sucesso"
+    ].includes(contact.status);
+  }
+
   function isRespondent(contact) {
     return ![
       "Novo contato",
@@ -18825,16 +18851,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("planningWarmProspects").textContent = warm;
     document.getElementById("planningColdProspects").textContent = cold;
 
-    const todayDate = new Date(`${today}T00:00:00`);
-    const due = contacts.filter(contact => {
-      if (!contact.nextReturn || [
-        "Concluído",
-        "Concluído com Sucesso",
-        "Sem interesse / Perdido",
-        "Encerrado sem Sucesso"
-      ].includes(contact.status)) return false;
-      return new Date(`${contact.nextReturn}T00:00:00`) <= todayDate;
-    }).length;
+    const due = contacts.filter(contact =>
+      /^\d{4}-\d{2}-\d{2}$/.test(String(contact.nextReturn || "")) &&
+      !isPlanningContactClosed(contact) &&
+      contact.nextReturn < today
+    ).length;
     document.getElementById("planningDueCount").textContent = `${due} retorno${due === 1 ? "" : "s"} vencido${due === 1 ? "" : "s"}`;
 
     renderPortfolio();
@@ -18844,17 +18865,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderPortfolio() {
     const list = document.getElementById("planningPortfolioList");
     const today = toIsoDate();
-    const closedStatuses = [
-      "Concluído",
-      "Concluído com Sucesso",
-      "Sem interesse / Perdido",
-      "Encerrado sem Sucesso"
-    ];
     const priority = { Quente: 0, Morno: 1, Frio: 2 };
     const followups = contacts
       .filter(contact =>
         /^\d{4}-\d{2}-\d{2}$/.test(String(contact.nextReturn || "")) &&
-        !closedStatuses.includes(contact.status)
+        !isPlanningContactClosed(contact)
       )
       .sort((a, b) =>
         a.nextReturn.localeCompare(b.nextReturn) ||
@@ -19015,7 +19030,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 : classification === "Frio"
                   ? "is-cold"
                   : "is-unclassified";
-      const signalIcon = isCompleted ? "fas fa-flag" : isClosed ? "fas fa-times" : "";
+      const signalIcon = {
+        "is-hot": "fas fa-fire",
+        "is-warm": "fas fa-temperature-half",
+        "is-cold": "fas fa-snowflake"
+      }[signalClass] || "";
       const signalLabel = isCompleted
         ? "Concluído"
         : isClosed
